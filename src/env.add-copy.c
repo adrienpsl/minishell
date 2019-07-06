@@ -22,7 +22,7 @@ static int count_env_variable(char **env)
 	return (i);
 }
 
-int ft_ms_env_copy(char **env, t_ms *ms)
+int ms_env_copy(char **env, t_ms *ms)
 {
 	char **tmp_env;
 	char *tmp_var;
@@ -45,8 +45,7 @@ int ft_ms_env_copy(char **env, t_ms *ms)
 	return (0);
 }
 
-// protection if not = in the add stuff
-int ft_ms_env_add(char *new_var, t_ms *ms)
+int ms_env_add(char *new_var, t_ms *ms)
 {
 	int i;
 	char *tmp_str;
@@ -61,7 +60,7 @@ int ft_ms_env_add(char *new_var, t_ms *ms)
 	if (ft_mem_dup((void **) &tmp_str, new_var, STRING_MODE))
 		return (-1);
 	*(env + i) = tmp_str;
-	if (ft_ms_env_copy(env, ms))
+	if (ms_env_copy(env, ms))
 		return (NO_ENV);
 	return (0);
 }

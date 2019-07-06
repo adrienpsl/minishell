@@ -10,6 +10,10 @@
 
 # other note
 I must code echo, cd, setenv unsetenv, env, exit.
+// I need to code, echo, env, cd,
+ 
+
+
  
 
 
@@ -19,6 +23,8 @@ I must code echo, cd, setenv unsetenv, env, exit.
 
 ## access
 
+
+# echo has one single option
 
 
 
@@ -33,6 +39,7 @@ builtin :A command that is implemented internally by the shell itself, rather th
 # toDo
 - manipulation of env data.
   - print env, add, delete, handle path correctly. 
+  - print env, j'ai deja le print de env.
   - pour faire la completion, add all variable inside the /bin... 
     better to watch inside the name of the file.
 - code the bultin

@@ -36,7 +36,7 @@ static int delete_variable(char ***p_env, int i)
 	return (0);
 }
 
-int ft_ms_env_remove(char *removing_var, t_ms *ms)
+int ms_env_remove(char *removing_var, t_ms *ms)
 {
 	int i;
 	char **env;
@@ -51,4 +51,14 @@ int ft_ms_env_remove(char *removing_var, t_ms *ms)
 			return delete_variable(&env, i);
 	}
 	return (BAD_DELETING_KEY);
+}
+
+char *ms_get_env_value(char *key, char **env)
+{
+	while (*env != NULL)
+	{
+		if (matched_env_variable(*env, key))
+			return (*env);
+	}
+	return (NULL);
 }

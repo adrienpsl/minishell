@@ -18,10 +18,10 @@ typedef struct s_ms
 } t_ms;
 
 // env
-int ft_ms_env_remove(char *removing_var, t_ms *ms);
-int ft_ms_env_copy(char **env, t_ms *ms);
-int ft_ms_env_add(char *new_var, t_ms *ms);
-
+int ms_env_remove(char *removing_var, t_ms *ms);
+int ms_env_copy(char **env, t_ms *ms);
+int ms_env_add(char *new_var, t_ms *ms);
+char *ft_ms_env_value(char *key, char **env);
 
 // test
 void test_all();
