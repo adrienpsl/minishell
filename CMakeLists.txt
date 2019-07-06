@@ -1,6 +1,34 @@
 cmake_minimum_required(VERSION 3.14)
+
 project(minishell C)
 
 set(CMAKE_C_STANDARD 99)
+#set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -og -g3")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -g")
+#-fsanitize=memory-fsanitize-memory-track-origins=2 -fsanitize=address
 
-add_executable(minishell main.c)
+#include_directories(PRIVATE includes)
+add_subdirectory(compact-libft)
+
+add_library(minishell_lib STATIC
+
+        src/env.delete.c)
+
+target_include_directories(minishell_lib PUBLIC includes)
+
+add_executable(
+        minishell
+        src/main.c
+
+        test/test_main.c src/env.add-copy.c)
+
+
+
+#*------------------------------------*\
+#    --  LINKING --
+#*------------------------------------*/
+target_link_libraries(minishell_lib libft)
+
+target_link_libraries(minishell libft)
+target_link_libraries(minishell minishell_lib)
