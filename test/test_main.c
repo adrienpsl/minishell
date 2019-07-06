@@ -57,17 +57,20 @@ void test_ms_env_remove(char **env, char *deleting_key, int ret, char **res, int
 	}
 }
 
-void test_ft_get
+void test_ms_get_env_value(char **env, char *key, char *ret, int test)
+{
+	t_ms ms;
+	char *intern_ret;
+
+	ft_mem_set(&ms, 0, sizeof(ms));
+	ms_env_copy(env, &ms);
+	intern_ret = ms_get_env_value(key, ms.p_env);
+	if (ft_str_eq(intern_ret, ret))
+		printf("error test : %d \n", test);
+}
 
 void test_all()
 {
-
-	// test find value,
-
-	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
-	test_ms_env_remove(env_13, "manger", 0, res_13, 13);
-
 
 	//	test_ms_env_copy(NULL, NO_ENV, 0);
 	//
@@ -133,4 +136,20 @@ void test_all()
 	//	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
 	//	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
 	//	test_ms_env_remove(env_13, "manger", 0, res_13, 13);
+	//
+	//	// no bad
+	//	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	//	test_ms_get_env_value(env_14, "mange", NULL, 14);
+	//
+	//	// null key
+	//	char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	//	test_ms_get_env_value(env_15, NULL, NULL, 15);
+	//
+	//	// good key
+	//	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	//	test_ms_get_env_value(env_16, "suer", "aaoeu", 16);
+	//
+	//	// good key
+	//	char *env_17[5] = { "suer=aaoeu", "toto=", "aaaaaaa", "manger=chipes", NULL };
+	//	test_ms_get_env_value(env_17, "toto", "", 17);
 }

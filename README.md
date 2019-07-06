@@ -14,7 +14,7 @@ I must code echo, cd, setenv unsetenv, env, exit.
  
 
 
- 
+# build the parcers 
 
 
 # search result
@@ -34,7 +34,6 @@ builtin :A command that is implemented internally by the shell itself, rather th
 # think
 - how test a shell witch loop ?
 - how handle multiple argv ?
-- je vais definir moi-meme ma variable path
 
 # toDo
 - manipulation of env data.

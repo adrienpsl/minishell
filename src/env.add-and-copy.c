@@ -12,65 +12,55 @@
 
 #include "minishell.h"
 
-static int matched_env_variable(char *env_key_value, char *searched)
+static int count_env_variable(char **env)
 {
-	ssize_t i;
+	int i;
 
-	i = ft_str_char_position(env_key_value, '=');
-	if (i > 0)
-		return (!ft_mem_cmp(env_key_value, searched, i));
-	return (0);
+	i = 0;
+	while (*(env + i) != NULL)
+		i++;
+	return (i);
 }
 
-static int delete_variable(char ***p_env, int i)
+int ms_env_copy(char **env, t_ms *ms)
 {
-	char **env;
+	char **tmp_env;
+	char *tmp_var;
+	int i;
 
-	env = *p_env;
-	free(*(env + i));
+	if (!env)
+		return (NO_ENV);
+	i = count_env_variable(env);
+	if (ft_mem((void **) &tmp_env, sizeof(char **) * (i + 2)))
+		return (MEMORY_LACK);
+	i = 0;
 	while (*(env + i) != NULL)
 	{
-		*(env + i) = *(env + i + 1);
+		if (ft_mem_dup((void **) &tmp_var, *(env + i), STRING_MODE))
+			return (MEMORY_LACK);
+		*(tmp_env + i) = tmp_var;
 		i++;
 	}
+	ms->p_env = tmp_env;
 	return (0);
 }
 
-int ms_env_remove(char *removing_var, t_ms *ms)
+int ms_env_add(char *new_var, t_ms *ms)
 {
 	int i;
+	char *tmp_str;
 	char **env;
 
-	if (!removing_var)
-		return (BAD_DELETING_KEY);
+	if (!new_var
+		|| ft_str_char_position(new_var, '=') == -1
+		|| ft_str_char_count(new_var, '=') != 1)
+		return (BAD_VAR);
 	env = ms->p_env;
-	i = -1;
-	while (*(env + ++i) != NULL)
-	{
-		if (matched_env_variable(*(env + i), removing_var))
-			return delete_variable(&env, i);
-	}
-	return (BAD_DELETING_KEY);
-}
-
-char *ms_get_env_value(char *key, char **env)
-{
-	int i;
-
-	if (!key)
-		return (NULL);
-	while (*env != NULL)
-	{
-		if (matched_env_variable(*env, key))
-		{
-			i = ft_str_char_position(*env, '=');
-			if (i == -1)
-				return (NULL);
-			if (!(*env)[i] && !(*env)[i + 1])
-				return (NULL);
-			return ((*env) + i + 1);
-		}
-		env++;
-	}
-	return (NULL);
+	i = count_env_variable(env);
+	if (ft_mem_dup((void **) &tmp_str, new_var, STRING_MODE))
+		return (-1);
+	*(env + i) = tmp_str;
+	if (ms_env_copy(env, ms))
+		return (NO_ENV);
+	return (0);
 }

@@ -15,13 +15,23 @@ typedef struct s_ms
 	char **path;
 	char *home;
 	char *debug;
+	int error;
+	char curpath[4096];
+	char pwd[4096];
 } t_ms;
 
 // env
 int ms_env_remove(char *removing_var, t_ms *ms);
 int ms_env_copy(char **env, t_ms *ms);
 int ms_env_add(char *new_var, t_ms *ms);
-char *ft_ms_env_value(char *key, char **env);
+char *ms_get_env_value(char *key, char **env);
+
+// builtin
+// cd
+// echo
+// env
+//
+//
 
 // test
 void test_all();
