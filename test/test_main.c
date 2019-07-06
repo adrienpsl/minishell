@@ -69,8 +69,26 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 		printf("error test : %d \n", test);
 }
 
+void test_ms_cd(char **env, char **arg, char ret, int test)
+{
+	t_ms ms;
+	int intern_ret;
+
+	ft_mem_set(&ms, 0, sizeof(ms));
+	ms_env_copy(env, &ms);
+	ms.arg = arg;
+	intern_ret = ms_cd(&ms);
+	if (ret != intern_ret)
+		printf("%d \n", test);
+}
+
 void test_all()
 {
+
+	// test with too much argv
+	char *argv_18[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
+	test_ms_env_remove(NULL, argv_18,  ,18);
+
 
 	//	test_ms_env_copy(NULL, NO_ENV, 0);
 	//

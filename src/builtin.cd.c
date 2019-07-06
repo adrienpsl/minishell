@@ -50,18 +50,19 @@
 // un buffer de la size max,
 
 // is - --
-// is
-int build_path(t_ms *ms, char *p_path)
+
+// build un errno pour y mettre mes error.
+
+
+static int handle_if_relative_path(t_ms *ms, char *p_path)
 {
 	char *path;
 	size_t i;
 
 	path = ms->curpath;
-	ft_mem_set(path, 0, 4096);
 	i = 0;
 	if (p_path[0] == '.')
 	{
-		// TODO : handle that error;
 		ft_mem_copy(path, ms->pwd, STRING_MODE);
 		ft_str_len(&i, path);
 		path[i++] = '/';
@@ -70,38 +71,41 @@ int build_path(t_ms *ms, char *p_path)
 	return (0);
 }
 
-// do check
-int init_cd(t_ms *ms, int i)
+static int set_last_path(t_ms *ms)
 {
-	// get with function where I am,
-	if (getcwd(ms->pwd, 4096) == NULL)
-		// TODO :  set error get current directory
-		return (-1);
-	if (i == 2)
-	{
-		// do a search an replace here
-		// TODO : set error not in pwd + error logs
-	}
+	char *old_path;
+
+	old_path = ms_get_env_value("OLDPATH", ms->p_env);
+	if (!old_path)
+	    return (-1);
+	ft_mem_copy(ms->curpath, old_path, STRING_MODE);
 	return (0);
 }
+
+// set up
 
 int ms_cd(t_ms *ms)
 {
 	int i;
+	char **arg;
+
+	arg = ms->arg;
 	i = ft_str_split_count(ms->arg);
-
-
-	// I need that
-	// I want do the check here
-
-	// get the env path ?
-	// each return if need error handling ?
-
-	// if no option
-
-	// if one option
-
-	// if 2 options
-	// build path
-
+	if (getcwd(ms->pwd, 4096) == NULL)
+		return (EACCES);
+	if (ft_str_eq(arg[1], "--") && arg++ && i--)
+		(void) "toto a la plage c'est fun ou pas ?";
+	if (ft_str_eq(arg[1], "-")
+		&& set_last_path(ms))
+		return (ENOENT);
+	else if (i == 1
+			 && handle_if_relative_path(ms, *arg))
+		return (-1);
+	else if (i == 2
+			 && ft_search_and_replace(ms->pwd, ms->arg[1], ms->arg[2])
+			 && ft_mem_copy(ms->curpath, ms->pwd, STRING_MODE))
+		return (-2);
+	else
+		return (E2BIG);
+	return ();
 }

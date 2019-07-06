@@ -27,7 +27,7 @@ int ms_env_add(char *new_var, t_ms *ms);
 char *ms_get_env_value(char *key, char **env);
 
 // builtin
-// cd
+int ms_cd(t_ms *ms);
 // echo
 // env
 //
