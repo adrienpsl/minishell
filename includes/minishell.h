@@ -1,11 +1,19 @@
 #ifndef MINISHELL_MINISHELL_H
 #define MINISHELL_MINISHELL_H
 
+extern int g_ft_errno;
+int set_ft_errno(int type_error);
+
 #import "ft_libft.h"
+
 # define NO_ENV -2
 # define BAD_VAR -3
 # define BAD_DELETING_KEY -4
-
+/*
+* * ft_errno error
+*/
+# define PATH_HAS_BE_DELETED -5
+# define STR_NOT_IN_PATH -6
 
 typedef struct s_ms
 {

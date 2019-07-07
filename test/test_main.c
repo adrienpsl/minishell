@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+int g_ft_errno;
 
 void test_ms_env_copy(char **env, int ret, int test)
 {
@@ -69,7 +70,7 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 		printf("error test : %d \n", test);
 }
 
-void test_ms_cd(char **env, char **arg, char ret, int test)
+void test_ms_cd(char **env, char **arg, char ret, int test, char *curpath, int error)
 {
 	t_ms ms;
 	int intern_ret;
@@ -78,16 +79,72 @@ void test_ms_cd(char **env, char **arg, char ret, int test)
 	ms_env_copy(env, &ms);
 	ms.arg = arg;
 	intern_ret = ms_cd(&ms);
-	if (ret != intern_ret)
+	if (ret != intern_ret || (curpath && ft_str_eq(curpath, ms.curpath)) || g_ft_errno != error)
+	{
 		printf("%d \n", test);
+		printf("%s \n",ms.curpath);
+	}
+	g_ft_errno = 0;
 }
 
 void test_all()
 {
 
-	// test with too much argv
-	char *argv_18[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
-	test_ms_env_remove(NULL, argv_18,  ,18);
+	// test null
+	test_ms_cd(NULL, NULL, 0, 18, NULL, 0);
+
+	// test -
+	char *env_19[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_19[3] = { "-", NULL };
+	test_ms_cd(env_19, argv_19, 0, 19, "/Users/adpusel", 0);
+
+	// test -- -
+	char *env_20[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_20[3] = { "--", "-", NULL };
+	test_ms_cd(env_20, argv_20, 0, 20, "/Users/adpusel", 0);
+
+	// simple path
+	char *env_21[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_21[3] = { "/Users/adpusel", NULL };
+	test_ms_cd(env_21, argv_21, 0, 21, "/Users/adpusel", 0);
+
+	char *env_211[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_211[3] = { "--", "/Users/adpusel", NULL };
+	test_ms_cd(env_211, argv_211, 0, 211, "/Users/adpusel", 0);
+
+	// relative path
+	char *env_22[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_22[3] = { "./Users/adpusel", NULL };
+	test_ms_cd(env_22, argv_22, 0, 22, "/Users/adpusel/code/42/minishell/cmake-build-debug/./Users/adpusel", 0);
+
+	// relative path 2
+	char *env_23[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_23[3] = { "..", NULL };
+	test_ms_cd(env_23, argv_23, 0, 23, "/Users/adpusel/code/42/minishell/cmake-build-debug/..", 0);
+
+	// relative path 3
+	char *env_24[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_24[3] = { "--", "..", NULL };
+	test_ms_cd(env_24, argv_24, 0, 24, "/Users/adpusel/code/42/minishell/cmake-build-debug/..", 0);
+
+	//	 remplacement path :
+	char *env_25[2] = { "OLDPATH=/Users/adpusel", NULL };
+	char *argv_25[4] = { "--", "toto", "tata", NULL };
+	test_ms_cd(env_25, argv_25, -1, 25, NULL, STR_NOT_IN_PATH);
+
+	// remplacement path :
+	char *env_26[2] = { "OLDPATH=/Users/", NULL };
+	char *argv_26[4] = { "--", "adpusel", "tata", NULL };
+	test_ms_cd(env_26, argv_26, 0, 26, "/Users/tata/code/42/minishell/cmake-build-debug", 0);
+
+	char *env_27[2] = { "OLDPATH=/Users/", NULL };
+	char *argv_27[4] = { "--", "/U", "tata", NULL };
+	test_ms_cd(env_27, argv_27, 0, 27, "tatasers/adpusel/code/42/minishell/cmake-build-debug", 0);
+
+	char *env_28[2] = { "OLDPATH=/Users/", NULL };
+	char *argv_28[4] = { "--", "cmake-build-debug", "toto", NULL };
+	test_ms_cd(env_28, argv_28, 0, 28, "/Users/adpusel/code/42/minishell/toto", 0);
+
 
 
 	//	test_ms_env_copy(NULL, NO_ENV, 0);

@@ -77,12 +77,10 @@ static int set_last_path(t_ms *ms)
 
 	old_path = ms_get_env_value("OLDPATH", ms->p_env);
 	if (!old_path)
-	    return (-1);
+		return (set_ft_errno(PATH_HAS_BE_DELETED));
 	ft_mem_copy(ms->curpath, old_path, STRING_MODE);
 	return (0);
 }
-
-// set up
 
 int ms_cd(t_ms *ms)
 {
@@ -90,22 +88,26 @@ int ms_cd(t_ms *ms)
 	char **arg;
 
 	arg = ms->arg;
+	if (!ms->arg)
+		return (0);
 	i = ft_str_split_count(ms->arg);
+	if (i == 0)
+		return (0);
 	if (getcwd(ms->pwd, 4096) == NULL)
-		return (EACCES);
-	if (ft_str_eq(arg[1], "--") && arg++ && i--)
-		(void) "toto a la plage c'est fun ou pas ?";
-	if (ft_str_eq(arg[1], "-")
-		&& set_last_path(ms))
-		return (ENOENT);
-	else if (i == 1
-			 && handle_if_relative_path(ms, *arg))
-		return (-1);
-	else if (i == 2
-			 && ft_search_and_replace(ms->pwd, ms->arg[1], ms->arg[2])
-			 && ft_mem_copy(ms->curpath, ms->pwd, STRING_MODE))
-		return (-2);
-	else
-		return (E2BIG);
-	return ();
+		return (set_ft_errno(EACCES));
+	if (!ft_str_eq(*arg, "--") && arg++ && i--)
+		(void) "this is a line that I need to fill :)";
+	if (!ft_str_eq(*arg, "-"))
+		return (set_last_path(ms));
+	else if (i == 1)
+		return (handle_if_relative_path(ms, *arg));
+	else if (i == 2)
+	{
+		if (!ft_search_and_replace(ms->pwd, arg[0], arg[1])
+			&& !ft_mem_copy(ms->curpath, ms->pwd, STRING_MODE))
+			return (0);
+		else
+			return (set_ft_errno(STR_NOT_IN_PATH));
+	}
+	return (set_ft_errno(E2BIG));
 }
