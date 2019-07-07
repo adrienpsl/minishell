@@ -52,7 +52,7 @@ int ms_env_add(char *new_var, t_ms *ms)
 	char **env;
 
 	if (!new_var
-		|| ft_str_char_position(new_var, '=') == -1
+		|| ft_str_chr(new_var, '=') == -1
 		|| ft_str_char_count(new_var, '=') != 1)
 		return (BAD_VAR);
 	env = ms->p_env;

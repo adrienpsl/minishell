@@ -1,19 +1,20 @@
 #ifndef MINISHELL_MINISHELL_H
 #define MINISHELL_MINISHELL_H
 
-extern int g_ft_errno;
-int set_ft_errno(int type_error);
-
 #import "ft_libft.h"
 
-# define NO_ENV -2
-# define BAD_VAR -3
-# define BAD_DELETING_KEY -4
 /*
 * * ft_errno error
 */
-# define PATH_HAS_BE_DELETED -5
-# define STR_NOT_IN_PATH -6
+enum ms_error
+{
+	NO_ENV = 2,
+	BAD_VAR,
+	BAD_DELETING_KEY,
+	STR_NOT_IN_PATH,
+	OLDPATH_HAS_BE_DELETED,
+	HOME_HAS_BE_DELETED
+};
 
 typedef struct s_ms
 {
@@ -24,8 +25,9 @@ typedef struct s_ms
 	char *home;
 	char *debug;
 	int error;
-	char curpath[4096];
+	char cur_path[4096];
 	char pwd[4096];
+	char *current_err;
 } t_ms;
 
 // env
@@ -40,6 +42,9 @@ int ms_cd(t_ms *ms);
 // env
 //
 //
+
+// error
+int set_ft_errno(int type_error, char *information, t_ms *ms);
 
 // test
 void test_all();

@@ -13,53 +13,12 @@
 #include <errno.h>
 #include "minishell.h"
 
-
-// err to handle with access:
-// f_ok / exist , r_ok write access, xok > execution
-
-// are update at all cd
-// PWD=/Users/adpusel/Applications
-// OLDPWD=/Users/adpusel
-// OLDPWD= PWD at start ?
-
-// if unset Home and -, or ~ ?
-
-// si je donne 2 argument a cd, il va remplacer le premier argv
-// par le deuxieme dans le path tout le path, ca peut etre
-
-
-// 1 if no operand && home is set >> go to home
-// if not HOME do nothing
-// if start . >
-// if start / >
-
-// if more one argv, I search where the pwd start and rewrite url before
-// that point.
-
-
-// cd -- = cd ~, cd -- > no option
-// cd -
-
-// check if the first arlsgv is -- or - > go home
-// when I move, I need to keep my last path
-// I need my current directory to go use relative path
-// if start with . > relative path
-
-// cd hadle the quotes
-
-// un buffer de la size max,
-
-// is - --
-
-// build un errno pour y mettre mes error.
-
-
-static int handle_if_relative_path(t_ms *ms, char *p_path)
+static int one_argv(t_ms *ms, char *p_path)
 {
 	char *path;
 	size_t i;
 
-	path = ms->curpath;
+	path = ms->cur_path;
 	i = 0;
 	if (p_path[0] == '.')
 	{
@@ -71,43 +30,59 @@ static int handle_if_relative_path(t_ms *ms, char *p_path)
 	return (0);
 }
 
-static int set_last_path(t_ms *ms)
+static int two_argv(t_ms *ms, char **arg)
+{
+	if (!ft_str_replace(ms->pwd, arg[0], arg[1])
+		&& !ft_mem_copy(ms->cur_path, ms->pwd, STRING_MODE))
+		return (0);
+	else
+		return (set_ft_errno(STR_NOT_IN_PATH, arg[0], ms));
+}
+
+static int get_path_env(t_ms *ms, char *name_env, int error)
 {
 	char *old_path;
 
-	old_path = ms_get_env_value("OLDPATH", ms->p_env);
+	old_path = ms_get_env_value(name_env, ms->p_env);
 	if (!old_path)
-		return (set_ft_errno(PATH_HAS_BE_DELETED));
-	ft_mem_copy(ms->curpath, old_path, STRING_MODE);
+		return (set_ft_errno(error, NULL, NULL));
+	ft_mem_copy(ms->cur_path, old_path, STRING_MODE);
+	return (0);
+}
+
+static int init_cd(t_ms *ms, int *i, char ***arg)
+{
+	if (!ms->arg)
+		return (-1);
+	*arg = ms->arg;
+	*i = ft_str_split_count(*arg);
+	if (getcwd(ms->pwd, 4096) == NULL)
+		return (set_ft_errno(EACCES, "", ms));
+	if (ft_str_is(**arg, "--"))
+	{
+		(*arg)++;
+		(*i)--;
+	}
 	return (0);
 }
 
 int ms_cd(t_ms *ms)
 {
 	int i;
+	int ret;
 	char **arg;
 
-	arg = ms->arg;
-	if (!ms->arg)
-		return (0);
-	i = ft_str_split_count(ms->arg);
+	if (init_cd(ms, &i, &arg))
+		return (-1);
 	if (i == 0)
-		return (0);
-	if (getcwd(ms->pwd, 4096) == NULL)
-		return (set_ft_errno(EACCES));
-	if (!ft_str_eq(*arg, "--") && arg++ && i--)
-		(void) "this is a line that I need to fill :)";
-	if (!ft_str_eq(*arg, "-"))
-		return (set_last_path(ms));
+		ret = get_path_env(ms, "HOME", HOME_HAS_BE_DELETED);
+	else if (ft_str_is(*arg, "-"))
+		ret = get_path_env(ms, "OLDPATH", OLDPATH_HAS_BE_DELETED);
 	else if (i == 1)
-		return (handle_if_relative_path(ms, *arg));
+		ret = one_argv(ms, *arg);
 	else if (i == 2)
-	{
-		if (!ft_search_and_replace(ms->pwd, arg[0], arg[1])
-			&& !ft_mem_copy(ms->curpath, ms->pwd, STRING_MODE))
-			return (0);
-		else
-			return (set_ft_errno(STR_NOT_IN_PATH));
-	}
-	return (set_ft_errno(E2BIG));
+		ret = two_argv(ms, arg);
+	else
+		ret = set_ft_errno(E2BIG, "", ms);
+	return (ret);
 }

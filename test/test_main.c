@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-int g_ft_errno;
 
 void test_ms_env_copy(char **env, int ret, int test)
 {
@@ -66,11 +65,11 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 	ft_mem_set(&ms, 0, sizeof(ms));
 	ms_env_copy(env, &ms);
 	intern_ret = ms_get_env_value(key, ms.p_env);
-	if (ft_str_eq(intern_ret, ret))
+	if (ft_str_is_not(intern_ret, ret))
 		printf("error test : %d \n", test);
 }
 
-void test_ms_cd(char **env, char **arg, char ret, int test, char *curpath, int error)
+void test_ms_cd(char **env, char **arg, int ret, int test, char *curpath, int error)
 {
 	t_ms ms;
 	int intern_ret;
@@ -79,19 +78,106 @@ void test_ms_cd(char **env, char **arg, char ret, int test, char *curpath, int e
 	ms_env_copy(env, &ms);
 	ms.arg = arg;
 	intern_ret = ms_cd(&ms);
-	if (ret != intern_ret || (curpath && ft_str_eq(curpath, ms.curpath)) || g_ft_errno != error)
+	if (ret != intern_ret || (curpath && ft_str_is_not(curpath, ms.cur_path)) || ms.error != error)
 	{
 		printf("%d \n", test);
-		printf("%s \n",ms.curpath);
+		printf("%s \n", ms.cur_path);
+		printf("%d \n", ms.error);
 	}
-	g_ft_errno = 0;
 }
 
 void test_all()
 {
 
+	// function go to path
+	// function print error
+
+
+
+	test_ms_env_copy(NULL, NO_ENV, 0);
+
+	char *test_1[1] = { NULL };
+	test_ms_env_copy(test_1, 0, 1);
+
+	char *test_2[4] = { "toto=super", "mimi=toto", "superTest", NULL };
+	test_ms_env_copy(test_2, 0, 2);
+
+	// test with var null && empty env
+	char *env_3[2] = { NULL };
+	test_ms_env_add(env_3, NULL, BAD_VAR, NULL, 3);
+
+	// test var null && 1 var env
+	char *env_4[2] = { "toto=tata" };
+	test_ms_env_add(env_4, NULL, BAD_VAR, NULL, 4);
+
+	// empty env
+	char *env_5[2] = { NULL };
+	char *res_5[2] = { "toto=tata" };
+	test_ms_env_add(env_5, "toto=tata", 0, res_5, 5);
+
+	// bad variable : no =
+	char *env_6[2] = { NULL };
+	char *res_6[2] = { NULL };
+	test_ms_env_add(env_6, "tototata", BAD_VAR, res_6, 6);
+
+	// bad variable : too much =
+	char *env_7[2] = { "tata=toto" };
+	char *res_7[2] = { "tata=toto" };
+	test_ms_env_add(env_7, "toto=tata=", BAD_VAR, res_7, 7);
+
+	// all good
+	char *env_8[2] = { "tata=toto" };
+	char *res_8[2] = { "tata=toto", "super=titi" };
+	test_ms_env_add(env_8, "super=titi", 0, res_8, 8);
+
+	// no env
+	char *env_88[2] = { NULL };
+	char *res_88[2] = { NULL };
+	test_ms_env_remove(env_88, "toto", BAD_DELETING_KEY, res_88, 88);
+
+	// no key
+	char *env_9[2] = { NULL };
+	char *res_9[2] = { NULL };
+	test_ms_env_remove(env_9, NULL, BAD_DELETING_KEY, res_9, 9);
+
+	// no key and env
+	char *env_10[2] = { "toto=titi" };
+	test_ms_env_remove(env_10, NULL, BAD_DELETING_KEY, env_10, 10);
+
+	// delete one
+	char *env_11[2] = { "toto=tata" };
+	char *res_11[2] = { NULL };
+	test_ms_env_remove(env_11, "toto", 0, res_11, 11);
+
+	// delete middle
+	char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
+	char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
+	test_ms_env_remove(env_12, "toto", 0, res_12, 12);
+
+	// delete end
+	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
+	test_ms_env_remove(env_13, "manger", 0, res_13, 13);
+
+	// no bad
+	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_14, "mange", NULL, 14);
+
+	// null key
+	char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_15, NULL, NULL, 15);
+
+	// good key
+	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_16, "suer", "aaoeu", 16);
+
+	// good key
+	char *env_17[5] = { "suer=aaoeu", "toto=", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_17, "toto", "", 17);
+
+	//
 	// test null
-	test_ms_cd(NULL, NULL, 0, 18, NULL, 0);
+	test_ms_cd(NULL, NULL, -1, 18, NULL, 0);
 
 	// test -
 	char *env_19[2] = { "OLDPATH=/Users/adpusel", NULL };
@@ -145,86 +231,13 @@ void test_all()
 	char *argv_28[4] = { "--", "cmake-build-debug", "toto", NULL };
 	test_ms_cd(env_28, argv_28, 0, 28, "/Users/adpusel/code/42/minishell/toto", 0);
 
+	// test no argv // not home
+	char *env_29[2] = { "toto=tata", NULL };
+	char *argv_29[4] = { NULL };
+	test_ms_cd(env_29, argv_29, -1, 29, NULL, HOME_HAS_BE_DELETED);
 
-
-	//	test_ms_env_copy(NULL, NO_ENV, 0);
-	//
-	//	char *test_1[1] = { NULL };
-	//	test_ms_env_copy(test_1, 0, 1);
-	//
-	//	char *test_2[4] = { "toto=super", "mimi=toto", "superTest", NULL };
-	//	test_ms_env_copy(test_2, 0, 2);
-	//
-	//	// test with var null && empty env
-	//	char *env_3[2] = { NULL };
-	//	test_ms_env_add(env_3, NULL, BAD_VAR, NULL, 3);
-	//
-	//	// test var null && 1 var env
-	//	char *env_4[2] = { "toto=tata" };
-	//	test_ms_env_add(env_4, NULL, BAD_VAR, NULL, 4);
-	//
-	//	// empty env
-	//	char *env_5[2] = { NULL };
-	//	char *res_5[2] = { "toto=tata" };
-	//	test_ms_env_add(env_5, "toto=tata", 0, res_5, 5);
-	//
-	//	// bad variable : no =
-	//	char *env_6[2] = { NULL };
-	//	char *res_6[2] = { NULL };
-	//	test_ms_env_add(env_6, "tototata", BAD_VAR, res_6, 6);
-	//
-	//	// bad variable : too much =
-	//	char *env_7[2] = { "tata=toto" };
-	//	char *res_7[2] = { "tata=toto" };
-	//	test_ms_env_add(env_7, "toto=tata=", BAD_VAR, res_7, 7);
-	//
-	//	// all good
-	//	char *env_8[2] = { "tata=toto" };
-	//	char *res_8[2] = { "tata=toto", "super=titi" };
-	//	test_ms_env_add(env_8, "super=titi", 0, res_8, 8);
-	//
-	//	// no env
-	//	char *env_88[2] = { NULL };
-	//	char *res_88[2] = { NULL };
-	//	test_ms_env_remove(env_88, "toto", BAD_DELETING_KEY, res_88, 88);
-	//
-	//	// no key
-	//	char *env_9[2] = { NULL };
-	//	char *res_9[2] = { NULL };
-	//	test_ms_env_remove(env_9, NULL, BAD_DELETING_KEY, res_9, 9);
-	//
-	//	// no key and env
-	//	char *env_10[2] = { "toto=titi" };
-	//	test_ms_env_remove(env_10, NULL, BAD_DELETING_KEY, env_10, 10);
-	//
-	//	// delete one
-	//	char *env_11[2] = { "toto=tata" };
-	//	char *res_11[2] = { NULL };
-	//	test_ms_env_remove(env_11, "toto", 0, res_11, 11);
-	//
-	//	// delete middle
-	//	char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
-	//	char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
-	//	test_ms_env_remove(env_12, "toto", 0, res_12, 12);
-	//
-	//	// delete end
-	//	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
-	//	test_ms_env_remove(env_13, "manger", 0, res_13, 13);
-	//
-	//	// no bad
-	//	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_14, "mange", NULL, 14);
-	//
-	//	// null key
-	//	char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_15, NULL, NULL, 15);
-	//
-	//	// good key
-	//	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_16, "suer", "aaoeu", 16);
-	//
-	//	// good key
-	//	char *env_17[5] = { "suer=aaoeu", "toto=", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_17, "toto", "", 17);
+	// no argv // home
+	char *env_30[2] = { "HOME=tata", NULL };
+	char *argv_30[4] = { NULL };
+	test_ms_cd(env_30, argv_30, 0, 30, NULL, 0);
 }

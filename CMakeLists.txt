@@ -13,7 +13,7 @@ add_subdirectory(compact-libft)
 
 add_library(minishell_lib STATIC
 
-        src/env.remove.c)
+        src/env.remove.c src/builtin.cd.2.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 
