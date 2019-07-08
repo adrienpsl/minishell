@@ -3,8 +3,10 @@
 
 #import "ft_libft.h"
 
+
+
 /*
-* * ft_errno error
+* * ft_errno_set error
 */
 enum ms_error
 {
@@ -18,7 +20,7 @@ enum ms_error
 
 typedef struct s_ms
 {
-	char **p_env;
+	char **env;
 	char **arg;
 	char **cmd;
 	char **path;
@@ -30,10 +32,13 @@ typedef struct s_ms
 	char *current_err;
 } t_ms;
 
+int g_errno;
+t_ms ms;
+
 // env
-int ms_env_remove(char *removing_var, t_ms *ms);
-int ms_env_copy(char **env, t_ms *ms);
-int ms_env_add(char *new_var, t_ms *ms);
+int ms_env_remove(char *removing_var);
+int ms_env_copy(char **env);
+int ms_env_add(char *new_var);
 char *ms_get_env_value(char *key, char **env);
 
 // builtin
@@ -44,7 +49,7 @@ int ms_cd(t_ms *ms);
 //
 
 // error
-int set_ft_errno(int type_error, char *information, t_ms *ms);
+int ft_errno_set(int type_error);
 
 // test
 void test_all();

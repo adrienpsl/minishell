@@ -12,9 +12,8 @@
 
 #include "minishell.h"
 
-int set_ft_errno(int type_error, char *information, t_ms *ms)
+int ft_errno_set(int type_error)
 {
-	ms->error = type_error,
-	ms->current_err = information;
+	g_errno = type_error;
 	return (-1);
 }

@@ -22,41 +22,30 @@ static int matched_env_variable(char *env_key_value, char *searched)
 	return (0);
 }
 
-static int delete_variable(char ***p_env, int i)
-{
-	char **env;
-
-	env = *p_env;
-	free(*(env + i));
-	while (*(env + i) != NULL)
-	{
-		*(env + i) = *(env + i + 1);
-		i++;
-	}
-	return (0);
-}
-
-int ms_env_remove(char *removing_var, t_ms *ms)
+int ms_env_remove(char *removing_var)
 {
 	int i;
-	char **env;
 
-	if (!removing_var)
-		return (BAD_DELETING_KEY);
-	env = ms->p_env;
 	i = -1;
-	while (*(env + ++i) != NULL)
+	while (ms.env[++i] != NULL)
 	{
-		if (matched_env_variable(*(env + i), removing_var))
-			return delete_variable(&env, i);
+		if (matched_env_variable(ms.env[i], removing_var))
+		{
+			free(ms.env[i]);
+			while (ms.env[i] != NULL)
+			{
+				ms.env[i] = ms.env[i + 1];
+				i++;
+			}
+			return (0);
+		}
 	}
-	return (BAD_DELETING_KEY);
+	return (ft_errno_set(BAD_DELETING_KEY));
 }
 
 char *ms_get_env_value(char *key, char **env)
 {
 	int i;
-
 	if (!key)
 		return (NULL);
 	while (*env != NULL)
@@ -65,8 +54,6 @@ char *ms_get_env_value(char *key, char **env)
 		{
 			i = ft_str_chr(*env, '=');
 			if (i == -1)
-				return (NULL);
-			if (!(*env)[i] && !(*env)[i + 1])
 				return (NULL);
 			return ((*env) + i + 1);
 		}

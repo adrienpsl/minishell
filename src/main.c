@@ -8,11 +8,15 @@
 // how I will save the useful command inside my env : path and home
 //
 
+// TODO :  checx if there is an env
+
 int main(int ac, char **av, char **env)
 {
+	if (env == NULL)
+		return EXIT_FAILURE;
+
 	(void) ac;
 	(void) av;
-	(void)env;
 	test_all();
 
 //	char **p_env = env;
