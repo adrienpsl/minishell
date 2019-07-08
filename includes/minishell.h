@@ -3,19 +3,18 @@
 
 #import "ft_libft.h"
 
-
-
 /*
 * * ft_errno_set error
 */
 enum ms_error
 {
-	NO_ENV = 2,
+	NO_ENV,
 	BAD_VAR,
 	BAD_DELETING_KEY,
 	STR_NOT_IN_PATH,
 	OLDPATH_HAS_BE_DELETED,
-	HOME_HAS_BE_DELETED
+	HOME_HAS_BE_DELETED,
+	INVALID_PATH,
 };
 
 typedef struct s_ms
@@ -26,8 +25,10 @@ typedef struct s_ms
 	char **path;
 	char *home;
 	char *debug;
+	int test;
 	int error;
-	char cur_path[4096];
+	char tmp_buffer[4097];
+	char testing_str[10000];
 	char pwd[4096];
 	char *current_err;
 } t_ms;
@@ -39,10 +40,11 @@ t_ms ms;
 int ms_env_remove(char *removing_var);
 int ms_env_copy(char **env);
 int ms_env_add(char *new_var);
-char *ms_get_env_value(char *key, char **env);
+char *env_get_value(char *key);
+int ms_env_modify(char *key, char *new_value);
 
 // builtin
-int ms_cd(t_ms *ms);
+int ms_cd(char **argv);
 // echo
 // env
 //

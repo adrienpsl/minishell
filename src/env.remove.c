@@ -43,9 +43,12 @@ int ms_env_remove(char *removing_var)
 	return (ft_errno_set(BAD_DELETING_KEY));
 }
 
-char *ms_get_env_value(char *key, char **env)
+char *env_get_value(char *key)
 {
 	int i;
+	char **env;
+
+	env = ms.env;
 	if (!key)
 		return (NULL);
 	while (*env != NULL)

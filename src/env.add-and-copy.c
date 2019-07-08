@@ -31,12 +31,11 @@ int ms_env_copy(char **env)
 		i++;
 	}
 	if (ms.env)
-	    ft_str_split_free(&ms.env);
+		ft_str_split_free(&ms.env);
 	ms.env = tmp;
 	return (0);
 }
 
-// TODO : rebuild to not realloc the all tab, but only a new char**
 int ms_env_add(char *new_var)
 {
 	int i;
@@ -53,4 +52,21 @@ int ms_env_add(char *new_var)
 	if (ms_env_copy(ms.env))
 		return (NO_ENV);
 	return (0);
+}
+
+int ms_env_modify(char *key, char *new_value)
+{
+	char *new;
+	int ret;
+
+	ret = 0;
+	new = NULL;
+	if (ms_env_remove(key))
+		return (-1);
+	if (ft_str_join_by(&new, key, "=", new_value))
+		return (-1);
+	if (ms_env_add(new))
+		ret = -1;
+	free(new);
+	return (ret);
 }
