@@ -318,6 +318,7 @@ void test_all()
 	t_ms *a = &ms;
 	(void) a;
 
+	test_cd_and_env();
 
 
 }
