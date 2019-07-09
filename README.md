@@ -12,8 +12,9 @@
 
 
 # other note
-I must code echo, cd, setenv unsetenv, env, exit.
-// I need to code, echo, env, cd,
+env et echo marche pareil ?
+I must code echo, setenv unsetenv, env, exit.
+
  
 
 
