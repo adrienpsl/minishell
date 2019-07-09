@@ -20,9 +20,15 @@ static int cd_go(char *go_path, char *current_path)
 	if (!go_path)
 		return (ft_errno_set(INVALID_PATH));
 	if (access(go_path, F_OK))
+	{
+		ft_printf("cd: no such file or directory: %s\n", go_path);
 		return (ft_errno_set(ENOENT));
+	}
 	if (chdir(go_path))
+	{
+		ft_printf("cd: permission denied: %s\n", go_path);
 		return (ft_errno_set(EACCES));
+	}
 	if (ms_env_modify("OLDPATH", current_path))
 		return (-1);
 	return (0);
@@ -46,7 +52,10 @@ static int cd_two_argv(char *searching, char *replacing, char *current_path)
 {
 	ft_mem_zero(ms.buffer_array, 4097);
 	if (ft_str_replace(&ms.buffer, current_path, searching, replacing))
+	{
+		ft_printf("cd: string not in pwd: %s \n", searching);
 		return (ft_errno_set(STR_NOT_IN_PATH));
+	}
 	return (cd_go(ms.buffer_array, current_path));
 }
 
@@ -62,7 +71,7 @@ int ms_cd(char **argv)
 	if (getcwd(buff_current_path, 4096) == NULL)
 		return (ft_errno_set(EACCES));
 	if (nb_argv == 0)
-		ret = cd_go(*argv, buff_current_path);
+		ret = cd_go(env_get_value("HOME"), buff_current_path);
 	else if (nb_argv == 1)
 		ret = cd_one_argv(*argv, buff_current_path);
 	else if (nb_argv == 2)

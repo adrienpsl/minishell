@@ -8,7 +8,7 @@
 */
 enum ms_error
 {
-	NO_ENV,
+	NO_ENV = 100,
 	BAD_VAR,
 	BAD_DELETING_KEY,
 	STR_NOT_IN_PATH,
