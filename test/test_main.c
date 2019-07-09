@@ -51,7 +51,7 @@ void test_ms_env_remove(char **env, char *deleting_key, int ret, char **res, int
 
 	ft_mem_set(&ms, 0, sizeof(ms));
 	ms_env_copy(env);
-	intern_ret = ms_env_remove(deleting_key, &ms.env);
+	intern_ret = ms_env_remove(deleting_key);
 	if (ft_str_split_cmp(ms.env, res)
 		|| ret != intern_ret
 		|| error != g_errno)
@@ -311,13 +311,12 @@ void test_cd_and_env()
 	test_ms_cd(env_34, argv_34, new_env_34, -1, "/Users/eaou", ENOENT, 34);
 }
 
-// aoeuaoeu oaeuao aoeu "aoeu " aoeu  "aoeuaoeuaoeuaoeu aaa " 'oeuaoeu'
+
 
 void test_all()
 {
 	t_ms *a = &ms;
 	(void) a;
-	test_cd_and_env();
 
 
 

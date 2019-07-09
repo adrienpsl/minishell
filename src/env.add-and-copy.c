@@ -61,7 +61,7 @@ int ms_env_modify(char *key, char *new_value)
 
 	ret = 0;
 	new = NULL;
-	ms_env_remove(key, &ms.env);
+	ms_env_remove(key);
 	if (ft_str_join_by(&new, key, "=", new_value))
 		return (-1);
 	if (ms_env_add(new))

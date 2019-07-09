@@ -22,21 +22,19 @@ static int matched_env_variable(char *env_key_value, char *searched)
 	return (0);
 }
 
-int ms_env_remove(char *removing_var, char ***p_env)
+int ms_env_remove(char *removing_var)
 {
 	int i;
-	char **env;
 
 	i = -1;
-	env = *p_env; 
-	while (env[++i] != NULL)
+	while (ms.env[++i] != NULL)
 	{
-		if (matched_env_variable(env[i], removing_var))
+		if (matched_env_variable(ms.env[i], removing_var))
 		{
-			free(env[i]);
-			while (env[i] != NULL)
+			free(ms.env[i]);
+			while (ms.env[i] != NULL)
 			{
-				env[i] = env[i + 1];
+				ms.env[i] = ms.env[i + 1];
 				i++;
 			}
 			return (0);
