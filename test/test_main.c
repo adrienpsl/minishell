@@ -95,67 +95,104 @@ void test_ms_cd(char **env, char **arg, int ret, int test, char *curpath, char *
 {
 	int intern_ret;
 	t_ms *a = &ms;
-	(void)a;
+	(void) a;
 
 	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_mem_zero(ms.testing_str, 10000);
 	ms.test = 1;
+	ms.buffer = ms.buffer_array;
 	ms_env_copy(env);
 	ms.arg = arg;
 	intern_ret = ms_cd(arg);
 	if (ret != intern_ret
-	|| (curpath && ft_str_is_not(curpath, ms.testing_str))
-	|| ft_str_split_cmp(new_env, ms.env)
-	|| ms.error != error)
+		|| (curpath && ft_str_is_not(curpath, ms.testing_str))
+		|| ft_str_split_cmp(new_env, ms.env)
+		|| g_errno != error)
 	{
 		printf("test n : %d \n", test);
 		printf("%s \n", ms.testing_str);
-		printf("%d \n", ms.error);
+		printf("%d \n", g_errno);
 	}
+	g_errno = 0;
 }
 
 void test_all()
 {
-
+	t_ms *a = &ms;
+	(void) a;
 	//	//
 	//	// test null
 	//	test_ms_cd(NULL, NULL, -1, 18, NULL, 0);
 	//
-	// test -
-	char *env_19[2] = { "OLDPATH=/Users/adpusel", NULL };
-	char *new_env_19[2] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
-	char *argv_19[3] = { "-", NULL };
-	test_ms_cd(env_19, argv_19, 0, 19, "/Users/adpusel", new_env_19, 0);
-
-
-	//	// test -- -
-	//	char *env_20[2] = { "OLDPATH=/Users/adpusel", NULL };
+	//	// test -
+	//	char *env_19[2] = { "OLDPATH=/Users/adpusel", NULL };
+	//	char *new_env_19[2] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
+	//	char *argv_19[3] = { "-", NULL };
+	//	test_ms_cd(env_19, argv_19, 0, 19, "/Users/adpusel", new_env_19, 0);
+	//
+	//	char *env_20[3] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
 	//	char *argv_20[3] = { "--", "-", NULL };
-	//	test_ms_cd(env_20, argv_20, 0, 20, "/Users/adpusel", 0);
+	//	char *new_env_20[2] = { "OLDPATH=/Users/adpusel", NULL };
+	//	test_ms_cd(env_20, argv_20, 0, 20, "/Users/adpusel/code/42/minishell/cmake-build-debug", new_env_20, 0);
 	//
-	//	// simple path
-	//	char *env_21[2] = { "OLDPATH=/Users/adpusel", NULL };
+	//	char *env_21[3] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
 	//	char *argv_21[3] = { "/Users/adpusel", NULL };
-	//	test_ms_cd(env_21, argv_21, 0, 21, "/Users/adpusel", 0);
-	//
-	//	char *env_211[2] = { "OLDPATH=/Users/adpusel", NULL };
-	//	char *argv_211[3] = { "--", "/Users/adpusel", NULL };
-	//	test_ms_cd(env_211, argv_211, 0, 211, "/Users/adpusel", 0);
-	//
-	//	// relative path
-	//	char *env_22[2] = { "OLDPATH=/Users/adpusel", NULL };
-	//	char *argv_22[3] = { "./Users/adpusel", NULL };
-	//	test_ms_cd(env_22, argv_22, 0, 22, "/Users/adpusel/code/42/minishell/cmake-build-debug/./Users/adpusel", 0);
-	//
-	//	// relative path 2
-	//	char *env_23[2] = { "OLDPATH=/Users/adpusel", NULL };
-	//	char *argv_23[3] = { "..", NULL };
-	//	test_ms_cd(env_23, argv_23, 0, 23, "/Users/adpusel/code/42/minishell/cmake-build-debug/..", 0);
-	//
-	//	// relative path 3
-	//	char *env_24[2] = { "OLDPATH=/Users/adpusel", NULL };
-	//	char *argv_24[3] = { "--", "..", NULL };
-	//	test_ms_cd(env_24, argv_24, 0, 24, "/Users/adpusel/code/42/minishell/cmake-build-debug/..", 0);
-	//
+	//	char *new_env_21[2] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
+	//	test_ms_cd(env_21, argv_21, 0, 21, "/Users/adpusel", new_env_21, 0);
+
+	//	chdir("/Users/adpusel");
+	//	char *env_22[3] = { "OLDPATH=/toto", NULL };
+	//	char *argv_22[3] = { "--", "/Users/adpusel/code", NULL };
+	//	char *new_env_22[2] = { "OLDPATH=/Users/adpusel", NULL };
+	//	test_ms_cd(env_22, argv_22, 0, 22, "/Users/adpusel/code", new_env_22, 0);
+
+//	chdir("/Users/adpusel");
+//	char *env_23[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_23[3] = { "--", "./code", NULL };
+//	char *new_env_23[2] = { "OLDPATH=/Users/adpusel", NULL };
+//	test_ms_cd(env_23, argv_23, 0, 23, "/Users/adpusel/./code", new_env_23, 0);
+//
+//	chdir("/Users/adpusel");
+//	char *env_24[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_24[3] = { "..", NULL };
+//	char *new_env_24[2] = { "OLDPATH=/Users/adpusel", NULL };
+//	test_ms_cd(env_24, argv_24, 0, 24, "/Users/adpusel/..", new_env_24, 0);
+//
+//	chdir("/Users/adpusel");
+//	char *env_25[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_25[3] = { "..", NULL };
+//	char *new_env_25[2] = { "OLDPATH=/Users/adpusel", NULL };
+//	test_ms_cd(env_25, argv_25, 0, 25, "/Users/adpusel/..", new_env_25, 0);
+//
+//
+//	chdir("/Users/adpusel");
+//	char *env_26[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_26[3] = { "--", "..", NULL };
+//	char *new_env_26[2] = { "OLDPATH=/Users/adpusel", NULL };
+//	test_ms_cd(env_26, argv_26, 0, 26, "/Users/adpusel/..", new_env_26, 0);
+//
+//
+//	// test change end file
+//	chdir("/Users/adpusel/code");
+//	char *env_27[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_27[4] = { "--", "code", "toto", NULL };
+//	char *new_env_27[2] = { "OLDPATH=/Users/adpusel/code", NULL };
+//	test_ms_cd(env_27, argv_27, 0, 27, "/Users/adpusel/toto", new_env_27, 0);
+//
+//	// test change middle file
+//	chdir("/Users/adpusel/toto/t2/t1_1/t2_1");
+//	char *env_28[3] = { "OLDPATH=/toto", NULL };
+//	char *argv_28[3] = { "t2", "t1", NULL };
+//	char *new_env_28[2] = { "OLDPATH=/Users/adpusel/toto/t2/t1_1/t2_1", NULL };
+//	test_ms_cd(env_28, argv_28, 0, 28, "/Users/adpusel/toto/t1/t1_1/t2_1", new_env_28, 0);
+
+	// test change start file
+	chdir("/private");
+	char *env_29[3] = { "OLDPATH=/toto", NULL };
+	char *argv_29[3] = { "/private", "/Users", NULL };
+	char *new_env_29[2] = { "OLDPATH=/private", NULL };
+	test_ms_cd(env_29, argv_29, 0, 29, "/Users", new_env_29, 0);
+
 	//	//	 remplacement path :
 	//	char *env_25[2] = { "OLDPATH=/Users/adpusel", NULL };
 	//	char *argv_25[4] = { "--", "toto", "tata", NULL };

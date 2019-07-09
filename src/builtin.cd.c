@@ -30,23 +30,24 @@ static int cd_go(char *go_path, char *current_path)
 
 static int cd_one_argv(char *argv, char *current_path)
 {
-	ft_mem_zero(ms.tmp_buffer, 4097);
+	ft_mem_zero(ms.buffer, 4097);
 	if (ft_str_is(argv, "-"))
 		return (cd_go(env_get_value("OLDPATH"), current_path));
-	if (*argv == '.')
+	else if (*argv == '.')
 	{
-		ft_str_join_by((char **) ms.tmp_buffer, current_path, "/", argv);
-		return (cd_go(ms.tmp_buffer, current_path));
+		ft_str_join_by(&ms.buffer, current_path, "/", argv);
+		return (cd_go(ms.buffer_array, current_path));
 	}
-	return (0);
+	else
+		return (cd_go(argv, current_path));
 }
 
 static int cd_two_argv(char *searching, char *replacing, char *current_path)
 {
-	ft_mem_zero(ms.tmp_buffer, 4097);
-	if (ft_str_replace((char **) &ms.tmp_buffer, current_path, searching, replacing))
+	ft_mem_zero(ms.buffer_array, 4097);
+	if (ft_str_replace(&ms.buffer, current_path, searching, replacing))
 		return (ft_errno_set(STR_NOT_IN_PATH));
-	return (cd_go(ms.tmp_buffer, current_path));
+	return (cd_go(ms.buffer_array, current_path));
 }
 
 int ms_cd(char **argv)

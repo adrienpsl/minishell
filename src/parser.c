@@ -23,6 +23,7 @@ int ms_parse_command(char *command, t_ms *ms)
 	// TODO : handle that error
 	if (command_split == NULL)
 	    return (1);
-	ms->arg = command_split;
+	(void)ms;
+//	ms->arg = command_split;
 	return (0);
 }

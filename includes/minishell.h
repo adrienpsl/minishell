@@ -20,17 +20,11 @@ enum ms_error
 typedef struct s_ms
 {
 	char **env;
-	char **arg;
-	char **cmd;
-	char **path;
-	char *home;
-	char *debug;
 	int test;
-	int error;
-	char tmp_buffer[4097];
+	char *buffer;
+	char **arg;
+	char buffer_array[4097];
 	char testing_str[10000];
-	char pwd[4096];
-	char *current_err;
 } t_ms;
 
 int g_errno;

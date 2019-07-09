@@ -11,11 +11,3 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void ft_erno(t_ms *ms)
-{
-	if (ms->error)
-	{
-		ft_printf("error is :");
-	}
-}
