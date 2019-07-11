@@ -33,7 +33,7 @@ t_ms ms;
 // env
 int ms_env_remove(char *removing_var);
 int ms_env_copy(char **env);
-int ms_env_add(char *new_var);
+int ms_env_add(char **argv);
 char *env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
 

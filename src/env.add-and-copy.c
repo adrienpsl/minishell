@@ -18,54 +18,46 @@
  * */
 int ms_env_copy(char **env)
 {
-	int i;
-	char **tmp;
-
-	if (!(tmp = ft_memalloc(sizeof(char *) * (ft_str_split_count(env) + 2))))
-		return (ft_errno_set(ENOMEM));
-	i = 0;
-	while (env[i] != NULL)
-	{
-		if (!(tmp[i] = ft_strdup(env[i])))
-			return (ft_errno_set(ENOMEM));
-		i++;
-	}
-	if (ms.env)
-		ft_str_split_free(&ms.env);
-	ms.env = tmp;
+	if (!(ms.env = ft_str_split_copy(env, 0)))
+		return (-1);
 	return (0);
 }
 
-int ms_env_add(char *new_var)
+int ms_env_add(char **argv)
 {
 	int i;
 	char *tmp_str;
 
-	if (!new_var
-		|| ft_strchr(new_var, '=') == -1
-		|| ft_str_nchar(new_var, '=') != 1)
-		return (ft_errno_set(BAD_VAR));
-	i = ft_str_split_count(ms.env);
-	if (!(tmp_str = ft_strdup(new_var)))
+	i = ft_str_split_count(argv);
+	if (i == 0 || i > 2)
+		return (ft_putstrret("Bad number argument given to set env", -1));
+	else if (i == 1)
+	{
+		if (ft_strnchr(*argv, '=') != 1)
+			return (ft_putstrret("The env separator is one single =", -1));
+		if (!(tmp_str = ft_strdup(*argv)))
+			return (-1);
+	}
+	else
+	{
+		if (ft_strchr(argv[0], '=') != -1 || ft_strchr(argv[1], '=') != -1)
+			return (ft_putstrret("If two elements are supply no =", -1));
+		if (!(tmp_str = ft_strjoinby(argv[0], "=", argv[1])))
+			return (-1);
+	}
+	if (!(ms.env = ft_str_split_add(ms.env, tmp_str, 1)))
 		return (-1);
-	ms.env[i] = tmp_str;
-	if (ms_env_copy(ms.env))
-		return (NO_ENV);
 	return (0);
 }
 
 int ms_env_modify(char *key, char *new_value)
 {
-	char *new;
-	int ret;
+	static char *split[3] = { NULL, NULL, NULL };
 
-	ret = 0;
-	new = NULL;
 	ms_env_remove(key);
-	if (!(new = ft_strjoinby(key, "=", new_value)))
+	split[0] = key;
+	split[1] = new_value;
+	if (ms_env_add(split))
 		return (-1);
-	if (ms_env_add(new))
-		ret = -1;
-	free(new);
-	return (ret);
+	return (0);
 }

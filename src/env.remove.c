@@ -40,7 +40,7 @@ int ms_env_remove(char *removing_var)
 			return (0);
 		}
 	}
-	return (ft_errno_set(BAD_DELETING_KEY));
+	return (-1);
 }
 
 char *env_get_value(char *key)
