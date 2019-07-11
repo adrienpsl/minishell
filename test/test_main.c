@@ -205,31 +205,30 @@ void test_cd_and_env()
 
 	// no key and env
 	char *env_10[2] = { "toto=titi" };
-	test_ms_env_remove(env_10, NULL, -1, env_10, BAD_DELETING_KEY, 10);
+	test_ms_env_remove(env_10, NULL, -1, env_10, 0, 10);
 
 	// delete one
 	char *env_11[2] = { "toto=tata" };
 	char *res_11[2] = { NULL };
-//	char *newvar_11[10] = { "super=titi", NULL };
 	test_ms_env_remove(env_11, "toto", 0, res_11, 0, 11);
-	//
-	//	// delete middle
-	//	char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
-	//	char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
-	//	test_ms_env_remove(env_12, "toto", 0, res_12, 0, 12);
-	//
-	//	// delete end
-	//	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
-	//	test_ms_env_remove(env_13, "manger", 0, res_13, 0, 13);
-	//
-	//	// no bad
-	//	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_14, "mange", NULL, 0, 14);
-	//
-	//	// null key
-	//	char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_15, NULL, NULL, 0, 15);
+
+		// delete middle
+		char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
+		char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
+		test_ms_env_remove(env_12, "toto", 0, res_12, 0, 12);
+
+		// delete end
+		char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+		char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
+		test_ms_env_remove(env_13, "manger", 0, res_13, 0, 13);
+
+		// no bad
+		char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+		test_ms_get_env_value(env_14, "mange", NULL, 0, 14);
+
+		// null key
+		char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+		test_ms_get_env_value(env_15, NULL, NULL, 0, 15);
 	//
 	//	// good key
 	//	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
