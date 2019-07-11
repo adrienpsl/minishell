@@ -14,16 +14,16 @@
 
 // passer dans mes commandes pour remplacer le $ et le ~
 // remove the "" if there are some, I need to remove the "" here
-int ms_parse_command(char *command, t_ms *ms)
-{
-	char **command_split;
+//int ms_parse_command(char *command, t_ms *ms)
+//{
+//	char **command_split;
 
-	if (ft_str_split(command, &command_split, FT_CHAR_SPACE))
-		return (MEMORY_LACK);
+//	if (! ft_str_split(command, &command_split, FT_CHAR_SPACE))
+//		return (MEMORY_LACK);
 	// TODO : handle that error
-	if (command_split == NULL)
-	    return (1);
-	(void)ms;
+//	if (command_split == NULL)
+//	    return (1);
+//	(void)ms;
 //	ms->arg = command_split;
-	return (0);
-}
+//	return (0);
+//}

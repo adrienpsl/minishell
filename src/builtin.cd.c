@@ -16,7 +16,7 @@
 static int cd_go(char *go_path, char *current_path)
 {
 	if (ms.test)
-		ft_mem_copy(ms.testing_str, go_path, STRING_MODE);
+		ft_memcpy(ms.testing_str, go_path, STRING_MODE);
 	if (!go_path)
 		return (ft_errno_set(INVALID_PATH));
 	if (access(go_path, F_OK))
@@ -36,12 +36,12 @@ static int cd_go(char *go_path, char *current_path)
 
 static int cd_one_argv(char *argv, char *current_path)
 {
-	ft_mem_zero(ms.buffer, 4097);
-	if (ft_str_is(argv, "-"))
+	ft_bzero(ms.buffer, 4097);
+	if (ft_streq(argv, "-"))
 		return (cd_go(env_get_value("OLDPATH"), current_path));
 	else if (*argv == '.')
 	{
-		ft_str_join_by(&ms.buffer, current_path, "/", argv);
+		ft_strjoinbybuffer(&ms.buffer, current_path, "/", argv);
 		return (cd_go(ms.buffer_array, current_path));
 	}
 	else
@@ -50,8 +50,8 @@ static int cd_one_argv(char *argv, char *current_path)
 
 static int cd_two_argv(char *searching, char *replacing, char *current_path)
 {
-	ft_mem_zero(ms.buffer_array, 4097);
-	if (ft_str_replace(&ms.buffer, current_path, searching, replacing))
+	ft_bzero(ms.buffer_array, 4097);
+	if (ft_str_replacebuffer(ms.buffer, current_path, searching, replacing))
 	{
 		ft_printf("cd: string not in pwd: %s \n", searching);
 		return (ft_errno_set(STR_NOT_IN_PATH));
@@ -66,7 +66,7 @@ int ms_cd(char **argv)
 	char buff_current_path[4097];
 
 	nb_argv = ft_str_split_count(argv);
-	if (ft_str_is(*argv, "--"))
+	if (ft_streq(*argv, "--"))
 		argv++ && nb_argv--;
 	if (getcwd(buff_current_path, 4096) == NULL)
 		return (ft_errno_set(EACCES));

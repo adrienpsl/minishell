@@ -16,7 +16,7 @@
 void test_ms_env_copy(char **env, int ret, int error, int test)
 {
 	int intern_ret;
-	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_bzero(&ms, sizeof(ms));
 	intern_ret = ms_env_copy(env);
 	if (((ms.env && !env) || (!ms.env && env))
 		|| ft_str_split_cmp(ms.env, env)
@@ -31,7 +31,7 @@ void test_ms_env_copy(char **env, int ret, int error, int test)
 
 void test_ms_env_add(char **env, char *new_var, int ret, char **res, int error, int test)
 {
-	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_bzero(&ms, sizeof(ms));
 	ms_env_copy(env);
 	int intern_ret;
 	intern_ret = ms_env_add(new_var);
@@ -49,7 +49,7 @@ void test_ms_env_remove(char **env, char *deleting_key, int ret, char **res, int
 {
 	int intern_ret;
 
-	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_bzero(&ms, sizeof(ms));
 	ms_env_copy(env);
 	intern_ret = ms_env_remove(deleting_key);
 	if (ft_str_split_cmp(ms.env, res)
@@ -65,10 +65,10 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int error, int test
 {
 	char *intern_ret;
 
-	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_bzero(&ms, sizeof(ms));
 	ms_env_copy(env);
 	intern_ret = env_get_value(key);
-	if (ft_str_is_not(intern_ret, ret)
+	if (!ft_streq(intern_ret, ret)
 		|| g_errno != error)
 		printf("error test : %d \n", test);
 
@@ -79,7 +79,7 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 {
 	int intern_ret;
 
-	ft_mem_set(&ms, 0, sizeof(ms));
+	ft_bzero(&ms, sizeof(ms));
 	ms_env_copy(env);
 	intern_ret = ms_env_modify(key, new_value);
 	if (ft_str_split_cmp(ms.env, res)
@@ -98,22 +98,22 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 	t_ms *a = &ms;
 	(void) a;
 
-	ft_mem_set(&ms, 0, sizeof(ms));
-	ft_mem_zero(ms.testing_str, 10000);
+	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(ms.testing_str, 10000);
 	ms.test = 1;
 	ms.buffer = ms.buffer_array;
 	ms_env_copy(env);
 	ms.arg = arg;
 	intern_ret = ms_cd(arg);
 	if (ret != intern_ret
-		|| (curpath && ft_str_is_not(curpath, ms.testing_str))
+		|| (curpath && !ft_streq(curpath, ms.testing_str))
 		|| ft_str_split_cmp(new_env, ms.env)
 		|| g_errno != error)
 	{
 		printf("test n : %d \n", test);
 		if (ret != intern_ret)
 			printf("retour \n");
-		if ((curpath && ft_str_is_not(curpath, ms.testing_str)))
+		if ((curpath && !ft_streq(curpath, ms.testing_str)))
 			printf("curr path %s\n", ms.testing_str);
 		if (ft_str_split_cmp(new_env, ms.env))
 			printf("split  env\n");

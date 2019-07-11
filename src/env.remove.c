@@ -16,9 +16,9 @@ static int matched_env_variable(char *env_key_value, char *searched)
 {
 	ssize_t i;
 
-	i = ft_str_chr(env_key_value, '=');
+	i = ft_strchr(env_key_value, '=');
 	if (i > 0)
-		return (!ft_mem_cmp(env_key_value, searched, i));
+		return (!ft_memcmp(env_key_value, searched, i));
 	return (0);
 }
 
@@ -55,7 +55,7 @@ char *env_get_value(char *key)
 	{
 		if (matched_env_variable(*env, key))
 		{
-			i = ft_str_chr(*env, '=');
+			i = ft_strchr(*env, '=');
 			if (i == -1)
 				return (NULL);
 			return ((*env) + i + 1);

@@ -21,12 +21,12 @@ int ms_env_copy(char **env)
 	int i;
 	char **tmp;
 
-	if (!(tmp = ft_memory(sizeof(char *) * (ft_str_split_count(env) + 2))))
+	if (!(tmp = ft_memalloc(sizeof(char *) * (ft_str_split_count(env) + 2))))
 		return (ft_errno_set(ENOMEM));
 	i = 0;
 	while (env[i] != NULL)
 	{
-		if (ft_str_dup(&tmp[i], env[i]))
+		if (!(tmp[i] = ft_strdup(env[i])))
 			return (ft_errno_set(ENOMEM));
 		i++;
 	}
@@ -42,11 +42,11 @@ int ms_env_add(char *new_var)
 	char *tmp_str;
 
 	if (!new_var
-		|| ft_str_chr(new_var, '=') == -1
+		|| ft_strchr(new_var, '=') == -1
 		|| ft_str_nchar(new_var, '=') != 1)
 		return (ft_errno_set(BAD_VAR));
 	i = ft_str_split_count(ms.env);
-	if (ft_str_dup(&tmp_str, new_var))
+	if (!(tmp_str = ft_strdup(new_var)))
 		return (-1);
 	ms.env[i] = tmp_str;
 	if (ms_env_copy(ms.env))
@@ -62,7 +62,7 @@ int ms_env_modify(char *key, char *new_value)
 	ret = 0;
 	new = NULL;
 	ms_env_remove(key);
-	if (ft_str_join_by(&new, key, "=", new_value))
+	if (!(new = ft_strjoinby(key, "=", new_value)))
 		return (-1);
 	if (ms_env_add(new))
 		ret = -1;

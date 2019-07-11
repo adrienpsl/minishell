@@ -1,7 +1,7 @@
 #ifndef MINISHELL_MINISHELL_H
 #define MINISHELL_MINISHELL_H
 
-#import "ft_libft.h"
+#import "libft.h"
 
 /*
 * * ft_errno_set error

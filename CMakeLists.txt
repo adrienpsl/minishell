@@ -9,7 +9,7 @@ set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
 #-fsanitize=memory-fsanitize-memory-track-origins=2 -fsanitize=address
 
 #include_directories(PRIVATE includes)
-add_subdirectory(compact-libft)
+add_subdirectory(libft)
 
 add_library(minishell_lib STATIC
 
