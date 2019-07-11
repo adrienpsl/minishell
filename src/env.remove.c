@@ -18,7 +18,7 @@ static int matched_env_variable(char *env_key_value, char *searched)
 
 	i = ft_strchr(env_key_value, '=');
 	if (i > 0)
-		return (!ft_memcmp(env_key_value, searched, i));
+		return (!ft_strneq(env_key_value, searched, i));
 	return (0);
 }
 
