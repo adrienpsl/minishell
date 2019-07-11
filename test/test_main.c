@@ -88,21 +88,20 @@ void test_ms_env_remove(char **env,
 	g_errno = 0;
 }
 
-void test_ms_get_env_value(char **env, char *key, char *ret, int error, int test)
+void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 {
 	char *intern_ret;
 
 	ft_bzero(&ms, sizeof(ms));
 	ms_env_copy(env);
 	intern_ret = env_get_value(key);
-	if (!ft_streq(intern_ret, ret)
-		|| g_errno != error)
+	if (ret && intern_ret && !ft_streq(intern_ret, ret))
 		printf("error test : %d \n", test);
-
-	g_errno = 0;
+	if ((!ret && intern_ret) || (ret && !intern_ret))
+		printf("error test : %d \n", test);
 }
 
-void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **res, int error, int test)
+void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **res, int test)
 {
 	int intern_ret;
 
@@ -110,11 +109,20 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 	ms_env_copy(env);
 	intern_ret = ms_env_modify(key, new_value);
 	if (ft_str_split_cmp(ms.env, res)
-		|| ret != intern_ret
-		|| error != g_errno)
+		|| ret != intern_ret)
 	{
 		printf("error test : %d \n", test);
-		ft_str_split_print(ms.env);
+		if (ft_str_split_cmp(ms.env, res))
+		{
+			g_test = 0;
+			ft_str_split_print(ms.env);
+			printf("----------------------- \n");
+			ft_str_split_print(res);
+			printf("split error\n");
+			g_test = 1;
+		}
+		if (ret != intern_ret)
+			printf("ret error\n");
 	}
 	g_errno = 0;
 }
@@ -212,36 +220,36 @@ void test_cd_and_env()
 	char *res_11[2] = { NULL };
 	test_ms_env_remove(env_11, "toto", 0, res_11, 0, 11);
 
-		// delete middle
-		char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
-		char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
-		test_ms_env_remove(env_12, "toto", 0, res_12, 0, 12);
+	// delete middle
+	char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
+	char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
+	test_ms_env_remove(env_12, "toto", 0, res_12, 0, 12);
 
-		// delete end
-		char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-		char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
-		test_ms_env_remove(env_13, "manger", 0, res_13, 0, 13);
+	// delete end
+	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
+	test_ms_env_remove(env_13, "manger", 0, res_13, 0, 13);
 
-		// no bad
-		char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-		test_ms_get_env_value(env_14, "mange", NULL, 0, 14);
+	// no bad
+	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_14, "mange", NULL, 14);
 
-		// null key
-		char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-		test_ms_get_env_value(env_15, NULL, NULL, 0, 15);
-	//
-	//	// good key
-	//	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_16, "suer", "aaoeu", 0, 16);
-	//
-	//	// good key
-	//	char *env_17[5] = { "suer=aaoeu", "toto=", "aaaaaaa", "manger=chipes", NULL };
-	//	test_ms_get_env_value(env_17, "toto", "", 0, 17);
-	//
-	//	//	test ms_env_modify
-	//	char *env_117[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	//	char *res_117[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=titi", NULL };
-	//	test_ms_env_modify(env_117, "manger", "titi", 0, res_117, 0, 117);
+	// null key
+	char *env_15[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_15, NULL, NULL, 15);
+
+	// good key
+	char *env_16[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_16, "suer", "aaoeu", 16);
+
+	// good key
+	char *env_17[5] = { "suer=aaoeu", "toto=", "aaaaaaa", "manger=chipes", NULL };
+	test_ms_get_env_value(env_17, "toto", "", 17);
+
+	//	test ms_env_modify
+	char *env_117[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
+	char *res_117[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=titi", NULL };
+	test_ms_env_modify(env_117, "manger", "titi", 0, res_117, 117);
 	//
 	//	char *env_19[2] = { "OLDPATH=/Users/adpusel", NULL };
 	//	char *new_env_19[2] = { "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug", NULL };
