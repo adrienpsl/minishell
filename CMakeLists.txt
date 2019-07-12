@@ -13,7 +13,7 @@ add_subdirectory(libft)
 
 add_library(minishell_lib STATIC
 
-        src/env.remove.c src/builtin.cd.2.c)
+        src/env.remove.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 
@@ -21,7 +21,7 @@ add_executable(
         minishell
         src/main.c
 
-        test/test_main.c src/env.add-and-copy.c src/env.utils.c src/parser.c src/builtin.cd.c src/ft_erno.c src/utils.c)
+        test/test_main.c src/env.add-and-copy.c src/env.utils.c src/parser.c src/builtin.cd.c  src/utils.c src/builtin.echo.c)
 
 
 

@@ -28,6 +28,7 @@ typedef struct s_ms
 } t_ms;
 
 int g_errno;
+int g_fd;
 t_ms ms;
 
 // env
@@ -36,6 +37,9 @@ int ms_env_copy(char **env);
 int ms_env_add(char **argv);
 char *env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
+
+int is_quote_paired(char *command);
+char *get_all_commands();
 
 // builtin
 int ms_cd(char **argv);

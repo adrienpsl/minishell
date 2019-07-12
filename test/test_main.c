@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <sys/stat.h>
 #include "minishell.h"
 
 void test_ms_env_copy(char **env, int ret, int error, int test)
@@ -360,10 +361,46 @@ void test_cd_and_env()
 	test_ms_cd(env_34, argv_34, new_env_34, -1, "/Users/eaou", "cd: no such file or directory: /Users/eaou\n", 34);
 }
 
+void test_quote(char *str, int res, int *test)
+{
+	int is_quote_ret;
+
+	is_quote_ret = is_quote_paired(str);
+	if (is_quote_ret != res)
+	{
+		printf("error print quote test %d res: %d \n", *test, is_quote_ret);
+	}
+	(*test)++;
+}
+
+void test_get_all_commands(char *name_file, char *res, int test)
+{
+	(void)name_file;
+	char *ret = get_all_commands();
+	if (!ft_streq(ret, ret))
+	{
+		printf("error test %d \n", test);
+		printf("res : %s \n", res);
+		printf("test : %s \n", ret);
+	}
+}
+
 void test_all()
 {
 	t_ms *a = &ms;
 	(void) a;
 
 	test_cd_and_env();
+
+	/* ===== test is_quote_paired ================================================================ */
+//	int test = 0;
+	mkdir("test_file", 0777);
+	fopen("../test_file/test", "w+");
+//	test_quote("toto", 0, &test);
+//	test_quote("t'oto", 1, &test);
+//	test_quote("t'\"oto", 1, &test);
+//	test_quote("t'\"''oto", 1, &test);
+//	test_quote("t'\"''\"\"oto", 1, &test);
+//	test_quote("t'\"''\"\"'oto", 0, &test);
+
 }
