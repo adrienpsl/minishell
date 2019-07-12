@@ -16,7 +16,7 @@
 static int cd_go(char *go_path, char *current_path)
 {
 	if (ms.test)
-		ft_memcpy(ms.testing_str, go_path, STRING_MODE);
+		ft_memcpy(ms.testing_str, go_path, ft_strlen(go_path));
 	if (!go_path)
 		return (ft_errno_set(INVALID_PATH));
 	if (access(go_path, F_OK))
@@ -41,7 +41,7 @@ static int cd_one_argv(char *argv, char *current_path)
 		return (cd_go(env_get_value("OLDPATH"), current_path));
 	else if (*argv == '.')
 	{
-		ft_strjoinbybuffer(&ms.buffer, current_path, "/", argv);
+		ft_strjoinbybuffer(ms.buffer, current_path, "/", argv);
 		return (cd_go(ms.buffer_array, current_path));
 	}
 	else
@@ -51,10 +51,10 @@ static int cd_one_argv(char *argv, char *current_path)
 static int cd_two_argv(char *searching, char *replacing, char *current_path)
 {
 	ft_bzero(ms.buffer_array, 4097);
-	if (ft_str_replacebuffer(ms.buffer, current_path, searching, replacing))
+	if (!ft_str_replacebuffer(ms.buffer, current_path, searching, replacing))
 	{
-		ft_printf("cd: string not in pwd: %s \n", searching);
-		return (ft_errno_set(STR_NOT_IN_PATH));
+		ft_printf("cd: string not in pwd: %s\n", searching);
+		return (-1);
 	}
 	return (cd_go(ms.buffer_array, current_path));
 }

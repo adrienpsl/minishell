@@ -57,7 +57,5 @@ int ms_env_modify(char *key, char *new_value)
 	ms_env_remove(key);
 	split[0] = key;
 	split[1] = new_value;
-	if (ms_env_add(split))
-		return (-1);
-	return (0);
+	return (ms_env_add(split));
 }
