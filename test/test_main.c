@@ -12,6 +12,7 @@
 
 #include <errno.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include "minishell.h"
 
 void test_ms_env_copy(char **env, int ret, int error, int test)
@@ -159,7 +160,7 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 			printf("split  env\n");
 		if (!ft_streq(error_text, g_test_buffer))
 		{
-			printf("test : %s \n",error_text);
+			printf("test : %s \n", error_text);
 			printf("res  : %s \n", g_test_buffer);
 		}
 	}
@@ -351,7 +352,8 @@ void test_cd_and_env()
 	char *env_33[3] = { "HOME=/Users/adpus", NULL };
 	char *argv_33[3] = { "./no_go" };
 	char *new_env_33[3] = { "HOME=/Users/adpus", NULL };
-	test_ms_cd(env_33, argv_33, new_env_33, -1, "/Users/adpusel/toto/./no_go", "cd: permission denied: /Users/adpusel/toto/./no_go\n", 33);
+	test_ms_cd(env_33, argv_33, new_env_33, -1, "/Users/adpusel/toto/./no_go",
+			   "cd: permission denied: /Users/adpusel/toto/./no_go\n", 33);
 
 	// file not exist
 	chdir("/Users/adpusel/toto");
@@ -375,7 +377,7 @@ void test_quote(char *str, int res, int *test)
 
 void test_get_all_commands(char *name_file, char *res, int test)
 {
-	(void)name_file;
+	(void) name_file;
 	char *ret = get_all_commands();
 	if (!ft_streq(ret, ret))
 	{
@@ -383,6 +385,29 @@ void test_get_all_commands(char *name_file, char *res, int test)
 		printf("res : %s \n", res);
 		printf("test : %s \n", ret);
 	}
+}
+
+// write in my file and open fd
+void write_in_file(char *str)
+{
+	int fd;
+	chdir("/Users/adpusel/code/42/minishell");
+	mkdir("test_files", 0700);
+	fd = open("test_files/current_test", O_CREAT | O_RDWR);
+	write(fd, str, strlen(str));
+	g_fd = open("test_files/current_test", O_RDONLY);
+}
+
+void test_get_all_command(char *test_str, char *res, int *test)
+{
+	write_in_file(test_str);
+	if (!ft_streq(test_str, res))
+	{
+		printf("error get_all_command %d \n", *test);
+		printf("res : %s \n", res);
+		printf("test: %s \n", test_str);
+	}
+	(*test)++;
 }
 
 void test_all()
@@ -393,14 +418,20 @@ void test_all()
 	test_cd_and_env();
 
 	/* ===== test is_quote_paired ================================================================ */
-//	int test = 0;
-	mkdir("test_file", 0777);
-	fopen("../test_file/test", "w+");
-//	test_quote("toto", 0, &test);
-//	test_quote("t'oto", 1, &test);
-//	test_quote("t'\"oto", 1, &test);
-//	test_quote("t'\"''oto", 1, &test);
-//	test_quote("t'\"''\"\"oto", 1, &test);
-//	test_quote("t'\"''\"\"'oto", 0, &test);
+	int test = 0;
+	test_get_all_command("toto et tata a la plag'e\n '", "toto et tata a la plag'e\n '", &test);
+	test_get_all_command("''", "''", &test);
+	test_get_all_command("'\"\"\"'''", "'\"\"\"'''", &test);
+	test_get_all_command("\"\"", "\"\"", &test);
+	g_fd = 0;
+	printf("%s \n",get_all_commands());
+
+
+	//	test_quote("toto", 0, &test);
+	//	test_quote("t'oto", 1, &test);
+	//	test_quote("t'\"oto", 1, &test);
+	//	test_quote("t'\"''oto", 1, &test);
+	//	test_quote("t'\"''\"\"oto", 1, &test);
+	//	test_quote("t'\"''\"\"'oto", 0, &test);
 
 }

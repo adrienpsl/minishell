@@ -25,22 +25,26 @@ int is_quote_paired(char *command)
 			current_quote = *command;
 		command++;
 	}
-	return (current_quote ? 1 : 0);
+	return (current_quote ? 0 : 1);
 }
 
 char *get_all_commands()
 {
 	char *current_line;
 	char *tmp;
+	int ret;
 
 	if (get_next_line(g_fd, &current_line, 0) == -1)
 		return (NULL);
 	while (!is_quote_paired(current_line))
 	{
+		ft_printf("quote>\n");
 		tmp = current_line;
-		if (get_next_line(g_fd, &current_line, 0) == -1)
+		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
-		if (!(current_line = ft_strjoin(current_line, tmp, FREE_STR)))
+		if (ret && !(current_line = ft_strjoin(current_line, "\n", FREE_FIRST)))
+			return (NULL);
+		if (ret && !(current_line = ft_strjoin(current_line, tmp, FREE_FIRST | FREE_SECOND)))
 			return (NULL);
 	}
 	return (current_line);
