@@ -166,7 +166,54 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 	}
 }
 
-void test_cd_and_env()
+void test_quote(char *str, int res, int *test)
+{
+	int is_quote_ret;
+
+	is_quote_ret = is_quote_paired(str);
+	if (is_quote_ret != res)
+	{
+		printf("error print quote test %d res: %d \n", *test, is_quote_ret);
+	}
+	(*test)++;
+}
+
+void test_get_all_commands(char *name_file, char *res, int test)
+{
+	(void) name_file;
+	char *ret = get_all_commands();
+	if (!ft_streq(ret, ret))
+	{
+		printf("error test %d \n", test);
+		printf("res : %s \n", res);
+		printf("test : %s \n", ret);
+	}
+}
+
+// write in my file and open fd
+void write_in_file(char *str)
+{
+	int fd;
+	chdir("/Users/adpusel/code/42/minishell");
+	mkdir("test_files", 0700);
+	fd = open("test_files/current_test", O_CREAT | O_RDWR);
+	write(fd, str, strlen(str));
+	g_fd = open("test_files/current_test", O_RDONLY);
+}
+
+void test_get_all_command(char *test_str, char *res, int *test)
+{
+	write_in_file(test_str);
+	if (!ft_streq(test_str, res))
+	{
+		printf("error get_all_command %d \n", *test);
+		printf("res : %s \n", res);
+		printf("test: %s \n", test_str);
+	}
+	(*test)++;
+}
+
+void tested_test()
 {
 	g_test = 1;
 
@@ -361,53 +408,25 @@ void test_cd_and_env()
 	char *argv_34[3] = { NULL };
 	char *new_env_34[3] = { "HOME=/Users/eaou", NULL };
 	test_ms_cd(env_34, argv_34, new_env_34, -1, "/Users/eaou", "cd: no such file or directory: /Users/eaou\n", 34);
+
+	int test = 0;
+	test_get_all_command("toto et tata a la plag'e\n '", "toto et tata a la plag'e\n '", &test);
+	test_get_all_command("''", "''", &test);
+	test_get_all_command("'\"\"\"'''", "'\"\"\"'''", &test);
+	test_get_all_command("\"\"", "\"\"", &test);
+	test_get_all_command("toto et titi ' aoeuaou \n aoue \n aoeuaoeu '1  ' aoeuu \n aoeu \n '",
+						 "toto et titi ' aoeuaou \n aoue \n aoeuaoeu '1  ' aoeuu \n aoeu \n '", &test);
 }
 
-void test_quote(char *str, int res, int *test)
+void test_transform_space(char *str, char *res, int test)
 {
-	int is_quote_ret;
-
-	is_quote_ret = is_quote_paired(str);
-	if (is_quote_ret != res)
+	build_argv(str);
+	if (!ft_streq(str, res))
 	{
-		printf("error print quote test %d res: %d \n", *test, is_quote_ret);
+		printf("error transform space : %d \n", test);
+		printf("res  :%s \n", res);
+		printf("test :%s \n\n", str);
 	}
-	(*test)++;
-}
-
-void test_get_all_commands(char *name_file, char *res, int test)
-{
-	(void) name_file;
-	char *ret = get_all_commands();
-	if (!ft_streq(ret, ret))
-	{
-		printf("error test %d \n", test);
-		printf("res : %s \n", res);
-		printf("test : %s \n", ret);
-	}
-}
-
-// write in my file and open fd
-void write_in_file(char *str)
-{
-	int fd;
-	chdir("/Users/adpusel/code/42/minishell");
-	mkdir("test_files", 0700);
-	fd = open("test_files/current_test", O_CREAT | O_RDWR);
-	write(fd, str, strlen(str));
-	g_fd = open("test_files/current_test", O_RDONLY);
-}
-
-void test_get_all_command(char *test_str, char *res, int *test)
-{
-	write_in_file(test_str);
-	if (!ft_streq(test_str, res))
-	{
-		printf("error get_all_command %d \n", *test);
-		printf("res : %s \n", res);
-		printf("test: %s \n", test_str);
-	}
-	(*test)++;
 }
 
 void test_all()
@@ -415,23 +434,33 @@ void test_all()
 	t_ms *a = &ms;
 	(void) a;
 
-	test_cd_and_env();
-
-	/* ===== test is_quote_paired ================================================================ */
-	int test = 0;
-	test_get_all_command("toto et tata a la plag'e\n '", "toto et tata a la plag'e\n '", &test);
-	test_get_all_command("''", "''", &test);
-	test_get_all_command("'\"\"\"'''", "'\"\"\"'''", &test);
-	test_get_all_command("\"\"", "\"\"", &test);
-	g_fd = 0;
-	printf("%s \n",get_all_commands());
+	tested_test();
 
 
-	//	test_quote("toto", 0, &test);
-	//	test_quote("t'oto", 1, &test);
-	//	test_quote("t'\"oto", 1, &test);
-	//	test_quote("t'\"''oto", 1, &test);
-	//	test_quote("t'\"''\"\"oto", 1, &test);
-	//	test_quote("t'\"''\"\"'oto", 0, &test);
+	char space_0[20] = " toto ";
+	test_transform_space(space_0, " toto ", 0);
+
+	char space_1[20] = "' toto '";
+	test_transform_space(space_1, " |toto| ", 1);
+
+	char space_2[20] = "''";
+	test_transform_space(space_2, "  ", 2);
+
+	char space_3[200] = " 'd'  aaaa ' oeu'";
+	test_transform_space(space_3, "  d   aaaa  |oeu ",3);
+
+	char space_4[200] = " ' super  te mo fi \" ' aaaa ' oeu'";
+	test_transform_space(space_4, "  |super||te|mo|fi|\"|  aaaa  |oeu ",4);
+//
+//	(void)"  |super||te|mo|fi|\"| |aaaa| |oeu";
+//	(void)"  |super||te|mo|fi|\"  |aaaa  |oe ";
+//	(void)" ' super  te mo fi \" ' aaaa ' oeu";
+
+	char g[200] = "' aaaa ' uasdf";
+	test_transform_space(g, " |aaaa|  uasdf", 1);
+
+	g_test = 0;
+	//	g_fd = 0;
+	//	printf("%s \n",get_all_commands());
 
 }

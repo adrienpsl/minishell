@@ -38,7 +38,7 @@ char *get_all_commands()
 		return (NULL);
 	while (!is_quote_paired(current_line))
 	{
-		ft_printf("quote>\n");
+		ft_printf("quotes>  ");
 		tmp = current_line;
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
@@ -49,18 +49,61 @@ char *get_all_commands()
 	}
 	return (current_line);
 }
-//
-//int get_argv()
-//{
-//	// I check if my line has the " in good order
-//	while ()
-//	{;
-//	}
-//}
+
+// change all space in the '' area by 1 char
+
+void transform_space(char *line)
+{
+	int i;
+	int start;
+	int end;
+
+	while (*line)
+	{
+		if ((start = ft_strchrstr(line, "\'\"")) > -1)
+		{
+			line += start;
+			end = ft_strchr(line + 1, line[0]) + 1;
+			i = 1;
+			while (i < end)
+			{
+				if (ft_isspace(line[i]))
+					line[i] = '|';
+				i++;
+			}
+			line[0] = ' ';
+			line[end] = ' ';
+			line += end;
+			continue;
+		}
+		line++;
+	}
+}
+
+char **build_argv(char *line)
+{
+	transform_space(line);
+
+	// search if quote1m hwr0i
+
+	// go to first quote, is space before ?
+	// yes > go back until find space,
+	// send to split the first part
+	// add this element to the split
+	// do again.
 
 
-// passer dans mes commandes pour remplacer le $ et le ~
-// remove the "" if there are some, I need to remove the "" here
+
+	// no quote > split off all that shit
+
+	// la str a split va jusqu'au premier ' ou ", mais si pas espace, je continue
+	return (NULL);
+}
+
+// parse str,
+// mix split.
+
+
 //int ms_parse_command(char *command, t_ms *ms)
 //{
 //	char **command_split;

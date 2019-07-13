@@ -41,6 +41,9 @@ int ms_env_modify(char *key, char *new_value);
 int is_quote_paired(char *command);
 char *get_all_commands();
 
+// parse
+char **build_argv(char *line);
+
 // builtin
 int ms_cd(char **argv);
 // echo
