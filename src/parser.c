@@ -39,6 +39,7 @@ char *get_all_commands()
 	while (!is_quote_paired(current_line))
 	{
 		ft_printf("quotes>  ");
+		// TODO : mettre un join by and add in lib free option
 		tmp = current_line;
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
@@ -50,11 +51,8 @@ char *get_all_commands()
 	return (current_line);
 }
 
-// change all space in the '' area by 1 char
-
 void transform_space(char *line)
 {
-	int i;
 	int start;
 	int end;
 
@@ -64,13 +62,7 @@ void transform_space(char *line)
 		{
 			line += start;
 			end = ft_strchr(line + 1, line[0]) + 1;
-			i = 1;
-			while (i < end)
-			{
-				if (ft_isspace(line[i]))
-					line[i] = '|';
-				i++;
-			}
+			ft_strchrnreplace(line, " \t", '|', end);
 			line[0] = ' ';
 			line[end] = ' ';
 			line += end;
@@ -80,24 +72,22 @@ void transform_space(char *line)
 	}
 }
 
+
+
 char **build_argv(char *line)
 {
+	char **argv;
+	char **tmp;
+
 	transform_space(line);
-
-	// search if quote1m hwr0i
-
-	// go to first quote, is space before ?
-	// yes > go back until find space,
-	// send to split the first part
-	// add this element to the split
-	// do again.
-
-
-
-	// no quote > split off all that shit
-
-	// la str a split va jusqu'au premier ' ou ", mais si pas espace, je continue
-	return (NULL);
+	if (!(argv = ft_str_split(line, " \t")))
+	    return (NULL);
+	tmp = argv;
+	while (*tmp)
+	{
+	    tmp++;
+	}
+	return (argv);
 }
 
 // parse str,

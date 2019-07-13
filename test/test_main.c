@@ -451,13 +451,12 @@ void test_all()
 
 	char space_4[200] = " ' super  te mo fi \" ' aaaa ' oeu'";
 	test_transform_space(space_4, "  |super||te|mo|fi|\"|  aaaa  |oeu ",4);
-//
-//	(void)"  |super||te|mo|fi|\"| |aaaa| |oeu";
-//	(void)"  |super||te|mo|fi|\"  |aaaa  |oe ";
-//	(void)" ' super  te mo fi \" ' aaaa ' oeu";
 
-	char g[200] = "' aaaa ' uasdf";
-	test_transform_space(g, " |aaaa|  uasdf", 1);
+	char space_5[200] = "' aaaa ' uasdf";
+	test_transform_space(space_5, " |aaaa|  uasdf", 5);
+
+	char space_6[200] = "' aaaa ' uasdf";
+	test_transform_space(space_6, " |aaaa|  uasdf", 6);
 
 	g_test = 0;
 	//	g_fd = 0;

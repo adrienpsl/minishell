@@ -42,7 +42,7 @@ int ms_env_add(char **argv)
 	{
 		if (ft_strchr(argv[0], '=') != -1 || ft_strchr(argv[1], '=') != -1)
 			return (ft_putstrret("If two elements are supply no =", -1));
-		if (!(tmp_str = ft_strjoinby(argv[0], "=", argv[1])))
+		if (!(tmp_str = ft_strjoinby(argv[0], "=", argv[1], 0)))
 			return (-1);
 	}
 	if (!(ms.env = ft_str_split_add(ms.env, tmp_str, 1)))
