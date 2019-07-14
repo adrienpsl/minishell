@@ -42,7 +42,7 @@ char *get_all_commands()
 		tmp = current_line;
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
-		if (ret && !(current_line = ft_strjoinby(current_line, "\n", tmp,
+		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
 		 FREE_FIRST | FREE_THIRD)))
 			return (NULL);
 	}

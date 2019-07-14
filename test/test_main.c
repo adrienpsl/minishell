@@ -205,7 +205,8 @@ void write_in_file(char *str)
 void test_get_all_command(char *test_str, char *res, int *test)
 {
 	write_in_file(test_str);
-	if (!ft_streq(test_str, res))
+	char *ret_str = get_all_commands();
+	if (!ft_streq(ret_str, res))
 	{
 		printf("error get_all_command %d \n", *test);
 		printf("res : %s \n", res);
@@ -478,4 +479,11 @@ void test_all()
 	test_read_command("toto '   titi  '' sam '", "toto;   titi  ; sam ", 5);
 	test_read_command("toto '   titi  '' sam \"' \" hy toto ss   '' '' '' ' \" ",
 	                  "toto;   titi  ; sam \"; hy toto ss   '' '' '' ' ", 6);
+	g_fd = 0;
+	g_test = 0;
+	while (1)
+	{
+		ft_str_split_print(read_command());
+	}
+
 }
