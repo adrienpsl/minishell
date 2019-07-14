@@ -43,7 +43,7 @@ char *get_all_commands()
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
 		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
-		 FREE_FIRST | FREE_THIRD)))
+												 FREE_FIRST | FREE_THIRD)))
 			return (NULL);
 	}
 	return (current_line);
@@ -70,6 +70,38 @@ void transform_space(char *line)
 	}
 }
 
+char *get_env_variable(char *line, int end)
+{
+	char *key;
+	char *value;
+
+	if (!(key = ft_strndup(line, end)))
+		return (NULL);
+	value = env_get_value(key);
+	free(key);
+	return (value ? value : "");
+}
+
+char *replace_env_variable(char *line)
+{
+	int start;
+	int end;
+	char *value;
+	char *current;
+
+	while ((start = ft_strchr(line, '$')) > -1)
+	{
+		current = line + start;
+		end = ft_strchr(current, ' ');
+		end = end == -1 ? ft_strlen(current): end;
+		if (!(value = get_env_variable(current + 1, end)))
+			return (NULL);
+		line[start] = 0;
+		line = ft_strjoinby(line, value, current + end, FREE_FIRST);
+	}
+	return (line);
+}
+
 char **build_argv(char *line)
 {
 	char **argv;
@@ -77,11 +109,11 @@ char **build_argv(char *line)
 
 	transform_space(line);
 	if (!(argv = ft_str_split(line, " \t")))
-	    return (NULL);
+		return (NULL);
 	tmp = argv;
 	while (*tmp)
 	{
-	    ft_strchrreplace(*tmp, "|", ' ');
+		ft_strchrreplace(*tmp, "|", ' ');
 		tmp++;
 	}
 	return (argv);

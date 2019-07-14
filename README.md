@@ -7,9 +7,6 @@
 
 - I can launch binary without PATH set
 
-# pas de variable global pour le print.
-
-
 
 # other note
 I must code echo, cd, setenv unsetenv, env, exit.
@@ -27,7 +24,9 @@ I must code echo, cd, setenv unsetenv, env, exit.
 ## access
 
 
-# echo has one single optio
+# echo has one single option 
+- manage option 
+- set th
 
 
 # def 

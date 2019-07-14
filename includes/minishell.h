@@ -19,6 +19,10 @@ enum ms_error
 
 typedef struct s_ms
 {
+//	int start;
+//	int end;
+//	char *current;
+int i;
 	char **env;
 	int test;
 	char *buffer;
@@ -29,7 +33,7 @@ typedef struct s_ms
 
 int g_errno;
 int g_fd;
-t_ms ms;
+t_ms m;
 
 // env
 int ms_env_remove(char *removing_var);
@@ -47,6 +51,8 @@ char **read_command();
 
 // builtin
 int ms_cd(char **argv);
+char *get_env_variable(char *line, int end);
+char *replace_env_variable(char *line);
 // echo
 // env
 //

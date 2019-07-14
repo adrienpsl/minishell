@@ -15,40 +15,42 @@
 #include <fcntl.h>
 #include "minishell.h"
 
+void test_get_env_variable(char *line, char **env, int end, char *res, int test);
+
 void test_ms_env_copy(char **env, int ret, int error, int test)
 {
 	int intern_ret;
-	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(&m, sizeof(m));
 	intern_ret = ms_env_copy(env);
-	if (((ms.env && !env) || (!ms.env && env))
-		|| ft_str_split_cmp(ms.env, env)
+	if (((m.env && !env) || (!m.env && env))
+		|| ft_str_split_cmp(m.env, env)
 		|| ret != intern_ret
 		|| g_errno != error)
 	{
 		printf("error test : %d \n", test);
 	}
 	g_errno = 0;
-	//	ft_str_split_print(ms.p_env);
+	//	ft_str_split_print(m.p_env);
 }
 
 void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_error, int test)
 {
 	ft_bzero(g_test_buffer, 10000);
-	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	int intern_ret;
 	intern_ret = ms_env_add(new_var);
-	if (((ms.env && !env) || (!ms.env && env))
-		|| ft_str_split_cmp(ms.env, res)
+	if (((m.env && !env) || (!m.env && env))
+		|| ft_str_split_cmp(m.env, res)
 		|| ret != intern_ret
 		|| !ft_streq(str_error, g_test_buffer))
 	{
-		printf("error ms env add : %d \n", test);
-		if (ft_str_split_cmp(ms.env, res))
+		printf("error m env add : %d \n", test);
+		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(ms.env);
-			ft_str_split_print(ms.env);
+			ft_str_split_print(m.env);
+			ft_str_split_print(m.env);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -68,19 +70,19 @@ void test_ms_env_remove(char **env,
 {
 	int intern_ret;
 
-	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	intern_ret = ms_env_remove(deleting_key);
-	if (ft_str_split_cmp(ms.env, res)
+	if (ft_str_split_cmp(m.env, res)
 		|| ret != intern_ret
 		|| error != g_errno)
 	{
-		printf("error test ms env remove : %d \n", test);
-		if (ft_str_split_cmp(ms.env, res))
+		printf("error test m env remove : %d \n", test);
+		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(ms.env);
-			ft_str_split_print(ms.env);
+			ft_str_split_print(m.env);
+			ft_str_split_print(m.env);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -94,7 +96,7 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 {
 	char *intern_ret;
 
-	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	intern_ret = env_get_value(key);
 	if (ret && intern_ret && !ft_streq(intern_ret, ret))
@@ -107,17 +109,17 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 {
 	int intern_ret;
 
-	ft_bzero(&ms, sizeof(ms));
+	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	intern_ret = ms_env_modify(key, new_value);
-	if (ft_str_split_cmp(ms.env, res)
+	if (ft_str_split_cmp(m.env, res)
 		|| ret != intern_ret)
 	{
 		printf("error test env modify : %d \n", test);
-		if (ft_str_split_cmp(ms.env, res))
+		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(ms.env);
+			ft_str_split_print(m.env);
 			printf("----------------------- \n");
 			ft_str_split_print(res);
 			printf("split error\n");
@@ -132,31 +134,31 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test)
 {
 	int intern_ret;
-	t_ms *a = &ms;
+	t_ms *a = &m;
 	(void) a;
 
 	ft_bzero(g_test_buffer, 1000);
-	ft_bzero(&ms, sizeof(ms));
-	ft_bzero(ms.testing_str, 10000);
-	ms.test = 1;
-	ms.buffer = ms.buffer_array;
+	ft_bzero(&m, sizeof(m));
+	ft_bzero(m.testing_str, 10000);
+	m.test = 1;
+	m.buffer = m.buffer_array;
 	ms_env_copy(env);
-	ms.arg = arg;
+	m.arg = arg;
 	intern_ret = ms_cd(arg);
 	if (ret != intern_ret
-		|| (curpath && !ft_streq(curpath, ms.testing_str))
-		|| ft_str_split_cmp(new_env, ms.env)
+		|| (curpath && !ft_streq(curpath, m.testing_str))
+		|| ft_str_split_cmp(new_env, m.env)
 		|| !ft_streq(error_text, g_test_buffer))
 	{
 		printf("test n : %d \n", test);
 		if (ret != intern_ret)
 			printf("retour \n");
-		if ((curpath && !ft_streq(curpath, ms.testing_str)))
+		if ((curpath && !ft_streq(curpath, m.testing_str)))
 		{
-			printf("test path: %s\n", ms.testing_str);
+			printf("test path: %s\n", m.testing_str);
 			printf("res  path: %s \n", curpath);
 		}
-		if (ft_str_split_cmp(new_env, ms.env))
+		if (ft_str_split_cmp(new_env, m.env))
 			printf("split  env\n");
 		if (!ft_streq(error_text, g_test_buffer))
 		{
@@ -226,6 +228,18 @@ void test_transform_space(char *str, char *res, int test)
 	}
 	ft_str_split_print(argv);
 	printf(" \n");
+}
+
+void test_read_command(char *command, char *res, int test)
+{
+	write_in_file(command);
+	char **ret_test = read_command();
+	char **res_split = ft_str_split(res, ";");
+	if (ft_str_split_cmp(ret_test, res_split))
+	{
+		printf("error test  read command: %d \n", test);
+		ft_print_two_split(res_split, ret_test);
+	}
 }
 
 void tested_test()
@@ -452,38 +466,53 @@ void tested_test()
 
 	char space_6[200] = "' aaaa ' uasdf";
 	test_transform_space(space_6, " |aaaa|  uasdf", 6);
+
+	test_read_command("toto", "toto", 1);
+	test_read_command("toto tata", "toto;tata", 2);
+	test_read_command("\n", "", 3);
+	test_read_command("toto    titi ' sam '", "toto;titi; sam ", 4);
+	test_read_command("toto '   titi  '' sam '", "toto;   titi  ; sam ", 5);
+	test_read_command("toto '   titi  '' sam \"' \" hy toto ss   '' '' '' ' \" ",
+					  "toto;   titi  ; sam \"; hy toto ss   '' '' '' ' ", 6);
+	char *get_env_variable[10] = { "SUPER=toto dans la plage", "aouaousths" };
+	test_get_env_variable("SUPER aeu", get_env_variable, 5, "toto dans la plage", 1);
+	test_get_env_variable("SUPER", get_env_variable, 5, "toto dans la plage", 2);
+	test_get_env_variable("", get_env_variable, 5, "", 3);
 }
 
-void test_read_command(char *command, char *res, int test)
+void test_replace_env_variable(char *line, char **env, char *res, int test)
 {
-	write_in_file(command);
-	char **ret_test = read_command();
-	char **res_split = ft_str_split(res, ";");
-	if (ft_str_split_cmp(ret_test, res_split))
+	m.env = env;
+	line = replace_env_variable(ft_strdup(line));
+	if (!ft_streq(line, res))
 	{
-		printf("error test  read command: %d \n", test);
-		ft_print_two_split(res_split, ret_test);
+		printf("Error repalace variable : %d \n", test);
+		printf("res : %s \n", res);
+		printf("ret : %s \n", line);
 	}
 }
 
 void test_all()
 {
-	t_ms *a = &ms;
+	t_ms *a = &m;
 	(void) a;
 
-	tested_test();
-//	test_read_command("toto", "toto", 1);
-//	test_read_command("toto tata", "toto tata", 2);
-//	test_read_command("\n", "", 3);
-	test_read_command("toto    titi ' sam '", "toto;titi; sam ", 4);
-	test_read_command("toto '   titi  '' sam '", "toto;   titi  ; sam ", 5);
-	test_read_command("toto '   titi  '' sam \"' \" hy toto ss   '' '' '' ' \" ",
-	                  "toto;   titi  ; sam \"; hy toto ss   '' '' '' ' ", 6);
+	//	tested_test();
+
+	char *replacet_env_variable[10] = { "SUPER=a b", "aouaousths", "MANGER=des" };
+	test_replace_env_variable("$SUPER aeu", replacet_env_variable, "a b aeu", 1);
+	test_replace_env_variable("toto $SUPER", replacet_env_variable, "toto a b", 1);
+	test_replace_env_variable("toto $SUPER toto ", replacet_env_variable, "toto a b toto ", 1);
+	test_replace_env_variable("toto $SUPER toto $MANGER", replacet_env_variable, "toto a b toto des", 1);
+	test_replace_env_variable("toto $SUPER toto $MANGE", replacet_env_variable, "toto a b toto ", 1);
+	test_replace_env_variable("toto $SUPER $ toto $MANGE", replacet_env_variable, "toto a b  toto ", 1);
+	test_replace_env_variable("toto $SUPER $$ toto $MANGE", replacet_env_variable, "toto a b  toto ", 1);
+
 	g_fd = 0;
 	g_test = 0;
-	while (1)
-	{
-		ft_str_split_print(read_command());
-	}
-
+	//	while (1)
+	//	{
+	//		ft_str_split_print(read_command());
+	//	}
+	/**/
 }

@@ -10,57 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include <minishell.h>
+#include "libft.h"
 
-static int matched_env_variable(char *env_key_value, char *searched)
+void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 {
-	ssize_t i;
-
-	i = ft_strchr(env_key_value, '=');
-	if (i > 0)
-		return (ft_strneq(env_key_value, searched, i));
-	return (0);
-}
-
-int ms_env_remove(char *removing_var)
-{
-	int i;
-
-	i = -1;
-	while (m.env[++i] != NULL)
+	m.env = env;
+	line = get_env_variable(line, end);
+	if (!ft_streq(line, res))
 	{
-		if (matched_env_variable(m.env[i], removing_var))
-		{
-			free(m.env[i]);
-			while (m.env[i] != NULL)
-			{
-				m.env[i] = m.env[i + 1];
-				i++;
-			}
-			return (0);
-		}
+		printf("Error get_env_variable : %d \n", test);
+		printf("res : %s \n", res);
+		printf("ret : %s \n", line);
 	}
-	return (-1);
-}
-
-char *env_get_value(char *key)
-{
-	int i;
-	char **env;
-
-	env = m.env;
-	if (!key)
-		return (NULL);
-	while (*env != NULL)
-	{
-		if (matched_env_variable(*env, key))
-		{
-			i = ft_strchr(*env, '=');
-			if (i == -1)
-				return (NULL);
-			return ((*env) + i + 1);
-		}
-		env++;
-	}
-	return (NULL);
 }
