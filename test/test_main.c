@@ -457,7 +457,7 @@ void test_read_command(char *command, char *res, int test)
 {
 	write_in_file(command);
 	char **ret_test = read_command();
-	char **res_split = ft_str_split(res, " ");
+	char **res_split = ft_str_split(res, ";");
 	if (ft_str_split_cmp(ret_test, res_split))
 	{
 		printf("error test  read command: %d \n", test);
@@ -472,6 +472,10 @@ void test_all()
 
 	tested_test();
 //	test_read_command("toto", "toto", 1);
-	test_read_command("toto tata", "toto tata", 2);
-//	test_read_command("titi", "toto tata", 3);
+//	test_read_command("toto tata", "toto tata", 2);
+//	test_read_command("\n", "", 3);
+	test_read_command("toto    titi ' sam '", "toto;titi; sam ", 4);
+	test_read_command("toto '   titi  '' sam '", "toto;   titi  ; sam ", 5);
+	test_read_command("toto '   titi  '' sam \"' \" hy toto ss   '' '' '' ' \" ",
+	                  "toto;   titi  ; sam \"; hy toto ss   '' '' '' ' ", 6);
 }

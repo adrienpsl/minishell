@@ -39,7 +39,6 @@ char *get_all_commands()
 	while (!is_quote_paired(current_line))
 	{
 		ft_printf("quotes>  ");
-		// TODO : mettre un join by and add in lib free option
 		tmp = current_line;
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
@@ -92,7 +91,7 @@ char **read_command()
 {
 	char *line;
 	char **argv;
-	
+
 	if (!(line = get_all_commands()))
 		return (NULL);
 	if (!(argv = build_argv(line)))
