@@ -95,7 +95,6 @@ char **read_command()
 	
 	if (!(line = get_all_commands()))
 		return (NULL);
-	transform_space(line);
 	if (!(argv = build_argv(line)))
 		return (NULL);
 	free(line);

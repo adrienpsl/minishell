@@ -456,13 +456,12 @@ void tested_test()
 void test_read_command(char *command, char *res, int test)
 {
 	write_in_file(command);
-	char **ret = read_command();
-	char **split_res = ft_str_split(res, " ");
-	ft_print_two_split(ret, split_res);
-	if (ft_str_split_cmp(ret, split_res))
+	char **ret_test = read_command();
+	char **res_split = ft_str_split(res, " ");
+	if (ft_str_split_cmp(ret_test, res_split))
 	{
 		printf("error test  read command: %d \n", test);
-		ft_print_two_split(ret, split_res);
+		ft_print_two_split(res_split, ret_test);
 	}
 }
 
@@ -472,7 +471,7 @@ void test_all()
 	(void) a;
 
 	tested_test();
-	test_read_command("toto", "toto", 1);
-	test_read_command("toto tata", "toto tata", 1);
-	test_read_command("--------------------------------", "toto tata", 1);
+//	test_read_command("toto", "toto", 1);
+	test_read_command("toto tata", "toto tata", 2);
+//	test_read_command("titi", "toto tata", 3);
 }
