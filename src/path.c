@@ -10,29 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
-#include "libft.h"
+#include <dirent.h>
+#include "minishell.h"
 
-void test_get_env_variable(char *line, char **env, int end, char *res, int test)
+// je donne un path a cette fonction, et elle va loop dessus et me resortir le resultat ?
+
+char *display_dir_content(char *path, char *searched_str)
 {
-	m.env = env;
-	line = get_env_variable(line, end);
-	if (!ft_streq(line, res))
-	{
-		printf("Error get_env_variable : %d \n", test);
-		printf("res : %s \n", res);
-		printf("ret : %s \n", line);
-	}
+	DIR *dir;
+	struct dirent *dp;
+
+	dir = opendir(path);
+	if (dir)
+		while ((dp = readdir(dir)))
+		{
+			if (ft_str_search(dp->d_name, searched_str) > -1)
+				ft_printf("%s  ", dp->d_name);
+			if (*searched_str == 0)
+				ft_printf("%s  ", dp->d_name);
+		}
+	return (NULL);
 }
 
-void test_replace_env_variable(char *line, char **env, char *res, int test)
-{
-	m.env = env;
-	line = replace_env_variable(ft_strdup(line));
-	if (!ft_streq(line, res))
-	{
-		printf("Error repalace variable : %d \n", test);
-		printf("res : %s \n", res);
-		printf("ret : %s \n", line);
-	}
-}
+// pour le path, je split ma variable path
+
+// je boucle sur elle et pour chacun des file donnee,
+// je fais une boucle et je cherche mes
+// j'open mon dir et je loop sur tt les elements que j'ai dedans
+// une fonction qui va

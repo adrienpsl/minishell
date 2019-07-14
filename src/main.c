@@ -8,7 +8,10 @@
 // how I will save the useful command inside my env : path and home
 //
 
-// TODO :  checx if there is an env
+
+// utiliser execve
+// cette command va dans le
+// donc je vais utiliser fork pour faire le travail mon gars
 
 int main(int ac, char **av, char **env)
 {
@@ -18,14 +21,23 @@ int main(int ac, char **av, char **env)
 	(void) ac;
 	(void) av;
 	test_all();
-
-//	char **p_env = env;
-
-//	while (*p_env)
+//	char *toto[2] = { "/" };
+//	pid_t father;
+//	(void)father;
+//
+//	while(1)
 //	{
-//		printf("%s \n", *p_env);
-//		p_env++;
+//		father = fork();
+//		if (father > 0)
+//		{
+//			wait(NULL);
+//			printf("father \n");
+//		}
+//		if (father == 0)
+//		{
+//			printf("processs \n");
+//			execve("/bin/ls", toto, NULL);
+//		}
 //	}
-
 	return 0;
 }

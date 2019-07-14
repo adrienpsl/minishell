@@ -58,6 +58,9 @@ char *replace_env_variable(char *line);
 //
 //
 
+// path
+char *display_dir_content(char *path, char *searched_str);
+
 // error
 int ft_errno_set(int type_error);
 

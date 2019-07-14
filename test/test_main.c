@@ -16,6 +16,7 @@
 #include "minishell.h"
 
 void test_get_env_variable(char *line, char **env, int end, char *res, int test);
+void test_replace_env_variable(char *line, char **env, char *res, int test);
 
 void test_ms_env_copy(char **env, int ret, int error, int test)
 {
@@ -478,27 +479,6 @@ void tested_test()
 	test_get_env_variable("SUPER aeu", get_env_variable, 5, "toto dans la plage", 1);
 	test_get_env_variable("SUPER", get_env_variable, 5, "toto dans la plage", 2);
 	test_get_env_variable("", get_env_variable, 5, "", 3);
-}
-
-void test_replace_env_variable(char *line, char **env, char *res, int test)
-{
-	m.env = env;
-	line = replace_env_variable(ft_strdup(line));
-	if (!ft_streq(line, res))
-	{
-		printf("Error repalace variable : %d \n", test);
-		printf("res : %s \n", res);
-		printf("ret : %s \n", line);
-	}
-}
-
-void test_all()
-{
-	t_ms *a = &m;
-	(void) a;
-
-	//	tested_test();
-
 	char *replacet_env_variable[10] = { "SUPER=a b", "aouaousths", "MANGER=des" };
 	test_replace_env_variable("$SUPER aeu", replacet_env_variable, "a b aeu", 1);
 	test_replace_env_variable("toto $SUPER", replacet_env_variable, "toto a b", 1);
@@ -507,9 +487,20 @@ void test_all()
 	test_replace_env_variable("toto $SUPER toto $MANGE", replacet_env_variable, "toto a b toto ", 1);
 	test_replace_env_variable("toto $SUPER $ toto $MANGE", replacet_env_variable, "toto a b  toto ", 1);
 	test_replace_env_variable("toto $SUPER $$ toto $MANGE", replacet_env_variable, "toto a b  toto ", 1);
+}
+
+void test_all()
+{
+	t_ms *a = &m;
+	(void) a;
+
+	tested_test();
+	g_test = 0;
+	display_dir_content("/bi", "m");
+	display_dir_content("/bin", "");
 
 	g_fd = 0;
-	g_test = 0;
+
 	//	while (1)
 	//	{
 	//		ft_str_split_print(read_command());

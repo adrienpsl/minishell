@@ -11,6 +11,7 @@
 # other note
 I must code echo, cd, setenv unsetenv, env, exit.
 // I need to code, echo, env, cd,
+
  
 
 
@@ -27,6 +28,8 @@ I must code echo, cd, setenv unsetenv, env, exit.
 # echo has one single option 
 - manage option 
 - set th
+
+built in echo
 
 
 # def 
