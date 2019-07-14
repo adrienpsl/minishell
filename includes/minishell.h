@@ -43,6 +43,7 @@ char *get_all_commands();
 
 // parse
 char **build_argv(char *line);
+char **read_command();
 
 // builtin
 int ms_cd(char **argv);

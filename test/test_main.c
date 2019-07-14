@@ -43,7 +43,7 @@ void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_
 		|| ret != intern_ret
 		|| !ft_streq(str_error, g_test_buffer))
 	{
-		printf("error test : %d \n", test);
+		printf("error ms env add : %d \n", test);
 		if (ft_str_split_cmp(ms.env, res))
 		{
 			g_test = 0;
@@ -75,7 +75,7 @@ void test_ms_env_remove(char **env,
 		|| ret != intern_ret
 		|| error != g_errno)
 	{
-		printf("error test : %d \n", test);
+		printf("error test ms env remove : %d \n", test);
 		if (ft_str_split_cmp(ms.env, res))
 		{
 			g_test = 0;
@@ -98,9 +98,9 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 	ms_env_copy(env);
 	intern_ret = env_get_value(key);
 	if (ret && intern_ret && !ft_streq(intern_ret, ret))
-		printf("error test : %d \n", test);
+		printf("error test get value : %d \n", test);
 	if ((!ret && intern_ret) || (ret && !intern_ret))
-		printf("error test : %d \n", test);
+		printf("error test get value : %d \n", test);
 }
 
 void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **res, int test)
@@ -113,7 +113,7 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 	if (ft_str_split_cmp(ms.env, res)
 		|| ret != intern_ret)
 	{
-		printf("error test : %d \n", test);
+		printf("error test env modify : %d \n", test);
 		if (ft_str_split_cmp(ms.env, res))
 		{
 			g_test = 0;
@@ -195,7 +195,8 @@ void write_in_file(char *str)
 {
 	int fd;
 	chdir("/Users/adpusel/code/42/minishell");
-	mkdir("test_files", 0700);
+	mkdir("test_files", 0777);
+	fclose(fopen("test_files/current_test", "w"));
 	fd = open("test_files/current_test", O_CREAT | O_RDWR);
 	write(fd, str, strlen(str));
 	g_fd = open("test_files/current_test", O_RDONLY);
@@ -211,6 +212,19 @@ void test_get_all_command(char *test_str, char *res, int *test)
 		printf("test: %s \n", test_str);
 	}
 	(*test)++;
+}
+
+void test_transform_space(char *str, char *res, int test)
+{
+	char **argv = build_argv(str);
+	if (!ft_streq(str, res))
+	{
+		printf("error transform space : %d \n", test);
+		printf("res  :%s \n", res);
+		printf("test :%s \n\n", str);
+	}
+	ft_str_split_print(argv);
+	printf(" \n");
 }
 
 void tested_test()
@@ -416,26 +430,6 @@ void tested_test()
 	test_get_all_command("\"\"", "\"\"", &test);
 	test_get_all_command("toto et titi ' aoeuaou \n aoue \n aoeuaoeu '1  ' aoeuu \n aoeu \n '",
 						 "toto et titi ' aoeuaou \n aoue \n aoeuaoeu '1  ' aoeuu \n aoeu \n '", &test);
-}
-
-void test_transform_space(char *str, char *res, int test)
-{
-	build_argv(str);
-	if (!ft_streq(str, res))
-	{
-		printf("error transform space : %d \n", test);
-		printf("res  :%s \n", res);
-		printf("test :%s \n\n", str);
-	}
-}
-
-void test_all()
-{
-	t_ms *a = &ms;
-	(void) a;
-
-	tested_test();
-
 
 	char space_0[20] = " toto ";
 	test_transform_space(space_0, " toto ", 0);
@@ -447,19 +441,38 @@ void test_all()
 	test_transform_space(space_2, "  ", 2);
 
 	char space_3[200] = " 'd'  aaaa ' oeu'";
-	test_transform_space(space_3, "  d   aaaa  |oeu ",3);
+	test_transform_space(space_3, "  d   aaaa  |oeu ", 3);
 
 	char space_4[200] = " ' super  te mo fi \" ' aaaa ' oeu'";
-	test_transform_space(space_4, "  |super||te|mo|fi|\"|  aaaa  |oeu ",4);
+	test_transform_space(space_4, "  |super||te|mo|fi|\"|  aaaa  |oeu ", 4);
 
 	char space_5[200] = "' aaaa ' uasdf";
 	test_transform_space(space_5, " |aaaa|  uasdf", 5);
 
 	char space_6[200] = "' aaaa ' uasdf";
 	test_transform_space(space_6, " |aaaa|  uasdf", 6);
+}
 
-	g_test = 0;
-	//	g_fd = 0;
-	//	printf("%s \n",get_all_commands());
+void test_read_command(char *command, char *res, int test)
+{
+	write_in_file(command);
+	char **ret = read_command();
+	char **split_res = ft_str_split(res, " ");
+	ft_print_two_split(ret, split_res);
+	if (ft_str_split_cmp(ret, split_res))
+	{
+		printf("error test  read command: %d \n", test);
+		ft_print_two_split(ret, split_res);
+	}
+}
 
+void test_all()
+{
+	t_ms *a = &ms;
+	(void) a;
+
+	tested_test();
+	test_read_command("toto", "toto", 1);
+	test_read_command("toto tata", "toto tata", 1);
+	test_read_command("--------------------------------", "toto tata", 1);
 }

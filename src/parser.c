@@ -43,9 +43,8 @@ char *get_all_commands()
 		tmp = current_line;
 		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
 			return (NULL);
-		if (ret && !(current_line = ft_strjoin(current_line, "\n", FREE_FIRST)))
-			return (NULL);
-		if (ret && !(current_line = ft_strjoin(current_line, tmp, FREE_FIRST | FREE_SECOND)))
+		if (ret && !(current_line = ft_strjoinby(current_line, "\n", tmp,
+		 FREE_FIRST | FREE_THIRD)))
 			return (NULL);
 	}
 	return (current_line);
@@ -72,8 +71,6 @@ void transform_space(char *line)
 	}
 }
 
-
-
 char **build_argv(char *line)
 {
 	char **argv;
@@ -85,25 +82,22 @@ char **build_argv(char *line)
 	tmp = argv;
 	while (*tmp)
 	{
-	    tmp++;
+	    ft_strchrreplace(*tmp, "|", ' ');
+		tmp++;
 	}
 	return (argv);
 }
 
-// parse str,
-// mix split.
-
-
-//int ms_parse_command(char *command, t_ms *ms)
-//{
-//	char **command_split;
-
-//	if (! ft_str_split(command, &command_split, FT_CHAR_SPACE))
-//		return (MEMORY_LACK);
-// TODO : handle that error
-//	if (command_split == NULL)
-//	    return (1);
-//	(void)ms;
-//	ms->arg = command_split;
-//	return (0);
-//}
+char **read_command()
+{
+	char *line;
+	char **argv;
+	
+	if (!(line = get_all_commands()))
+		return (NULL);
+	transform_space(line);
+	if (!(argv = build_argv(line)))
+		return (NULL);
+	free(line);
+	return (argv);
+}
