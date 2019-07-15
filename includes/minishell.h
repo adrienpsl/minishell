@@ -24,15 +24,16 @@ typedef struct s_ms
 //	char *current;
 int i;
 	char **env;
-	int test;
 	char *buffer;
-	char **arg;
 	char buffer_array[4097];
-	char testing_str[10000];
 } t_ms;
 
+/*
+**	global
+*/
 int g_errno;
 int g_fd;
+char g_test_cd_buffer[4000];
 t_ms m;
 
 // env

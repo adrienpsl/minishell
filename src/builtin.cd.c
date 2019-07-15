@@ -15,8 +15,8 @@
 
 static int cd_go(char *go_path, char *current_path)
 {
-	if (m.test)
-		ft_memcpy(m.testing_str, go_path, ft_strlen(go_path));
+	if (g_test)
+		ft_memcpy(g_test_cd_buffer, go_path, ft_strlen(go_path));
 	if (!go_path)
 		return (ft_errno_set(INVALID_PATH));
 	if (access(go_path, F_OK))
