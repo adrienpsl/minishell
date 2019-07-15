@@ -71,5 +71,11 @@ int ft_unsetenv(char *removing_var)
 
 void ft_env()
 {
+	// argument:
+	// -i lance la commande sans env
+
+	// -u lance la commande en changeant l'argument.
+
+	//pas d'argument
 	ft_strsplit_print(m.env, '\n');
 }

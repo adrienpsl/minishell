@@ -108,6 +108,7 @@ char **build_argv(char *line)
 	char **tmp;
 
 	transform_space(line);
+	line = replace_env_variable(line);
 	if (!(argv = ft_str_split(line, " \t")))
 		return (NULL);
 	tmp = argv;
@@ -116,6 +117,7 @@ char **build_argv(char *line)
 		ft_strchrreplace(*tmp, "|", ' ');
 		tmp++;
 	}
+	free(line);
 	return (argv);
 }
 
@@ -126,8 +128,8 @@ char **read_command()
 
 	if (!(line = get_all_commands()))
 		return (NULL);
+
 	if (!(argv = build_argv(line)))
 		return (NULL);
-	free(line);
 	return (argv);
 }

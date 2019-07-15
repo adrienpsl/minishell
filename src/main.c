@@ -48,6 +48,7 @@ void ms_loop()
 			do_command(path, argv);
 		else
 			ft_printf("no such binary\n");
+		ft_str_split_free(&argv);
 		ft_printf("$> ");
 	}
 }
