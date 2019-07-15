@@ -39,6 +39,8 @@ static int cd_one_argv(char *argv, char *current_path)
 	ft_bzero(m.buffer, 4097);
 	if (ft_streq(argv, "-"))
 		return (cd_go(env_get_value("OLDPATH"), current_path));
+	if (ft_streq(argv, "~"))
+		cd_go(env_get_value("HOME"), current_path);
 	else if (*argv == '.')
 	{
 		ft_strjoinbybuffer(m.buffer, current_path, "/", argv);
