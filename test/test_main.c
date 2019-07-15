@@ -229,6 +229,19 @@ void tested_test()
 	test_ms_cd(env_34, argv_34, new_env_34, -1, "/Users/no_exist", "cd: no such file or directory: /Users/no_exist\n",
 			   34);
 
+	// tes ~
+	chdir("/Users");
+	char *env_35[3] = { "HOME=/Users/adpusel", NULL };
+	char *argv_35[3] = { "~", NULL };
+	char *new_env_35[4] = { "HOME=/Users/adpusel", "OLDPATH=/Users", NULL };
+	test_ms_cd(env_35, argv_35, new_env_35, 0, "/Users/adpusel", "", 35);
+
+	chdir("/Users");
+	char *env_36[3] = { "HOME=/Users/adpul", NULL };
+	char *argv_36[3] = { "~", NULL };
+	char *new_env_36[4] = { "HOME=/Users/adpul", NULL };
+	test_ms_cd(env_36, argv_36, new_env_36, -1, "/Users/adpul", "cd: no such file or directory: /Users/adpul\n", 36);
+
 	int test = 0;
 	test_get_all_command("toto et tata a la plag'e\n '", "toto et tata a la plag'e\n '", &test);
 	test_get_all_command("''", "''", &test);
