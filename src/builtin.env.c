@@ -55,19 +55,16 @@ int ft_unsetenv(char *removing_var)
 {
 	int i;
 
-	i = -1;
-	while (m.env[++i] != NULL)
+	i = ft_strsplit_search(m.env, ms_search_function, removing_var);
+	if (i > -1)
 	{
-		if (ms_matched_env_variable(m.env[i], removing_var))
+		free(m.env[i]);
+		while (m.env[i] != NULL)
 		{
-			free(m.env[i]);
-			while (m.env[i] != NULL)
-			{
-				m.env[i] = m.env[i + 1];
-				i++;
-			}
-			return (0);
+			m.env[i] = m.env[i + 1];
+			i++;
 		}
+		return (0);
 	}
 	return (-1);
 }

@@ -42,8 +42,8 @@ int ms_env_copy(char **env);
 int ft_setenv(char **argv);
 char *ms_env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
-int ms_matched_env_variable(char *env_key_value, char *searched);
 void ft_env();
+int ms_search_function(char *current, void *p_searched);
 
 int is_quote_paired(char *command);
 char *get_all_commands();

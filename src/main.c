@@ -79,8 +79,8 @@ int main(int ac, char **av, char **env)
 	ms_env_copy(env);
 	m.buffer = m.buffer_array;
 	signal(SIGINT, sig_handler);
-	//	test_all();
-	ms_loop();
+		test_all();
+//	ms_loop();
 
 	return 0;
 }

@@ -29,34 +29,31 @@ int ms_env_modify(char *key, char *new_value)
 	return (ft_setenv(split));
 }
 
-int ms_matched_env_variable(char *env_key_value, char *searched)
+int ms_search_function(char *current, void *p_searched)
 {
-	ssize_t i;
+	char *searched;
+	int i;
 
-	i = ft_strchr(env_key_value, '=');
+	searched = p_searched;
+	i = ft_strchr(current, '=');
 	if (i > 0)
-		return (ft_strneq(env_key_value, searched, i));
+		return (ft_strneq(current, searched, i));
 	return (0);
 }
 
 char *ms_env_get_value(char *key)
 {
 	int i;
-	char **env;
+	int position;
 
-	env = m.env;
 	if (!key)
 		return (NULL);
-	while (*env != NULL)
+	position = ft_strsplit_search(m.env, ms_search_function, key);
+	if (position > -1)
 	{
-		if (ms_matched_env_variable(*env, key))
-		{
-			i = ft_strchr(*env, '=');
-			if (i == -1)
-				return (NULL);
-			return ((*env) + i + 1);
-		}
-		env++;
+		if (!(i = ft_strchr(m.env[position], '=')))
+			return (NULL);
+		return (m.env[position] + i + 1);
 	}
 	return (NULL);
 }
