@@ -67,8 +67,6 @@ char *display_dir_content(char *path, char *searched_str);
 char *search_binary_in_path(char *path, char *name);
 char *ft_find_binary(char *binary_name);
 
-// error
-int ft_errno_set(int type_error);
 
 // test
 void test_all();

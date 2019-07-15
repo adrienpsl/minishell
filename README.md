@@ -1,18 +1,12 @@
 # builtin 
 -- cd
 -- echo
-- setenv
-- unsetenv
-- env
+-- setenv
+-- unsetenv
+-- env
 - exit
 
-
-# other note
-I must code echo, cd, setenv unsetenv, env, exit.
-// I need to code, echo, env, cd,
-
- 
-
+- I will do now the big test ?
 
 # build the parcers 
 

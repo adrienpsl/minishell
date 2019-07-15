@@ -17,7 +17,6 @@ add_library(minishell_lib STATIC
         src/builtin.env.utils.c
         src/parser.c
         src/builtin.cd.c
-        src/utils.c
         src/builtin.echo.c
         )
 
