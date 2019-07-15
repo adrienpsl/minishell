@@ -31,6 +31,7 @@ void write_in_file(char *str);
 void test_get_all_command(char *test_str, char *res, int *test);
 void test_transform_space(char *str, char *res, int test);
 void test_read_command(char *command, char *res, int test);
+void echo_test(char *line, char *res, int test);
 
 void tested_test()
 {
@@ -74,6 +75,31 @@ void tested_test()
 	char *res_8[10] = { "tata=toto", "super=titi" };
 	char *newvar_8[10] = { "super=titi", NULL };
 	test_ms_env_add(env_8, newvar_8, 0, res_8, "", 8);
+
+	// two element and = in first
+	char *env_81[10] = { "tata=toto" };
+	char *res_81[10] = { "tata=toto",};
+	char *newvar_81[10] = { "super=", "titi", NULL };
+	test_ms_env_add(env_81, newvar_81, -1, res_81, "If two elements are supply no =\n", 81);
+
+	// two element and = in second
+	char *env_82[10] = { "tata=toto" };
+	char *res_82[10] = { "tata=toto",};
+	char *newvar_82[10] = { "super", "=titi=", NULL };
+	test_ms_env_add(env_82, newvar_82, -1, res_82, "If two elements are supply no =\n", 82);
+
+	// test with the $
+	char *env_83[10] = { "tata=toto" };
+	char *res_83[10] = { "tata=toto",};
+	char *newvar_83[10] = { "super=$manger", NULL };
+	test_ms_env_add(env_83, newvar_83, -1, res_83, "No $ en env variable\n", 83);
+
+	// test with the $
+	char *env_84[10] = { "tata=toto" };
+	char *res_84[10] = { "tata=toto",};
+	char *newvar_84[10] = { "super","$manger",  NULL };
+	test_ms_env_add(env_84, newvar_84, -1, res_84, "No $ en env variable\n", 84);
+
 
 	// no env
 	char *env_88[2] = { NULL };
@@ -304,6 +330,13 @@ void tested_test()
 	find_binary_test("l", find_binary_env, NULL, 2);
 	find_binary_test("ls", find_binary_env_no_path, NULL, 3);
 	find_binary_test("db_dump", find_binary_env, "/usr/bin/db_dump", 4);
+
+	/* echo test ------------------------------------------------------------ */
+	echo_test("toto", "toto\n", 1);
+	echo_test("toto supre 'auau  aue' ", "toto supre auau  aue\n", 2);
+	echo_test("-n toto supre 'auau  aue' ", "toto supre auau  aue", 3);
+	echo_test("-n", "", 4);
+	echo_test("\n", "\n", 5);
 }
 
 void test_all()
@@ -312,13 +345,13 @@ void test_all()
 	(void) a;
 
 	tested_test();
-	g_test = 0;
+
 
 	g_fd = 0;
 
 	//	while (1)
 	//	{
-	//		ft_str_split_print(read_command());
+	//		ft_strsplitprint_test(read_command());
 	//	}
 	/**/
 }

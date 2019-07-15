@@ -50,7 +50,7 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 	ft_bzero(&m, sizeof(m));
 	m.buffer = m.buffer_array;
 	ms_env_copy(env);
-	intern_ret = ms_cd(arg);
+	intern_ret = ft_cd(arg);
 	if (ret != intern_ret
 		|| (!ft_streq(curpath, g_test_cd_buffer))
 		|| ft_str_split_cmp(new_env, m.env)
@@ -89,7 +89,7 @@ void test_ms_env_copy(char **env, int ret, int error, int test)
 		printf("error test : %d \n", test);
 	}
 	g_errno = 0;
-	//	ft_str_split_print(m.p_env);
+	//	ft_strsplitprint_test(m.p_env);
 }
 
 void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_error, int test)
@@ -98,7 +98,7 @@ void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_
 	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	int intern_ret;
-	intern_ret = ms_env_add(new_var);
+	intern_ret = ft_setenv(new_var);
 	if (((m.env && !env) || (!m.env && env))
 		|| ft_str_split_cmp(m.env, res)
 		|| ret != intern_ret
@@ -108,8 +108,8 @@ void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_
 		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(m.env);
-			ft_str_split_print(m.env);
+			ft_strsplitprint_test(m.env);
+			ft_strsplitprint_test(m.env);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -140,8 +140,8 @@ void test_ms_env_remove(char **env,
 		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(m.env);
-			ft_str_split_print(m.env);
+			ft_strsplitprint_test(m.env);
+			ft_strsplitprint_test(m.env);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -178,9 +178,9 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 		if (ft_str_split_cmp(m.env, res))
 		{
 			g_test = 0;
-			ft_str_split_print(m.env);
+			ft_strsplitprint_test(m.env);
 			printf("----------------------- \n");
-			ft_str_split_print(res);
+			ft_strsplitprint_test(res);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -238,18 +238,16 @@ void test_get_all_command(char *test_str, char *res, int *test)
 	}
 	(*test)++;
 }
-
+void transform_space(char *line);
 void test_transform_space(char *str, char *res, int test)
 {
-	char **argv = build_argv(str);
+	transform_space(str);
 	if (!ft_streq(str, res))
 	{
 		printf("error transform space : %d \n", test);
 		printf("res  :%s \n", res);
 		printf("test :%s \n\n", str);
 	}
-	ft_str_split_print(argv);
-	printf(" \n");
 }
 
 void test_read_command(char *command, char *res, int test)
@@ -267,11 +265,30 @@ void test_read_command(char *command, char *res, int test)
 void find_binary_test(char *name, char **env, char *res, int test)
 {
 	m.env = env;
-	char *ret = find_binary(name);
+	char *ret = ft_find_binary(name);
 	if (!ft_streq(ret, res))
 	{
 		printf("error find binary test : %d \n", test);
 		printf("res : %s \n", res);
 		printf("test: %s \n", ret);
+	}
+}
+
+void echo_test(char *line, char *res, int test)
+{
+	ft_bzero(g_test_buffer, 10000);
+	write_in_file(line);
+	char **argv = read_command();
+	ft_echo(argv);
+	char *buff = g_test_buffer;
+	(void)buff;
+
+	if (!ft_streq(g_test_buffer, res))
+	{
+		printf("error echo test %d \n", test);
+		printf("res :-%s-", res);
+		printf(" \n");
+		printf("tes :-%s-", g_test_buffer);
+		printf("\n--- \n");
 	}
 }

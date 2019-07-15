@@ -59,7 +59,7 @@ char *search_binary_in_path(char *path, char *name)
 	return (m.buffer[0] ? m.buffer : NULL);
 }
 
-char *find_binary(char *binary_name)
+char *ft_find_binary(char *binary_name)
 {
 	char **all_path;
 	char *value;

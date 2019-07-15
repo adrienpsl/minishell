@@ -1,11 +1,10 @@
-# video note 
-
-- this shell handle 3 different stuff
-    - execute commands like ls / ...
-    - handle execution ENV : pwd / home 
-    - build in function : 
-
-- I can launch binary without PATH set
+# builtin 
+-- cd
+-- echo
+- setenv
+- unsetenv
+- env
+- exit
 
 
 # other note

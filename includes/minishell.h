@@ -37,9 +37,10 @@ char g_test_cd_buffer[4000];
 t_ms m;
 
 // env
+void ft_echo(char **argv);
 int ms_env_remove(char *removing_var);
 int ms_env_copy(char **env);
-int ms_env_add(char **argv);
+int ft_setenv(char **argv);
 char *env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
 
@@ -51,7 +52,7 @@ char **build_argv(char *line);
 char **read_command();
 
 // builtin
-int ms_cd(char **argv);
+int ft_cd(char **argv);
 char *get_env_variable(char *line, int end);
 char *replace_env_variable(char *line);
 // echo
@@ -62,7 +63,7 @@ char *replace_env_variable(char *line);
 // path
 char *display_dir_content(char *path, char *searched_str);
 char *search_binary_in_path(char *path, char *name);
-char *find_binary(char *binary_name);
+char *ft_find_binary(char *binary_name);
 
 // error
 int ft_errno_set(int type_error);

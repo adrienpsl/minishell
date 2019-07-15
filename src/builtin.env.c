@@ -10,19 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
+//
+//void ft_unsetenv(char **argv)
+//{
+//
+//}
 
-void ft_echo(char **argv)
+void ft_env()
 {
-	int end;
 
-	end = 1;
-	if (ft_streq(*argv, "-n"))
-	{
-		end = 0;
-		argv++;
-	}
-	ft_strsplit_print(argv, ' ');
-	if (end)
-		ft_printf("\n");
 }

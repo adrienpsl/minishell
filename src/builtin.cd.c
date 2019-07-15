@@ -13,7 +13,7 @@
 #include <errno.h>
 #include "minishell.h"
 
-static int cd_go(char *go_path, char *current_path)
+static int go_dir(char *go_path, char *current_path)
 {
 	if (g_test)
 		ft_memcpy(g_test_cd_buffer, go_path, ft_strlen(go_path));
@@ -34,23 +34,23 @@ static int cd_go(char *go_path, char *current_path)
 	return (0);
 }
 
-static int cd_one_argv(char *argv, char *current_path)
+static int one_argv(char *argv, char *current_path)
 {
 	ft_bzero(m.buffer, 4097);
 	if (ft_streq(argv, "-"))
-		return (cd_go(env_get_value("OLDPATH"), current_path));
+		return (go_dir(env_get_value("OLDPATH"), current_path));
 	else if (ft_streq(argv, "~"))
-		return (cd_go(env_get_value("HOME"), current_path));
+		return (go_dir(env_get_value("HOME"), current_path));
 	else if (*argv == '.')
 	{
 		ft_strjoinbybuffer(m.buffer, current_path, "/", argv);
-		return (cd_go(m.buffer_array, current_path));
+		return (go_dir(m.buffer_array, current_path));
 	}
 	else
-		return (cd_go(argv, current_path));
+		return (go_dir(argv, current_path));
 }
 
-static int cd_two_argv(char *searching, char *replacing, char *current_path)
+static int two_argv(char *searching, char *replacing, char *current_path)
 {
 	ft_bzero(m.buffer_array, 4097);
 	if (!ft_str_replacebuffer(m.buffer, current_path, searching, replacing))
@@ -58,10 +58,10 @@ static int cd_two_argv(char *searching, char *replacing, char *current_path)
 		ft_printf("cd: string not in pwd: %s\n", searching);
 		return (-1);
 	}
-	return (cd_go(m.buffer_array, current_path));
+	return (go_dir(m.buffer_array, current_path));
 }
 
-int ms_cd(char **argv)
+int ft_cd(char **argv)
 {
 	int nb_argv;
 	int ret;
@@ -73,11 +73,11 @@ int ms_cd(char **argv)
 	if (getcwd(buff_current_path, 4096) == NULL)
 		return (ft_errno_set(EACCES));
 	if (nb_argv == 0)
-		ret = cd_go(env_get_value("HOME"), buff_current_path);
+		ret = go_dir(env_get_value("HOME"), buff_current_path);
 	else if (nb_argv == 1)
-		ret = cd_one_argv(*argv, buff_current_path);
+		ret = one_argv(*argv, buff_current_path);
 	else if (nb_argv == 2)
-		ret = cd_two_argv(*argv, argv[1], buff_current_path);
+		ret = two_argv(*argv, argv[1], buff_current_path);
 	else
 		ret = ft_errno_set(E2BIG);
 	return (ret);

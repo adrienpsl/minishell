@@ -21,7 +21,7 @@ add_executable(
         minishell
         src/main.c
 
-        test/test_main.c src/env.add-and-copy.c src/env.utils.c src/parser.c src/builtin.cd.c  src/utils.c src/builtin.echo.c test/test_function.c src/path.c)
+        test/test_main.c src/env.add-and-copy.c src/env.utils.c src/parser.c src/builtin.cd.c  src/utils.c src/builtin.echo.c test/test_function.c src/path.c src/builtin.env.c src/env.setenv.c)
 
 
 
