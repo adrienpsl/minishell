@@ -131,7 +131,7 @@ void test_ms_env_remove(char **env,
 
 	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
-	intern_ret = ms_env_remove(deleting_key);
+	intern_ret = ft_unsetenv(deleting_key);
 	if (ft_str_split_cmp(m.env, res)
 		|| ret != intern_ret
 		|| error != g_errno)
@@ -157,7 +157,7 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 
 	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
-	intern_ret = env_get_value(key);
+	intern_ret = ms_env_get_value(key);
 	if (ret && intern_ret && !ft_streq(intern_ret, ret))
 		printf("error test get value : %d \n", test);
 	if ((!ret && intern_ret) || (ret && !intern_ret))

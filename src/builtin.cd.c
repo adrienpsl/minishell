@@ -38,9 +38,9 @@ static int one_argv(char *argv, char *current_path)
 {
 	ft_bzero(m.buffer, 4097);
 	if (ft_streq(argv, "-"))
-		return (go_dir(env_get_value("OLDPATH"), current_path));
+		return (go_dir(ms_env_get_value("OLDPATH"), current_path));
 	else if (ft_streq(argv, "~"))
-		return (go_dir(env_get_value("HOME"), current_path));
+		return (go_dir(ms_env_get_value("HOME"), current_path));
 	else if (*argv == '.')
 	{
 		ft_strjoinbybuffer(m.buffer, current_path, "/", argv);
@@ -73,7 +73,7 @@ int ft_cd(char **argv)
 	if (getcwd(buff_current_path, 4096) == NULL)
 		return (ft_errno_set(EACCES));
 	if (nb_argv == 0)
-		ret = go_dir(env_get_value("HOME"), buff_current_path);
+		ret = go_dir(ms_env_get_value("HOME"), buff_current_path);
 	else if (nb_argv == 1)
 		ret = one_argv(*argv, buff_current_path);
 	else if (nb_argv == 2)

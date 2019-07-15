@@ -38,11 +38,13 @@ t_ms m;
 
 // env
 void ft_echo(char **argv);
-int ms_env_remove(char *removing_var);
+int ft_unsetenv(char *removing_var);
 int ms_env_copy(char **env);
 int ft_setenv(char **argv);
-char *env_get_value(char *key);
+char *ms_env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
+int ms_matched_env_variable(char *env_key_value, char *searched);
+void ft_env();
 
 int is_quote_paired(char *command);
 char *get_all_commands();

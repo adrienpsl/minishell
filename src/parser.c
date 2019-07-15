@@ -77,7 +77,7 @@ char *get_env_variable(char *line, int end)
 
 	if (!(key = ft_strndup(line, end)))
 		return (NULL);
-	value = env_get_value(key);
+	value = ms_env_get_value(key);
 	free(key);
 	return (value ? value : "");
 }
