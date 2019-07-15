@@ -13,21 +13,23 @@
 // cette command va dans le
 // donc je vais utiliser fork pour faire le travail mon gars
 
+void sig_handler(int sign)
+{
+	(void) sign;
+	ft_printf("\n<$ : ");
+}
+
 void do_command(char *path, char **argv)
 {
-	int father;
+	pid_t pid;
 
-	father = fork();
-	if (father > 0)
-	{
-		wait(NULL);
-		printf("done====================================================================== \n");
-	}
-	if (father == 0)
-	{
+	pid = fork();
+	if (pid == 0)
 		execve(path, argv, m.env);
-		perror("last one");
-	}
+	if (pid > 0)
+		wait(&pid);
+	if (pid < 0)
+		; // TODO : handle errors.
 }
 
 void do_builtin(char **argv)
@@ -35,10 +37,13 @@ void do_builtin(char **argv)
 	if (ft_str_split_count(argv) == 0)
 		return;
 	else if (ft_streq(*argv, "cd"))
-	    ft_cd(argv + 1);
-//	else if (ft_streq(*argv, "echo"))
-//		ft_echo()
+		ft_cd(argv + 1);
+	//	else if (ft_streq(*argv, "echo"))
+	//		ft_echo()
 }
+
+// funtion search in split.
+
 
 void ms_loop()
 {
@@ -49,48 +54,33 @@ void ms_loop()
 
 	while ((argv = read_command()))
 	{
-		// if commands start with / > find path
-		//
-		path = ft_find_binary(*argv);
-		if (!path)
-			ft_printf("no such binary\n");
-		else
+		// if is in split >
+
+		// if start / > test file exist
+
+		// else find binary
+		if ((path = ft_find_binary(*argv)))
 			do_command(path, argv);
+		// do command
+
+		// or print error.
+		else
+			ft_printf("no such binary\n");
 	}
 }
 
 int main(int ac, char **av, char **env)
 {
 	if (env == NULL)
-		return EXIT_FAILURE;
-
+		return (EXIT_FAILURE);
 	(void) ac;
 	(void) av;
 	ft_bzero(&m, sizeof(m));
 	ms_env_copy(env);
 	m.buffer = m.buffer_array;
+	signal(SIGINT, sig_handler);
+	//	test_all();
+	ms_loop();
 
-		test_all();
-
-
-//	ms_loop();
-	//	char *toto[2] = { "/" };
-	//	pid_t father;
-	//	(void)father;
-	//
-	//	while(1)
-	//	{
-	//		father = fork();
-	//		if (father > 0)
-	//		{
-	//			wait(NULL);
-	//			printf("father \n");
-	//		}
-	//		if (father == 0)
-	//		{
-	//			printf("processs \n");
-	//			execve("/bin/ls", toto, NULL);
-	//		}
-	//	}
 	return 0;
 }

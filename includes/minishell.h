@@ -19,10 +19,9 @@ enum ms_error
 
 typedef struct s_ms
 {
-//	int start;
-//	int end;
-//	char *current;
-int i;
+	int i;
+	int is_fork;
+	int is_text;
 	char **env;
 	char *buffer;
 	char buffer_array[4097];
@@ -66,7 +65,6 @@ char *replace_env_variable(char *line);
 char *display_dir_content(char *path, char *searched_str);
 char *search_binary_in_path(char *path, char *name);
 char *ft_find_binary(char *binary_name);
-
 
 // test
 void test_all();
