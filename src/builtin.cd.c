@@ -15,15 +15,14 @@
 
 static int go_dir(char *go_path, char *current_path)
 {
+	int right;
+
 	if (g_test)
 		ft_memcpy(g_test_cd_buffer, go_path, ft_strlen(go_path));
 	if (!go_path)
 		return (-1);
-	if (access(go_path, F_OK))
-	{
-		ft_printf("cd: no such file or directory: %s\n", go_path);
-		return (-1);
-	}
+	if ((right = test_file(go_path, "cd")))
+		return (right);
 	if (chdir(go_path))
 	{
 		ft_printf("cd: permission denied: %s\n", go_path);

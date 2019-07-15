@@ -45,6 +45,8 @@ int ms_env_modify(char *key, char *new_value);
 void ft_env();
 int ms_search_function(char *current, void *p_searched);
 
+int test_file(char *path, char *builtin);
+
 int is_quote_paired(char *command);
 char *get_all_commands();
 

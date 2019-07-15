@@ -69,8 +69,8 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 			printf("split  env\n");
 		if (!ft_streq(error_text, g_test_buffer))
 		{
-			printf("test : -%s-", error_text);
-			printf("res  : -%s-", g_test_buffer);
+			printf("test : -%s-\n", error_text);
+			printf("res  : -%s-\n", g_test_buffer);
 		}
 		printf("\n\n");
 	}
