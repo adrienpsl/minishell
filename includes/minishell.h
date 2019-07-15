@@ -60,6 +60,8 @@ char *replace_env_variable(char *line);
 
 // path
 char *display_dir_content(char *path, char *searched_str);
+char *search_binary_in_path(char *path, char *name);
+char *find_binary(char *binary_name);
 
 // error
 int ft_errno_set(int type_error);

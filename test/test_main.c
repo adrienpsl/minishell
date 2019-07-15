@@ -17,6 +17,7 @@
 
 void test_get_env_variable(char *line, char **env, int end, char *res, int test);
 void test_replace_env_variable(char *line, char **env, char *res, int test);
+void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test);
 
 void test_ms_env_copy(char **env, int ret, int error, int test)
 {
@@ -130,43 +131,6 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 			printf("ret error\n");
 	}
 	g_errno = 0;
-}
-
-void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test)
-{
-	int intern_ret;
-	t_ms *a = &m;
-	(void) a;
-
-	ft_bzero(g_test_buffer, 1000);
-	ft_bzero(&m, sizeof(m));
-	ft_bzero(m.testing_str, 10000);
-	m.test = 1;
-	m.buffer = m.buffer_array;
-	ms_env_copy(env);
-	m.arg = arg;
-	intern_ret = ms_cd(arg);
-	if (ret != intern_ret
-		|| (curpath && !ft_streq(curpath, m.testing_str))
-		|| ft_str_split_cmp(new_env, m.env)
-		|| !ft_streq(error_text, g_test_buffer))
-	{
-		printf("test n : %d \n", test);
-		if (ret != intern_ret)
-			printf("retour \n");
-		if ((curpath && !ft_streq(curpath, m.testing_str)))
-		{
-			printf("test path: %s\n", m.testing_str);
-			printf("res  path: %s \n", curpath);
-		}
-		if (ft_str_split_cmp(new_env, m.env))
-			printf("split  env\n");
-		if (!ft_streq(error_text, g_test_buffer))
-		{
-			printf("test : %s \n", error_text);
-			printf("res  : %s \n", g_test_buffer);
-		}
-	}
 }
 
 void test_quote(char *str, int res, int *test)
@@ -417,7 +381,7 @@ void tested_test()
 	char *new_env_31[2] = { "OLDPATH=/toto", NULL };
 	test_ms_cd(env_31, argv_31, new_env_31, -1, "", "cd: string not in pwd: /private\n", 31);
 
-	// test no argv and no home
+	// test no argv
 	chdir("/Users/adpusel/toto");
 	char *env_32[3] = { "HOME=/Users/adpusel", NULL };
 	char *argv_32[3] = { NULL };
@@ -479,6 +443,7 @@ void tested_test()
 	test_get_env_variable("SUPER aeu", get_env_variable, 5, "toto dans la plage", 1);
 	test_get_env_variable("SUPER", get_env_variable, 5, "toto dans la plage", 2);
 	test_get_env_variable("", get_env_variable, 5, "", 3);
+
 	char *replacet_env_variable[10] = { "SUPER=a b", "aouaousths", "MANGER=des" };
 	test_replace_env_variable("$SUPER aeu", replacet_env_variable, "a b aeu", 1);
 	test_replace_env_variable("toto $SUPER", replacet_env_variable, "toto a b", 1);
@@ -489,6 +454,18 @@ void tested_test()
 	test_replace_env_variable("toto $SUPER $$ toto $MANGE", replacet_env_variable, "toto a b  toto ", 1);
 }
 
+void find_binary_test(char *name, char **env, char *res, int test)
+{
+	m.env = env;
+	char *ret = find_binary(name);
+	if (!ft_streq(ret, res))
+	{
+		printf("error find binary test : %d \n", test);
+		printf("res : %s \n", res);
+		printf("test: %s \n", ret);
+	}
+}
+
 void test_all()
 {
 	t_ms *a = &m;
@@ -496,8 +473,17 @@ void test_all()
 
 	tested_test();
 	g_test = 0;
-	display_dir_content("/bi", "m");
-	display_dir_content("/bin", "");
+
+	char *find_binary_env[3] = {
+	 "PATH=/Users/adpusel/:/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+	};
+	char *find_binary_env_no_path[3] = {
+	 "PTH=/Users/adpusel/:/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+	};
+
+	find_binary_test("ls", find_binary_env, "/bin/ls", 1);
+	find_binary_test("l", find_binary_env, NULL, 2);
+	find_binary_test("ls", find_binary_env_no_path, NULL, 3);
 
 	g_fd = 0;
 

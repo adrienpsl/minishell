@@ -22,6 +22,7 @@ char *display_dir_content(char *path, char *searched_str)
 
 	dir = opendir(path);
 	if (dir)
+	{
 		while ((dp = readdir(dir)))
 		{
 			if (ft_str_search(dp->d_name, searched_str) > -1)
@@ -29,12 +30,62 @@ char *display_dir_content(char *path, char *searched_str)
 			if (*searched_str == 0)
 				ft_printf("%s  ", dp->d_name);
 		}
+		closedir(dir);
+	}
 	return (NULL);
 }
 
-// pour le path, je split ma variable path
+char *search_binary_in_path(char *path, char *name)
+{
+	DIR *dir;
+	struct dirent *dp;
 
-// je boucle sur elle et pour chacun des file donnee,
-// je fais une boucle et je cherche mes
-// j'open mon dir et je loop sur tt les elements que j'ai dedans
-// une fonction qui va
+	dir = opendir(path);
+	if (dir)
+	{
+		while ((dp = readdir(dir)))
+		{
+			if (ft_streq(dp->d_name, name))
+			{
+				ft_strcat(m.buffer, path);
+				ft_strcat(m.buffer, "/");
+				ft_strcat(m.buffer, dp->d_name);
+			}
+		}
+		closedir(dir);
+	}
+	else
+		return (NULL);
+	return (m.buffer[0] ? m.buffer : NULL);
+}
+
+char *find_binary(char *binary_name)
+{
+	char **all_path;
+	char *value;
+	char *res;
+
+	m.i = 0;
+	res = NULL;
+	ft_bzero(m.buffer, 4096);
+	if (!(value = env_get_value("PATH"))
+		|| !(all_path = ft_str_split(value, ":")))
+		return (NULL);
+	while (all_path[m.i])
+	{
+		if ((res = search_binary_in_path(all_path[m.i], binary_name)))
+			return (res);
+		m.i++;
+	}
+	return (res);
+}
+
+
+
+
+
+
+
+
+
+
