@@ -1,16 +1,28 @@
 #include <stdio.h>
 #include <minishell.h>
 
-void do_command(char *path, char **argv)
+char *ms_find_cmd(char **argv)
+{
+	char *path;
+
+	if (*argv[0] == '/' && !ms_test_file(*argv, "mimishell"))
+		path = *argv;
+	else
+		path = ft_find_binary(*argv);
+	return (path);
+}
+
+int do_command(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
 	pid = fork();
 	if (pid == 0)
-		execve(path, argv, m.env);
+		execve(path, argv, env);
 	if (pid > 0)
 		wait(&pid);
 	//	if (pid < 0); // TODO : handle errors.
+	return (0);
 }
 
 void do_builtin(char **argv)
@@ -23,14 +35,13 @@ void do_builtin(char **argv)
 		ft_echo(argv + 1);
 	else if (ft_streq(*argv, "echo"))
 		ft_echo(argv + 1);
-
 }
 
 void ms_loop()
 {
 	char **argv;
-	char *path;
 	static char *builtin[7] = { "cd", "echo", "setenv", "unsetenv", "env", "exit", NULL };
+	char *path;
 
 	ft_printf("$> ");
 	while ((argv = read_command()))
@@ -39,13 +50,8 @@ void ms_loop()
 			(void) 1; // print truc
 		else if (ft_strsplit_search(builtin, ft_strsplit_search_streq, *argv) > -1)
 			do_builtin(argv);
-		else if (*argv[0] == '/')
-		{
-			if (!ms_test_file(*argv, "mimishell"))
-				do_command(path, argv);
-		}
-		else if ((path = ft_find_binary(*argv)))
-			do_command(path, argv);
+		else if ((path = ms_find_cmd(argv)))
+			do_command(path, argv, m.env);
 		else
 			ft_printf("no such binary\n");
 		ft_str_split_free(&argv);

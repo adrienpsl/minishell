@@ -93,7 +93,7 @@ char *replace_env_variable(char *line)
 	{
 		current = line + start;
 		end = ft_strchr(current, ' ');
-		end = end == -1 ? ft_strlen(current): end;
+		end = end == -1 ? ft_strlen(current) : end;
 		if (!(value = get_env_variable(current + 1, end)))
 			return (NULL);
 		line[start] = 0;
@@ -107,8 +107,6 @@ char **build_argv(char *line)
 	char **argv;
 	char **tmp;
 
-	transform_space(line);
-	line = replace_env_variable(line);
 	if (!(argv = ft_str_split(line, " \t")))
 		return (NULL);
 	tmp = argv;
@@ -117,7 +115,6 @@ char **build_argv(char *line)
 		ft_strchrreplace(*tmp, "|", ' ');
 		tmp++;
 	}
-	free(line);
 	return (argv);
 }
 
@@ -128,8 +125,10 @@ char **read_command()
 
 	if (!(line = get_all_commands()))
 		return (NULL);
-
+	transform_space(line);
+	line = replace_env_variable(line);
 	if (!(argv = build_argv(line)))
 		return (NULL);
+	free(line);
 	return (argv);
 }
