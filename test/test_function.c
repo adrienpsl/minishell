@@ -157,6 +157,7 @@ void test_ms_env_remove(char **env,
 		if (ret != intern_ret)
 			printf("ret error\n");
 	}
+	ft_str_split_free(&m.env);
 	g_errno = 0;
 }
 

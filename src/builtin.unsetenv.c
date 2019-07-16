@@ -12,21 +12,38 @@
 
 #include "minishell.h"
 
-void ft_env()
+char **ms_unset_env(char *removing_var, char **env)
 {
-	char option = 'i';
+	int i;
+	char **new_env;
 
-	// catch option
-
-	if (option == 'i')
+	i = ft_strsplit_search(env, ms_search_function, removing_var);
+	if (i > -1)
 	{
-//		char **env = ;
-	};
-	// argument:
-	// -i lance la commande sans env
-
-	// -u lance la commande en changeant l'argument.
-
-	//pas d'argument
-	ft_strsplit_print(m.env, '\n');
+		if (!(new_env = ft_str_split_copy(env, 0)))
+			return (NULL);
+		free(new_env[i]);
+		while (new_env[i] != NULL)
+		{
+			new_env[i] = new_env[i + 1];
+			i++;
+		}
+		return (new_env);
+	}
+	return (NULL);
 }
+
+int ft_unsetenv(char *removing_var)
+{
+	char **new_env;
+
+	new_env = ms_unset_env(removing_var, m.env);
+	if (new_env)
+	{
+		ft_str_split_free(&m.env);
+		m.env = new_env;
+		return (0);
+	}
+	return (-1);
+}
+
