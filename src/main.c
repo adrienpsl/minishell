@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <minishell.h>
 
+void testss(int t)
+{
+	(void)t;
+	ft_printf("\n");
+}
+
 char *ms_find_cmd(char **argv)
 {
 	char *path;
@@ -16,11 +22,18 @@ int do_command(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
+			signal(SIGINT, testss);
+
 	pid = fork();
 	if (pid == 0)
+	{
 		execve(path, argv, env);
+	}
 	if (pid > 0)
+	{
 		wait(&pid);
+		signal(SIGINT, signal_handler);
+	}
 	//	if (pid < 0); // TODO : handle errors.
 	return (0);
 }
@@ -37,6 +50,13 @@ void do_builtin(char **argv)
 		ft_echo(argv + 1);
 }
 
+void signal_handler(int sign)
+{
+	(void)sign;
+	ft_printf("\n$> ");
+}
+
+
 void ms_loop()
 {
 	char **argv;
@@ -46,6 +66,7 @@ void ms_loop()
 	ft_printf("$> ");
 	while ((argv = read_command()))
 	{
+//		signal(SIGINT, signal_handler);
 		if (*argv == NULL)
 			(void) 1; // print truc
 		else if (ft_strsplit_search(builtin, ft_strsplit_search_streq, *argv) > -1)

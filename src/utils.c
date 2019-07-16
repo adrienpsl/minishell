@@ -31,9 +31,3 @@ int ms_test_file(char *path, char *builtin)
 	}
 	return (0);
 }
-
-void signal_handler(int sign)
-{
-	(void) sign;
-	ft_printf("\n");
-}
