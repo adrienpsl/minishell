@@ -91,8 +91,8 @@ int main(int ac, char **av, char **env)
 	m.buffer = m.buffer_array;
 
 	signal(SIGINT, signal_handler);
-	//	test_all();
-	ms_loop();
+		test_all();
+//	ms_loop();
 
 	return (0);
 }

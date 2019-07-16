@@ -92,20 +92,28 @@ void test_ms_env_copy(char **env, int ret, int error, int test)
 	//	ft_strsplitprint_test(m.p_env);
 }
 
-void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_error, int test)
+void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *str_error, int test)
 {
 	ft_bzero(g_test_buffer, 10000);
 	ft_bzero(&m, sizeof(m));
-	ms_env_copy(env);
+	char **split_env = ft_str_split(env, " ");
+	char **split_new_var = ft_str_split(new_var, " ");
+	char **split_res = ft_str_split(res, " ");
+
+	ms_env_copy(split_env);
+	ft_str_split_free(&split_env);
+
 	int intern_ret;
-	intern_ret = ft_setenv(new_var);
+	intern_ret = ft_setenv(split_new_var);
+	ft_str_split_free(&split_new_var);
+
 	if (((m.env && !env) || (!m.env && env))
-		|| ft_str_split_cmp(m.env, res)
+		|| ft_str_split_cmp(m.env, split_res)
 		|| ret != intern_ret
 		|| !ft_streq(str_error, g_test_buffer))
 	{
 		printf("error m env add : %d \n", test);
-		if (ft_str_split_cmp(m.env, res))
+		if (ft_str_split_cmp(m.env, split_res))
 		{
 			g_test = 0;
 			ft_strsplitprint_test(m.env);
@@ -121,6 +129,7 @@ void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_
 			printf("%s \n", g_test_buffer);
 		}
 		printf("------------ \n");
+		ft_str_split_free(&split_res);
 	}
 }
 

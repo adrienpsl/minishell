@@ -20,7 +20,7 @@ void test_replace_env_variable(char *line, char **env, char *res, int test);
 void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test);
 void find_binary_test(char *name, char **env, char *res, int test);
 void test_ms_env_copy(char **env, int ret, int error, int test);
-void test_ms_env_add(char **env, char **new_var, int ret, char **res, char *str_error, int test);
+void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *str_error, int test);
 void test_ms_env_remove(char **env,
  char *deleting_key, int ret, char **res, int error, int test);
 void test_ms_get_env_value(char **env, char *key, char *ret, int test);
@@ -44,62 +44,34 @@ void tested_test()
 	test_ms_env_copy(test_2, 0, 0, 2);
 
 	// test with var null && empty env
-	char *env_3[2] = { NULL };
-	char *newvar_3[3] = { NULL };
-	test_ms_env_add(env_3, newvar_3, -1, NULL, "Bad number argument given to set env\n", 3);
+	test_ms_env_add("", "", -1, NULL, "Bad number argument given to set env\n", 3);
 
 	// test var null && 1 var env
-	char *env_4[2] = { "toto=tata" };
-	char *newvar_4[3] = { NULL };
-	test_ms_env_add(env_4, newvar_4, -1, NULL, "Bad number argument given to set env\n", 4);
+	test_ms_env_add("toto=tata", "", -1, NULL, "Bad number argument given to set env\n", 4);
 
 	// empty env
-	char *env_5[2] = { NULL };
-	char *res_5[2] = { "toto=tata" };
-	char *newvar_5[2] = { "toto=tata" };
-	test_ms_env_add(env_5, newvar_5, 0, res_5, "", 5);
+	test_ms_env_add("", "toto=tata", 0, "toto=tata", "", 5);
 
 	// bad variable : no =
-	char *env_6[2] = { NULL };
-	char *res_6[2] = { NULL };
-	char *newvar_6[2] = { "tototata" };
-	test_ms_env_add(env_6, newvar_6, -1, res_6, "The env separator is one single =\n", 6);
+	test_ms_env_add("", "tototata", -1, "", "The env separator is one single =\n", 6);
 
 	// bad variable : too much =
-	char *env_7[2] = { "tata=toto" };
-	char *res_7[2] = { "tata=toto" };
-	char *newvar_7[2] = { "toto=tata=" };
-	test_ms_env_add(env_7, newvar_7, -1, res_7, "The env separator is one single =\n", 7);
+	test_ms_env_add("tata=toto", "toto=tata=", -1, "tata=toto", "The env separator is one single =\n", 7);
 
-	char *env_8[10] = { "tata=toto" };
-	char *res_8[10] = { "tata=toto", "super=titi" };
-	char *newvar_8[10] = { "super=titi", NULL };
-	test_ms_env_add(env_8, newvar_8, 0, res_8, "", 8);
+	// all good
+	test_ms_env_add("tata=toto", "super=titi", 0, "tata=toto super=titi", "", 8);
 
 	// two element and = in first
-	char *env_81[10] = { "tata=toto" };
-	char *res_81[10] = { "tata=toto",};
-	char *newvar_81[10] = { "super=", "titi", NULL };
-	test_ms_env_add(env_81, newvar_81, -1, res_81, "If two elements are supply no =\n", 81);
+	test_ms_env_add("tata=toto", "super= titi", -1, "tata=toto", "If two elements are supply no =\n", 81);
 
 	// two element and = in second
-	char *env_82[10] = { "tata=toto" };
-	char *res_82[10] = { "tata=toto",};
-	char *newvar_82[10] = { "super", "=titi=", NULL };
-	test_ms_env_add(env_82, newvar_82, -1, res_82, "If two elements are supply no =\n", 82);
+	test_ms_env_add("tata=toto", "super =titi=", -1, "tata=toto", "If two elements are supply no =\n", 82);
 
 	// test with the $
-	char *env_83[10] = { "tata=toto" };
-	char *res_83[10] = { "tata=toto",};
-	char *newvar_83[10] = { "super=$manger", NULL };
-	test_ms_env_add(env_83, newvar_83, -1, res_83, "No $ en env variable\n", 83);
+	test_ms_env_add("tata=toto", "super=$manger", -1, "tata=toto", "No $ en env variable\n", 83);
 
 	// test with the $
-	char *env_84[10] = { "tata=toto" };
-	char *res_84[10] = { "tata=toto",};
-	char *newvar_84[10] = { "super","$manger",  NULL };
-	test_ms_env_add(env_84, newvar_84, -1, res_84, "No $ en env variable\n", 84);
-
+	test_ms_env_add("tata=toto", "super $manger", -1, "tata=toto", "No $ en env variable\n", 84);
 
 	// no env
 	char *env_88[2] = { NULL };

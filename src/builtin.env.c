@@ -12,45 +12,6 @@
 
 #include "minishell.h"
 
-static char *one_argument(char *argv)
-{
-	if (ft_strchr(argv, '$') != -1)
-		return (ft_putstr_retptr("No $ en env variable", NULL));
-	if (ft_strnchr(argv, '=') != 1)
-		return (ft_putstr_retptr("The env separator is one single =", NULL));
-	else
-		return ft_strdup(argv);
-}
-
-static char *two_arguments(char **argv)
-{
-	if (ft_strchr(argv[0], '$') != -1 || ft_strchr(argv[1], '$') != -1)
-		return (ft_putstr_retptr("No $ en env variable", NULL));
-	if (ft_strchr(argv[0], '=') != -1 || ft_strchr(argv[1], '=') != -1)
-		return ft_putstr_retptr("If two elements are supply no =", NULL);
-	else
-		return (ft_strjoinby(argv[0], "=", argv[1], 0));
-}
-
-int ft_setenv(char **argv)
-{
-	int i;
-	char *tmp_str;
-
-	i = ft_str_split_count(argv);
-	if (i == 1)
-		tmp_str = one_argument(*argv);
-	else if (i == 2
-			 && ft_strchr(*argv, '$' == -1)
-			 && ft_strchr(argv[1], '$' == -1))
-		tmp_str = two_arguments(argv);
-	else
-		return (ft_putstr_retint("Bad number argument given to set env", -1));
-	return (tmp_str
-			&& (m.env = ft_str_split_add(m.env, tmp_str, 1)) ?
-			(0) : (-1));
-}
-
 int ft_unsetenv(char *removing_var)
 {
 	int i;
@@ -69,8 +30,18 @@ int ft_unsetenv(char *removing_var)
 	return (-1);
 }
 
+
+
 void ft_env()
 {
+	char option = 'i';
+
+	// catch option
+
+	if (option == 'i')
+	{
+//		char **env = ;
+	};
 	// argument:
 	// -i lance la commande sans env
 
