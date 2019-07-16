@@ -21,8 +21,8 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 void find_binary_test(char *name, char **env, char *res, int test);
 void test_ms_env_copy(char *env_str, int ret, int error, int test);
 void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *error_str, int test);
-void test_ms_env_remove(char **env,
- char *deleting_key, int ret, char **res, int error, int test);
+void test_ms_env_remove(char *env_str,
+ char *deleting_key, int ret, char *result_str, int error, int nb_test);
 void test_ms_get_env_value(char **env, char *key, char *ret, int test);
 void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **res, int test);
 void test_quote(char *str, int res, int *test);
@@ -57,35 +57,22 @@ void tested_test()
 	// good
 	test_ms_env_add("tata=toto", "super=titi", 0, "tata=toto super=titi", "", 8);
 
-	// no env
-	char *env_88[2] = { NULL };
-	char *res_88[2] = { NULL };
-	test_ms_env_remove(env_88, "toto", -1, res_88, 0, 88);
-
-	// no key
-	char *env_9[2] = { NULL };
-	char *res_9[2] = { NULL };
-	test_ms_env_remove(env_9, NULL, -1, res_9, 0, 9);
-
-	// no key and env
-	char *env_10[2] = { "toto=titi" };
-	test_ms_env_remove(env_10, NULL, -1, env_10, 0, 10);
-
-	// delete one
-	char *env_11[2] = { "toto=tata" };
-	char *res_11[2] = { NULL };
-	test_ms_env_remove(env_11, "toto", 0, res_11, 0, 11);
-
+	/* ms_env_remove ------------------------------------------------------------ */
+	// data lack
+	test_ms_env_remove("", "toto", -1, "", 0, 88);
+	test_ms_env_remove("", NULL, -1, "", 0, 9);
+	test_ms_env_remove("toto=titi", NULL, -1, "toto=titi", 0, 10);
+	// delete start
+	test_ms_env_remove("toto=tata", "toto", 0, "", 0, 11);
 	// delete middle
-	char *env_12[5] = { "suer=aaoeu", "toto=tata", "manger=chipes", "aaaaaaa", NULL };
-	char *res_12[5] = { "suer=aaoeu", "manger=chipes", "aaaaaaa", NULL };
-	test_ms_env_remove(env_12, "toto", 0, res_12, 0, 12);
-
+	test_ms_env_remove("suer=aaoeu toto=tata manger=chipes aaaaaaa", "toto", 0,
+					   "suer=aaoeu manger=chipes aaaaaaa", 0, 12);
 	// delete end
-	char *env_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
-	char *res_13[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", NULL };
-	test_ms_env_remove(env_13, "manger", 0, res_13, 0, 13);
+	test_ms_env_remove("suer=aaoeu toto=tata aaaaaaa manger=chipes", "manger", 0,
+					   "suer=aaoeu toto=tata aaaaaaa", 0, 13);
 
+	/* ms_get_env_value ------------------------------------------------------------ */
+	
 	// no bad
 	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
 	test_ms_get_env_value(env_14, "mange", NULL, 14);
@@ -301,7 +288,6 @@ void test_all()
 	(void) a;
 
 	tested_test();
-
 
 	g_fd = 0;
 

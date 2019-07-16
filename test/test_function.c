@@ -138,31 +138,30 @@ void test_ms_env_add(char *env_str, char *test_str, int ret, char *res_str, char
 	}
 }
 
-void test_ms_env_remove(char **env,
- char *deleting_key, int ret, char **res, int error, int test)
+void test_ms_env_remove(char *env_str,
+ char *deleting_key, int ret, char *result_str, int error, int nb_test)
 {
-	int intern_ret;
-
 	ft_bzero(&m, sizeof(m));
+	ft_test_clear_testbuff();
+
+	char **env = ft_str_split(env_str, " ");
+	char **result = ft_str_split(result_str, " ");
 	ms_env_copy(env);
-	intern_ret = ft_unsetenv(deleting_key);
-	if (ft_str_split_cmp(m.env, res)
-		|| ret != intern_ret
+
+	int intern_return = ft_unsetenv(deleting_key);
+
+	if (ft_str_split_cmp(m.env, result)
+		|| ret != intern_return
 		|| error != g_errno)
 	{
-		printf("error test m env remove : %d \n", test);
-		if (ft_str_split_cmp(m.env, res))
-		{
-			g_test = 0;
-			ft_strsplitprint_test(m.env);
-			ft_strsplitprint_test(m.env);
-			printf("split error\n");
-			g_test = 1;
-		}
-		if (ret != intern_ret)
+		printf("error test m env remove : %d \n", nb_test);
+		ft_test_ifcmp_printsplit(result, m.env);
+		if (ret != intern_return)
 			printf("ret error\n");
 	}
 	ft_str_split_free(&m.env);
+	ft_str_split_free(&env);
+	ft_str_split_free(&result);
 	g_errno = 0;
 }
 
