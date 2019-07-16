@@ -19,8 +19,8 @@ void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 void test_replace_env_variable(char *line, char **env, char *res, int test);
 void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test);
 void find_binary_test(char *name, char **env, char *res, int test);
-void test_ms_env_copy(char **env, int ret, int error, int test);
-void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *str_error, int test);
+void test_ms_env_copy(char *env_str, int ret, int error, int test);
+void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *error_str, int test);
 void test_ms_env_remove(char **env,
  char *deleting_key, int ret, char **res, int error, int test);
 void test_ms_get_env_value(char **env, char *key, char *ret, int test);
@@ -37,41 +37,25 @@ void tested_test()
 {
 	g_test = 1;
 
-	char *test_1[1] = { NULL };
-	test_ms_env_copy(test_1, 0, 0, 1);
+	/* env copy ------------------------------------------------------------ */
+	test_ms_env_copy("", 0, 0, 1);
+	test_ms_env_copy("toto=super mimi=toto superTest", 0, 0, 2);
 
-	char *test_2[4] = { "toto=super", "mimi=toto", "superTest", NULL };
-	test_ms_env_copy(test_2, 0, 0, 2);
-
-	// test with var null && empty env
+	/* env add testing ------------------------------------------------------------ */
+	// lack of data
 	test_ms_env_add("", "", -1, NULL, "Bad number argument given to set env\n", 3);
-
-	// test var null && 1 var env
 	test_ms_env_add("toto=tata", "", -1, NULL, "Bad number argument given to set env\n", 4);
-
-	// empty env
 	test_ms_env_add("", "toto=tata", 0, "toto=tata", "", 5);
-
-	// bad variable : no =
+	// = pb
 	test_ms_env_add("", "tototata", -1, "", "The env separator is one single =\n", 6);
-
-	// bad variable : too much =
 	test_ms_env_add("tata=toto", "toto=tata=", -1, "tata=toto", "The env separator is one single =\n", 7);
-
-	// all good
-	test_ms_env_add("tata=toto", "super=titi", 0, "tata=toto super=titi", "", 8);
-
-	// two element and = in first
 	test_ms_env_add("tata=toto", "super= titi", -1, "tata=toto", "If two elements are supply no =\n", 81);
-
-	// two element and = in second
 	test_ms_env_add("tata=toto", "super =titi=", -1, "tata=toto", "If two elements are supply no =\n", 82);
-
-	// test with the $
+	// $ pb
 	test_ms_env_add("tata=toto", "super=$manger", -1, "tata=toto", "No $ en env variable\n", 83);
-
-	// test with the $
 	test_ms_env_add("tata=toto", "super $manger", -1, "tata=toto", "No $ en env variable\n", 84);
+	// good
+	test_ms_env_add("tata=toto", "super=titi", 0, "tata=toto super=titi", "", 8);
 
 	// no env
 	char *env_88[2] = { NULL };
