@@ -66,7 +66,7 @@ char *ft_find_binary(char *binary_name)
 	m.i = 0;
 	res = NULL;
 	ft_bzero(m.buffer, 4096);
-	if (!(value = ms_env_get_value("PATH"))
+	if (!(value = ms_env_get_value("PATH", m.env))
 		|| !(all_path = ft_str_split(value, ":")))
 		return (NULL);
 	while (all_path[m.i])

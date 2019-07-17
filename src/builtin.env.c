@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int ft_env_init(char ***argv, long *options, int *i, char ***env_save)
+static int ft_env_init(char ***argv, long *options, int *i)
 {
 	*i = ft_str_split_count(*argv);
 	*options = 0;
@@ -30,37 +30,39 @@ static int ft_env_init(char ***argv, long *options, int *i, char ***env_save)
 		}
 		(*argv)++;
 	}
-	*env_save = m.env;
 	return (0);
 }
 
-// if 1
-
-
-// if 2
-
-// je save la variable path a un endroit donner,
-// car c'est elle qui me permet d'aller dans les programme ?
+static int ft_env_handle_option(long options, char ***argv)
+{
+	if (options & OPTION_U)
+	{
+		if (!(m.env_tmp = ms_unset_env(**argv, m.env)))
+			return (-1);
+		(*argv)++;
+	}
+	if (options & OPTION_I)
+	{
+		if (!(m.env_tmp = ft_str_split("", " ")))
+			return (-1);
+	}
+	return (0);
+}
 
 void ft_env(char **argv)
 {
 	int i;
 	long options;
-	char **env_save;
 
-	if (ft_env_init(&argv, &options, &i, &env_save))
+	m.env_tmp = NULL;
+	if (ft_env_init(&argv, &options, &i))
 		return;
-	if (options & 1
-		&& !(m.env = ft_str_split("", " ")))
-		return;
-	else if (options & 2
-			 && !(m.env = ms_unset_env(*argv, m.env)))
+	if (ft_env_handle_option(options, &argv))
 		return;
 	if (!*argv)
 		ft_strsplit_print(m.env, '\n');
 	else
 		ms_do_cmd(argv);
-	if (m.env)
-		ft_str_split_free(&m.env);
-	m.env = env_save;
+	if (m.env_tmp)
+		ft_str_split_free(&m.env_tmp);
 }

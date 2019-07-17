@@ -3,10 +3,14 @@
 
 #import "libft.h"
 
+# define OPTION_I 1
+# define OPTION_U 2
+
 typedef struct s_ms
 {
 	int i;
 	char **env;
+	char **env_tmp;
 	char *buffer;
 	char buffer_array[4097];
 } t_ms;
@@ -19,7 +23,7 @@ t_ms m;
 /*
 **	test global
 */
-int  g_test_fd;
+int g_test_fd;
 char g_test_cd_buffer[4000];
 char **g_test_env;
 
@@ -28,7 +32,7 @@ void ft_echo(char **argv);
 int ft_unsetenv(char *removing_var);
 int ms_env_copy(char **env);
 int ft_setenv(char **argv);
-char *ms_env_get_value(char *key);
+char *ms_env_get_value(char *key, char **argv);
 int ms_env_modify(char *key, char *new_value);
 void ft_env(char **argv);
 int ms_search_function(char *current, void *p_searched);

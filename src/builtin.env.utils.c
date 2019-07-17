@@ -41,19 +41,19 @@ int ms_search_function(char *current, void *p_searched)
 	return (0);
 }
 
-char *ms_env_get_value(char *key)
+char *ms_env_get_value(char *key, char **argv)
 {
 	int i;
 	int position;
 
 	if (!key)
 		return (NULL);
-	position = ft_strsplit_search(m.env, ms_search_function, key);
+	position = ft_strsplit_search(argv, ms_search_function, key);
 	if (position > -1)
 	{
-		if (!(i = ft_strchr(m.env[position], '=')))
+		if (!(i = ft_strchr(argv[position], '=')))
 			return (NULL);
-		return (m.env[position] + i + 1);
+		return (argv[position] + i + 1);
 	}
 	return (NULL);
 }

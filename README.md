@@ -6,11 +6,12 @@
 -- exit
 
 # builtin env
-2 options to implements : 
+
+2 options to implements :  
 - i // execute with no env
 - u // u remove the env specified var
 
-
+refractoring de la fonction: 
 
 # fix 
 - error fork 
