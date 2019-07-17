@@ -16,8 +16,8 @@ int main(int ac, char **av, char **env)
 	if (env == NULL)
 		return (EXIT_FAILURE);
 
-	test_all();
-	//		ms_loop();
+//	test_all();
+			ms_loop();
 	//	ft_str_split_free(&m.env);
 
 	return (0);
