@@ -15,16 +15,24 @@ typedef struct s_ms
 	char buffer_array[4097];
 } t_ms;
 
+typedef struct s_test
+{
+	int fd;
+	char buffer[4000];
+	int end_test;
+} t_ms_test;
+
+
 /*
 **	structure programme
 */
-t_ms m;
+t_ms g_ms;
+t_ms_test g_mst;
 
 /*
 **	test global
 */
-int g_test_fd;
-char g_test_cd_buffer[4000];
+
 char **g_test_env;
 
 // env
@@ -66,7 +74,8 @@ char *search_binary_in_path(char *path, char *name);
 char *ft_find_binary(char *binary_name);
 
 // test
-void test_all();
+void test_all(char **env);
+void init(char **env);
 
 // utils
 void signal_program(int t);

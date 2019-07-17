@@ -58,9 +58,9 @@ int ft_setenv(char **env)
 
 	if (!env)
 		return (-1);
-	if ((new_env = ms_set_env(env, m.env)))
+	if ((new_env = ms_set_env(env, g_ms.env)))
 	{
-		m.env = new_env;
+		g_ms.env = new_env;
 		return (0);
 	}
 	else

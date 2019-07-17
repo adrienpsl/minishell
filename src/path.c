@@ -45,16 +45,16 @@ char *search_binary_in_path(char *path, char *name)
 		{
 			if (ft_streq(dp->d_name, name))
 			{
-				ft_strcat(m.buffer, path);
-				ft_strcat(m.buffer, "/");
-				ft_strcat(m.buffer, dp->d_name);
+				ft_strcat(g_ms.buffer, path);
+				ft_strcat(g_ms.buffer, "/");
+				ft_strcat(g_ms.buffer, dp->d_name);
 			}
 		}
 		closedir(dir);
 	}
 	else
 		return (NULL);
-	return (m.buffer[0] ? m.buffer : NULL);
+	return (g_ms.buffer[0] ? g_ms.buffer : NULL);
 }
 
 char *ft_find_binary(char *binary_name)
@@ -63,17 +63,17 @@ char *ft_find_binary(char *binary_name)
 	char *value;
 	char *res;
 
-	m.i = 0;
+	g_ms.i = 0;
 	res = NULL;
-	ft_bzero(m.buffer, 4096);
-	if (!(value = ms_env_get_value("PATH", m.env))
+	ft_bzero(g_ms.buffer, 4096);
+	if (!(value = ms_env_get_value("PATH", g_ms.env))
 		|| !(all_path = ft_str_split(value, ":")))
 		return (NULL);
-	while (all_path[m.i])
+	while (all_path[g_ms.i])
 	{
-		if ((res = search_binary_in_path(all_path[m.i], binary_name)))
+		if ((res = search_binary_in_path(all_path[g_ms.i], binary_name)))
 			return (res);
-		m.i++;
+		g_ms.i++;
 	}
 	return (res);
 }

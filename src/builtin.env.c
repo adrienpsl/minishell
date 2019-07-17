@@ -37,13 +37,13 @@ static int ft_env_handle_option(long options, char ***argv)
 {
 	if (options & OPTION_U)
 	{
-		if (ms_unset_env(**argv, m.env, &m.env_tmp) == -1)
+		if (ms_unset_env(**argv, g_ms.env, &g_ms.env_tmp) == -1)
 			return (-1);
 		(*argv)++;
 	}
 	if (options & OPTION_I)
 	{
-		if (!(m.env_tmp = ft_str_split("", " ")))
+		if (!(g_ms.env_tmp = ft_str_split("", " ")))
 			return (-1);
 	}
 	return (0);
@@ -54,19 +54,19 @@ void ft_env(char **argv)
 	int i;
 	long options;
 	
-	m.env_tmp = NULL;
+	g_ms.env_tmp = NULL;
 	if (ft_env_init(&argv, &options, &i))
 		return;
 	if (ft_env_handle_option(options, &argv))
 		return;
 	if (!*argv)
 	{
-		ft_strsplit_print(m.env, '\n');
+		ft_strsplit_print(g_ms.env, '\n');
 		ft_printf("\n");
 		ft_printf("\n");
 	}
 	else
 		ms_do_cmd(argv);
-	if (m.env_tmp)
-		ft_str_split_free(&m.env_tmp);
+	if (g_ms.env_tmp)
+		ft_str_split_free(&g_ms.env_tmp);
 }

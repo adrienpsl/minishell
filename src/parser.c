@@ -34,13 +34,13 @@ char *get_all_commands()
 	char *tmp;
 	int ret;
 
-	if (get_next_line(g_test_fd, &current_line, 0) == -1)
+	if (get_next_line(g_mst.fd, &current_line, 0) == -1)
 		return (NULL);
 	while (!is_quote_paired(current_line))
 	{
 		ft_printf("quotes>  ");
 		tmp = current_line;
-		if ((ret = get_next_line(g_test_fd, &current_line, 0)) == -1)
+		if ((ret = get_next_line(g_mst.fd, &current_line, 0)) == -1)
 			return (NULL);
 		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
 												 FREE_FIRST | FREE_THIRD)))
@@ -77,7 +77,7 @@ char *get_env_variable(char *line, int end)
 
 	if (!(key = ft_strndup(line, end)))
 		return (NULL);
-	value = ms_env_get_value(key, m.env);
+	value = ms_env_get_value(key, g_ms.env);
 	free(key);
 	return (value ? value : "");
 }

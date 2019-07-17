@@ -290,7 +290,7 @@ void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_s
 	char **env = ft_str_split(env_str, " ");
 	char **argv = ft_str_split(argument_str, " ");
 	char **res_env = ft_str_split(res_env_str, " ");
-	m.env = env;
+	g_ms.env = env;
 
 	ft_env(argv);
 
@@ -311,15 +311,15 @@ void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_s
 //		ft_str_split_free(&g_test_env);
 }
 
-void test_all()
+void test_all(char **env)
 {
 	g_test = 1;
-	t_ms *a = &m;
+	t_ms *a = &g_ms;
 	(void) a;
 
 	tested_test();
 
-	g_test_fd = 0;
+	g_mst.fd = 0;
 
 	char *clean_env = "HOME=/Users/adpusel PATH=/toto TEST=titi";
 
@@ -331,6 +331,12 @@ void test_all()
 	test_ft_env(4, "-i toto", clean_env, "", "no such binary\n");
 	test_ft_env(5, "-i cd", clean_env, "", "");
 	test_ft_env(6, "-u cd /", clean_env, "", "");
+
+	write_in_file("test\n");
+	init(env);
+	printf("toto \n");
+
+
 
 
 

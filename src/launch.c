@@ -63,7 +63,7 @@ int ms_do_cmd(char **argv)
 		else
 			path = ft_find_binary(*argv);
 		if (path)
-			ms_ex_binary(path, argv, m.env_tmp ? m.env : m.env_tmp);
+			ms_ex_binary(path, argv, g_ms.env_tmp ? g_ms.env : g_ms.env_tmp);
 		else
 		{
 			ft_printf("no such binary\n");
@@ -78,7 +78,7 @@ void ms_loop()
 	char **argv;
 
 	ft_printf("$> ");
-	while ((argv = read_command()))
+	while ((argv = read_command()) && !g_mst.end_test)
 	{
 		signal(SIGINT, signal_minishell);
 		if (*argv == NULL)

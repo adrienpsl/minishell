@@ -39,11 +39,11 @@ int ft_unsetenv(char *removing_var)
 	char **new_env;
 	int ret;
 
-	ret = ms_unset_env(removing_var, m.env, &new_env);
+	ret = ms_unset_env(removing_var, g_ms.env, &new_env);
 	if (ret == 1)
 	{
-		ft_str_split_free(&m.env);
-		m.env = new_env;
+		ft_str_split_free(&g_ms.env);
+		g_ms.env = new_env;
 		return (0);
 	}
 	if (ret == 0)
