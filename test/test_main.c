@@ -72,7 +72,7 @@ void tested_test()
 					   "suer=aaoeu toto=tata aaaaaaa", 0, 13);
 
 	/* ms_get_env_value ------------------------------------------------------------ */
-	
+
 	// no bad
 	char *env_14[5] = { "suer=aaoeu", "toto=tata", "aaaaaaa", "manger=chipes", NULL };
 	test_ms_get_env_value(env_14, "mange", NULL, 14);
@@ -282,14 +282,58 @@ void tested_test()
 	echo_test("\n", "\n", 5);
 }
 
+void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_str, char *res_env_str, char *result)
+{
+	ft_test_clear_testbuff();
+	char *tpm[1] = { NULL };
+	g_test_env = tpm;
+
+	char **env = ft_str_split(env_str, " ");
+	char **argv = ft_str_split(argument_str, " ");
+	char **res_env = ft_str_split(res_env_str, " ");
+	m.env = env;
+
+	ft_env(argv);
+
+	if (
+	 !ft_test_streq(g_test_buffer, result) ||
+	 ft_str_split_cmp(g_test_env, res_env)
+	 )
+	{
+		printf("test ft_env n %d /////////////////////////////////// \n", nb_test);
+		ft_test_ifcmp_printsplit(res_env, g_test_env);
+		ft_test_if_streq(res_str, g_test_buffer);
+	}
+
+	ft_str_split_free(&env);
+	ft_str_split_free(&argv);
+	ft_str_split_free(&res_env);
+	if (g_test_env)
+		ft_str_split_free(&g_test_env);
+}
+
 void test_all()
 {
+	g_test = 1;
 	t_ms *a = &m;
 	(void) a;
 
 	tested_test();
 
-	g_fd = 0;
+	g_test_fd = 0;
+
+	char *clean_env = "HOME=/Users/adpusel PATH=/toto TEST=titi";
+
+	// tester if I catch option
+	test_ft_env(0, "", clean_env, "", "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
+
+	// test free and create a new env.
+
+	// test -i
+
+	// test -u
+
+	// test env de env
 
 	//	while (1)
 	//	{

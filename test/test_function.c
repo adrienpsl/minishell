@@ -79,19 +79,18 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 void test_ms_env_copy(char *env_str, int ret, int error, int test)
 {
 	ft_bzero(&m, sizeof(m));
+	(void)error;
 
 	char **env = ft_str_split(env_str, " ");
 	int intern_ret = ms_env_copy(env);
 
 	if (((m.env && !env_str) || (!m.env && env_str))
 		|| ft_str_split_cmp(m.env, env)
-		|| ret != intern_ret
-		|| g_errno != error)
+		|| ret != intern_ret)
 	{
 		printf("error test : %d \n", test);
 	}
 	ft_str_split_free(&env);
-	g_errno = 0;
 	//	ft_strsplitprint_test(m.p_env);
 }
 
@@ -141,6 +140,7 @@ void test_ms_env_add(char *env_str, char *test_str, int ret, char *res_str, char
 void test_ms_env_remove(char *env_str,
  char *deleting_key, int ret, char *result_str, int error, int nb_test)
 {
+	(void)error;
 	ft_bzero(&m, sizeof(m));
 	ft_test_clear_testbuff();
 
@@ -151,8 +151,7 @@ void test_ms_env_remove(char *env_str,
 	int intern_return = ft_unsetenv(deleting_key);
 
 	if (ft_str_split_cmp(m.env, result)
-		|| ret != intern_return
-		|| error != g_errno)
+		|| ret != intern_return)
 	{
 		printf("error test m env remove : %d \n", nb_test);
 		ft_test_ifcmp_printsplit(result, m.env);
@@ -162,7 +161,6 @@ void test_ms_env_remove(char *env_str,
 	ft_str_split_free(&m.env);
 	ft_str_split_free(&env);
 	ft_str_split_free(&result);
-	g_errno = 0;
 }
 
 void test_ms_get_env_value(char **env, char *key, char *ret, int test)
@@ -201,7 +199,6 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 		if (ret != intern_ret)
 			printf("ret error\n");
 	}
-	g_errno = 0;
 }
 
 void test_quote(char *str, int res, int *test)
@@ -237,7 +234,7 @@ void write_in_file(char *str)
 	fclose(fopen("test_files/current_test", "w"));
 	fd = open("test_files/current_test", O_CREAT | O_RDWR);
 	write(fd, str, strlen(str));
-	g_fd = open("test_files/current_test", O_RDONLY);
+	g_test_fd = open("test_files/current_test", O_RDONLY);
 }
 
 void test_get_all_command(char *test_str, char *res, int *test)

@@ -13,8 +13,6 @@
 #include <dirent.h>
 #include "minishell.h"
 
-// je donne un path a cette fonction, et elle va loop dessus et me resortir le resultat ?
-
 char *display_dir_content(char *path, char *searched_str)
 {
 	DIR *dir;

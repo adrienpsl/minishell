@@ -3,37 +3,25 @@
 
 #import "libft.h"
 
-/*
-* * ft_errno_set error
-*/
-enum ms_error
-{
-	NO_ENV = 100,
-	BAD_VAR,
-	BAD_DELETING_KEY,
-	STR_NOT_IN_PATH,
-	OLDPATH_HAS_BE_DELETED,
-	HOME_HAS_BE_DELETED,
-	INVALID_PATH,
-};
-
 typedef struct s_ms
 {
 	int i;
-	int is_fork;
-	int is_text;
 	char **env;
 	char *buffer;
 	char buffer_array[4097];
 } t_ms;
 
 /*
-**	global
+**	structure programme
 */
-int g_errno;
-int g_fd;
-char g_test_cd_buffer[4000];
 t_ms m;
+
+/*
+**	test global
+*/
+int  g_test_fd;
+char g_test_cd_buffer[4000];
+char **g_test_env;
 
 // env
 void ft_echo(char **argv);
@@ -42,11 +30,11 @@ int ms_env_copy(char **env);
 int ft_setenv(char **argv);
 char *ms_env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
-void ft_env();
+void ft_env(char **argv);
 int ms_search_function(char *current, void *p_searched);
 
 int ms_test_file(char *path, char *builtin);
-void signal_handler(int sign);
+void signal_minishell(int sign);
 
 int is_quote_paired(char *command);
 char *get_all_commands();
@@ -59,17 +47,24 @@ char **read_command();
 int ft_cd(char **argv);
 char *get_env_variable(char *line, int end);
 char *replace_env_variable(char *line);
+char **ms_unset_env(char *removing_var, char **env);
 // echo
 // env
 //
 //
 
+// action
+int ms_ex_binary(char *path, char **argv, char **env);
+int ms_do_cmd(char **argv);
+void ms_loop();
 // path
-char *display_dir_content(char *path, char *searched_str);
 char *search_binary_in_path(char *path, char *name);
 char *ft_find_binary(char *binary_name);
 
 // test
 void test_all();
+
+// utils
+void signal_program(int t);
 
 #endif //MINISHELL_MINISHELL_H

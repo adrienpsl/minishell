@@ -12,6 +12,20 @@
 
 #include "libft.h"
 
+void signal_program(int t)
+{
+	(void) t;
+	ft_printf("\n");
+}
+
+void signal_minishell(int sign)
+{
+	(void) sign;
+	ft_printf("\n$> ");
+}
+
+
+
 int ms_test_file(char *path, char *builtin)
 {
 	if (access(path, F_OK))
