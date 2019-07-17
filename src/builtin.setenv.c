@@ -36,26 +36,31 @@ char **ms_set_env(char **argv, char **env)
 {
 	int i;
 	char *tmp_str;
+	char **nev_env;
 
 	i = ft_str_split_count(argv);
+	nev_env = NULL;
 	if (i == 1)
 		tmp_str = one_argument(*argv);
 	else if (i == 2)
 		tmp_str = two_arguments(argv);
 	else
 		return (ft_putstr_retptr("Bad number argument given to set env", NULL));
-	return (tmp_str ? ft_str_split_add(env, tmp_str, FREE) : NULL);
+	if (tmp_str && !(nev_env = ft_str_split_add(env, tmp_str, FREE)))
+	    return (NULL);
+	free(tmp_str);
+	return (nev_env);
 }
 
-int ft_setenv(char **argv)
+int ft_setenv(char **env)
 {
-	char **new_argv;
+	char **new_env;
 
-	if (!argv)
+	if (!env)
 		return (-1);
-	if ((new_argv = ms_set_env(argv, m.env)))
+	if ((new_env = ms_set_env(env, m.env)))
 	{
-		m.env = new_argv;
+		m.env = new_env;
 		return (0);
 	}
 	else

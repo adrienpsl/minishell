@@ -31,7 +31,7 @@ char **g_test_env;
 void ft_echo(char **argv);
 int ft_unsetenv(char *removing_var);
 int ms_env_copy(char **env);
-int ft_setenv(char **argv);
+int ft_setenv(char **env);
 char *ms_env_get_value(char *key, char **argv);
 int ms_env_modify(char *key, char *new_value);
 void ft_env(char **argv);
@@ -51,7 +51,7 @@ char **read_command();
 int ft_cd(char **argv);
 char *get_env_variable(char *line, int end);
 char *replace_env_variable(char *line);
-char **ms_unset_env(char *removing_var, char **env);
+int ms_unset_env(char *removing_var, char **env, char ***out);
 // echo
 // env
 //

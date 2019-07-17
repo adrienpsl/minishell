@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char **ms_unset_env(char *removing_var, char **env)
+int ms_unset_env(char *removing_var, char **env, char ***out)
 {
 	int i;
 	char **new_env;
@@ -21,29 +21,32 @@ char **ms_unset_env(char *removing_var, char **env)
 	if (i > -1)
 	{
 		if (!(new_env = ft_str_split_copy(env, 0)))
-			return (NULL);
+			return (-1);
 		free(new_env[i]);
 		while (new_env[i] != NULL)
 		{
 			new_env[i] = new_env[i + 1];
 			i++;
 		}
-		return (new_env);
+		*out = new_env;
+		return (1);
 	}
-	return (NULL);
+	return (0);
 }
 
 int ft_unsetenv(char *removing_var)
 {
 	char **new_env;
+	int ret;
 
-	new_env = ms_unset_env(removing_var, m.env);
-	if (new_env)
+	ret = ms_unset_env(removing_var, m.env, &new_env);
+	if (ret == 1)
 	{
 		ft_str_split_free(&m.env);
 		m.env = new_env;
 		return (0);
 	}
+	if (ret == 0)
+	    return (0);
 	return (-1);
 }
-

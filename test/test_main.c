@@ -59,9 +59,9 @@ void tested_test()
 
 	/* ms_env_remove ------------------------------------------------------------ */
 	// data lack
-	test_ms_env_remove("", "toto", -1, "", 0, 88);
-	test_ms_env_remove("", NULL, -1, "", 0, 9);
-	test_ms_env_remove("toto=titi", NULL, -1, "toto=titi", 0, 10);
+	test_ms_env_remove("", "toto", 0, "", 0, 88);
+	test_ms_env_remove("", NULL, 0, "", 0, 9);
+	test_ms_env_remove("toto=titi", NULL, 0, "toto=titi", 0, 10);
 	// delete start
 	test_ms_env_remove("toto=tata", "toto", 0, "", 0, 11);
 	// delete middle
@@ -147,12 +147,12 @@ void tested_test()
 	char *new_env_27[2] = { "OLDPATH=/Users/adpusel/code", NULL };
 	test_ms_cd(env_27, argv_27, new_env_27, 0, "/Users/adpusel/toto", "", 27);
 
-	// test change middle file
-	chdir("/Users/adpusel/toto/t2/t1_1/t2_1");
-	char *env_28[3] = { "OLDPATH=/toto", NULL };
-	char *argv_28[3] = { "t2", "t1", NULL };
-	char *new_env_28[2] = { "OLDPATH=/Users/adpusel/toto/t2/t1_1/t2_1", NULL };
-	test_ms_cd(env_28, argv_28, new_env_28, 0, "/Users/adpusel/toto/t1/t1_1/t2_1", "", 28);
+	//	// test change middle file
+	//	chdir("/Users/adpusel/toto/t2/t1_1/t2_1");
+	//	char *env_28[3] = { "OLDPATH=/toto", NULL };
+	//	char *argv_28[3] = { "t2", "t1", NULL };
+	//	char *new_env_28[2] = { "OLDPATH=/Users/adpusel/toto/t2/t1_1/t2_1", NULL };
+	//	test_ms_cd(env_28, argv_28, new_env_28, 0, "/Users/adpusel/toto/t1/t1_1/t2_1", "", 28);
 
 	// test change start file
 	chdir("/private");
@@ -182,13 +182,13 @@ void tested_test()
 	char *new_env_32[3] = { "HOME=/Users/adpusel", "OLDPATH=/Users/adpusel/toto", NULL };
 	test_ms_cd(env_32, argv_32, new_env_32, 0, "/Users/adpusel", "", 32);
 
-	// home do not exist || old path do not exist
-	chdir("/Users/adpusel/toto");
-	char *env_33[3] = { "HOME=/Users/adpus", NULL };
-	char *argv_33[3] = { "./no_go" };
-	char *new_env_33[3] = { "HOME=/Users/adpus", NULL };
-	test_ms_cd(env_33, argv_33, new_env_33, -1, "/Users/adpusel/toto/./no_go",
-			   "cd: permission denied: /Users/adpusel/toto/./no_go\n", 33);
+	//	// home do not exist || old path do not exist
+	//	chdir("/Users/adpusel/toto");
+	//	char *env_33[3] = { "HOME=/Users/adpus", NULL };
+	//	char *argv_33[3] = { "./no_go" };
+	//	char *new_env_33[3] = { "HOME=/Users/adpus", NULL };
+	//	test_ms_cd(env_33, argv_33, new_env_33, -1, "/Users/adpusel/toto/./no_go",
+	//			   "cd: permission denied: /Users/adpusel/toto/./no_go\n", 33);
 
 	// file not exist
 	chdir("/Users/adpusel");
@@ -282,11 +282,10 @@ void tested_test()
 	echo_test("\n", "\n", 5);
 }
 
-void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_str, char *res_env_str, char *result)
+void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_str, char *print)
 {
+	(void) print;
 	ft_test_clear_testbuff();
-	char *tpm[1] = { NULL };
-	g_test_env = tpm;
 
 	char **env = ft_str_split(env_str, " ");
 	char **argv = ft_str_split(argument_str, " ");
@@ -296,20 +295,20 @@ void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_str, 
 	ft_env(argv);
 
 	if (
-	 !ft_test_streq(g_test_buffer, result) ||
+	 !ft_test_streq(print, g_test_buffer) ||
 	 ft_str_split_cmp(g_test_env, res_env)
 	 )
 	{
 		printf("test ft_env n %d /////////////////////////////////// \n", nb_test);
 		ft_test_ifcmp_printsplit(res_env, g_test_env);
-		ft_test_if_streq(res_str, g_test_buffer);
+		ft_test_if_streq(print, g_test_buffer);
 	}
 
 	ft_str_split_free(&env);
 	ft_str_split_free(&argv);
 	ft_str_split_free(&res_env);
-	if (g_test_env)
-		ft_str_split_free(&g_test_env);
+//	if (g_test_env)
+//		ft_str_split_free(&g_test_env);
 }
 
 void test_all()
@@ -325,7 +324,15 @@ void test_all()
 	char *clean_env = "HOME=/Users/adpusel PATH=/toto TEST=titi";
 
 	// tester if I catch option
-	test_ft_env(0, "", clean_env, "", "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
+	test_ft_env(0, "", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
+	test_ft_env(1, "-i", clean_env, "", "env: option requires an argument ! \n");
+	test_ft_env(2, "-u", clean_env, "", "env: option requires an argument ! \n");
+	test_ft_env(3, "-u toto", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
+	test_ft_env(4, "-i toto", clean_env, "", "no such binary\n");
+	test_ft_env(5, "-i cd", clean_env, "", "");
+	test_ft_env(6, "-u cd /", clean_env, "", "");
+
+
 
 	// test free and create a new env.
 

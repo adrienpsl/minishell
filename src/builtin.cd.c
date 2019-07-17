@@ -17,10 +17,10 @@ static int go_dir(char *go_path, char *current_path)
 {
 	int right;
 
-	if (g_test)
-		ft_memcpy(g_test_cd_buffer, go_path, ft_strlen(go_path));
 	if (!go_path)
 		return (-1);
+	if (g_test)
+		ft_memcpy(g_test_cd_buffer, go_path, ft_strlen(go_path));
 	if ((right = ms_test_file(go_path, "cd")))
 		return (right);
 	if (chdir(go_path))

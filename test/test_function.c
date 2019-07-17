@@ -74,6 +74,7 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 		}
 		printf("\n\n");
 	}
+	ft_str_split_free(&m.env);
 }
 
 void test_ms_env_copy(char *env_str, int ret, int error, int test)
@@ -91,7 +92,7 @@ void test_ms_env_copy(char *env_str, int ret, int error, int test)
 		printf("error test : %d \n", test);
 	}
 	ft_str_split_free(&env);
-	//	ft_strsplitprint_test(m.p_env);
+	ft_str_split_free(&m.env);
 }
 
 void test_ms_env_add(char *env_str, char *test_str, int ret, char *res_str, char *error_str, int nb_test)
@@ -132,9 +133,11 @@ void test_ms_env_add(char *env_str, char *test_str, int ret, char *res_str, char
 			printf("%s \n", g_test_buffer);
 		}
 		printf("------------ \n");
-		ft_str_split_free(&res);
-		ft_str_split_free(&env);
 	}
+	ft_str_split_free(&env);
+	ft_str_split_free(&res);
+	ft_str_split_free(&test);
+	ft_str_split_free(&m.env);
 }
 
 void test_ms_env_remove(char *env_str,
@@ -174,6 +177,7 @@ void test_ms_get_env_value(char **env, char *key, char *ret, int test)
 		printf("error test get value : %d \n", test);
 	if ((!ret && intern_ret) || (ret && !intern_ret))
 		printf("error test get value : %d \n", test);
+	ft_str_split_free(&m.env);
 }
 
 void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **res, int test)
@@ -199,6 +203,7 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 		if (ret != intern_ret)
 			printf("ret error\n");
 	}
+	ft_str_split_free(&m.env);
 }
 
 void test_quote(char *str, int res, int *test)

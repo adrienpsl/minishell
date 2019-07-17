@@ -37,7 +37,7 @@ static int ft_env_handle_option(long options, char ***argv)
 {
 	if (options & OPTION_U)
 	{
-		if (!(m.env_tmp = ms_unset_env(**argv, m.env)))
+		if (ms_unset_env(**argv, m.env, &m.env_tmp) == -1)
 			return (-1);
 		(*argv)++;
 	}
@@ -53,7 +53,7 @@ void ft_env(char **argv)
 {
 	int i;
 	long options;
-
+	
 	m.env_tmp = NULL;
 	if (ft_env_init(&argv, &options, &i))
 		return;
@@ -63,6 +63,8 @@ void ft_env(char **argv)
 		ft_strsplit_print(m.env, '\n');
 	else
 		ms_do_cmd(argv);
-	if (m.env_tmp)
-		ft_str_split_free(&m.env_tmp);
+	t_ms t = m;
+	(void)t;
+//	if (m.env_tmp)
+//		ft_str_split_free(&m.env_tmp);
 }
