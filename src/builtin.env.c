@@ -60,7 +60,11 @@ void ft_env(char **argv)
 	if (ft_env_handle_option(options, &argv))
 		return;
 	if (!*argv)
+	{
 		ft_strsplit_print(m.env, '\n');
+		ft_printf("\n");
+		ft_printf("\n");
+	}
 	else
 		ms_do_cmd(argv);
 	if (m.env_tmp)
