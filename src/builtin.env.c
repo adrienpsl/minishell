@@ -63,8 +63,6 @@ void ft_env(char **argv)
 		ft_strsplit_print(m.env, '\n');
 	else
 		ms_do_cmd(argv);
-	t_ms t = m;
-	(void)t;
-//	if (m.env_tmp)
-//		ft_str_split_free(&m.env_tmp);
+	if (m.env_tmp)
+		ft_str_split_free(&m.env_tmp);
 }
