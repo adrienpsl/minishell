@@ -61,21 +61,21 @@ char *ft_find_binary(char *binary_name)
 {
 	char **all_path;
 	char *value;
-	char *res;
+	char *path;
 
 	g_ms.i = 0;
-	res = NULL;
+	path = NULL;
 	ft_bzero(g_ms.buffer, 4096);
 	if (!(value = ms_env_get_value("PATH", g_ms.env))
 		|| !(all_path = ft_str_split(value, ":")))
 		return (NULL);
 	while (all_path[g_ms.i])
 	{
-		if ((res = search_binary_in_path(all_path[g_ms.i], binary_name)))
-			return (res);
+		if ((path = search_binary_in_path(all_path[g_ms.i], binary_name)))
+			return (path);
 		g_ms.i++;
 	}
-	return (res);
+	return (path);
 }
 
 

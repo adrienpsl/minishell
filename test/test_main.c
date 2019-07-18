@@ -293,14 +293,46 @@ void tested_test()
 	test_ft_env(4, "-i toto", clean_env, "", "no such binary\n");
 	test_ft_env(5, "-i cd", clean_env, "", "");
 	test_ft_env(6, "-u cd /", clean_env, "", "");
-
 }
 
 
+// comment faire les test end to end ?
+// ou ls faire en shell ?
+// ca me semble relou en shell.
+
+void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_str, char *pwd, char *print)
+{
+	ft_test_clear_testbuff();
+	ft_bzero(g_mst.buffer, 4000);
+
+	char **env = ft_str_split(env_str, " ");
+	char **argv = ft_str_split(argv_str, " ");
+	char **new_env = ft_str_split(new_env_str, " ");
+	char buffer_pwd[5000];
+
+	getcwd(buffer_pwd, 5000);
+
+	if (
+	 ft_str_split_cmp(g_ms.env, new_env) ||
+	 !ft_streq(pwd, buffer_pwd) ||
+	 !ft_streq(print, g_test_buffer)
+	 )
+	{
+		printf("Error test end to end : %d", nb_test);
+		ft_test_if_streq(pwd, buffer_pwd);
+		ft_test_if_streq(print, g_test_buffer);
+		ft_test_ifcmp_printsplit(g_ms.env, new_env);
+	}
+
+	ft_str_split_free(&env);
+	ft_str_split_free(&argv);
+	ft_str_split_free(&new_env);
+	ft_str_split_free(&g_ms.env);
+}
 
 void test_all(char **env)
 {
-	(void)env;
+	(void) env;
 	g_test = 1;
 	t_ms *a = &g_ms;
 	(void) a;
@@ -309,9 +341,9 @@ void test_all(char **env)
 
 	g_mst.fd = 0;
 
-//	write_in_file("test\n");
-//	init(env);
-//	printf("toto \n");
+	//	write_in_file("test\n");
+	//	init(env);
+	//	printf("toto \n");
 
 
 
