@@ -18,7 +18,7 @@
 void test_get_env_variable(char *line, char **env, int end, char *res, int test);
 void test_replace_env_variable(char *line, char **env, char *res, int test);
 void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, char *error_text, int test);
-void find_binary_test(char *name, char **env, char *res, int test);
+void test_ms_loop_on_path_directory(int test, char **env, char *res, char *name);
 void test_ms_env_copy(char *env_str, int ret, int error, int test);
 void test_ms_env_add(char *env, char *new_var, int ret, char *res, char *error_str, int test);
 void test_ms_env_remove(char *env_str,
@@ -270,10 +270,10 @@ void tested_test()
 	 "PTH=/Users/adpusel/:/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 	};
 
-	find_binary_test("ls", find_binary_env, "/bin/ls", 1);
-	find_binary_test("l", find_binary_env, NULL, 2);
-	find_binary_test("ls", find_binary_env_no_path, NULL, 3);
-	find_binary_test("db_dump", find_binary_env, "/usr/bin/db_dump", 4);
+	test_ms_loop_on_path_directory(1, find_binary_env, "/bin/ls", "ls");
+	test_ms_loop_on_path_directory(2, find_binary_env, "", "l");
+	test_ms_loop_on_path_directory(3, find_binary_env_no_path, "", "ls");
+	test_ms_loop_on_path_directory(4, find_binary_env, "/usr/bin/db_dump", "db_dump");
 
 	/* echo test ------------------------------------------------------------ */
 	echo_test("toto", "toto\n", 1);
@@ -324,10 +324,10 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 		ft_test_ifcmp_printsplit(g_ms.env, new_env);
 	}
 
-	ft_str_split_free(&env);
-	ft_str_split_free(&argv);
-	ft_str_split_free(&new_env);
-	ft_str_split_free(&g_ms.env);
+	ft_strsplit_free(&env);
+	ft_strsplit_free(&argv);
+	ft_strsplit_free(&new_env);
+	ft_strsplit_free(&g_ms.env);
 }
 
 void test_all(char **env)

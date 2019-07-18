@@ -25,3 +25,5 @@ refractoring de la fonction:
 - errror handling 
 
 - I will do now the big test ? in shell or in c ?
+
+- use a buffer to define the size max argv

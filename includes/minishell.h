@@ -1,15 +1,20 @@
 #ifndef MINISHELL_MINISHELL_H
 #define MINISHELL_MINISHELL_H
 
-#import "libft.h"
+# import "libft.h"
+# include <dirent.h>
 
 # define OPTION_I 1
 # define OPTION_U 2
+
+# define MS_BUFF_MAX 4096
+# define MS_NAME "mimishell"
 
 typedef struct s_ms
 {
 	int i;
 	char **env;
+	char **argv;
 	char **env_tmp;
 	char *buffer;
 	char buffer_array[4097];
@@ -42,7 +47,7 @@ int ms_env_copy(char **env);
 int ft_setenv(char **env);
 char *ms_env_get_value(char *key, char **argv);
 int ms_env_modify(char *key, char *new_value);
-void ft_env(char **argv);
+int ft_env(char ***argv);
 int ms_search_function(char *current, void *p_searched);
 
 int ms_test_file(char *path, char *builtin);
@@ -65,13 +70,14 @@ int ms_unset_env(char *removing_var, char **env, char ***out);
 //
 //
 
+// binary
+int ms_handle_binary(char **argv);
+
 // action
-int ms_ex_binary(char *path, char **argv, char **env);
 int ms_do_cmd(char **argv);
 void ms_loop();
 // path
-char *search_binary_in_path(char *path, char *name);
-char *ft_find_binary(char *binary_name);
+//char *ms_search_in_directory(char *directory_path, char *binary_name);
 
 // test
 void test_all(char **env);

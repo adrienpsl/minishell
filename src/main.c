@@ -20,8 +20,10 @@ int main(int ac, char **av, char **env)
 
 	test_all(env);
 
+//	ft_strsplit_free(&g_ms.env);
+
 //	ms_loop();
-	//	ft_str_split_free(&g_ms.env);
+	//	ft_strsplit_free(&g_ms.env);
 
 	return (0);
 }

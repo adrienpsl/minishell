@@ -28,7 +28,8 @@ void signal_minishell(int sign)
 
 int ms_test_file(char *path, char *builtin)
 {
-	if (access(path, F_OK))
+
+	if (!path || access(path, F_OK))
 	{
 		ft_printf("%s: no such file or directory: %s\n", builtin, path);
 		return (-1);

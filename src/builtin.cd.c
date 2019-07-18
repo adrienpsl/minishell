@@ -70,7 +70,7 @@ int ft_cd(char **argv)
 	if (ft_streq(*argv, "--"))
 		argv++ && nb_argv--;
 	if (getcwd(buff_current_path, 4096) == NULL)
-		return (ft_putstr_retint("No access to current directory", -1));
+		return (ft_putstr_ret_int("No access to current directory", -1));
 	if (nb_argv == 0)
 		ret = go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), buff_current_path);
 	else if (nb_argv == 1)
@@ -78,6 +78,6 @@ int ft_cd(char **argv)
 	else if (nb_argv == 2)
 		ret = two_argv(*argv, argv[1], buff_current_path);
 	else
-		ret = ft_putstr_retint("cd: too many arguments", -1);
+		ret = ft_putstr_ret_int("cd: too many arguments", -1);
 	return (ret);
 }

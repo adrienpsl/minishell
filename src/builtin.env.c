@@ -49,23 +49,23 @@ static int ft_env_handle_option(long options, char ***argv)
 	return (0);
 }
 
-void ft_env(char **argv)
+// I want to parse option, and use that to return the good argv
+
+int ft_env(char ***argv)
 {
 	int i;
 	long options;
-	
+
 	g_ms.env_tmp = NULL;
-	if (ft_env_init(&argv, &options, &i))
-		return;
-	if (ft_env_handle_option(options, &argv))
-		return;
+	if (ft_env_init(argv, &options, &i))
+		return (-1);
+	if (ft_env_handle_option(options, argv))
+		return (-1);
 	if (!*argv)
 	{
 		ft_strsplit_print(g_ms.env, '\n');
 		ft_printf("\n");
+		return (1);
 	}
-	else
-		ms_do_cmd(argv);
-	if (g_ms.env_tmp)
-		ft_str_split_free(&g_ms.env_tmp);
+	return (0);
 }

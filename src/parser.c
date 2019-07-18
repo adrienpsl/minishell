@@ -130,5 +130,5 @@ char **read_command()
 	if (!(argv = build_argv(line)))
 		return (NULL);
 	free(line);
-	return (argv);
+	return (!g_mst.end_test ? argv : NULL);
 }
