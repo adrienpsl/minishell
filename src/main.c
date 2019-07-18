@@ -7,7 +7,7 @@ void init(char **env)
 	ms_env_copy(env);
 	g_ms.buffer = g_ms.buffer_array;
 	signal(SIGINT, signal_minishell);
-	ms_loop();
+//	ms_loop();
 }
 
 int main(int ac, char **av, char **env)

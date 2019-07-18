@@ -32,6 +32,7 @@ void test_get_all_command(char *test_str, char *res, int *test);
 void test_transform_space(char *str, char *res, int test);
 void test_read_command(char *command, char *res, int test);
 void echo_test(char *line, char *res, int test);
+void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_str, char *print);
 
 void tested_test()
 {
@@ -280,39 +281,26 @@ void tested_test()
 	echo_test("-n toto supre 'auau  aue' ", "toto supre auau  aue", 3);
 	echo_test("-n", "", 4);
 	echo_test("\n", "\n", 5);
+
+	/* ft_env test ------------------------------------------------------------ */
+	char *clean_env = "HOME=/Users/adpusel PATH=/toto TEST=titi";
+
+	// tester if I catch option
+	test_ft_env(0, "", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi\n");
+	test_ft_env(1, "-i", clean_env, "", "env: option requires an argument ! \n");
+	test_ft_env(2, "-u", clean_env, "", "env: option requires an argument ! \n");
+	test_ft_env(3, "-u toto", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi\n");
+	test_ft_env(4, "-i toto", clean_env, "", "no such binary\n");
+	test_ft_env(5, "-i cd", clean_env, "", "");
+	test_ft_env(6, "-u cd /", clean_env, "", "");
+
 }
 
-void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_str, char *print)
-{
-	(void) print;
-	ft_test_clear_testbuff();
 
-	char **env = ft_str_split(env_str, " ");
-	char **argv = ft_str_split(argument_str, " ");
-	char **res_env = ft_str_split(res_env_str, " ");
-	g_ms.env = env;
-
-	ft_env(argv);
-
-	if (
-	 !ft_test_streq(print, g_test_buffer) ||
-	 ft_str_split_cmp(g_test_env, res_env)
-	 )
-	{
-		printf("test ft_env n %d /////////////////////////////////// \n", nb_test);
-		ft_test_ifcmp_printsplit(res_env, g_test_env);
-		ft_test_if_streq(print, g_test_buffer);
-	}
-
-	ft_str_split_free(&env);
-	ft_str_split_free(&argv);
-	ft_str_split_free(&res_env);
-//	if (g_test_env)
-//		ft_str_split_free(&g_test_env);
-}
 
 void test_all(char **env)
 {
+	(void)env;
 	g_test = 1;
 	t_ms *a = &g_ms;
 	(void) a;
@@ -321,20 +309,9 @@ void test_all(char **env)
 
 	g_mst.fd = 0;
 
-	char *clean_env = "HOME=/Users/adpusel PATH=/toto TEST=titi";
-
-	// tester if I catch option
-	test_ft_env(0, "", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
-	test_ft_env(1, "-i", clean_env, "", "env: option requires an argument ! \n");
-	test_ft_env(2, "-u", clean_env, "", "env: option requires an argument ! \n");
-	test_ft_env(3, "-u toto", clean_env, "", "HOME=/Users/adpusel\nPATH=/toto\nTEST=titi");
-	test_ft_env(4, "-i toto", clean_env, "", "no such binary\n");
-	test_ft_env(5, "-i cd", clean_env, "", "");
-	test_ft_env(6, "-u cd /", clean_env, "", "");
-
-	write_in_file("test\n");
-	init(env);
-	printf("toto \n");
+//	write_in_file("test\n");
+//	init(env);
+//	printf("toto \n");
 
 
 

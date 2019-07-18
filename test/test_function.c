@@ -308,3 +308,30 @@ void echo_test(char *line, char *res, int test)
 		printf("\n--- \n");
 	}
 }
+
+void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_str, char *print)
+{
+	(void) print;
+	ft_test_clear_testbuff();
+
+	char **env = ft_str_split(env_str, " ");
+	char **argv = ft_str_split(argument_str, " ");
+	char **res_env = ft_str_split(res_env_str, " ");
+	g_ms.env = env;
+
+	ft_env(argv);
+
+	if (
+	 !ft_test_streq(print, g_test_buffer) ||
+	 ft_str_split_cmp(g_test_env, res_env)
+	 )
+	{
+		printf("test ft_env n %d /////////////////////////////////// \n", nb_test);
+		ft_test_ifcmp_printsplit(res_env, g_test_env);
+		ft_test_if_streq(print, g_test_buffer);
+	}
+
+	ft_str_split_free(&env);
+	ft_str_split_free(&argv);
+	ft_str_split_free(&res_env);
+}
