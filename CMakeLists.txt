@@ -12,13 +12,13 @@ set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
 add_subdirectory(libft)
 
 add_library(minishell_lib STATIC
-        src/path.c
+        src/binary.c
         src/builtin.env.c
         src/builtin.env.utils.c
         src/parser.c
         src/builtin.cd.c
         src/builtin.echo.c
-        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/launch.c)
+        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 

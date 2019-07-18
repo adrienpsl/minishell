@@ -64,8 +64,8 @@ void ft_env(char **argv)
 		ft_strsplit_print(g_ms.env, '\n');
 		ft_printf("\n");
 	}
-	else
-		ms_do_cmd(argv);
+//	else
+//		ms_do_cmd(argv);
 	if (g_ms.env_tmp)
 		ft_str_split_free(&g_ms.env_tmp);
 }

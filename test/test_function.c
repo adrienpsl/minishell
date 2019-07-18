@@ -15,6 +15,8 @@
 #include <sys/stat.h>
 #include "libft.h"
 
+# include "../src/binary.c"
+
 void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 {
 	g_ms.env = env;
@@ -278,15 +280,16 @@ void test_read_command(char *command, char *res, int test)
 	}
 }
 
-void find_binary_test(char *name, char **env, char *res, int test)
+void test_ms_loop_on_path_directory(int test, char **env, char *res, char *name)
 {
+	ft_bzero(g_ms.buffer_array, 4000);
 	g_ms.env = env;
-	char *ret = ft_find_binary(name);
-	if (!ft_streq(ret, res))
+	ms_loop_on_path_directory(name);
+	if (!ft_streq(g_ms.buffer_array, res))
 	{
-		printf("error find binary test : %d \n", test);
+		printf("error ms loop on path directory : %d \n", test);
 		printf("res : %s \n", res);
-		printf("test: %s \n", ret);
+		printf("test: %s \n", g_ms.buffer_array);
 	}
 }
 
