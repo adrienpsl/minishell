@@ -323,7 +323,6 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 		ft_test_if_streq(print, g_test_buffer);
 		ft_test_ifcmp_printsplit(g_ms.env, new_env);
 	}
-
 	ft_strsplit_free(&env);
 	ft_strsplit_free(&argv);
 	ft_strsplit_free(&new_env);
@@ -337,12 +336,14 @@ void test_all(char **env)
 	t_ms *a = &g_ms;
 	(void) a;
 
-	tested_test();
+//	tested_test();
 
 	g_mst.fd = 0;
 
-	//	write_in_file("test\n");
-	//	init(env);
+	write_in_file("test\n");
+	init(env);
+
+	printf("--%s-- \n", g_test_buffer);
 	//	printf("toto \n");
 
 
@@ -360,7 +361,7 @@ void test_all(char **env)
 
 	//	while (1)
 	//	{
-	//		ft_strsplitprint_test(read_command());
+	//		ft_strsplitprint_test(ms_parser_read_command());
 	//	}
 	/**/
 }

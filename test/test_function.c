@@ -16,14 +16,16 @@
 #include "libft.h"
 
 # include "../src/binary.c"
+# include "../src/parser.c"
+# include "../src/parser.read_full_line.c"
 
 void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 {
 	g_ms.env = env;
-	line = get_env_variable(line, end);
+	line = ms_parser_find_$(line, end);
 	if (!ft_streq(line, res))
 	{
-		printf("Error get_env_variable : %d \n", test);
+		printf("Error ms_parser_find_$ : %d \n", test);
 		printf("res : %s \n", res);
 		printf("ret : %s \n", line);
 	}
@@ -32,7 +34,7 @@ void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 void test_replace_env_variable(char *line, char **env, char *res, int test)
 {
 	g_ms.env = env;
-	line = replace_env_variable(ft_strdup(line));
+	line = ms_parser_replace_$(ft_strdup(line));
 	if (!ft_streq(line, res))
 	{
 		printf("Error repalace variable : %d \n", test);
@@ -213,7 +215,7 @@ void test_quote(char *str, int res, int *test)
 {
 	int is_quote_ret;
 
-	is_quote_ret = is_quote_paired(str);
+	is_quote_ret = ms_is_quote_match(str);
 	if (is_quote_ret != res)
 	{
 		printf("error print quote test %d res: %d \n", *test, is_quote_ret);
@@ -224,7 +226,7 @@ void test_quote(char *str, int res, int *test)
 void test_get_all_commands(char *name_file, char *res, int test)
 {
 	(void) name_file;
-	char *ret = get_all_commands();
+	char *ret = ms_parser_get_commands();
 	if (!ft_streq(ret, ret))
 	{
 		printf("error test %d \n", test);
@@ -248,7 +250,7 @@ void write_in_file(char *str)
 void test_get_all_command(char *test_str, char *res, int *test)
 {
 	write_in_file(test_str);
-	char *ret_str = get_all_commands();
+	char *ret_str = ms_parser_get_commands();
 	if (!ft_streq(ret_str, res))
 	{
 		printf("error get_all_command %d \n", *test);
@@ -258,10 +260,10 @@ void test_get_all_command(char *test_str, char *res, int *test)
 	(*test)++;
 	free(ret_str);
 }
-void transform_space(char *line);
+void ms_parser_transform_space(char *line);
 void test_transform_space(char *str, char *res, int test)
 {
-	transform_space(str);
+	ms_parser_transform_space(str);
 	if (!ft_streq(str, res))
 	{
 		printf("error transform space : %d \n", test);
@@ -273,7 +275,7 @@ void test_transform_space(char *str, char *res, int test)
 void test_read_command(char *command, char *res, int test)
 {
 	write_in_file(command);
-	char **ret_test = read_command();
+	char **ret_test = ms_parser_read_command();
 	char **res_split = ft_str_split(res, ";");
 	if (ft_str_split_cmp(ret_test, res_split))
 	{
@@ -301,7 +303,7 @@ void echo_test(char *line, char *res, int test)
 {
 	ft_bzero(g_test_buffer, 10000);
 	write_in_file(line);
-	char **argv = read_command();
+	char **argv = ms_parser_read_command();
 	ft_echo(argv);
 	char *buff = g_test_buffer;
 	(void)buff;

@@ -12,44 +12,7 @@
 
 #include "minishell.h"
 
-int is_quote_paired(char *command)
-{
-	char current_quote;
-
-	current_quote = 0;
-	while (*command)
-	{
-		if (current_quote && *command == current_quote)
-			current_quote = 0;
-		else if (!current_quote && ft_strchr("'\"", *command) > -1)
-			current_quote = *command;
-		command++;
-	}
-	return (current_quote ? 0 : 1);
-}
-
-char *get_all_commands()
-{
-	char *current_line;
-	char *tmp;
-	int ret;
-
-	if (get_next_line(g_mst.fd, &current_line, 0) == -1)
-		return (NULL);
-	while (!is_quote_paired(current_line))
-	{
-		ft_printf("quotes>  ");
-		tmp = current_line;
-		if ((ret = get_next_line(g_mst.fd, &current_line, 0)) == -1)
-			return (NULL);
-		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
-												 FREE_FIRST | FREE_THIRD)))
-			return (NULL);
-	}
-	return (current_line);
-}
-
-void transform_space(char *line)
+static void ms_parser_transform_space(char *line)
 {
 	int start;
 	int end;
@@ -70,7 +33,7 @@ void transform_space(char *line)
 	}
 }
 
-char *get_env_variable(char *line, int end)
+static char *ms_parser_find_$(char *line, int end)
 {
 	char *key;
 	char *value;
@@ -82,7 +45,7 @@ char *get_env_variable(char *line, int end)
 	return (value ? value : "");
 }
 
-char *replace_env_variable(char *line)
+static char *ms_parser_replace_$(char *line)
 {
 	int start;
 	int end;
@@ -94,7 +57,7 @@ char *replace_env_variable(char *line)
 		current = line + start;
 		end = ft_strchr(current, ' ');
 		end = end == -1 ? ft_strlen(current) : end;
-		if (!(value = get_env_variable(current + 1, end)))
+		if (!(value = ms_parser_find_$(current + 1, end)))
 			return (NULL);
 		line[start] = 0;
 		line = ft_strjoinby(line, value, current + end, FREE_FIRST);
@@ -102,7 +65,7 @@ char *replace_env_variable(char *line)
 	return (line);
 }
 
-char **build_argv(char *line)
+static char **ms_parser_build_argv(char *line)
 {
 	char **argv;
 	char **tmp;
@@ -118,17 +81,17 @@ char **build_argv(char *line)
 	return (argv);
 }
 
-char **read_command()
+char **ms_parser_read_command()
 {
 	char *line;
 	char **argv;
 
-	if (!(line = get_all_commands()))
+	if (!(line = ms_parser_get_commands()))
 		return (NULL);
-	transform_space(line);
-	line = replace_env_variable(line);
-	if (!(argv = build_argv(line)))
+	ms_parser_transform_space(line);
+	line = ms_parser_replace_$(line);
+	if (!(argv = ms_parser_build_argv(line)))
 		return (NULL);
 	free(line);
-	return (!g_mst.end_test ? argv : NULL);
+	return (argv);
 }

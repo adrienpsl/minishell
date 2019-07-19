@@ -24,7 +24,6 @@ typedef struct s_test
 {
 	int fd;
 	char buffer[4000];
-	int end_test;
 } t_ms_test;
 
 
@@ -53,17 +52,13 @@ int ms_search_function(char *current, void *p_searched);
 int ms_test_file(char *path, char *builtin);
 void signal_minishell(int sign);
 
-int is_quote_paired(char *command);
-char *get_all_commands();
+char *ms_parser_get_commands();
 
 // parse
-char **build_argv(char *line);
-char **read_command();
+char **ms_parser_read_command();
 
 // builtin
 int ft_cd(char **argv);
-char *get_env_variable(char *line, int end);
-char *replace_env_variable(char *line);
 int ms_unset_env(char *removing_var, char **env, char ***out);
 // echo
 // env

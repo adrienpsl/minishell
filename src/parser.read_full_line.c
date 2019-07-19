@@ -12,44 +12,39 @@
 
 #include "minishell.h"
 
-void ms_handle_builtin(char **argv)
+static int ms_is_quote_match(char *command)
 {
-	if (ft_streq(*argv, "cd"))
-		ft_cd(argv + 1);
-	else if (ft_streq(*argv, "exit"))
-		exit(EXIT_SUCCESS);
-	else if (ft_streq(*argv, "echo"))
-		ft_echo(argv + 1);
-	else if (ft_streq(*argv, "setenv"))
-		ft_setenv(argv + 1);
-	else if (ft_streq(*argv, "unsetenv"))
-		ft_unsetenv(argv[1]);
+	char current_quote;
+
+	current_quote = 0;
+	while (*command)
+	{
+		if (current_quote && *command == current_quote)
+			current_quote = 0;
+		else if (!current_quote && ft_strchr("'\"", *command) > -1)
+			current_quote = *command;
+		command++;
+	}
+	return (current_quote ? 0 : 1);
 }
 
-void ms_loop()
+char *ms_parser_get_commands()
 {
-	char **argv;
-	static char *builtin[7] = { "cd", "echo", "setenv",
-								"unsetenv", "env", "exit", NULL };
+	char *current_line;
+	char *tmp;
+	int ret;
 
-	ft_printf("$> ");
-	while ((argv = ms_parser_read_command()))
+	if ( get_next_line(g_mst.fd, &current_line, 0) < 1)
+		return (NULL);
+	while (!ms_is_quote_match(current_line))
 	{
-		signal(SIGINT, signal_minishell);
-		if (*argv != NULL)
-		{
-			g_ms.argv = argv;
-			if (ft_streq(*g_ms.argv, "env")
-				&& ft_env(&g_ms.argv))
-				continue;
-			if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
-				ms_handle_builtin(g_ms.argv);
-			else
-				ms_handle_binary(g_ms.argv);
-			if (g_ms.env_tmp)
-				ft_strsplit_free(&g_ms.env_tmp);
-		}
-		ft_strsplit_free(&argv);
-		ft_printf("$> ");
+		ft_printf("quotes>  ");
+		tmp = current_line;
+		if ((ret = get_next_line(g_mst.fd, &current_line, 0)) == -1)
+			return (NULL);
+		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
+												 FREE_FIRST | FREE_THIRD)))
+			return (NULL);
 	}
+	return (current_line);
 }

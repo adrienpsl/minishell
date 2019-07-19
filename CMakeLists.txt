@@ -18,7 +18,7 @@ add_library(minishell_lib STATIC
         src/parser.c
         src/builtin.cd.c
         src/builtin.echo.c
-        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c)
+        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/parser.read_full_line.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 
