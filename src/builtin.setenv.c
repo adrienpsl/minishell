@@ -52,14 +52,14 @@ static int two_arguments(char **argv)
 // if there is an old path, I need to delete it
 // c'est relou ca aussi, je ferai bien un env de max 100 value et pas plus.
 // avec un autre max de
-static int ms_set_env_remove$last(char ***env)
-{
-	char **new_env;
-	char var_name_buffer[MS_VAR_SIZE_MAX + 1];
-
-	ft_bzero(var_name_buffer, MS_VAR_SIZE_MAX + 1);
-	ft_memcpy(var_name_buffer, g_ms.buffer, ft_strchr(g_ms.buffer, '='));
-}
+//static int ms_set_env_remove$last(char ***env)
+//{
+//	char **new_env;
+//	char var_name_buffer[MS_VAR_SIZE_MAX + 1];
+//
+//	ft_bzero(var_name_buffer, MS_VAR_SIZE_MAX + 1);
+//	ft_memcpy(var_name_buffer, g_ms.buffer, ft_strchr(g_ms.buffer, '='));
+//}
 
 char **ms_set_env(char **argv, char **env)
 {

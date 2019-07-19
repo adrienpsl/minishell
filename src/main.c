@@ -21,6 +21,7 @@ int main(int ac, char **av, char **env)
 	(void) av;
 	if (env == NULL)
 		return (EXIT_FAILURE);
+	printf("%ld \n", sizeof(char **) * 40000);
 	init(env);
 //	test_all(env);
 
@@ -28,6 +29,7 @@ int main(int ac, char **av, char **env)
 
 //	ms_loop();
 	//	ft_strsplit_free(&g_ms.env);
-
+	while (1)
+		;
 	return (0);
 }
