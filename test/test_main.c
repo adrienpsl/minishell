@@ -300,6 +300,16 @@ void tested_test()
 // ou ls faire en shell ?
 // ca me semble relou en shell.
 
+struct full_test
+{
+	int nb_test;
+	char *env;
+	char *new;
+	char *argv;
+	char *pwd;
+	char *print;
+} full_test;
+
 void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_str, char *pwd, char *print)
 {
 	ft_test_clear_testbuff();
@@ -329,6 +339,12 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 	ft_strsplit_free(&g_ms.env);
 }
 
+void toto(struct full_test test)
+{
+	(void) test;
+	printf("%s \n", test.env);
+}
+
 void test_all(char **env)
 {
 	(void) env;
@@ -336,7 +352,13 @@ void test_all(char **env)
 	t_ms *a = &g_ms;
 	(void) a;
 
-//	tested_test();
+	toto((struct full_test) {
+	 .env= "tata"
+	});
+
+
+
+	//	tested_test();
 
 	g_mst.fd = 0;
 
