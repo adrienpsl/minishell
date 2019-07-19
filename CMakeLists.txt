@@ -27,7 +27,7 @@ add_executable(
         src/main.c
         test/test_main.c
         test/test_function.c
-        )
+        test/test_e2e.c)
 
 
 

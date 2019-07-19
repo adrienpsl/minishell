@@ -53,7 +53,6 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 	ft_bzero(g_test_buffer, 1000);
 	ft_bzero(g_mst.buffer, 4000);
 	ft_bzero(&g_ms, sizeof(g_ms));
-	g_ms.buffer = g_ms.buffer_array;
 	ms_env_copy(env);
 	intern_ret = ft_cd(arg);
 	if (ret != intern_ret
@@ -288,14 +287,14 @@ void test_read_command(char *command, char *res, int test)
 
 void test_ms_loop_on_path_directory(int test, char **env, char *res, char *name)
 {
-	ft_bzero(g_ms.buffer_array, 4000);
+	ft_bzero(g_ms.buffer, 4000);
 	g_ms.env = env;
 	ms_loop_on_path_directory(name);
-	if (!ft_streq(g_ms.buffer_array, res))
+	if (!ft_streq(g_ms.buffer, res))
 	{
 		printf("error ms loop on path directory : %d \n", test);
 		printf("res : %s \n", res);
-		printf("test: %s \n", g_ms.buffer_array);
+		printf("test: %s \n", g_ms.buffer);
 	}
 }
 

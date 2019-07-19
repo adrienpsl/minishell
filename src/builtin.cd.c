@@ -43,7 +43,7 @@ static int one_argv(char *argv, char *current_path)
 	else if (*argv == '.')
 	{
 		ft_strjoinbybuffer(g_ms.buffer, current_path, "/", argv);
-		return (go_dir(g_ms.buffer_array, current_path));
+		return (go_dir(g_ms.buffer, current_path));
 	}
 	else
 		return (go_dir(argv, current_path));
@@ -51,13 +51,13 @@ static int one_argv(char *argv, char *current_path)
 
 static int two_argv(char *searching, char *replacing, char *current_path)
 {
-	ft_bzero(g_ms.buffer_array, 4097);
+	ft_bzero(g_ms.buffer, 4097);
 	if (!ft_str_replacebuffer(g_ms.buffer, current_path, searching, replacing))
 	{
 		ft_printf("cd: string not in pwd: %s\n", searching);
 		return (-1);
 	}
-	return (go_dir(g_ms.buffer_array, current_path));
+	return (go_dir(g_ms.buffer, current_path));
 }
 
 int ft_cd(char **argv)
@@ -70,7 +70,7 @@ int ft_cd(char **argv)
 	if (ft_streq(*argv, "--"))
 		argv++ && nb_argv--;
 	if (getcwd(buff_current_path, 4096) == NULL)
-		return (ft_putstr_ret_int("No access to current directory", -1));
+		return (ft_put_int(-1, "No access to current directory"));
 	if (nb_argv == 0)
 		ret = go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), buff_current_path);
 	else if (nb_argv == 1)
@@ -78,6 +78,6 @@ int ft_cd(char **argv)
 	else if (nb_argv == 2)
 		ret = two_argv(*argv, argv[1], buff_current_path);
 	else
-		ret = ft_putstr_ret_int("cd: too many arguments", -1);
+		ret = ft_put_int(-1, "cd: too many arguments");
 	return (ret);
 }

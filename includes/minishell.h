@@ -7,25 +7,33 @@
 # define OPTION_I 1
 # define OPTION_U 2
 
-# define MS_BUFF_MAX 4096
+# define MS_BUFF_MAX 4095
 # define MS_NAME "mimishell"
+
+/*
+**	define Max Var
+*/
+# define MS_MAX_ENV_SIZE 100
+# define MS_BUFFER_SIZE 4095
+# define MS_VAR_SIZE_MAX 1023
+# define MS_VAR_SIZE_MAX_STR "1023"
 
 typedef struct s_ms
 {
 	int i;
-	char **env;
+	char *env[MS_MAX_ENV_SIZE + 1];
+	char *tmp_env[MS_MAX_ENV_SIZE + 1];
+	char *tmp_buffer[4095 + 1];
 	char **argv;
 	char **env_tmp;
-	char *buffer;
-	char buffer_array[4097];
+	char buffer[MS_BUFFER_SIZE + 1];
 } t_ms;
 
 typedef struct s_test
 {
 	int fd;
-	char buffer[4000];
+	char buffer[MS_BUFFER_SIZE + 1];
 } t_ms_test;
-
 
 /*
 **	structure programme
@@ -37,6 +45,7 @@ t_ms_test g_mst;
 **	test global
 */
 
+void ms_clear_buffer();
 char **g_test_env;
 
 // env

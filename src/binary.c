@@ -50,9 +50,9 @@ static int ms_loop_on_path_directory(char *binary_name)
 	i = 0;
 	ret = 0;
 	if (!(value = ms_env_get_value("PATH", g_ms.env)))
-		ret = ft_putstr_ret_int(MS_NAME ": no PATH in env", -1);
+		ret = ft_put_int(-1, MS_NAME ": no PATH in env");
 	if (!(all_path = ft_str_split(value, ":")))
-		ret = ft_putstr_ret_int(MS_NAME ": no memory", -1);
+		ret = ft_put_int(-1, MS_NAME ": no memory");
 	while (ret == 0 && all_path[i])
 	{
 		if (ms_search_in_directory(all_path[i], binary_name))
@@ -78,7 +78,7 @@ static int ms_execute_binary(char *path, char **argv, char **env)
 		signal(SIGINT, signal_minishell);
 	}
 	if (pid < 0)
-		return (ft_putstr_ret_int(MS_NAME" binary exec fail", -1));
+		return (ft_put_int(-1, MS_NAME" binary exec fail"));
 	return (0);
 }
 
@@ -90,9 +90,8 @@ int ms_handle_binary(char **argv)
 	if (*argv[0] != '/')
 	{
 		if (ft_strlen(*argv) > MS_BUFF_MAX)
-			return ft_putstr_ret_int(
-				MS_NAME" : path too long, max size 4096", -1
-			);
+			return ft_put_int(-1,
+							  MS_NAME" : path too long, max size 4096");
 		if (ms_loop_on_path_directory(*argv))
 			return (-1);
 		path = g_ms.buffer;

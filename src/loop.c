@@ -41,8 +41,8 @@ void ms_loop()
 			g_ms.argv = argv;
 			if (ft_streq(*g_ms.argv, "env")
 				&& ft_env(&g_ms.argv))
-				continue;
-			if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
+				;
+			else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
 				ms_handle_builtin(g_ms.argv);
 			else
 				ms_handle_binary(g_ms.argv);

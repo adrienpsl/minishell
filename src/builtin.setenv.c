@@ -12,43 +12,73 @@
 
 #include "minishell.h"
 
-static char *one_argument(char *argv)
+static int one_argument(char *argv)
 {
+	int ret;
+	ssize_t length_var;
+
+	ret = 0;
 	if (ft_strchr(argv, '$') != -1)
-		return (ft_putstr_retptr("No $ en env variable", NULL));
-	if (ft_strnchr(argv, '=') != 1)
-		return (ft_putstr_retptr("The env separator is one single =", NULL));
+		ret = ft_put_int(-1, "No $ en env variable");
+	else if ((length_var = ft_strnchr(argv, '=')) != 1)
+		ret = ft_put_int(-1, "The env separator is one single =");
+	else if (length_var > MS_VAR_SIZE_MAX)
+		ret = ft_put_int(-1,
+						 "The max size env length is "MS_VAR_SIZE_MAX_STR);
 	else
-		return ft_strdup(argv);
+		ft_strcat(g_ms.buffer, argv);
+	return (ret);
 }
 
-static char *two_arguments(char **argv)
+static int two_arguments(char **argv)
 {
-	if (ft_strchr(argv[0], '$') != -1 || ft_strchr(argv[1], '$') != -1)
-		return (ft_putstr_retptr("No $ en env variable", NULL));
-	if (ft_strchr(argv[0], '=') != -1 || ft_strchr(argv[1], '=') != -1)
-		return ft_putstr_retptr("If two elements are supply no =", NULL);
+	int ret;
+
+	ret = 0;
+	if (ft_strchr(argv[0], '$') != -1
+		|| ft_strchr(argv[1], '$') != -1)
+		ret = ft_put_int(-1, "No $ en env variable");
+	else if (ft_strchr(argv[0], '=') != -1
+			 || ft_strchr(argv[1], '=') != -1)
+		ret = ft_put_int(-1, "If there is two element, supply no =");
+	else if (ft_strlen(argv[0]) > MS_VAR_SIZE_MAX)
+		ret = ft_put_int(-1,
+						 "The max size env length is "MS_VAR_SIZE_MAX_STR);
 	else
-		return (ft_strjoinby(argv[0], "=", argv[1], 0));
+		ft_strjoinbybuffer(g_ms.buffer, argv[0], "=", argv[1]);
+	return (ret);
+}
+
+// if there is an old path, I need to delete it
+// c'est relou ca aussi, je ferai bien un env de max 100 value et pas plus.
+// avec un autre max de
+static int ms_set_env_remove$last(char ***env)
+{
+	char **new_env;
+	char var_name_buffer[MS_VAR_SIZE_MAX + 1];
+
+	ft_bzero(var_name_buffer, MS_VAR_SIZE_MAX + 1);
+	ft_memcpy(var_name_buffer, g_ms.buffer, ft_strchr(g_ms.buffer, '='));
 }
 
 char **ms_set_env(char **argv, char **env)
 {
 	int i;
-	char *tmp_str;
+	int ret;
 	char **nev_env;
 
 	i = ft_str_split_count(argv);
 	nev_env = NULL;
+	ms_clear_buffer();
+
 	if (i == 1)
-		tmp_str = one_argument(*argv);
+		ret = one_argument(*argv);
 	else if (i == 2)
-		tmp_str = two_arguments(argv);
+		ret = two_arguments(argv);
 	else
-		return (ft_putstr_retptr("Bad number argument given to set env", NULL));
-	if (tmp_str && !(nev_env = ft_str_split_add(env, tmp_str, FREE)))
-	    return (NULL);
-	free(tmp_str);
+		ret = ft_put_int(-1, "Bad number argument given to set env");
+	if (ret && !(nev_env = ft_str_split_add(env, g_ms.buffer, 0)))
+		return (NULL);
 	return (nev_env);
 }
 
@@ -60,6 +90,7 @@ int ft_setenv(char **env)
 		return (-1);
 	if ((new_env = ms_set_env(env, g_ms.env)))
 	{
+		ft_strsplit_free(&g_ms.env);
 		g_ms.env = new_env;
 		return (0);
 	}

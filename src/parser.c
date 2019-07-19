@@ -45,6 +45,13 @@ static char *ms_parser_find_$(char *line, int end)
 	return (value ? value : "");
 }
 
+// here I do a buffer for that line, I limit the max size
+// case it's so pain full sinon.
+// I limit the size, but if I want replace by the $env,
+// how I can do that?
+// I double the size of the max line by that,
+// and each time I add variable, I count and return
+// error if too long. seem very power full
 static char *ms_parser_replace_$(char *line)
 {
 	int start;

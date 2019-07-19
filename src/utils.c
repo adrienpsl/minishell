@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <minishell.h>
 #include "libft.h"
 
 void signal_program(int t)
@@ -24,6 +25,11 @@ void signal_minishell(int sign)
 	ft_printf("\n$> ");
 }
 
+
+void ms_clear_buffer()
+{
+	ft_bzero(g_ms.buffer, MS_BUFFER_SIZE);
+}
 
 
 int ms_test_file(char *path, char *builtin)
