@@ -26,30 +26,34 @@ void ms_handle_builtin(char **argv)
 		ft_unsetenv(argv[1]);
 }
 
+static void ms_argv_no_null(char **argv)
+{
+	static char *builtin[7] = { "cd", "echo", "setenv",
+								"unsetenv", "env", "exit", NULL };
+	g_ms.argv = argv;
+	g_ms.i = ft_str_split_count(g_ms.argv);
+	if (ft_streq(*g_ms.argv, "env")
+		&& ft_env());
+	else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
+		ms_handle_builtin(g_ms.argv);
+	else
+		ms_handle_binary(g_ms.argv);
+}
+
 void ms_loop()
 {
 	char **argv;
-	static char *builtin[7] = { "cd", "echo", "setenv",
-								"unsetenv", "env", "exit", NULL };
 
 	ft_printf("$> ");
 	while ((argv = ms_parser_read_command()))
 	{
+		g_ms.env_tmp = NULL;
 		signal(SIGINT, signal_minishell);
 		if (*argv != NULL)
-		{
-			g_ms.argv = argv;
-			if (ft_streq(*g_ms.argv, "env")
-				&& ft_env(&g_ms.argv))
-				;
-			else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
-				ms_handle_builtin(g_ms.argv);
-			else
-				ms_handle_binary(g_ms.argv);
-			if (g_ms.env_tmp)
-				ft_strsplit_free(&g_ms.env_tmp);
-		}
+			ms_argv_no_null(argv);
 		ft_strsplit_free(&argv);
+		if (g_ms.env_tmp)
+			ft_strsplit_free(&g_ms.env_tmp);
 		ft_printf("$> ");
 	}
 }

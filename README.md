@@ -1,3 +1,6 @@
+# refaire completement tout avec les built in 
+
+
 # builtin 
 -- cd
 -- echo

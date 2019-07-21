@@ -14,8 +14,8 @@
 
 int ms_env_copy(char **env)
 {
-//	if (!(g_ms.env = ft_str_split_copy(env, 0)))
-//		return (-1);
+	if (!(g_ms.env = ft_str_split_copy(env, 0)))
+		return (-1);
 	return (0);
 }
 
@@ -29,7 +29,7 @@ int ms_env_modify(char *key, char *new_value)
 	return (ft_setenv(split));
 }
 
-int ms_search_function(char *current, void *p_searched)
+int ms_func_search_var$name(char *current, void *p_searched)
 {
 	char *searched;
 	int i;
@@ -48,7 +48,7 @@ char *ms_env_get_value(char *key, char **argv)
 
 	if (!key)
 		return (NULL);
-	position = ft_strsplit_search(argv, ms_search_function, key);
+	position = ft_strsplit_search(argv, ms_func_search_var$name, key);
 	if (position > -1)
 	{
 		if (!(i = ft_strchr(argv[position], '=')))

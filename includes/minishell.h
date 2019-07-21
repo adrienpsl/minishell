@@ -4,43 +4,45 @@
 # import "libft.h"
 # include <dirent.h>
 
+#import "minishell.limit.h"
+#import "minishell.error.h"
+
 # define OPTION_I 1
 # define OPTION_U 2
 
-
 # define MS_NAME "mimishell"
 
-/*
-**	define Max Var
-*/
-#define MS_MAX_ARG 40000
 
-# define MS_MAX_ENV_SIZE 100
-# define MS_MAX_ENV_SIZE_STR "100"
+typedef struct s_ms_buffer
+{
+	char env_tmp[(MS_SIZE_MAX_ENV + 1) * sizeof(char **)];
+	char env[(MS_SIZE_MAX_ENV + 1) * sizeof(char **)];
+	char argv[(40000) * sizeof(char **)];
+	char buffer[MS_SIZE_BUFFER + 1];
+	char buffer_tmp[MS_SIZE_BUFFER + 1];
+} t_ms_buffer;
 
-# define MS_BUFFER_SIZE 4095
-# define MS_BUFFER_SIZE_STR "4095"
-
-# define MS_VAR_SIZE_MAX 1023
-# define MS_VAR_SIZE_MAX_STR "1023"
 
 typedef struct s_ms
 {
 	int i;
+
 	int is_env;
 	char **env;
-	char *tmp_env[MS_MAX_ENV_SIZE + 1];
-	char *tmp_buffer[4095 + 1];
-	char **argv;
-	char *arg[40000];
 	char **env_tmp;
-	char buffer[MS_BUFFER_SIZE + 1];
+
+	char **argv;
+	int argv_size;
+
+	char buffer[MS_SIZE_BUFFER + 1];
+	char tmp_buffer[MS_SIZE_BUFFER + 1];
+	t_ms_buffer data;
 } t_ms;
 
 typedef struct s_test
 {
 	int fd;
-	char buffer[MS_BUFFER_SIZE + 1];
+	char buffer[MS_SIZE_BUFFER + 1];
 } t_ms_test;
 
 /*
@@ -56,6 +58,12 @@ t_ms_test g_mst;
 void ms_clear_buffer();
 char **g_test_env;
 
+/*
+**	env
+*/
+int ms_copy_env(char **dest, char **src);
+int ms_env_remove(char **env, char *var);
+
 // env
 void ft_echo(char **argv);
 int ft_unsetenv(char *removing_var);
@@ -63,8 +71,8 @@ int ms_env_copy(char **env);
 int ft_setenv(char **env);
 char *ms_env_get_value(char *key, char **argv);
 int ms_env_modify(char *key, char *new_value);
-int ft_env(char ***argv);
-int ms_search_function(char *current, void *p_searched);
+int ft_env();
+int ms_func_search_var$name(char *current, void *p_searched);
 
 int ms_test_file(char *path, char *builtin);
 void signal_minishell(int sign);
@@ -77,6 +85,8 @@ char **ms_parser_read_command();
 // builtin
 int ft_cd(char **argv);
 int ms_unset_env(char *removing_var, char **env, char ***out);
+int ms_env_remove(char **env, char *var);
+int ms_env_add(char **env, char *var);
 // echo
 // env
 //

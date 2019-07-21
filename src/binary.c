@@ -89,7 +89,7 @@ int ms_handle_binary(char **argv)
 	ft_bzero(g_ms.buffer, 4096);
 	if (*argv[0] != '/')
 	{
-		if (ft_strlen(*argv) > MS_BUFF_MAX)
+		if (ft_strlen(*argv) > MS_SIZE_BUFFER)
 			return ft_put_int(-1,
 							  MS_NAME" : path too long, max size 4096");
 		if (ms_loop_on_path_directory(*argv))

@@ -4,7 +4,7 @@ project(minishell C)
 
 set(CMAKE_C_STANDARD 99)
 #set(CMAKE_C_FLAGS "-Wall -Wextra -Werror -og -g3")
-#set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -g")
 #-fsanitize=memory-fsanitize-memory-track-origins=2 -fsanitize=address
 
@@ -18,7 +18,7 @@ add_library(minishell_lib STATIC
         src/parser.c
         src/builtin.cd.c
         src/builtin.echo.c
-        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/parser.read_full_line.c)
+        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/parser.read_full_line.c src/env2.utils.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 
@@ -27,7 +27,7 @@ add_executable(
         src/main.c
         test/test_main.c
         test/test_function.c
-        test/test_e2e.c includes/minishell.limit.h)
+        includes/minishell.limit.h includes/minishell.limit.h includes/minishell.error.h test/new_test.c test/test.h)
 
 
 

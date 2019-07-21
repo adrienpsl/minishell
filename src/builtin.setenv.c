@@ -22,9 +22,9 @@ static int one_argument(char *argv)
 		ret = ft_put_int(-1, "No $ en env variable");
 	else if ((length_var = ft_strnchr(argv, '=')) != 1)
 		ret = ft_put_int(-1, "The env separator is one single =");
-	else if (length_var > MS_VAR_SIZE_MAX)
+	else if (length_var > MS_LENGTH_MAX_ENV_VAR)
 		ret = ft_put_int(-1,
-						 "The max size env length is "MS_VAR_SIZE_MAX_STR);
+						 "The max size env length is "MS_LENGTH_MAX_ENV_VAR_STR);
 	else
 		ft_strcat(g_ms.buffer, argv);
 	return (ret);
@@ -41,9 +41,9 @@ static int two_arguments(char **argv)
 	else if (ft_strchr(argv[0], '=') != -1
 			 || ft_strchr(argv[1], '=') != -1)
 		ret = ft_put_int(-1, "If there is two element, supply no =");
-	else if (ft_strlen(argv[0]) > MS_VAR_SIZE_MAX)
+	else if (ft_strlen(argv[0]) > MS_LENGTH_MAX_ENV_VAR)
 		ret = ft_put_int(-1,
-						 "The max size env length is "MS_VAR_SIZE_MAX_STR);
+						 "The max size env length is "MS_LENGTH_MAX_ENV_VAR_STR);
 	else
 		ft_strjoinbybuffer(g_ms.buffer, argv[0], "=", argv[1]);
 	return (ret);
@@ -55,9 +55,9 @@ static int two_arguments(char **argv)
 //static int ms_set_env_remove$last(char ***env)
 //{
 //	char **new_env;
-//	char var_name_buffer[MS_VAR_SIZE_MAX + 1];
+//	char var_name_buffer[MS_LENGTH_MAX_ENV_VAR + 1];
 //
-//	ft_bzero(var_name_buffer, MS_VAR_SIZE_MAX + 1);
+//	ft_bzero(var_name_buffer, MS_LENGTH_MAX_ENV_VAR + 1);
 //	ft_memcpy(var_name_buffer, g_ms.buffer, ft_strchr(g_ms.buffer, '='));
 //}
 

@@ -28,7 +28,7 @@ void signal_minishell(int sign)
 
 void ms_clear_buffer()
 {
-	ft_bzero(g_ms.buffer, MS_BUFFER_SIZE);
+	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
 }
 
 

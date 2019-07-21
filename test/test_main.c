@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "minishell.h"
+#include "test.h"
 
 void test_get_env_variable(char *line, char **env, int end, char *res, int test);
 void test_replace_env_variable(char *line, char **env, char *res, int test);
@@ -300,16 +301,6 @@ void tested_test()
 // ou ls faire en shell ?
 // ca me semble relou en shell.
 
-struct full_test
-{
-	int nb_test;
-	char *env;
-	char *new;
-	char *argv;
-	char *pwd;
-	char *print;
-} full_test;
-
 void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_str, char *pwd, char *print)
 {
 	ft_test_clear_testbuff();
@@ -339,11 +330,6 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 	ft_strsplit_free(&g_ms.env);
 }
 
-void toto(struct full_test test)
-{
-	(void) test;
-	printf("%s \n", test.env);
-}
 
 void test_all(char **env)
 {
@@ -351,12 +337,6 @@ void test_all(char **env)
 	g_test = 1;
 	t_ms *a = &g_ms;
 	(void) a;
-
-	toto((struct full_test) {
-	 .env= "tata"
-	});
-
-
 
 	//	tested_test();
 

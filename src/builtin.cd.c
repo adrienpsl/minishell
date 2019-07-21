@@ -25,7 +25,7 @@ static int go_dir(char *go_path, char *current_path)
 		return (right);
 	if (chdir(go_path))
 	{
-		ft_printf("cd: permission denied: %s\n", go_path);
+		ft_printf(MS_CD_NO_AUTHORIZE, go_path);
 		return (-1);
 	}
 	if (ms_env_modify("OLDPATH", current_path))
@@ -54,7 +54,7 @@ static int two_argv(char *searching, char *replacing, char *current_path)
 	ft_bzero(g_ms.buffer, 4097);
 	if (!ft_str_replacebuffer(g_ms.buffer, current_path, searching, replacing))
 	{
-		ft_printf("cd: string not in pwd: %s\n", searching);
+		ft_printf(MS_CD_NO_IN_PWD, searching);
 		return (-1);
 	}
 	return (go_dir(g_ms.buffer, current_path));

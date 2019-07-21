@@ -12,59 +12,51 @@
 
 #include "minishell.h"
 
-static int ms_env_init(long *options)
+int ms_copy_env(char **dest, char **src)
 {
 	int ret;
+	int i;
 
 	ret = 0;
-	if (g_ms.i && **g_ms.argv == '-')
+	if (ft_str_split_count(src) > MS_SIZE_MAX_ENV)
+		ret = ft_put_int(-1, MS_NEW_ENV_TOO_BIG);
+	i = 0;
+	while (!ret && src[i])
 	{
-		if (ft_io_catch_options((*g_ms.argv) + 1, "iu", options))
-			ret = ft_put_int(-1, MS_CD_ENV_BAD_OPTION);
-		if (g_ms.i == 1)
-			ret = ft_put_int(-1, MS_CD_ENV_NO_ARGV);
-		g_ms.argv++;
+		if (!(dest[i] = ft_strdup(src[i])))
+			ret = -1;
+		i++;
 	}
-	return ret;
+	return (ret);
 }
 
-static int ft_env_handle_option(long options)
+int ms_env_add(char **env, char *var)
 {
 	int ret;
+	int i;
 
 	ret = 0;
-	if (options & OPTION_U)
-	{
-		if (ms_copy_env(g_ms.env_tmp, g_ms.env))
-		    ret = ft_put_int(-1, MS_NO_MEMORY);
-		if (ms_env_remove(g_ms.env, *g_ms.argv) == -1)
-			return (-1);
-		(g_ms.argv)++;
-	}
-	if (options & OPTION_I)
-	{
-		if (!(g_ms.env_tmp = ft_str_split("", " ")))
-			return (-1);
-	}
-	return (0);
+	i = 0;
+	if (ft_str_split_count(env) + 1 > MS_SIZE_MAX_ENV)
+		ret = ft_put_int(-1, MS_NEW_ENV_TOO_BIG);
+	while (env[i])
+		i++;
+	if (!(env[i] = ft_strdup(var)))
+		ret = -1;
+	return (ret);
 }
 
-int ft_env()
+int ms_env_remove(char **env, char *var)
 {
-	long options;
+	int i;
+	int ret;
 
-	g_ms.argv++;
-	g_ms.i--;
-	options = 0;
-	if (ms_env_init(&options))
-		return (-1);
-	if (ft_env_handle_option(options))
-		return (-1);
-	if (!*g_ms.env)
-	{
-		ft_strsplit_print(g_ms.env, '\n');
-		ft_printf("\n");
-		return (1);
-	}
-	return (0);
+	if (ft_strchr(var, '=') > -1)
+		i = ft_strsplit_search(env, ft_func_split_streq, var);
+	else
+		i = ft_strsplit_search(env, ms_func_search_var$name, var);
+	ret = i > -1 ? 0 : 1;
+	if (i)
+		ft_strsplit_remove(env, i);
+	return (ret);
 }
