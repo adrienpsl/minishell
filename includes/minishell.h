@@ -87,10 +87,9 @@ char **ms_parser_read_command();
 // builtin
 
 //env
-int ms_set_env();
+int ms_set_env(void);
 int ft_cd(char **argv);
 int ms_unset_env(char *removing_var, char **env, char ***out);
-int ms_env_remove(char **env, char *var);
 int ms_env_add(char **env, char *var);
 // echo
 // env

@@ -12,12 +12,14 @@
 
 #include "minishell.h"
 
+
 int ms_env_add(char **env, char *var)
 {
 	int i;
 
 	i = 0;
-	if (ft_strsplit_count(env) + 1 > MS_SIZE_MAX_ENV)
+	ms_env_remove(env, var);
+	if (ft_strsplit_count(env) + 1 >= MS_SIZE_MAX_ENV)
 		return (ft_put_int(-1, MS_NEW_ENV_TOO_BIG));
 	while (env[i])
 		i++;
@@ -31,10 +33,10 @@ static int search_forbidden()
 	int ret;
 
 	ret = 0;
-	if (ft_strchr(g_ms.buffer, '$') != -1)
-		ret = ft_put_int(-1, "No $ in env variable\n");
-	if (ft_strnchr(g_ms.tmp_buffer, '=') != 1)
-		ret = ft_put_int(-1, "Too much '='\n");
+	if (ft_strchr(g_ms.tmp_buffer, '$') != -1)
+		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
+	else if (ft_strnchr(g_ms.tmp_buffer, '=') != 1)
+		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
 	return (ret);
 }
 
@@ -53,11 +55,11 @@ static int nb_arg_and_buffer()
 	return (0);
 }
 
-int ms_set_env()
+int ms_set_env(void)
 {
+	ft_bzero(g_ms.tmp_buffer, MS_SIZE_BUFFER);
 	if (g_ms.argv_size > 2 || g_ms.argv_size == 0)
 		return ft_put_int(-1, MS_SETENV_NB_ARGV);
-	ft_bzero(g_ms.tmp_buffer, MS_SIZE_BUFFER);
 	if (nb_arg_and_buffer())
 		return (ft_put_int(-1, MS_SETENV_NB_ARGV));
 	if (search_forbidden())

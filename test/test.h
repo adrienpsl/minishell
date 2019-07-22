@@ -19,7 +19,6 @@ typedef struct full_test
 	long option;
 	int ret_int;
 	char *ret_char;
-	char *new_var;
 } ms_test;
 
 #endif //MINISHELL_TEST_H

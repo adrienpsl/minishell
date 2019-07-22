@@ -18,7 +18,7 @@ int ms_copy_env(char **dest, char **src)
 	int i;
 
 	ret = 0;
-	if (ft_strsplit_count(src) > MS_SIZE_MAX_ENV)
+	if (ft_strsplit_count(src) >= MS_SIZE_MAX_ENV)
 		ret = ft_put_int(-1, MS_NEW_ENV_TOO_BIG);
 	i = 0;
 	while (!ret && src[i])
@@ -33,14 +33,9 @@ int ms_copy_env(char **dest, char **src)
 int ms_env_remove(char **env, char *var)
 {
 	int i;
-	int ret;
 
-	if (ft_strchr(var, '=') > -1)
-		i = ft_strsplit_search(env, ft_func_split_streq, var);
-	else
-		i = ft_strsplit_search(env, ms_func_search_var$name, var);
-	ret = i > -1 ? 0 : 1;
-	if (i)
+	i = ft_strsplit_search(env, ms_func_search_var$name, var);
+	if (i > -1)
 		ft_strsplit_remove(env, i);
-	return (ret);
+	return (i > -1 ? 1 : 0);
 }

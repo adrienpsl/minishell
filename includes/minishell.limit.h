@@ -3,7 +3,7 @@
 
 #define MS_MAX_ARG 40000
 
-# define MS_SIZE_MAX_ENV 100
+# define MS_SIZE_MAX_ENV 5
 # define MS_SIZE_MAX_ENV_STR "100"
 
 # define MS_SIZE_BUFFER 4095
