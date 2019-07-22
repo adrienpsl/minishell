@@ -11,6 +11,9 @@ void test_free(t_split *split)
 		ft_strsplit_free(&split->argv);
 	if (split->new_env)
 		ft_strsplit_free(&split->env);
+	if (split->env_tmp)
+		ft_strsplit_free(&split->env_tmp);
+
 }
 
 void test_do_split(ms_test *test, t_split *split)
@@ -22,6 +25,10 @@ void test_do_split(ms_test *test, t_split *split)
 		split->argv = ft_strsplit(test->argv, " ");
 	if (test->new_env)
 		split->new_env = ft_strsplit(test->new_env, " ");
+	if (test->env_tmp)
+		split->env_tmp = ft_strsplit(test->env_tmp, " ");
+	if (test->argv_end)
+		split->argv_end = ft_strsplit(test->argv_end, " ");
 }
 
 /* function ------------------------------------------------------------ */

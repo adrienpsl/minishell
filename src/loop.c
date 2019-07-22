@@ -33,7 +33,7 @@ static void ms_argv_no_null(char **argv)
 	g_ms.argv = argv;
 	g_ms.i = ft_strsplit_count(g_ms.argv);
 	if (ft_streq(*g_ms.argv, "env")
-		&& ft_env());
+		&& ms_env());
 	else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
 		ms_handle_builtin(g_ms.argv);
 	else

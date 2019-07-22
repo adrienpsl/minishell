@@ -73,7 +73,7 @@ int ms_env_copy(char **env);
 int ft_setenv(char **env);
 char *ms_env_get_value(char *key, char **argv);
 int ms_env_modify(char *key, char *new_value);
-int ft_env();
+int ms_env();
 int ms_func_search_var$name(char *current, void *p_searched);
 
 int ms_test_file(char *path, char *builtin);

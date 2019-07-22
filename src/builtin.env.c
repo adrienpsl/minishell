@@ -30,15 +30,12 @@ static int ms_env_init(long *options)
 
 static int ft_env_handle_option(long options)
 {
-	int ret;
-
-	ret = 0;
 	if (options & OPTION_U)
 	{
 		if (ms_copy_env(g_ms.env_tmp, g_ms.env))
-		    ret = ft_put_int(-1, MS_NO_MEMORY);
-//		if (ms_env_remove(g_ms.env, *g_ms.argv) == -1)
-//			return (-1);
+			return ft_put_int(-1, MS_NO_MEMORY);
+		if (ms_env_remove(g_ms.env_tmp, *g_ms.argv) == -1)
+			return (-1);
 		(g_ms.argv)++;
 	}
 	if (options & OPTION_I)
@@ -49,22 +46,24 @@ static int ft_env_handle_option(long options)
 	return (0);
 }
 
-int ft_env()
+int ms_env()
 {
 	long options;
 
-	g_ms.argv++;
 	g_ms.i--;
 	options = 0;
-	if (ms_env_init(&options))
+	t_ms *ms = &g_ms;
+	(void) ms;
+	if (*g_ms.argv
+		&& (ms_env_init(&options)
+			|| ft_env_handle_option(options)
+		))
 		return (-1);
-	if (ft_env_handle_option(options))
-		return (-1);
-	if (!*g_ms.env)
+	if (!*g_ms.argv)
 	{
 		ft_strsplit_print(g_ms.env, '\n');
 		ft_printf("\n");
-		return (1);
+		return (0);
 	}
 	return (0);
 }

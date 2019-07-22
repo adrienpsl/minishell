@@ -1,7 +1,6 @@
 #ifndef MINISHELL_MINISHELL_ERROR_H
 #define MINISHELL_MINISHELL_ERROR_H
 
-
 /*
 ** ALL *************************************************************************
 */
@@ -23,13 +22,9 @@
 # define MS_SETENV_SIZE_MAX "SIZE MAX var-name + value == 4095"
 # define MS_SETENV_FORBIDDEN_CHAR "one = & no $"
 
-
-
 /*
 ** Parser size *****************************************************************
 */
-
-
 
 /*
 ** cd builtin ******************************************************************
@@ -42,6 +37,5 @@
 */
 # define MS_CD_ENV_BAD_OPTION "env: bad option given !"
 # define MS_CD_ENV_NO_ARGV "env: option requires an argument !"
-
 
 #endif //MINISHELL_MINISHELL_ERROR_H

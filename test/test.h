@@ -6,6 +6,8 @@ typedef struct s_split
 	char **env;
 	char **new_env;
 	char **argv;
+	char **env_tmp;
+	char **argv_end;
 } t_split;
 
 typedef struct full_test
@@ -19,6 +21,8 @@ typedef struct full_test
 	long option;
 	int ret_int;
 	char *ret_char;
+	char *env_tmp;
+	char *argv_end;
 } ms_test;
 
 #endif //MINISHELL_TEST_H
