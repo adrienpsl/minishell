@@ -51,7 +51,7 @@ static int ms_loop_on_path_directory(char *binary_name)
 	ret = 0;
 	if (!(value = ms_env_get_value("PATH", g_ms.env)))
 		ret = ft_put_int(-1, MS_NAME ": no PATH in env");
-	if (!(all_path = ft_str_split(value, ":")))
+	if (!(all_path = ft_strsplit(value, ":")))
 		ret = ft_put_int(-1, MS_NAME ": no memory");
 	while (ret == 0 && all_path[i])
 	{

@@ -77,7 +77,7 @@ static char **ms_parser_build_argv(char *line)
 	char **argv;
 	char **tmp;
 
-	if (!(argv = ft_str_split(line, " \t")))
+	if (!(argv = ft_strsplit(line, " \t")))
 		return (NULL);
 	tmp = argv;
 	while (*tmp)

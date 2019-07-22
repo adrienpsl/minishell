@@ -9,11 +9,12 @@ void init(char **env)
 	ms_loop();
 }
 
-int init_ms(char **env)
+int ms_init(char **env)
 {
 	int ret;
 
 	ret = 0;
+	ft_bzero(&g_ms, sizeof(t_ms));
 	g_ms.argv = (char **) g_ms.data.argv;
 	ft_bzero(g_ms.argv, (40000) * sizeof(char **));
 
@@ -28,7 +29,7 @@ int init_ms(char **env)
 	return (ret);
 }
 
-void free_ms(char **env)
+void ms_free(char **env)
 {
 	while (*env)
 	{
@@ -46,11 +47,11 @@ int main(int ac, char **av, char **env)
 	if (env == NULL)
 		return (EXIT_FAILURE);
 	printf("%ld \n", sizeof(char **) * 40000);
-	init_ms(env);
+	ms_init(env);
 
 	new_test_all();
 
-	free_ms(g_ms.env);
+	//	ms_free(g_ms.env);
 	//	test_all(env);
 
 	//	ft_strsplit_free(&g_ms.env);

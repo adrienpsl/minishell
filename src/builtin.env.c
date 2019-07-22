@@ -43,7 +43,7 @@ static int ft_env_handle_option(long options)
 	}
 	if (options & OPTION_I)
 	{
-		if (!(g_ms.env_tmp = ft_str_split("", " ")))
+		if (!(g_ms.env_tmp = ft_strsplit("", " ")))
 			return (-1);
 	}
 	return (0);

@@ -306,9 +306,9 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 	ft_test_clear_testbuff();
 	ft_bzero(g_mst.buffer, 4000);
 
-	char **env = ft_str_split(env_str, " ");
-	char **argv = ft_str_split(argv_str, " ");
-	char **new_env = ft_str_split(new_env_str, " ");
+	char **env = ft_strsplit(env_str, " ");
+	char **argv = ft_strsplit(argv_str, " ");
+	char **new_env = ft_strsplit(new_env_str, " ");
 	char buffer_pwd[5000];
 
 	getcwd(buffer_pwd, 5000);
@@ -343,7 +343,7 @@ void test_all(char **env)
 	g_mst.fd = 0;
 
 	write_in_file("test\n");
-	init(env);
+//	init(env);
 
 	printf("--%s-- \n", g_test_buffer);
 	//	printf("toto \n");

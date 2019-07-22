@@ -108,4 +108,9 @@ void init(char **env);
 // utils
 void signal_program(int t);
 
+
+// init and free
+void ms_free(char **env);
+int ms_init(char **env);
+
 #endif //MINISHELL_MINISHELL_H
