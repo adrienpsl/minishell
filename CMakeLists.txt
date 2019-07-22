@@ -25,8 +25,8 @@ target_include_directories(minishell_lib PUBLIC includes)
 add_executable(
         minishell
         src/main.c
-        test/test_main.c
-        test/test_function.c
+#        test/test_main.c
+#        test/test_function.c
         includes/minishell.limit.h includes/minishell.limit.h includes/minishell.error.h test/new_test.c test/test.h test/new_test_function.c)
 
 

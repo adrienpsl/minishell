@@ -46,7 +46,7 @@ int main(int ac, char **av, char **env)
 	(void) av;
 	if (env == NULL)
 		return (EXIT_FAILURE);
-	printf("%ld \n", sizeof(char **) * 40000);
+//	printf("%ld \n", sizeof(char **) * 40000);
 	ms_init(env);
 
 	new_test_all();

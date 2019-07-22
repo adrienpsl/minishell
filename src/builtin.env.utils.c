@@ -26,7 +26,8 @@ int ms_env_modify(char *key, char *new_value)
 	ft_unsetenv(key);
 	split[0] = key;
 	split[1] = new_value;
-	return (ft_setenv(split));
+	return (0);
+//	return (ft_setenv(split));
 }
 
 int ms_func_search_var$name(char *current, void *p_searched)

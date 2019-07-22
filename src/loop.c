@@ -20,8 +20,8 @@ void ms_handle_builtin(char **argv)
 		exit(EXIT_SUCCESS);
 	else if (ft_streq(*argv, "echo"))
 		ft_echo(argv + 1);
-	else if (ft_streq(*argv, "setenv"))
-		ft_setenv(argv + 1);
+//	else if (ft_streq(*argv, "setenv"))
+//		ft_setenv(argv + 1);
 	else if (ft_streq(*argv, "unsetenv"))
 		ft_unsetenv(argv[1]);
 }

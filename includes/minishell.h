@@ -85,6 +85,9 @@ char *ms_parser_get_commands();
 char **ms_parser_read_command();
 
 // builtin
+
+//env
+int ms_set_env();
 int ft_cd(char **argv);
 int ms_unset_env(char *removing_var, char **env, char ***out);
 int ms_env_remove(char **env, char *var);
@@ -109,7 +112,6 @@ void init(char **env);
 
 // utils
 void signal_program(int t);
-
 
 // init and free
 void ms_free(char **env);
