@@ -67,7 +67,7 @@ char **ms_set_env(char **argv, char **env)
 	int ret;
 	char **nev_env;
 
-	i = ft_str_split_count(argv);
+	i = ft_strsplit_count(argv);
 	nev_env = NULL;
 	ms_clear_buffer();
 
@@ -77,7 +77,7 @@ char **ms_set_env(char **argv, char **env)
 		ret = two_arguments(argv);
 	else
 		ret = ft_put_int(-1, "Bad number argument given to set env");
-	if (ret && !(nev_env = ft_str_split_add(env, g_ms.buffer, 0)))
+	if (ret && !(nev_env = ft_strsplit_add(env, g_ms.buffer, 0)))
 		return (NULL);
 	return (nev_env);
 }

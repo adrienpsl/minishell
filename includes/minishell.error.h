@@ -11,6 +11,12 @@
 */
 # define MS_NEW_ENV_TOO_BIG "The env size max is 100\n"
 
+/*
+** Setenv error ****************************************************************
+*/
+# define MS_SETENV_NB_ARGV "Too much argv are given\n"
+# define MS_SETENV_SIZE_MAX "SIZE MAX var-name + value == 4095\n"
+
 
 
 /*

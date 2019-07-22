@@ -14,7 +14,7 @@
 
 int ms_env_copy(char **env)
 {
-	if (!(g_ms.env = ft_str_split_copy(env, 0)))
+	if (!(g_ms.env = ft_strsplit_copy(env, 0)))
 		return (-1);
 	return (0);
 }

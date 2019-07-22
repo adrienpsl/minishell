@@ -314,7 +314,7 @@ void end_to_end_test(int nb_test, char *env_str, char *new_env_str, char *argv_s
 	getcwd(buffer_pwd, 5000);
 
 	if (
-	 ft_str_split_cmp(g_ms.env, new_env) ||
+	 ft_strsplit_cmp(g_ms.env, new_env) ||
 	 !ft_streq(pwd, buffer_pwd) ||
 	 !ft_streq(print, g_test_buffer)
 	 )

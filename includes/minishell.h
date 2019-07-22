@@ -28,6 +28,8 @@ typedef struct s_ms
 	int i;
 
 	int is_env;
+	int env_size;
+
 	char **env;
 	char **env_tmp;
 

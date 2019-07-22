@@ -28,3 +28,26 @@ void test_do_split(ms_test *test, t_split *split)
 	else
 		split->new_env = NULL;
 }
+
+/* function ------------------------------------------------------------ */
+
+void test_ms_init(ms_test test)
+{
+	// init
+	t_split s;
+	test_do_split(&test, &s);
+
+	// function tested
+	ms_init(s.env);
+
+	// print error
+	if (ft_strsplit_cmp(g_ms.env, s.env))
+	{
+		printf("Ms init %d \n", test.nb_test);
+		ft_test_ifcmp_printsplit(g_ms.env, s.env);
+	}
+
+	// free
+	ms_free(g_ms.env);
+	test_free(&s);
+}

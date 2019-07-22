@@ -31,7 +31,7 @@ static void ms_argv_no_null(char **argv)
 	static char *builtin[7] = { "cd", "echo", "setenv",
 								"unsetenv", "env", "exit", NULL };
 	g_ms.argv = argv;
-	g_ms.i = ft_str_split_count(g_ms.argv);
+	g_ms.i = ft_strsplit_count(g_ms.argv);
 	if (ft_streq(*g_ms.argv, "env")
 		&& ft_env());
 	else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)

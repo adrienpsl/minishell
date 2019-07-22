@@ -20,7 +20,7 @@ int ms_unset_env(char *removing_var, char **env, char ***out)
 	i = ft_strsplit_search(env, ms_func_search_var$name, removing_var);
 	if (i > -1)
 	{
-		if (!(new_env = ft_str_split_copy(env, 0)))
+		if (!(new_env = ft_strsplit_copy(env, 0)))
 			return (-1);
 		free(new_env[i]);
 		while (new_env[i] != NULL)

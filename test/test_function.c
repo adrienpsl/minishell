@@ -57,7 +57,7 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 	intern_ret = ft_cd(arg);
 	if (ret != intern_ret
 		|| (!ft_streq(curpath, g_mst.buffer))
-		|| ft_str_split_cmp(new_env, g_ms.env)
+		|| ft_strsplit_cmp(new_env, g_ms.env)
 		|| !ft_streq(error_text, g_test_buffer))
 	{
 		printf("test g_ms cd : %d \n", test);
@@ -69,7 +69,7 @@ void test_ms_cd(char **env, char **arg, char **new_env, int ret, char *curpath, 
 			printf("res  path: %s \n", curpath);
 			printf("test path: %s\n", g_mst.buffer);
 		}
-		if (ft_str_split_cmp(new_env, g_ms.env))
+		if (ft_strsplit_cmp(new_env, g_ms.env))
 			printf("split  env\n");
 		if (!ft_streq(error_text, g_test_buffer))
 		{
@@ -90,7 +90,7 @@ void test_ms_env_copy(char *env_str, int ret, int error, int test)
 	int intern_ret = ms_env_copy(env);
 
 	if (((g_ms.env && !env_str) || (!g_ms.env && env_str))
-		|| ft_str_split_cmp(g_ms.env, env)
+		|| ft_strsplit_cmp(g_ms.env, env)
 		|| ret != intern_ret)
 	{
 		printf("error test : %d \n", test);
@@ -116,16 +116,16 @@ void test_ms_env_add(char *env_str, char *test_str, int ret, char *res_str, char
 	ft_strsplit_free(&test);
 
 	if (((g_ms.env && !env) || (!g_ms.env && env))
-		|| ft_str_split_cmp(g_ms.env, res)
+		|| ft_strsplit_cmp(g_ms.env, res)
 		|| ret != intern_return
 		|| !ft_streq(error_str, g_test_buffer))
 	{
 		printf("error g_ms env add : %d \n", nb_test);
-		if (ft_str_split_cmp(g_ms.env, res))
+		if (ft_strsplit_cmp(g_ms.env, res))
 		{
 			g_test = 0;
-			ft_strsplitprint_test(g_ms.env);
-			ft_strsplitprint_test(g_ms.env);
+			ft_strsplit_print_test(g_ms.env);
+			ft_strsplit_print_test(g_ms.env);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -157,7 +157,7 @@ void test_ms_env_remove(char *env_str,
 
 	int intern_return = ft_unsetenv(deleting_key);
 
-	if (ft_str_split_cmp(g_ms.env, result)
+	if (ft_strsplit_cmp(g_ms.env, result)
 		|| ret != intern_return)
 	{
 		printf("error test g_ms env remove : %d \n", nb_test);
@@ -191,16 +191,16 @@ void test_ms_env_modify(char **env, char *key, char *new_value, int ret, char **
 	ft_bzero(&g_ms, sizeof(g_ms));
 	ms_env_copy(env);
 	intern_ret = ms_env_modify(key, new_value);
-	if (ft_str_split_cmp(g_ms.env, res)
+	if (ft_strsplit_cmp(g_ms.env, res)
 		|| ret != intern_ret)
 	{
 		printf("error test env modify : %d \n", test);
-		if (ft_str_split_cmp(g_ms.env, res))
+		if (ft_strsplit_cmp(g_ms.env, res))
 		{
 			g_test = 0;
-			ft_strsplitprint_test(g_ms.env);
+			ft_strsplit_print_test(g_ms.env);
 			printf("----------------------- \n");
-			ft_strsplitprint_test(res);
+			ft_strsplit_print_test(res);
 			printf("split error\n");
 			g_test = 1;
 		}
@@ -276,7 +276,7 @@ void test_read_command(char *command, char *res, int test)
 	write_in_file(command);
 	char **ret_test = ms_parser_read_command();
 	char **res_split = ft_strsplit(res, ";");
-	if (ft_str_split_cmp(ret_test, res_split))
+	if (ft_strsplit_cmp(ret_test, res_split))
 	{
 		printf("error test  read command: %d \n", test);
 		ft_print_two_split(res_split, ret_test);
@@ -333,7 +333,7 @@ void test_ft_env(int nb_test, char *argument_str, char *env_str, char *res_env_s
 
 //	if (
 //	 !ft_test_streq(print, g_test_buffer) ||
-//	 ft_str_split_cmp(g_test_env, res_env)
+//	 ft_strsplit_cmp(g_test_env, res_env)
 //	 )
 //	{
 //		printf("test ft_env n %d /////////////////////////////////// \n", nb_test);

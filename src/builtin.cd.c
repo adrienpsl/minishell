@@ -66,7 +66,7 @@ int ft_cd(char **argv)
 	int ret;
 	char buff_current_path[4097];
 
-	nb_argv = ft_str_split_count(argv);
+	nb_argv = ft_strsplit_count(argv);
 	if (ft_streq(*argv, "--"))
 		argv++ && nb_argv--;
 	if (getcwd(buff_current_path, 4096) == NULL)
