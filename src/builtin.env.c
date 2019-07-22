@@ -40,8 +40,8 @@ static int ft_env_handle_option(long options)
 	}
 	if (options & OPTION_I)
 	{
-		if (!(g_ms.env_tmp = ft_strsplit("", " ")))
-			return (-1);
+		ms_free(g_ms.env_tmp);
+		g_ms.is_env = 1;
 	}
 	return (0);
 }
@@ -55,13 +55,11 @@ int ms_env()
 	t_ms *ms = &g_ms;
 	(void) ms;
 	if (*g_ms.argv
-		&& (ms_env_init(&options)
-			|| ft_env_handle_option(options)
-		))
+		&& (ms_env_init(&options) || ft_env_handle_option(options)))
 		return (-1);
 	if (!*g_ms.argv)
 	{
-		ft_strsplit_print(g_ms.env, '\n');
+		ft_strsplit_print(get_env(), '\n');
 		ft_printf("\n");
 		return (0);
 	}

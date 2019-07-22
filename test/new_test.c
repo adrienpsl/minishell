@@ -44,6 +44,7 @@ void test_ms_env(ms_test test)
 
 	// free
 	ms_free(g_ms.env);
+	ms_free(g_ms.env_tmp);
 	test_free(&tSplit);
 }
 
@@ -54,17 +55,27 @@ void new_test_all()
 	new_passed_test();
 
 	// test env null
+//	test_ms_env((ms_test) {
+//	 .nb_test = 19,
+//	 .env = "a1=toto a2=titi a3=tata",
+//	 .argv_end = "",
+//	 .env_tmp = "",
+//	 .argv = "",
+//	 .print = "a1=toto\na2=titi\na3=tata\n",
+//	 .ret_int = 0
+//	});
+
+	// test env -i
 	test_ms_env((ms_test) {
-	 .nb_test = 19,
+	 .nb_test = 20,
 	 .env = "a1=toto a2=titi a3=tata",
 	 .argv_end = "",
 	 .env_tmp = "",
-	 .argv = "",
-	 .print = "a1=toto\na2=titi\na3=tata\n",
+	 .argv = "-i",
+	 .print = "\n",
 	 .ret_int = 0
 	});
 
-	// test env -i --
 
 	// test env -u --
 

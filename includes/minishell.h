@@ -111,6 +111,7 @@ void init(char **env);
 
 // utils
 void signal_program(int t);
+char **get_env();
 
 // init and free
 void ms_free(char **env);

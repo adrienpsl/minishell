@@ -31,6 +31,10 @@ void ms_clear_buffer()
 	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
 }
 
+char **get_env()
+{
+	return g_ms.is_env ? g_ms.env_tmp : g_ms.env;
+}
 
 int ms_test_file(char *path, char *builtin)
 {
