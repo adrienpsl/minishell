@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 int ms_env_add(char **env, char *var)
 {
 	int i;
@@ -55,13 +54,13 @@ static int nb_arg_and_buffer()
 	return (0);
 }
 
-int ms_set_env(void)
+int ms_setenv(void)
 {
 	ft_bzero(g_ms.tmp_buffer, MS_SIZE_BUFFER);
 	if (g_ms.argv_size > 2 || g_ms.argv_size == 0)
-		return ft_put_int(-1, MS_SETENV_NB_ARGV);
+		return ft_put_int(-1, MS_BAD_NB_ARG);
 	if (nb_arg_and_buffer())
-		return (ft_put_int(-1, MS_SETENV_NB_ARGV));
+		return (ft_put_int(-1, MS_BAD_NB_ARG));
 	if (search_forbidden())
 		return (-1);
 	if (ms_env_add(g_ms.env, g_ms.tmp_buffer))

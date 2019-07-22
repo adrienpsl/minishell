@@ -1,6 +1,12 @@
 #ifndef MINISHELL_MINISHELL_ERROR_H
 #define MINISHELL_MINISHELL_ERROR_H
 
+
+/*
+** ALL *************************************************************************
+*/
+# define MS_BAD_NB_ARG "Too much argv"
+
 /*
 ** Memory **********************************************************************
 */
@@ -14,9 +20,8 @@
 /*
 ** Setenv error ****************************************************************
 */
-# define MS_SETENV_NB_ARGV "Too much argv are given"
 # define MS_SETENV_SIZE_MAX "SIZE MAX var-name + value == 4095"
-# define MS_SETENV_FORBIDDEN_CHAR "one = // no $"
+# define MS_SETENV_FORBIDDEN_CHAR "one = & no $"
 
 
 

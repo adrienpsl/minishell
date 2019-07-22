@@ -12,43 +12,21 @@
 
 #include "minishell.h"
 
-
-
-int ms_unset_env(char *removing_var, char **env, char ***out)
+int ms_env_remove(char **env, char *var)
 {
 	int i;
-	char **new_env;
 
-	i = ft_strsplit_search(env, ms_func_search_var$name, removing_var);
+	i = ft_strsplit_search(env, ms_func_search_var$name, var);
 	if (i > -1)
-	{
-		if (!(new_env = ft_strsplit_copy(env, 0)))
-			return (-1);
-		free(new_env[i]);
-		while (new_env[i] != NULL)
-		{
-			new_env[i] = new_env[i + 1];
-			i++;
-		}
-		*out = new_env;
-		return (1);
-	}
+		ft_strsplit_remove(env, i);
 	return (0);
 }
 
-int ft_unsetenv(char *removing_var)
+int ms_unsetenv()
 {
-	char **new_env;
-	int ret;
-
-	ret = ms_unset_env(removing_var, g_ms.env, &new_env);
-	if (ret == 1)
-	{
-		ft_strsplit_free(&g_ms.env);
-		g_ms.env = new_env;
-		return (0);
-	}
-	if (ret == 0)
-	    return (0);
-	return (-1);
+	if (g_ms.argv_size != 1)
+		return ft_put_int(-1, MS_BAD_NB_ARG);
+	ft_bzero(g_ms.tmp_buffer, MS_SIZE_BUFFER);
+	ft_strjoinbuffer(g_ms.tmp_buffer, g_ms.argv[0], "=", 0);
+	return (ms_env_remove(g_ms.env, g_ms.tmp_buffer));
 }

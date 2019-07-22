@@ -23,7 +23,7 @@ int ms_env_modify(char *key, char *new_value)
 {
 	static char *split[3] = { NULL, NULL, NULL };
 
-	ft_unsetenv(key);
+	ms_unsetenv(0);
 	split[0] = key;
 	split[1] = new_value;
 	return (0);
@@ -37,7 +37,7 @@ int ms_func_search_var$name(char *current, void *p_searched)
 
 	searched = p_searched;
 	i = ft_strchr(current, '=');
-	if (i > 0)
+	if (i > -1)
 		return (ft_strneq(current, searched, i));
 	return (0);
 }

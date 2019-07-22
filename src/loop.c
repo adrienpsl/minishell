@@ -23,7 +23,7 @@ void ms_handle_builtin(char **argv)
 //	else if (ft_streq(*argv, "setenv"))
 //		ft_setenv(argv + 1);
 	else if (ft_streq(*argv, "unsetenv"))
-		ft_unsetenv(argv[1]);
+		ms_unsetenv(0);
 }
 
 static void ms_argv_no_null(char **argv)

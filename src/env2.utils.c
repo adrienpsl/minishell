@@ -29,13 +29,3 @@ int ms_copy_env(char **dest, char **src)
 	}
 	return (ret);
 }
-
-int ms_env_remove(char **env, char *var)
-{
-	int i;
-
-	i = ft_strsplit_search(env, ms_func_search_var$name, var);
-	if (i > -1)
-		ft_strsplit_remove(env, i);
-	return (i > -1 ? 1 : 0);
-}

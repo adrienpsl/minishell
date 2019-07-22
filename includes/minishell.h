@@ -68,7 +68,7 @@ int ms_env_remove(char **env, char *var);
 
 // env
 void ft_echo(char **argv);
-int ft_unsetenv(char *removing_var);
+int ms_unsetenv();
 int ms_env_copy(char **env);
 int ft_setenv(char **env);
 char *ms_env_get_value(char *key, char **argv);
@@ -87,7 +87,7 @@ char **ms_parser_read_command();
 // builtin
 
 //env
-int ms_set_env(void);
+int ms_setenv(void);
 int ft_cd(char **argv);
 int ms_unset_env(char *removing_var, char **env, char ***out);
 int ms_env_add(char **env, char *var);
