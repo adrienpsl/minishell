@@ -60,7 +60,7 @@ int ms_env()
 		return (-1);
 	if (!*g_ms.argv)
 	{
-		ft_strsplit_print(get_env(), '\n');
+		ft_strsplit_print(ms_get_env(), '\n');
 		ft_printf("\n");
 		return (0);
 	}

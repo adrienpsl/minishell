@@ -5,6 +5,7 @@
 ** ALL *************************************************************************
 */
 # define MS_BAD_NB_ARG "Too much argv"
+# define MS_NO_FILE "Too much argv"
 
 /*
 ** Memory **********************************************************************
@@ -31,6 +32,7 @@
 */
 # define MS_CD_NO_AUTHORIZE "cd: permission denied: %s"
 # define MS_CD_NO_IN_PWD "cd: string not in pwd: %s"
+# define MS_CD_NO_HOME "cd: there is no $HOME"
 
 /*
 ** env builtin *****************************************************************

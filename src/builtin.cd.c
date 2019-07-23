@@ -35,11 +35,8 @@ static int go_dir(char *go_path, char *current_path)
 
 static int one_argv(char *argv, char *current_path)
 {
-	ft_bzero(g_ms.buffer, 4097);
 	if (ft_streq(argv, "-"))
-		return (go_dir(ms_env_get_value("OLDPATH", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), current_path));
-	else if (ft_streq(argv, "~"))
-		return (go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), current_path));
+		return (go_dir(ms_env_get_value("OLDPATH"), current_path));
 	else if (*argv == '.')
 	{
 		ft_strjoinbybuffer(g_ms.buffer, current_path, "/", argv);
@@ -49,35 +46,53 @@ static int one_argv(char *argv, char *current_path)
 		return (go_dir(argv, current_path));
 }
 
-static int two_argv(char *searching, char *replacing, char *current_path)
+static int ft_cd_check_init()
 {
-	ft_bzero(g_ms.buffer, 4097);
-	if (!ft_str_replacebuffer(g_ms.buffer, current_path, searching, replacing))
+	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
+	if (ft_streq(*g_ms.argv, "--"))
 	{
-		ft_printf(MS_CD_NO_IN_PWD, searching);
-		return (-1);
+		(g_ms.argv++ && g_ms.argv_size--);
 	}
-	return (go_dir(g_ms.buffer, current_path));
+	if (getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER) == NULL)
+	{
+		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
+	}
+	if (g_ms.argv_size > 2)
+	{
+		return (ft_put_int(-1, MS_BAD_NB_ARG));
+	}
+	return (0);
 }
 
-int ft_cd(char **argv)
+static int ft_cd_build_path()
 {
-	int nb_argv;
 	int ret;
-	char buff_current_path[4097];
 
-	nb_argv = ft_strsplit_count(argv);
-	if (ft_streq(*argv, "--"))
-		argv++ && nb_argv--;
-	if (getcwd(buff_current_path, 4096) == NULL)
-		return (ft_put_int(-1, "No access to current directory"));
-	if (nb_argv == 0)
-		ret = go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), buff_current_path);
-	else if (nb_argv == 1)
-		ret = one_argv(*argv, buff_current_path);
-	else if (nb_argv == 2)
-		ret = two_argv(*argv, argv[1], buff_current_path);
-	else
-		ret = ft_put_int(-1, "cd: too many arguments");
+	ret = 0;
+	if (g_ms.argv_size == 0)
+	{
+		// if pas de home, je return and says ! fuck mam ! no fucking home !
+	}
+	if (g_ms.argv_size == 2)
+	{
+		if (!ft_str_replacebuffer(g_ms.buffer, g_ms.tmp_buffer,
+								  g_ms.argv[1], g_ms.argv[0]))
+			ret = ft_putval_int(-1, MS_CD_NO_IN_PWD, g_ms.argv[1]);
+	}
 	return (ret);
+}
+
+int ft_cd()
+{
+	ft_cd_check_init();
+
+	if (g_ms.argv_size == 0)
+		//		ret = go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), buff_current_path);
+		//	else if (nb_argv == 1)
+		//		ret = one_argv(*argv, buff_current_path);
+		//	else if (nb_argv == 2)
+		//		ret = two_argv(*argv, argv[1], buff_current_path);
+		//	else
+		//		ret = ft_put_int(-1, "cd: too many arguments");
+		return (0);
 }

@@ -42,19 +42,18 @@ int ms_func_search_var$name(char *current, void *p_searched)
 	return (0);
 }
 
-char *ms_env_get_value(char *key, char **argv)
+char *ms_env_get_value(char *key)
 {
 	int i;
 	int position;
+	char **env;
 
-	if (!key)
-		return (NULL);
-	position = ft_strsplit_search(argv, ms_func_search_var$name, key);
-	if (position > -1)
+	if (key)
 	{
-		if (!(i = ft_strchr(argv[position], '=')))
-			return (NULL);
-		return (argv[position] + i + 1);
+		env = ms_get_env();
+		position = ft_strsplit_search(env, ms_func_search_var$name, key);
+		if (position > -1 && (i = ft_strchr(env[position], '=')))
+			return (env[position] + i + 1);
 	}
-	return (NULL);
+	return (ft_put_ptr(NULL, MS_CD_NO_HOME));
 }

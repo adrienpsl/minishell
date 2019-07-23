@@ -71,7 +71,7 @@ void ft_echo(char **argv);
 int ms_unsetenv();
 int ms_env_copy(char **env);
 int ft_setenv(char **env);
-char *ms_env_get_value(char *key, char **argv);
+char *ms_env_get_value(char *key);
 int ms_env_modify(char *key, char *new_value);
 int ms_env();
 int ms_func_search_var$name(char *current, void *p_searched);
@@ -111,7 +111,7 @@ void init(char **env);
 
 // utils
 void signal_program(int t);
-char **get_env();
+char **ms_get_env();
 
 // init and free
 void ms_free(char **env);
