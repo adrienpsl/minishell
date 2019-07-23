@@ -32,9 +32,9 @@ static int search_forbidden()
 	int ret;
 
 	ret = 0;
-	if (ft_strchr(g_ms.tmp_buffer, '$') != -1)
+	if (ft_strchr(g_ms.buffer, '$') != -1)
 		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
-	else if (ft_strnchr(g_ms.tmp_buffer, '=') != 1)
+	else if (ft_strnchr(g_ms.buffer, '=') != 1)
 		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
 	return (ret);
 }
@@ -49,21 +49,21 @@ static int nb_arg_and_buffer()
 	if (length > MS_MAX_LENGTH_VAR)
 		return (-1);
 	g_ms.argv_size == 2 ?
-	ft_strjoinbybuffer(g_ms.tmp_buffer, g_ms.argv[0], "=", g_ms.argv[1]) :
-	ft_memcpy(g_ms.tmp_buffer, g_ms.argv[0], length);
+	ft_strjoinbybuffer(g_ms.buffer, g_ms.argv[0], "=", g_ms.argv[1]) :
+	ft_memcpy(g_ms.buffer, g_ms.argv[0], length);
 	return (0);
 }
 
 int ms_setenv(void)
 {
-	ft_bzero(g_ms.tmp_buffer, MS_SIZE_BUFFER);
+	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
 	if (g_ms.argv_size > 2 || g_ms.argv_size == 0)
 		return ft_put_int(-1, MS_BAD_NB_ARG);
 	if (nb_arg_and_buffer())
 		return (ft_put_int(-1, MS_BAD_NB_ARG));
 	if (search_forbidden())
 		return (-1);
-	if (ms_env_add(g_ms.env, g_ms.tmp_buffer))
+	if (ms_env_add(g_ms.env, g_ms.buffer))
 		return (-1);
 	return (0);
 }

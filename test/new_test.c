@@ -1,6 +1,8 @@
 
 #include <libft.h>
 #include <minishell.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 #include "test.h"
 //#include "../src/main.c"
 
@@ -8,9 +10,27 @@
 void test_free(t_split *split);
 void test_do_split(ms_test *test, t_split *split);
 void new_passed_test();
+//void write_in_file(char *str);
+
+// write in my file and open fd
+void open_fd_with_data(char *data, char *location)
+{
+	int fd;
+	// go to that file
+	chdir(location);
+	// create the directory
+	mkdir("test_files", 0777);
+	// if there is a file, clean it
+	fclose(fopen("test_files/current_test", "w"));
+	// write in it
+	fd = open("test_files/current_test", O_CREAT | O_RDWR);
+	write(fd, data, strlen(data));
+	// set stream on that file
+	g_mst.fd = open("test_files/current_test", O_RDONLY);
+}
 
 
-void test_ms_env(ms_test test)
+void test_ms_cd(ms_test test)
 {
 	// init
 	t_split tSplit;
@@ -48,44 +68,9 @@ void test_ms_env(ms_test test)
 	test_free(&tSplit);
 }
 
-
 void new_test_all()
 {
 	g_test = 1;
 	new_passed_test();
-
-	// test env null
-//	test_ms_env((ms_test) {
-//	 .nb_test = 19,
-//	 .env = "a1=toto a2=titi a3=tata",
-//	 .argv_end = "",
-//	 .env_tmp = "",
-//	 .argv = "",
-//	 .print = "a1=toto\na2=titi\na3=tata\n",
-//	 .ret_int = 0
-//	});
-
-	// test env -i
-	test_ms_env((ms_test) {
-	 .nb_test = 20,
-	 .env = "a1=toto a2=titi a3=tata",
-	 .argv_end = "",
-	 .env_tmp = "",
-	 .argv = "-i",
-	 .print = "\n",
-	 .ret_int = 0
-	});
-
-
-	// test env -u --
-
-	// test env --
-
-	// test -i toto >
-
-	// test -u exist
-
-	// test -u not exist
-
 
 }
