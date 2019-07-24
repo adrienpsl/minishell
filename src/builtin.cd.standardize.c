@@ -31,14 +31,17 @@ static int standardize_one(char *buffer, int *print)
 static int standardize_two(char *buffer, int *print)
 {
 	int ret;
+	char buf_pwd[MS_SIZE_BUFFER];
 
+	if (getcwd(buf_pwd, MS_SIZE_BUFFER) == NULL)
+		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
 	if ((ft_strlen(g_ms.argv[0]) + ft_strlen(g_ms.argv[1]) + 1)
 		> MS_SIZE_BUFFER)
 	{
 		ret = ft_put_int(-1, MS_BUFFER_ERROR);
 	}
-	else if (ft_str_replacebuffer(buffer, g_ms.tmp_buffer,
-								  g_ms.argv[1], g_ms.argv[0]))
+	else if (ft_str_replacebuffer(buffer, buf_pwd,
+								  g_ms.argv[0], g_ms.argv[1]))
 	{
 		ret = 0;
 		*print = 1;
@@ -54,7 +57,7 @@ int cd_standardize_relative(char *buffer)
 
 	if (buffer[0] == '.')
 	{
-		if (getcwd(pwd, MS_SIZE_BUFFER))
+		if (getcwd(pwd, MS_SIZE_BUFFER) == NULL)
 			return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
 		if ((ft_strlen(pwd) + ft_strlen(g_ms.argv[0]) + 1) > MS_SIZE_BUFFER)
 			return (ft_put_int(-1, MS_BUFFER_ERROR));

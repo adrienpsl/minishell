@@ -50,11 +50,11 @@ void test_ms_cd(ms_test test)
 
 	// print error
 	if (
-	 !ft_streq(test.print, g_test_buffer) ||
-	 !ft_streq(test.end_repository, buffer_end_repository) ||
-	 ft_strsplit_cmp(tSplit.new_env, g_ms.env) ||
-	 ret != test.ret_int
-	 )
+		!ft_streq(test.print, g_test_buffer) ||
+		!ft_streq(test.end_repository, buffer_end_repository) ||
+		ft_strsplit_cmp(tSplit.new_env, g_ms.env) ||
+		ret != test.ret_int
+		)
 	{
 		printf("ms env %d *******************************\n", test.nb_test);
 		ft_test_if_streq(test.end_repository, buffer_end_repository, "end_repo");
@@ -81,80 +81,80 @@ void new_test_all()
 	chdir("/Users/adpusel");
 	mkdir("test_minishell", 0777);
 
-//	// : [ aa aa aa ]
-//	test_ms_cd((ms_test) {
-//	 .nb_test= 25,
-//	 .argv = "aa aa aa",
-//	 .start_repository = test_directory,
-//	 .env = "HOME=/Users/adpusel",
-//	 .new_env = "HOME=/Users/adpusel",
-//	 .end_repository = test_directory,
-//	 .print = MS_BAD_NB_ARG"\n",
-//	 .ret_int = -1
-//	});
-//
-//	// : [ ]
-//	test_ms_cd((ms_test) {
-//	 .nb_test = 26,
-//	 .argv = "",
-//	 .start_repository = "/",
-//	 .env = "HOME=/Users/adpusel",
-//	 .new_env = "HOME=/Users/adpusel OLDPATH=/",
-//	 .end_repository = "/Users/adpusel",
-//	 .print = ""
-//	});
-//
-//	// [ -- ]
-//	test_ms_cd((ms_test) {
-//		.nb_test = 27,
-//		.argv = "--",
-//		.start_repository = "/Users",
-//		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
-//		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
-//		.end_repository = "/Users/adpusel",
-//		.print = ""
-//	});
-//
-//	// [ -- ] + no $HOME
-//	test_ms_cd((ms_test) {
-//		.nb_test = 28,
-//		.argv = "",
-//		.start_repository = "/Users",
-//		.env = "OLDPATH=",
-//		.new_env = "OLDPATH=",
-//		.end_repository = "/Users",
-//		.print = MS_CD_NO_HOME"\n",
-//		.ret_int = -1
-//	});
-//
-//
-//	// [ - ]
-//	test_ms_cd((ms_test) {
-//		.nb_test = 29,
-//		.argv = "-",
-//		.start_repository = "/Users",
-//		.env = "OLDPATH=/Users/adpusel",
-//		.new_env = "OLDPATH=/Users",
-//		.end_repository = "/Users/adpusel",
-//		.print = "/Users/adpusel\n",
-//		.ret_int = 0
-//	});
-//
-//	// test cd - no oldpath
-//	test_ms_cd((ms_test) {
-//		.nb_test = 29,
-//		.argv = "-",
-//		.start_repository = "/Users",
-//		.env = "OLDPATH=/Users/adpusel",
-//		.new_env = "OLDPATH=/Users",
-//		.end_repository = "/Users/adpusel",
-//		.print = "/Users/adpusel\n",
-//		.ret_int = 0
-//	});
+	// : [ aa aa aa ]
+	test_ms_cd((ms_test) {
+		.nb_test= 25,
+		.argv = "aa aa aa",
+		.start_repository = test_directory,
+		.env = "HOME=/Users/adpusel",
+		.new_env = "HOME=/Users/adpusel",
+		.end_repository = test_directory,
+		.print = MS_BAD_NB_ARG"\n",
+		.ret_int = -1
+	});
 
-	// test cd .
+	// : [ ]
+	test_ms_cd((ms_test) {
+		.nb_test = 26,
+		.argv = "",
+		.start_repository = "/",
+		.env = "HOME=/Users/adpusel",
+		.new_env = "HOME=/Users/adpusel OLDPATH=/",
+		.end_repository = "/Users/adpusel",
+		.print = ""
+	});
+
+	// [ -- ]
+	test_ms_cd((ms_test) {
+		.nb_test = 27,
+		.argv = "--",
+		.start_repository = "/Users",
+		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
+		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
+		.end_repository = "/Users/adpusel",
+		.print = ""
+	});
+
+	// [ -- ] + no $HOME
+	test_ms_cd((ms_test) {
+		.nb_test = 28,
+		.argv = "",
+		.start_repository = "/Users",
+		.env = "OLDPATH=",
+		.new_env = "OLDPATH=",
+		.end_repository = "/Users",
+		.print = MS_CD_NO_HOME"\n",
+		.ret_int = -1
+	});
+
+
+	// : [ - ]
+	test_ms_cd((ms_test) {
+		.nb_test = 29,
+		.argv = "-",
+		.start_repository = "/Users",
+		.env = "OLDPATH=/Users/adpusel",
+		.new_env = "OLDPATH=/Users",
+		.end_repository = "/Users/adpusel",
+		.print = "/Users/adpusel\n",
+		.ret_int = 0
+	});
+
+	// : [ - ] + no $OLDPATH
 	test_ms_cd((ms_test) {
 		.nb_test = 30,
+		.argv = "-",
+		.start_repository = "/Users",
+		.env = "",
+		.new_env = "",
+		.end_repository = "/Users",
+		.print = MS_CD_NO_OLDPATH"\n",
+		.ret_int = -1
+	});
+
+	// : [ . ]
+	test_ms_cd((ms_test) {
+		.nb_test = 31,
 		.argv = ".",
 		.start_repository = "/Users",
 		.env = "OLDPATH=/Users/adpusel",
@@ -164,20 +164,169 @@ void new_test_all()
 		.ret_int = 0
 	});
 
-	// test cd /file/test
+	// : [ /file/test ]
+	test_ms_cd((ms_test) {
+		.nb_test = 32,
+		.argv = "/Users/adpusel",
+		.start_repository = "/Users",
+		.env = "OLDPATH=/Users/adpusel",
+		.new_env = "OLDPATH=/Users",
+		.end_repository = "/Users/adpusel",
+		.print = "",
+		.ret_int = 0
+	});
 
-	// test cd ./file/test
+	// : [ /Users/ ]
+	test_ms_cd((ms_test) {
+		.nb_test = 33,
+		.argv = "/Users/",
+		.start_repository = "/Users",
+		.env = "OLDPATH=/Users/adpusel",
+		.new_env = "OLDPATH=/Users",
+		.end_repository = "/Users",
+		.print = "",
+		.ret_int = 0
+	});
 
-	// test cd file1 fileNoExist
+	// : [ .. ]
+	test_ms_cd((ms_test) {
+		.nb_test = 34,
+		.argv = "..",
+		.start_repository = "/Users/adpusel",
+		.env = "",
+		.new_env = "OLDPATH=/Users/adpusel",
+		.end_repository = "/Users",
+		.print = "",
+		.ret_int = 0
+	});
 
-	// test cd file1 file2
+	// : [ .././adpusel ]
+	test_ms_cd((ms_test) {
+		.nb_test = 35,
+		.argv = ".././adpusel",
+		.start_repository = "/Users/adpusel",
+		.env = "",
+		.new_env = "OLDPATH=/Users/adpusel",
+		.end_repository = "/Users/adpusel",
+		.print = "",
+		.ret_int = 0
+	});
 
-	// test cd file
 
-	// test cd no acces
+	// : [  ] file not exist
+	test_ms_cd((ms_test) {
+		.nb_test = 36,
+		.argv = "../asoeuth",
+		.start_repository = "/Users/adpusel",
+		.end_repository = "/Users/adpusel",
+		.env = "",
+		.new_env = "",
+		.print = "cd: no such file or directory: ../asoeuth\n",
+		.ret_int = -1
+	});
 
-	// test cd no exist
 
-	// bad option
+	// : [ file ] no access
+	chdir("/Users/adpusel");
+	mkdir("test-cd-000", 0);
+
+	test_ms_cd((ms_test) {
+		.nb_test = 37,
+		.argv = "test-cd-000",
+		.start_repository = "/Users/adpusel",
+		.end_repository = "/Users/adpusel",
+		.env = "",
+		.new_env = "",
+		.print = "cd: permission denied: test-cd-000\n",
+		.ret_int = -1
+	});
+
+
+	// : [ file file ]
+	chdir("/Users/adpusel");
+
+	mkdir("test-cd-1", 0777);
+	mkdir("test-cd-2", 0777);
+
+	mkdir("test-cd-1/dir_1", 0777);
+	mkdir("test-cd-2/dir_1", 0777);
+
+	test_ms_cd((ms_test) {
+		.nb_test = 38,
+		.argv = "test-cd-1 test-cd-2",
+		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
+		.end_repository = "/Users/adpusel/test-cd-2/dir_1",
+		.env = "",
+		.new_env = "OLDPATH=/Users/adpusel/test-cd-1/dir_1",
+		.print = "/Users/adpusel/test-cd-2/dir_1\n",
+		.ret_int = 0
+	});
+
+
+	// : [ file no-exist ]
+	chdir("/Users/adpusel");
+
+	mkdir("test-cd-1", 0777);
+	mkdir("test-cd-2", 0777);
+
+	mkdir("test-cd-1/dir_1", 0777);
+	mkdir("test-cd-2/dir_1", 0777);
+
+	test_ms_cd((ms_test) {
+		.nb_test = 39,
+		.argv = "test-cd-1 test-cd-",
+		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
+		.end_repository = "/Users/adpusel/test-cd-1/dir_1",
+		.env = "",
+		.new_env = "",
+		.print = "cd: no such file or directory: /Users/adpusel/test-cd-/dir_1\n",
+		.ret_int = -1
+	});
+
+	// : [ file no-access ]
+	chdir("/Users/adpusel");
+
+	mkdir("test-cd-1", 0777);
+	mkdir("test-cd-2", 0777);
+
+	mkdir("test-cd-1/dir_1", 0777);
+	mkdir("test-cd-2/dir_1", 0777);
+
+	mkdir("test-cd-1/dir_2", 0777);
+	mkdir("test-cd-2/dir_2", 0000);
+
+	test_ms_cd((ms_test) {
+		.nb_test = 40,
+		.argv = "test-cd-1 test-cd-2",
+		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
+		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
+		.env = "",
+		.new_env = "",
+		.print = "cd: permission denied: /Users/adpusel/test-cd-2/dir_2\n",
+		.ret_int = -1
+	});
+
+	// : [ file .. ]
+	chdir("/Users/adpusel");
+
+	mkdir("test-cd-1", 0777);
+	mkdir("test-cd-2", 0777);
+
+	mkdir("test-cd-1/dir_1", 0777);
+	mkdir("test-cd-2/dir_1", 0777);
+
+	mkdir("test-cd-1/dir_2", 0777);
+	mkdir("test-cd-2/dir_2", 0000);
+
+	test_ms_cd((ms_test) {
+		.nb_test = 40,
+		.argv = "/Users/adpusel ..",
+		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
+		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
+		.env = "",
+		.new_env = "",
+		.print = "cd: no such file or directory: ../test-cd-1/dir_2\n",
+		.ret_int = -1
+	});
 
 }
