@@ -13,79 +13,44 @@
 #include <errno.h>
 #include "minishell.h"
 
-int cd_go_dir()
+int cd_go_dir(char *buffer)
 {
 	int right;
-	char buffer[MS_SIZE_BUFFER + 1];
+	char b_pwd[MS_SIZE_BUFFER + 1];
+	char b_oldpath[MS_SIZE_BUFFER + 1];
 
-	if ((right = ms_test_file(g_ms.buffer, "cd")))
+	if ((right = ms_test_file(buffer, "cd")))
 		return (right);
-	getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER);
-	if (chdir(g_ms.buffer))
+	getcwd(b_pwd, MS_SIZE_BUFFER);
+	if (chdir(buffer))
 	{
 		ft_printf(MS_CD_NO_AUTHORIZE, g_ms.buffer);
 		return (-1);
 	}
-	ft_bzero(buffer, MS_SIZE_BUFFER + 1);
-	ft_strjoinbybuffer(buffer, "OLDPATH", "=", g_ms.tmp_buffer);
-	if (ms_env_add(g_ms.env, buffer))
+	ft_bzero(b_oldpath, MS_SIZE_BUFFER + 1);
+	ft_strjoinbybuffer(b_oldpath, "OLDPATH", "=", b_pwd);
+	if (ms_env_add(g_ms.env, b_oldpath))
 		return (-1);
-	return (0);
-}
-
-int cd_build_path()
-{
-	if (g_ms.argv_size == 0)
-	{
-		if (ms_env_get_value("HOME", g_ms.buffer))
-			return (ft_put_int(-1, MS_CD_NO_HOME));
-	}
-	if (g_ms.argv_size == 1)
-	{
-		if (ft_streq(*g_ms.argv, "-"))
-		{
-			if (ms_env_get_value("OLDPATH", g_ms.tmp_buffer))
-				return (ft_put_int(-1, MS_CD_NO_OLDPATH));
-		}
-		if (ft_strlen(g_ms.tmp_buffer) + ft_strlen(*g_ms.argv) + 1
-			> MS_SIZE_BUFFER)
-			return (ft_put_int(-1, MS_BUFFER_ERROR));
-		else
-			ft_strcat(g_ms.buffer, *g_ms.argv);
-	}
-	if (g_ms.argv_size == 2)
-	{
-		if (!ft_str_replacebuffer(g_ms.buffer, g_ms.tmp_buffer,
-								  g_ms.argv[1], g_ms.argv[0]))
-			return (ft_putval_int(-1, MS_CD_NO_IN_PWD, g_ms.argv[1]));
-	}
-	return (0);
-}
-
-static int cd_check_init()
-{
-	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
-	if (ft_streq(*g_ms.argv, "--"))
-	{
-		(g_ms.argv++ && g_ms.argv_size--);
-	}
-	if (getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER) == NULL)
-	{
-		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
-	}
-	if (g_ms.argv_size > 2)
-	{
-		return (ft_put_int(-1, MS_BAD_NB_ARG));
-	}
 	return (0);
 }
 
 int ms_cd()
 {
-	if (cd_check_init()
-		|| cd_build_path()
-		|| cd_go_dir()
-	 )
+	char buffer[MS_SIZE_BUFFER_FULL];
+	int print;
+
+	print = 0;
+	ft_bzero(buffer, MS_SIZE_BUFFER_FULL);
+	if (ft_streq(*g_ms.argv, "--"))
+	{
+		(g_ms.argv++ && g_ms.argv_size--);
+	}
+	if (g_ms.argv_size > 2)
+	{
+		return (ft_put_int(-1, MS_BAD_NB_ARG));
+	}
+	if (cd_standardize_path(buffer, &print)
+		|| cd_go_dir(buffer))
 		return (-1);
 	return (0);
 }

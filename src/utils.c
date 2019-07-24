@@ -25,6 +25,13 @@ void signal_minishell(int sign)
 	ft_printf("\n$> ");
 }
 
+int ms_put_in_buffer(char *buffer, char *str)
+{
+	if (ft_strlen(str) >= MS_SIZE_BUFFER)
+		return (ft_put_int(-1, MS_BUFFER_ERROR));
+	ft_strcat(buffer, str);
+	return (0);
+}
 
 void ms_clear_buffer()
 {

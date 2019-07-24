@@ -81,18 +81,18 @@ void new_test_all()
 	chdir("/Users/adpusel");
 	mkdir("test_minishell", 0777);
 
-	// : [ aa aa aa ]
-	test_ms_cd((ms_test) {
-	 .nb_test= 25,
-	 .argv = "aa aa aa",
-	 .start_repository = test_directory,
-	 .env = "HOME=/Users/adpusel",
-	 .new_env = "HOME=/Users/adpusel",
-	 .end_repository = test_directory,
-	 .print = MS_BAD_NB_ARG"\n",
-	 .ret_int = -1
-	});
-
+//	// : [ aa aa aa ]
+//	test_ms_cd((ms_test) {
+//	 .nb_test= 25,
+//	 .argv = "aa aa aa",
+//	 .start_repository = test_directory,
+//	 .env = "HOME=/Users/adpusel",
+//	 .new_env = "HOME=/Users/adpusel",
+//	 .end_repository = test_directory,
+//	 .print = MS_BAD_NB_ARG"\n",
+//	 .ret_int = -1
+//	});
+//
 	// : [ ]
 	test_ms_cd((ms_test) {
 	 .nb_test = 26,
@@ -106,33 +106,39 @@ void new_test_all()
 
 	// [ -- ]
 	test_ms_cd((ms_test) {
-	 .nb_test = 27,
-	 .argv = "--",
-	 .start_repository = "/Users",
-	 .env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
-	 .new_env = "HOME=/Users/adpusel OLDPATH=/Users",
-	 .end_repository = "/Users/adpusel",
-	 .print = ""
+		.nb_test = 27,
+		.argv = "--",
+		.start_repository = "/Users",
+		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
+		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
+		.end_repository = "/Users/adpusel",
+		.print = ""
 	});
 
 	// [ -- ] + no $HOME
 	test_ms_cd((ms_test) {
-	 .nb_test = 28,
-	 .argv = "",
-	 .start_repository = "/Users",
-	 .env = "OLDPATH=",
-	 .new_env = "OLDPATH=",
-	 .end_repository = "/Users",
-	 .print = MS_CD_NO_HOME"\n",
-	 .ret_int = -1
+		.nb_test = 28,
+		.argv = "",
+		.start_repository = "/Users",
+		.env = "OLDPATH=",
+		.new_env = "OLDPATH=",
+		.end_repository = "/Users",
+		.print = MS_CD_NO_HOME"\n",
+		.ret_int = -1
 	});
 
 
-
-
-	// test cd no home
-
-	// test cd -
+	// [ - ]
+	test_ms_cd((ms_test) {
+		.nb_test = 29,
+		.argv = "-",
+		.start_repository = "/Users",
+		.env = "OLDPATH=/Users/adpusel",
+		.new_env = "OLDPATH=/Users",
+		.end_repository = "/Users",
+		.print = MS_CD_NO_HOME"\n",
+		.ret_int = -1
+	});
 
 	// test cd - no oldpath
 

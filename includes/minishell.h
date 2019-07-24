@@ -60,6 +60,12 @@ t_ms_test g_mst;
 void ms_clear_buffer();
 char **g_test_env;
 
+
+/*
+**	cd
+*/
+int cd_standardize_path(char *buffer, int *print);
+
 /*
 **	env
 */
@@ -112,6 +118,7 @@ void init(char **env);
 // utils
 void signal_program(int t);
 char **ms_get_env();
+int ms_put_in_buffer(char *buffer, char *str);
 
 // init and free
 void ms_free(char **env);
