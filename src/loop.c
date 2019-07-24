@@ -45,7 +45,7 @@ void ms_loop()
 	char **argv;
 
 	ft_printf("$> ");
-	while ((argv = ms_parser_read_command()))
+	while ((ms_parser(NULL)))
 	{
 		g_ms.env_tmp = NULL;
 		signal(SIGINT, signal_minishell);

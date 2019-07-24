@@ -26,6 +26,7 @@ typedef struct full_test
 
 	char *start_repository;
 	char *end_repository;
+	char *line;
 
 } ms_test;
 

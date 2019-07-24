@@ -41,7 +41,6 @@ int ms_func_search_var$name(char *current, void *p_searched)
 	return (0);
 }
 
-// better that return I put it inside the right buffer ! :).
 int ms_env_get_value(char *key, char *buffer)
 {
 	int i;
