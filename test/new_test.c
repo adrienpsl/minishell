@@ -93,56 +93,76 @@ void new_test_all()
 //	 .ret_int = -1
 //	});
 //
-	// : [ ]
-	test_ms_cd((ms_test) {
-	 .nb_test = 26,
-	 .argv = "",
-	 .start_repository = "/",
-	 .env = "HOME=/Users/adpusel",
-	 .new_env = "HOME=/Users/adpusel OLDPATH=/",
-	 .end_repository = "/Users/adpusel",
-	 .print = ""
-	});
+//	// : [ ]
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 26,
+//	 .argv = "",
+//	 .start_repository = "/",
+//	 .env = "HOME=/Users/adpusel",
+//	 .new_env = "HOME=/Users/adpusel OLDPATH=/",
+//	 .end_repository = "/Users/adpusel",
+//	 .print = ""
+//	});
+//
+//	// [ -- ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 27,
+//		.argv = "--",
+//		.start_repository = "/Users",
+//		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
+//		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = ""
+//	});
+//
+//	// [ -- ] + no $HOME
+//	test_ms_cd((ms_test) {
+//		.nb_test = 28,
+//		.argv = "",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=",
+//		.new_env = "OLDPATH=",
+//		.end_repository = "/Users",
+//		.print = MS_CD_NO_HOME"\n",
+//		.ret_int = -1
+//	});
+//
+//
+//	// [ - ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 29,
+//		.argv = "-",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel",
+//		.new_env = "OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = "/Users/adpusel\n",
+//		.ret_int = 0
+//	});
+//
+//	// test cd - no oldpath
+//	test_ms_cd((ms_test) {
+//		.nb_test = 29,
+//		.argv = "-",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel",
+//		.new_env = "OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = "/Users/adpusel\n",
+//		.ret_int = 0
+//	});
 
-	// [ -- ]
+	// test cd .
 	test_ms_cd((ms_test) {
-		.nb_test = 27,
-		.argv = "--",
-		.start_repository = "/Users",
-		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
-		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
-		.end_repository = "/Users/adpusel",
-		.print = ""
-	});
-
-	// [ -- ] + no $HOME
-	test_ms_cd((ms_test) {
-		.nb_test = 28,
-		.argv = "",
-		.start_repository = "/Users",
-		.env = "OLDPATH=",
-		.new_env = "OLDPATH=",
-		.end_repository = "/Users",
-		.print = MS_CD_NO_HOME"\n",
-		.ret_int = -1
-	});
-
-
-	// [ - ]
-	test_ms_cd((ms_test) {
-		.nb_test = 29,
-		.argv = "-",
+		.nb_test = 30,
+		.argv = ".",
 		.start_repository = "/Users",
 		.env = "OLDPATH=/Users/adpusel",
 		.new_env = "OLDPATH=/Users",
 		.end_repository = "/Users",
-		.print = MS_CD_NO_HOME"\n",
-		.ret_int = -1
+		.print = "",
+		.ret_int = 0
 	});
-
-	// test cd - no oldpath
-
-	// test cd .
 
 	// test cd /file/test
 
