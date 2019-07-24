@@ -81,17 +81,17 @@ void new_test_all()
 	chdir("/Users/adpusel");
 	mkdir("test_minishell", 0777);
 
-	//	// test to much argv
-	//	test_ms_cd((ms_test) {
-	//	 .nb_test= 25,
-	//	 .argv = "aa aa aa",
-	//	 .start_repository = test_directory,
-	//	 .env = "HOME=/Users/adpusel",
-	//	 .new_env = "HOME=/Users/adpusel",
-	//	 .end_repository = test_directory,
-	//	 .print = MS_BAD_NB_ARG"\n",
-	//	 .ret_int = -1
-	//	});
+	// : [ aa aa aa ]
+	test_ms_cd((ms_test) {
+	 .nb_test= 25,
+	 .argv = "aa aa aa",
+	 .start_repository = test_directory,
+	 .env = "HOME=/Users/adpusel",
+	 .new_env = "HOME=/Users/adpusel",
+	 .end_repository = test_directory,
+	 .print = MS_BAD_NB_ARG"\n",
+	 .ret_int = -1
+	});
 
 	// : [ ]
 	test_ms_cd((ms_test) {
