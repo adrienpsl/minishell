@@ -23,7 +23,6 @@ int ms_env_modify(char *key, char *new_value)
 {
 	static char *split[3] = { NULL, NULL, NULL };
 
-	ms_unsetenv(0);
 	split[0] = key;
 	split[1] = new_value;
 	return (0);

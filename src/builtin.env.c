@@ -34,10 +34,13 @@ static int ft_env_handle_option(long options)
 	{
 		if (ms_copy_env(g_ms.env_tmp, g_ms.env))
 			return ft_put_int(-1, MS_NO_MEMORY);
-		if (ms_env_remove(g_ms.env_tmp, *g_ms.argv) == -1)
-			return (-1);
 		g_ms.is_env = 1;
-		(g_ms.argv)++;
+		if (g_ms.argv[0])
+		{
+			if (ms_env_remove(g_ms.env_tmp, g_ms.argv[0]) == -1)
+				return (-1);
+			g_ms.argv++;
+		}
 	}
 	if (options & OPTION_I)
 	{

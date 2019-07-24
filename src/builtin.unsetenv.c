@@ -15,7 +15,10 @@
 int ms_env_remove(char **env, char *var)
 {
 	int i;
+	char buffer[MS_SIZE_BUFFER + 1];
 
+	ft_bzero(buffer, MS_SIZE_BUFFER + 1);
+	ft_strjoinbuffer(buffer, var, "=", 0);
 	i = ft_strsplit_search(env, ms_func_search_var$name, var);
 	if (i > -1)
 		ft_strsplit_remove(env, i);
@@ -26,7 +29,7 @@ int ms_unsetenv()
 {
 	if (g_ms.argv_size != 1)
 		return ft_put_int(-1, MS_BAD_NB_ARG);
-	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
-	ft_strjoinbuffer(g_ms.buffer, g_ms.argv[0], "=", 0);
-	return (ms_env_remove(g_ms.env, g_ms.buffer));
+	if (ft_strlen(g_ms.argv[0]) > MS_SIZE_BUFFER)
+		return (ft_put_int(-1, MS_BUFFER_ERROR));
+	return (ms_env_remove(g_ms.env, g_ms.argv[0]));
 }

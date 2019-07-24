@@ -46,7 +46,7 @@ void test_ms_init(ms_test test)
 	if (ft_strsplit_cmp(g_ms.env, s.env))
 	{
 		printf("Ms init %d \n", test.nb_test);
-		ft_test_ifcmp_printsplit(g_ms.env, s.env);
+		ft_test_ifcmp_printsplit(g_ms.env, s.env, NULL);
 	}
 
 	// free
@@ -78,10 +78,10 @@ void test_ms_env_add(ms_test test)
 	 ret != test.ret_int
 	 )
 	{
-		printf("ms env add %d \n", test.nb_test);
+		printf("ms_setenv %d ***************************\n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env);
-		ft_test_if_streq(test.print, g_test_buffer);
+		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env, NULL);
+		ft_test_if_streq(test.print, g_test_buffer, NULL);
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
@@ -114,8 +114,8 @@ void test_ms_unsetenv(ms_test test)
 	{
 		printf("ms env add %d \n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env);
-		ft_test_if_streq(test.print, g_test_buffer);
+		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env, NULL);
+		ft_test_if_streq(test.print, g_test_buffer, NULL);
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
@@ -151,9 +151,9 @@ void test_ms_env(ms_test test)
 	{
 		printf("ms env %d \n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.env_tmp, g_ms.env_tmp);
-		ft_test_ifcmp_printsplit(tSplit.argv_end, g_ms.argv);
-		ft_test_if_streq(test.print, g_test_buffer);
+		ft_test_ifcmp_printsplit(tSplit.env_tmp, g_ms.env_tmp, NULL);
+		ft_test_ifcmp_printsplit(tSplit.argv_end, g_ms.argv, NULL);
+		ft_test_if_streq(test.print, g_test_buffer, NULL);
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
@@ -186,6 +186,7 @@ void new_passed_test()
 	 .new_env = env_star,
 	 .ret_int = -1
 	});
+
 	// no argv
 	test_ms_env_add((ms_test) {
 	 .nb_test = 1,

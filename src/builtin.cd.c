@@ -13,46 +13,27 @@
 #include <errno.h>
 #include "minishell.h"
 
- int go_dir(char *go_path, char *current_path)
+int cd_go_dir()
 {
 	int right;
+	char buffer[MS_SIZE_BUFFER + 1];
 
-	if (!go_path)
-		return (-1);
-	if (g_test)
-		ft_memcpy(g_mst.buffer, go_path, ft_strlen(go_path));
-	if ((right = ms_test_file(go_path, "cd")))
+	if ((right = ms_test_file(g_ms.buffer, "cd")))
 		return (right);
-	if (chdir(go_path))
+	getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER);
+	if (chdir(g_ms.buffer))
 	{
-		ft_printf(MS_CD_NO_AUTHORIZE, go_path);
+		ft_printf(MS_CD_NO_AUTHORIZE, g_ms.buffer);
 		return (-1);
 	}
-	if (ms_env_modify("OLDPATH", current_path))
+	ft_bzero(buffer, MS_SIZE_BUFFER + 1);
+	ft_strjoinbybuffer(buffer, "OLDPATH", "=", g_ms.tmp_buffer);
+	if (ms_env_add(g_ms.env, buffer))
 		return (-1);
 	return (0);
 }
 
-
-static int ft_cd_check_init()
-{
-	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
-	if (ft_streq(*g_ms.argv, "--"))
-	{
-		(g_ms.argv++ && g_ms.argv_size--);
-	}
-	if (getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER) == NULL)
-	{
-		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
-	}
-	if (g_ms.argv_size > 2)
-	{
-		return (ft_put_int(-1, MS_BAD_NB_ARG));
-	}
-	return (0);
-}
-
- int ft_cd_build_path()
+int cd_build_path()
 {
 	if (g_ms.argv_size == 0)
 	{
@@ -81,19 +62,30 @@ static int ft_cd_check_init()
 	return (0);
 }
 
-int ft_cd()
+static int cd_check_init()
 {
-	ft_cd_check_init();
+	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
+	if (ft_streq(*g_ms.argv, "--"))
+	{
+		(g_ms.argv++ && g_ms.argv_size--);
+	}
+	if (getcwd(g_ms.tmp_buffer, MS_SIZE_BUFFER) == NULL)
+	{
+		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
+	}
+	if (g_ms.argv_size > 2)
+	{
+		return (ft_put_int(-1, MS_BAD_NB_ARG));
+	}
+	return (0);
+}
 
-	if (g_ms.argv_size == 0)
-		//		ret = go_dir(ms_env_get_value("HOME", g_ms.env_tmp ? g_ms.env_tmp : g_ms.env), buff_current_path);
-		//	else if (nb_argv == 1)
-		//		ret = one_argv(*argv, buff_current_path);
-		//	else if (nb_argv == 2)
-		//		ret = two_argv(*argv, argv[1], buff_current_path);
-		//	else
-		//		ret = ft_put_int(-1, "cd: too many arguments");
-		return (0);
-		return (0);
-
+int ms_cd()
+{
+	if (cd_check_init()
+		|| cd_build_path()
+		|| cd_go_dir()
+	 )
+		return (-1);
+	return (0);
 }

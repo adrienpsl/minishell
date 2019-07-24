@@ -23,6 +23,10 @@ typedef struct full_test
 	char *ret_char;
 	char *env_tmp;
 	char *argv_end;
+
+	char *start_repository;
+	char *end_repository;
+
 } ms_test;
 
 #endif //MINISHELL_TEST_H

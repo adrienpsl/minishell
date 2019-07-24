@@ -14,9 +14,9 @@
 
 void ms_handle_builtin(char **argv)
 {
-	if (ft_streq(*argv, "cd"))
-		ft_cd(argv + 1);
-	else if (ft_streq(*argv, "exit"))
+//	if (ft_streq(*argv, "cd"))
+//		ft_cd(argv + 1);
+	if (ft_streq(*argv, "exit"))
 		exit(EXIT_SUCCESS);
 	else if (ft_streq(*argv, "echo"))
 		ft_echo(argv + 1);
