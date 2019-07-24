@@ -88,7 +88,7 @@ void signal_minishell(int sign);
 char *ms_parser_get_commands();
 
 // parse
-char **ms_parser_read_command();
+char **ms_parser();
 
 // builtin
 

@@ -34,7 +34,9 @@ static int standardize_two(char *buffer, int *print)
 	char buf_pwd[MS_SIZE_BUFFER];
 
 	if (getcwd(buf_pwd, MS_SIZE_BUFFER) == NULL)
+	{
 		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
+	}
 	if ((ft_strlen(g_ms.argv[0]) + ft_strlen(g_ms.argv[1]) + 1)
 		> MS_SIZE_BUFFER)
 	{
@@ -47,7 +49,9 @@ static int standardize_two(char *buffer, int *print)
 		*print = 1;
 	}
 	else
+	{
 		ret = (ft_putval_int(-1, MS_CD_NO_IN_PWD, g_ms.argv[1]));
+	}
 	return (ret);
 }
 
@@ -58,9 +62,13 @@ int cd_standardize_relative(char *buffer)
 	if (buffer[0] == '.')
 	{
 		if (getcwd(pwd, MS_SIZE_BUFFER) == NULL)
+		{
 			return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
+		}
 		if ((ft_strlen(pwd) + ft_strlen(g_ms.argv[0]) + 1) > MS_SIZE_BUFFER)
+		{
 			return (ft_put_int(-1, MS_BUFFER_ERROR));
+		}
 		ft_strjoinbybuffer(g_ms.buffer, pwd, "/", g_ms.argv[0]);
 	}
 	return (0);
@@ -71,8 +79,11 @@ int cd_standardize_path(char *buffer, int *print)
 	int ret;
 
 	ret = 0;
-	if (g_ms.argv_size == 0 && ms_env_get_value("HOME", buffer))
+	if (g_ms.argv_size == 0
+		&& ms_env_get_value("HOME", buffer))
+	{
 		ret = ft_put_int(-1, MS_CD_NO_HOME);
+	}
 	if (g_ms.argv_size == 1)
 	{
 		ret = standardize_one(buffer, print);
