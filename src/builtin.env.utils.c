@@ -42,7 +42,8 @@ int ms_func_search_var$name(char *current, void *p_searched)
 	return (0);
 }
 
-char *ms_env_get_value(char *key)
+// better that return I put it inside the right buffer ! :).
+int ms_env_get_value(char *key, char *buffer)
 {
 	int i;
 	int position;
@@ -53,7 +54,10 @@ char *ms_env_get_value(char *key)
 		env = ms_get_env();
 		position = ft_strsplit_search(env, ms_func_search_var$name, key);
 		if (position > -1 && (i = ft_strchr(env[position], '=')))
-			return (env[position] + i + 1);
+		{
+			ft_strcat(buffer, env[position] + i + 1);
+			return (0);
+		}
 	}
-	return (ft_put_ptr(NULL, MS_CD_NO_HOME));
+	return (-1);
 }

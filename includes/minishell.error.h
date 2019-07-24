@@ -6,6 +6,7 @@
 */
 # define MS_BAD_NB_ARG "Too much argv"
 # define MS_NO_FILE "Too much argv"
+# define MS_BUFFER_ERROR "MAX SIZE ARGV "
 
 /*
 ** Memory **********************************************************************
@@ -33,6 +34,7 @@
 # define MS_CD_NO_AUTHORIZE "cd: permission denied: %s"
 # define MS_CD_NO_IN_PWD "cd: string not in pwd: %s"
 # define MS_CD_NO_HOME "cd: there is no $HOME"
+# define MS_CD_NO_OLDPATH "cd: there is no $OLDPATH"
 
 /*
 ** env builtin *****************************************************************

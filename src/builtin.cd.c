@@ -13,7 +13,7 @@
 #include <errno.h>
 #include "minishell.h"
 
-static int go_dir(char *go_path, char *current_path)
+ int go_dir(char *go_path, char *current_path)
 {
 	int right;
 
@@ -33,18 +33,6 @@ static int go_dir(char *go_path, char *current_path)
 	return (0);
 }
 
-static int one_argv(char *argv, char *current_path)
-{
-	if (ft_streq(argv, "-"))
-		return (go_dir(ms_env_get_value("OLDPATH"), current_path));
-	else if (*argv == '.')
-	{
-		ft_strjoinbybuffer(g_ms.buffer, current_path, "/", argv);
-		return (go_dir(g_ms.buffer, current_path));
-	}
-	else
-		return (go_dir(argv, current_path));
-}
 
 static int ft_cd_check_init()
 {
@@ -64,22 +52,33 @@ static int ft_cd_check_init()
 	return (0);
 }
 
-static int ft_cd_build_path()
+ int ft_cd_build_path()
 {
-	int ret;
-
-	ret = 0;
 	if (g_ms.argv_size == 0)
 	{
-		// if pas de home, je return and says ! fuck mam ! no fucking home !
+		if (ms_env_get_value("HOME", g_ms.buffer))
+			return (ft_put_int(-1, MS_CD_NO_HOME));
+	}
+	if (g_ms.argv_size == 1)
+	{
+		if (ft_streq(*g_ms.argv, "-"))
+		{
+			if (ms_env_get_value("OLDPATH", g_ms.tmp_buffer))
+				return (ft_put_int(-1, MS_CD_NO_OLDPATH));
+		}
+		if (ft_strlen(g_ms.tmp_buffer) + ft_strlen(*g_ms.argv) + 1
+			> MS_SIZE_BUFFER)
+			return (ft_put_int(-1, MS_BUFFER_ERROR));
+		else
+			ft_strcat(g_ms.buffer, *g_ms.argv);
 	}
 	if (g_ms.argv_size == 2)
 	{
 		if (!ft_str_replacebuffer(g_ms.buffer, g_ms.tmp_buffer,
 								  g_ms.argv[1], g_ms.argv[0]))
-			ret = ft_putval_int(-1, MS_CD_NO_IN_PWD, g_ms.argv[1]);
+			return (ft_putval_int(-1, MS_CD_NO_IN_PWD, g_ms.argv[1]));
 	}
-	return (ret);
+	return (0);
 }
 
 int ft_cd()
@@ -95,4 +94,6 @@ int ft_cd()
 		//	else
 		//		ret = ft_put_int(-1, "cd: too many arguments");
 		return (0);
+		return (0);
+
 }

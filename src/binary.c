@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int ms_search_in_directory(
+ int ms_search_in_directory(
 	char *directory_path,
 	char *binary_name
 )
@@ -40,28 +40,28 @@ static int ms_search_in_directory(
 	return (exist);
 }
 
-static int ms_loop_on_path_directory(char *binary_name)
-{
-	char **all_path;
-	char *value;
-	int i;
-	int ret;
-
-	i = 0;
-	ret = 0;
-	if (!(value = ms_env_get_value("PATH", g_ms.env)))
-		ret = ft_put_int(-1, MS_NAME ": no PATH in env");
-	if (!(all_path = ft_strsplit(value, ":")))
-		ret = ft_put_int(-1, MS_NAME ": no memory");
-	while (ret == 0 && all_path[i])
-	{
-		if (ms_search_in_directory(all_path[i], binary_name))
-			break;
-		i++;
-	}
-	ft_strsplit_free(&all_path);
-	return (ret);
-}
+//static int ms_loop_on_path_directory(char *binary_name)
+//{
+//	char **all_path;
+//	char *value;
+//	int i;
+//	int ret;
+//
+//	i = 0;
+//	ret = 0;
+//	if (!(value = ms_env_get_value("PATH", g_ms.env)))
+//		ret = ft_put_int(-1, MS_NAME ": no PATH in env");
+//	if (!(all_path = ft_strsplit(value, ":")))
+//		ret = ft_put_int(-1, MS_NAME ": no memory");
+//	while (ret == 0 && all_path[i])
+//	{
+//		if (ms_search_in_directory(all_path[i], binary_name))
+//			break;
+//		i++;
+//	}
+//	ft_strsplit_free(&all_path);
+//	return (ret);
+//}
 
 static int ms_execute_binary(char *path, char **argv, char **env)
 {
@@ -92,8 +92,8 @@ int ms_handle_binary(char **argv)
 		if (ft_strlen(*argv) > MS_SIZE_BUFFER)
 			return ft_put_int(-1,
 							  MS_NAME" : path too long, max size 4096");
-		if (ms_loop_on_path_directory(*argv))
-			return (-1);
+//		if (ms_loop_on_path_directory(*argv))
+//			return (-1);
 		path = g_ms.buffer;
 	}
 	else

@@ -33,17 +33,17 @@ static void ms_parser_transform_space(char *line)
 	}
 }
 
-static char *ms_parser_find_$(char *line, int end)
-{
-	char *key;
-	char *value;
-
-	if (!(key = ft_strndup(line, end)))
-		return (NULL);
-	value = ms_env_get_value(key, g_ms.env);
-	free(key);
-	return (value ? value : "");
-}
+//static char *ms_parser_find_$(char *line, int end)
+//{
+//	char *key;
+//	char *value;
+//
+//	if (!(key = ft_strndup(line, end)))
+//		return (NULL);
+//	value = ms_env_get_value(key, g_ms.env);
+//	free(key);
+//	return (value ? value : "");
+//}
 
 // here I do a buffer for that line, I limit the max size
 // case it's so pain full sinon.
@@ -52,25 +52,25 @@ static char *ms_parser_find_$(char *line, int end)
 // I double the size of the max line by that,
 // and each time I add variable, I count and return
 // error if too long. seem very power full
-static char *ms_parser_replace_$(char *line)
-{
-	int start;
-	int end;
-	char *value;
-	char *current;
-
-	while ((start = ft_strchr(line, '$')) > -1)
-	{
-		current = line + start;
-		end = ft_strchr(current, ' ');
-		end = end == -1 ? ft_strlen(current) : end;
-		if (!(value = ms_parser_find_$(current + 1, end)))
-			return (NULL);
-		line[start] = 0;
-		line = ft_strjoinby(line, value, current + end, FREE_FIRST);
-	}
-	return (line);
-}
+//static char *ms_parser_replace_$(char *line)
+//{
+//	int start;
+//	int end;
+//	char *value;
+//	char *current;
+//
+//	while ((start = ft_strchr(line, '$')) > -1)
+//	{
+//		current = line + start;
+//		end = ft_strchr(current, ' ');
+//		end = end == -1 ? ft_strlen(current) : end;
+////		if (!(value = ms_parser_find_$(current + 1, end)))
+////			return (NULL);
+//		line[start] = 0;
+////		line = ft_strjoinby(line, value, current + end, FREE_FIRST);
+//	}
+//	return (line);
+//}
 
 static char **ms_parser_build_argv(char *line)
 {
@@ -96,7 +96,7 @@ char **ms_parser_read_command()
 	if (!(line = ms_parser_get_commands()))
 		return (NULL);
 	ms_parser_transform_space(line);
-	line = ms_parser_replace_$(line);
+//	line = ms_parser_replace_$(line);
 	if (!(argv = ms_parser_build_argv(line)))
 		return (NULL);
 	free(line);
