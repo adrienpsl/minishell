@@ -16,7 +16,15 @@ void test_set_fd(char *str);
 void new_test_all()
 {
 	g_test = 1;
-	new_passed_test();
+//	new_passed_test();
+
+
+	char **t1 = ft_strsplit("$1 ", " ");
+	g_ms.env = ft_strsplit("1=toto", " ");
+
+	replace_jocker(t1);
+
+
 
 
 }

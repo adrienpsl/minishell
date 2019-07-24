@@ -89,6 +89,7 @@ char *ms_parser_get_commands();
 
 // parse
 int ms_parser(char ***out);
+int replace_jocker(char **argv);
 
 // builtin
 

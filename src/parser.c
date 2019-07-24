@@ -12,7 +12,10 @@
 
 #include "minishell.h"
 
-static void ms_parser_transform_space(char *line)
+/*
+**	replace all the space inside good ' ' by \02
+*/
+static void transform_space(char *line)
 {
 	int start;
 	int end;
@@ -33,46 +36,14 @@ static void ms_parser_transform_space(char *line)
 	}
 }
 
-static char *ms_parser_find_$(char *line, int end)
-{
-	char *key;
-	static char buff[MS_SIZE_BUFFER_FULL];
-
-	ft_bzero(buff, MS_SIZE_BUFFER_FULL);
-	if (!(key = ft_strndup(line, end)))
-		return (NULL);
-	ms_env_get_value(key, buff);
-	free(key);
-	return (buff);
-}
-
-static char *ms_parser_replace_$(char *line)
-{
-	int start;
-	int end;
-	char *value;
-	char *current;
-
-	while ((start = ft_strchr(line, '$')) > -1)
-	{
-		current = line + start;
-		end = ft_strchr(current, ' ');
-		end = end == -1 ? ft_strlen(current) : end;
-		if (!(value = ms_parser_find_$(current + 1, end)))
-			return (NULL);
-		line[start] = 0;
-		line = ft_strjoinby(line, value, current + end, FREE_FIRST);
-	}
-	return (line);
-}
-
-static char **ms_parser_build_argv(char *line)
+static char **built_split_argv(char *line)
 {
 	char **argv;
 	char **tmp;
 
-	if (!(argv = ft_strsplit(line, " \t")))
-		return (NULL);
+	transform_space(line);
+	if (!(argv = ft_strsplit(line, "\2")))
+		return (ft_put_ptr(NULL, MS_NO_MEMORY));
 	tmp = argv;
 	while (*tmp)
 	{
@@ -80,6 +51,70 @@ static char **ms_parser_build_argv(char *line)
 		tmp++;
 	}
 	return (argv);
+}
+
+char *new_line(char *line, int position, char *buffer)
+{
+
+
+
+
+	if (line[position] == '~')
+	{
+		ms_env_get_value("HOME", buffer);
+//		length = 1;
+	}
+	else
+	{
+
+	}
+
+	return (line);
+}
+
+char *replace_$(char *line, int position, char *buffer)
+{
+	int length;
+
+	length = ft_strchr(line + position, ' ');
+	if (length == -1)
+		length = ft_strlen(line + position);
+	if (length > MS_MAX_LENGTH_VAR)
+		return (NULL);
+	line[length] = 0;
+	ms_env_get_value(line + 1, buffer);
+	line[position] = 0;
+	return (ft_strjoinby(line, buffer, line + length, FREE_FIRST));
+}
+
+//char *static
+
+int replace_jocker(char **argv)
+{
+	int position;
+
+	char buffer[MS_SIZE_BUFFER_FULL];
+	while (*argv)
+	{
+		while ((position = ft_strchrstr(*argv, "$~")) > -1)
+		{
+			if (position > MS_SIZE_BUFFER)
+			{
+				return (ft_put_int(-1, MS_BUFFER_ERROR));
+			}
+			ft_bzero(buffer, MS_SIZE_BUFFER_FULL);
+			if (*argv[position] == '$')
+			{
+			}
+			if (*argv[position] == '~')
+			{
+
+			}
+		}
+
+		argv++;
+	}
+	return (0);
 }
 
 int ms_parser(char ***out)
@@ -93,16 +128,22 @@ int ms_parser(char ***out)
 	{
 		return (-1);
 	}
-	ms_parser_transform_space(line);
-	if (!(line = ms_parser_replace_$(line)))
-	{
-		return (ft_put_int(-1, MS_NO_MEMORY));
-	}
-	if (!(argv = ms_parser_build_argv(line)))
+	if (!(argv = built_split_argv(line)))
 	{
 		return (-1);
 	}
+
 	*out = argv;
+
+	//	if (!(line = ms_parser_replace_special(line, '$')))
+	//	{
+	//		return (ft_put_int(-1, MS_NO_MEMORY));
+	//	}
+	//	if (!(argv = ms_parser_build_argv(line)))
+	//	{
+	//		return (-1);
+	//	}
+	//	*out = argv;
 	free(line);
 	return (0);
 }
