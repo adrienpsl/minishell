@@ -25,7 +25,7 @@ int ms_func_search_var$name(char *current, void *p_searched)
 	int i;
 
 	searched = p_searched;
-	i = ft_strchr(current, '=') - 1;
+	i = ft_strchr(current, '=');
 	if (i > -1)
 		return (ft_strneq(current, searched, i));
 	return (0);

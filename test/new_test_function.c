@@ -333,7 +333,6 @@ void new_passed_test()
 	 .ret_int = -1
 	});
 
-	// test max env, check than MS_SIZE_MAX_ENV Will be 4
 	test_ms_env_add((ms_test) {
 	 .nb_test = 7,
 	 .env = "toto=fil tata=titi super=manger faire=chips",
