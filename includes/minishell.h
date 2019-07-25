@@ -76,7 +76,7 @@ char *ms_get_value(char *key);
 
 // env
 void ft_echo(char **argv);
-int ms_unsetenv();
+int ms_setenv(char **argv, char **env);
 int ms_env_copy(char **env);
 int ft_setenv(char **env);
 int ms_env_get_value(char *key, char *buffer);
@@ -96,10 +96,10 @@ int replace_jocker(char **argv);
 // builtin
 
 //env
-int ms_setenv(void);
+int ms_setenv(char **argv, char **env);
 int ms_cd(char **argv);
-int ms_unset_env(char *removing_var, char **env, char ***out);
-int ms_env_add(char **env, char *var);
+int ms_unsetenv(char **argv, char **env);
+int ms_env_add(char ***env, char *var);
 // echo
 // env
 //

@@ -12,59 +12,38 @@
 
 #include "minishell.h"
 
-int ms_env_add(char **env, char *var)
+int ms_env_add(char ***env, char *var)
 {
-	int i;
+	char **env_tmp;
 
-	i = 0;
-	ms_env_remove(env, var);
-	if (ft_strsplit_count(env) + 1 >= MS_SIZE_MAX_ENV)
-		return (ft_put_int(-1, MS_NEW_ENV_TOO_BIG));
-	while (env[i])
-		i++;
-	if (!(env[i] = ft_strdup(var)))
-		return (ft_put_int(-1, MS_NO_MEMORY));
-	return (0);
-}
-
-static int search_forbidden()
-{
-	int ret;
-
-	ret = 0;
-	if (ft_strchr(g_ms.buffer, '$') != -1)
-		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
-	else if (ft_strnchr(g_ms.buffer, '=') != 1)
-		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
-	return (ret);
-}
-
-static int nb_arg_and_buffer()
-{
-	size_t length;
-
-	length = (g_ms.argv_size == 2) ?
-			 ft_strlen(g_ms.argv[0]) + ft_strlen(g_ms.argv[1]) + 1 :
-			 ft_strlen(g_ms.argv[0]);
-	if (length > MS_MAX_LENGTH_VAR)
+	if (!(env_tmp = ft_strsplit_copy(*env, 0)))
 		return (-1);
-	g_ms.argv_size == 2 ?
-	ft_strjoinbybuffer(g_ms.buffer, g_ms.argv[0], "=", g_ms.argv[1]) :
-	ft_memcpy(g_ms.buffer, g_ms.argv[0], length);
+	ms_env_remove(env_tmp, var);
+	if (!(env_tmp = ft_strsplit_add(env_tmp, var, FREE_FIRST)))
+		return (-1);
+	ft_strsplit_free(env);
+	*env = env_tmp;
 	return (0);
 }
 
-int ms_setenv(void)
+int ms_setenv(char **argv, char **env)
 {
-	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
-	if (g_ms.argv_size > 2 || g_ms.argv_size == 0)
+	int size;
+	char *var;
+
+	size = ft_strsplit_count(argv);
+	if (size > 2 || size == 0)
 		return ft_put_int(-1, MS_BAD_NB_ARG);
-	if (nb_arg_and_buffer())
-		return (ft_put_int(-1, MS_BAD_NB_ARG));
-	if (search_forbidden())
-		return (-1);
-	if (ms_env_add(g_ms.env, g_ms.buffer))
-		return (-1);
+	var = (size == 2) ?
+		  ft_strjoinby(argv[0], "=", argv[1], 0) :
+		  ft_strdup(argv[0]);
+	if (!var)
+		return (ft_put_int(-1, MS_NO_MEMORY));
+	if (ft_strchr(var, '$') == -1 && ft_strnchr(var, '=') == 1)
+		ms_env_add(&env, var);
+	else
+		ft_putstr_fd(MS_SETENV_FORBIDDEN_CHAR"\n", 2);
+	free(var);
 	return (0);
 }
 

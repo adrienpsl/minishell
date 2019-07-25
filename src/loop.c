@@ -22,8 +22,8 @@ void ms_handle_builtin(char **argv)
 		ft_echo(argv + 1);
 //	else if (ft_streq(*argv, "setenv"))
 //		ft_setenv(argv + 1);
-	else if (ft_streq(*argv, "unsetenv"))
-		ms_unsetenv(0);
+//	else if (ft_streq(*argv, "unsetenv"))
+//		ms_unsetenv(0);
 }
 
 static void ms_argv_no_null(char **argv)

@@ -83,7 +83,7 @@ void test_ms_env_add(ms_test test)
 	// function tested
 	g_ms.argv = tSplit.argv;
 	g_ms.argv_size = ft_strsplit_count(g_ms.argv);
-	ret = ms_setenv();
+	ret = ms_setenv(g_ms.argv, g_ms.env);
 
 	// print error
 	if (
@@ -117,7 +117,7 @@ void test_ms_unsetenv(ms_test test)
 	// function tested
 	g_ms.argv = tSplit.argv;
 	g_ms.argv_size = ft_strsplit_count(g_ms.argv);
-	ret = ms_unsetenv();
+	ret = ms_unsetenv(g_ms.argv, g_ms.env);
 
 	// print error
 	if (
