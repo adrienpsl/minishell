@@ -19,7 +19,7 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 	char *replace;
 
 	if (i == 2
-		|| (i == 1 && *argv[0] == '-' && !argv[1][1]))
+		|| (i == 1 && argv[0][0] == '-' && !argv[0][1]))
 	{
 		getcwd(path_buffer, MS_SIZE_BUFFER);
 		home = ms_get_value("HOME");
@@ -30,19 +30,27 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 			free(replace);
 		}
 		else
-			ft_printf("%s\n", home);
+			ft_printf("%s\n", path_buffer);
 	}
 }
 
-int cd_move_directory(char *path, char *pwd)
+int cd_move_directory(char *path, char *pwd, char **argv)
 {
 	char *oldpath;
 
-	if (ms_test_file("cd", path))
+	if (!path || access(path, F_OK))
+	{
+		ft_printf("cd: no such file or directory: %s\n", *argv);
 		return (-1);
+	}
+	if (access(path, R_OK))
+	{
+		ft_printf("cd: permission denied: %s\n", *argv);
+		return (-1);
+	}
 	if (chdir(path))
 	{
-		ft_printf("cd : not a directory: %s\n", path);
+		ft_printf("cd : not a directory: %s\n", argv[0]);
 		return (-1);
 	}
 	if (!(oldpath = ft_strjoinby("OLDPATH", "=", pwd, 0)))
@@ -58,7 +66,7 @@ char *cd_seriasize_path(char **argv, int size, char *current_pwd)
 	if (!size)
 	{
 		if (!(path = ft_strdup(ms_get_value("HOME"))))
-			return (ft_put_ptr(NULL, MS_NO_MEMORY));
+			return (NULL);
 	}
 	else if (size == 2)
 	{
@@ -68,7 +76,7 @@ char *cd_seriasize_path(char **argv, int size, char *current_pwd)
 	else if (argv[0][0] == '-' && !argv[0][1])
 	{
 		if (!(path = ft_strdup(ms_get_value("OLDPATH"))))
-			return (ft_put_ptr(NULL, MS_NO_MEMORY));
+			return (NULL);
 	}
 	else
 	{
@@ -95,11 +103,14 @@ int ms_cd(char **argv)
 	{
 		if ((path = cd_seriasize_path(argv, size, current_pwd)))
 		{
-			cd_move_directory(path, current_pwd);
+			if (cd_move_directory(path, current_pwd, argv))
+				return (-1);
 			cd_print_path(argv, current_pwd, size);
 			free(path);
 			return (0);
 		}
+		return (-1);
 	}
-	return (ft_put_int(-1, MS_BAD_NB_ARG));
+	else
+		return (ft_put_int(-1, MS_BAD_NB_ARG));
 }
