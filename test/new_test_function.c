@@ -192,7 +192,7 @@ void test_ms_cd(ms_test test)
 	// function tested
 	g_ms.argv = tSplit.argv;
 	g_ms.argv_size = ft_strsplit_count(g_ms.argv);
-	ret = ms_cd();
+	ret = ms_cd(tSplit.argv);
 
 	getcwd(buffer_end_repository, 5000);
 

@@ -98,7 +98,7 @@ int ms_handle_binary(char **argv)
 	}
 	else
 		path = *argv;
-	if (ms_test_file(path, "mimishell"))
+	if (ms_test_file("mimishell", path))
 		return (-1);
 	if (ms_execute_binary(path, argv + 1, g_ms.env_tmp ? g_ms.env_tmp : g_ms.env))
 		return (-1);

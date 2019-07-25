@@ -71,6 +71,8 @@ int cd_standardize_path(char *buffer, int *print);
 */
 int ms_copy_env(char **dest, char **src);
 int ms_env_remove(char **env, char *var);
+char *ms_get_value(char *key);
+
 
 // env
 void ft_echo(char **argv);
@@ -82,7 +84,7 @@ int ms_env_modify(char *key, char *new_value);
 int ms_env();
 int ms_func_search_var$name(char *current, void *p_searched);
 
-int ms_test_file(char *path, char *builtin);
+int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);
 
 char *ms_parser_get_commands();
@@ -95,7 +97,7 @@ int replace_jocker(char **argv);
 
 //env
 int ms_setenv(void);
-int ms_cd();
+int ms_cd(char **argv);
 int ms_unset_env(char *removing_var, char **env, char ***out);
 int ms_env_add(char **env, char *var);
 // echo

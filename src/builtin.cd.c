@@ -13,62 +13,93 @@
 #include <errno.h>
 #include "minishell.h"
 
-
-static int cd_update_env_print(char *buffer, char *buf_pwd, int *print)
+void cd_print_path(char **argv, char *path_buffer, int i)
 {
-	char buf_oldpath[MS_SIZE_BUFFER + 1];
+	char *home;
+	char *replace;
 
-	ft_bzero(buf_oldpath, MS_SIZE_BUFFER + 1);
-	ft_strjoinbybuffer(buf_oldpath, "OLDPATH", "=", buf_pwd);
-	if (ms_env_add(g_ms.env, buf_oldpath))
+	if (i == 2
+		|| (i == 1 && *argv[0] == '-' && !argv[1][1]))
 	{
+		getcwd(path_buffer, MS_SIZE_BUFFER);
+		home = ms_get_value("HOME");
+		replace = ft_str_replace(path_buffer, home, "~");
+		if (replace)
+		{
+			ft_printf("%s\n", replace);
+			free(replace);
+		}
+		else
+			ft_printf("%s\n", home);
+	}
+}
+
+int cd_move_directory(char *path, char *pwd)
+{
+	char *oldpath;
+
+	if (ms_test_file("cd", path))
+		return (-1);
+	if (chdir(path))
+	{
+		ft_printf("cd : not a directory: %s\n", path);
 		return (-1);
 	}
-	if (*print)
-	{
-		ft_printf("%s\n", buffer);
-	}
+	if (!(oldpath = ft_strjoinby("OLDPATH", "=", pwd, 0)))
+		return (ft_put_int(-1, MS_NO_MEMORY));
+	ms_env_add(g_ms.env, oldpath);
 	return (0);
 }
 
-static int cd_test_path(char *buffer, char *buf_pwd)
+char *cd_seriasize_path(char **argv, int size, char *current_pwd)
 {
-	int right;
+	char *path;
 
-	if ((right = ms_test_file(buffer, "cd")))
+	if (!size)
 	{
-		return right;
+		if (!(path = ft_strdup(ms_get_value("HOME"))))
+			return (ft_put_ptr(NULL, MS_NO_MEMORY));
 	}
-	if (getcwd(buf_pwd, MS_SIZE_BUFFER) == NULL)
-		return (ft_put_int(-1, MS_CD_NO_AUTHORIZE));
-	if (chdir(buffer))
+	else if (size == 2)
 	{
-		ft_printf(MS_CD_NO_AUTHORIZE"\n", g_ms.buffer);
-		return (-1);
+		if (!(path = ft_str_replace(current_pwd, argv[0], argv[1])))
+			return (ft_put_ptr(NULL, MS_CD_NO_IN_PWD));
 	}
-	return (0);
+	else if (argv[0][0] == '-' && !argv[0][1])
+	{
+		if (!(path = ft_strdup(ms_get_value("OLDPATH"))))
+			return (ft_put_ptr(NULL, MS_NO_MEMORY));
+	}
+	else
+	{
+		path = (argv[0][0] == '.') ?
+			   ft_strjoinby(current_pwd, "/", argv[0], 0) :
+			   ft_strdup(argv[0]);
+		if (!path)
+			return (ft_put_ptr(NULL, MS_NO_MEMORY));
+	}
+	return (path);
 }
 
-int ms_cd()
+int ms_cd(char **argv)
 {
-	char buffer[MS_SIZE_BUFFER_FULL];
-	char buffer_tmp[MS_SIZE_BUFFER_FULL];
-	int print;
+	int size;
+	char current_pwd[MS_SIZE_BUFFER_FULL];
+	char *path;
 
-	print = 0;
-	ft_bzero(buffer, MS_SIZE_BUFFER_FULL);
-	ft_bzero(buffer_tmp, MS_SIZE_BUFFER_FULL);
-	if (ft_streq(*g_ms.argv, "--"))
+	if (ft_streq(*argv, "--"))
+		argv++;
+	size = ft_strsplit_count(argv);
+	getcwd(current_pwd, MS_SIZE_BUFFER_FULL);
+	if (size < 2)
 	{
-		(g_ms.argv++ && g_ms.argv_size--);
+		if ((path = cd_seriasize_path(argv, size, current_pwd)))
+		{
+			cd_move_directory(path, current_pwd);
+			cd_print_path(argv, current_pwd, size);
+			free(path);
+			return (0);
+		}
 	}
-	if (g_ms.argv_size > 2)
-	{
-		return (ft_put_int(-1, MS_BAD_NB_ARG));
-	}
-	if (cd_standardize_path(buffer, &print)
-		|| cd_test_path(buffer, buffer_tmp)
-		|| cd_update_env_print(buffer, buffer_tmp, &print))
-		return (-1);
-	return (0);
+	return (ft_put_int(-1, MS_BAD_NB_ARG));
 }

@@ -43,9 +43,11 @@ char **ms_get_env()
 	return g_ms.is_env ? g_ms.env_tmp : g_ms.env;
 }
 
-int ms_test_file(char *path, char *builtin)
-{
 
+
+// will return stuff if execution, are trigger.
+int ms_test_file(char *builtin, char *path)
+{
 	if (!path || access(path, F_OK))
 	{
 		ft_printf("%s: no such file or directory: %s\n", builtin, path);
