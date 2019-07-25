@@ -42,7 +42,7 @@ static char **built_split_argv(char *line)
 	char **tmp;
 
 	transform_space(line);
-	if (!(argv = ft_strsplit(line, "\2")))
+	if (!(argv = ft_strsplit(line, " ")))
 		return (ft_put_ptr(NULL, MS_NO_MEMORY));
 	tmp = argv;
 	while (*tmp)
@@ -53,97 +53,65 @@ static char **built_split_argv(char *line)
 	return (argv);
 }
 
-char *new_line(char *line, int position, char *buffer)
+char *get_value(char *line, int position, int *key_length)
 {
-
-
-
+	char *key;
+	char *value;
 
 	if (line[position] == '~')
 	{
-		ms_env_get_value("HOME", buffer);
-//		length = 1;
+		*key_length = 1;
+		key = ft_strdup("$HOME");
 	}
 	else
 	{
-
+		*key_length = ft_strchr(line + position, ' ');
+		*key_length == -1 ? *key_length = ft_strlen(line + position) : 0;
+		key = ft_strndup(line + position, *key_length);
 	}
-
-	return (line);
-}
-
-char *replace_$(char *line, int position, char *buffer)
-{
-	int length;
-
-	length = ft_strchr(line + position, ' ');
-	if (length == -1)
-		length = ft_strlen(line + position);
-	if (length > MS_MAX_LENGTH_VAR)
+	if (!key)
 		return (NULL);
-	line[length] = 0;
-	ms_env_get_value(line + 1, buffer);
-	line[position] = 0;
-	return (ft_strjoinby(line, buffer, line + length, FREE_FIRST));
+	value = ms_get_value(key + 1);
+	free(key);
+	return (value ? value : "");
 }
 
-//char *static
-
-int replace_jocker(char **argv)
+char *new_line(char *line)
 {
 	int position;
+	int key_end;
+	char *value;
 
-	char buffer[MS_SIZE_BUFFER_FULL];
-	while (*argv)
+	while ((position = ft_strchrstr(line, "$~")) > -1)
 	{
-		while ((position = ft_strchrstr(*argv, "$~")) > -1)
-		{
-			if (position > MS_SIZE_BUFFER)
-			{
-				return (ft_put_int(-1, MS_BUFFER_ERROR));
-			}
-			ft_bzero(buffer, MS_SIZE_BUFFER_FULL);
-			if (*argv[position] == '$')
-			{
-			}
-			if (*argv[position] == '~')
-			{
-
-			}
-		}
-
-		argv++;
+		if (!(value = get_value(line, position, &key_end)))
+			return (NULL);
+		line[position] = 0;
+		if (!(line = ft_strjoinby(line, value, line + position + key_end,
+								  FREE_FIRST)))
+			return (NULL);
 	}
-	return (0);
+	return (line);
 }
 
 int ms_parser(char ***out)
 {
-	char buffer[MS_SIZE_BUFFER_FULL];
 	char *line;
 	char **argv;
+	char **tmp;
 
-	bzero(buffer, MS_SIZE_BUFFER_FULL);
 	if (!(line = ms_parser_get_commands()))
-	{
 		return (-1);
-	}
 	if (!(argv = built_split_argv(line)))
-	{
 		return (-1);
+	tmp = argv;
+	while (*tmp)
+	{
+		*tmp = new_line(*tmp);
+		tmp++;
 	}
-
 	*out = argv;
 
-	//	if (!(line = ms_parser_replace_special(line, '$')))
-	//	{
-	//		return (ft_put_int(-1, MS_NO_MEMORY));
-	//	}
-	//	if (!(argv = ms_parser_build_argv(line)))
-	//	{
-	//		return (-1);
-	//	}
-	//	*out = argv;
 	free(line);
 	return (0);
 }

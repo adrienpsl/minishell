@@ -25,7 +25,7 @@ int ms_func_search_var$name(char *current, void *p_searched)
 	int i;
 
 	searched = p_searched;
-	i = ft_strchr(current, '=');
+	i = ft_strchr(current, '=') - 1;
 	if (i > -1)
 		return (ft_strneq(current, searched, i));
 	return (0);
@@ -47,23 +47,4 @@ char *ms_get_value(char *key)
 	}
 	ft_printf("The env variable : %s is no set.\n", key);
 	return (NULL);
-}
-
-int ms_env_get_value(char *key, char *buffer)
-{
-	int i;
-	int position;
-	char **env;
-
-	if (key)
-	{
-		env = ms_get_env();
-		position = ft_strsplit_search(env, ms_func_search_var$name, key);
-		if (position > -1 && (i = ft_strchr(env[position], '=')))
-		{
-			ft_strcat(buffer, env[position] + i + 1);
-			return (0);
-		}
-	}
-	return (-1);
 }

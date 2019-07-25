@@ -23,7 +23,7 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 	{
 		getcwd(path_buffer, MS_SIZE_BUFFER);
 		home = ms_get_value("HOME");
-		replace = ft_str_replace(path_buffer, home, "~");
+		replace = ft_str_replace(path_buffer, home, "~", 0);
 		if (replace)
 		{
 			ft_printf("%s\n", replace);
@@ -70,7 +70,7 @@ char *cd_seriasize_path(char **argv, int size, char *current_pwd)
 	}
 	else if (size == 2)
 	{
-		if (!(path = ft_str_replace(current_pwd, argv[0], argv[1])))
+		if (!(path = ft_str_replace(current_pwd, argv[0], argv[1], 0)))
 			return (ft_put_ptr(NULL, MS_CD_NO_IN_PWD));
 	}
 	else if (argv[0][0] == '-' && !argv[0][1])
