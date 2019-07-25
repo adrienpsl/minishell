@@ -11,9 +11,7 @@ void init(char **env)
 
 int ms_init(char **env)
 {
-	int ret;
 
-	ret = 0;
 	ft_bzero(&g_ms, sizeof(t_ms));
 	g_ms.argv = (char **) g_ms.data.argv;
 	ft_bzero(g_ms.argv, (40000) * sizeof(char **));
@@ -24,9 +22,9 @@ int ms_init(char **env)
 	g_ms.env_tmp = (char **) g_ms.data.env_tmp;
 	ft_bzero(g_ms.env_tmp, (MS_SIZE_MAX_ENV + 1) * sizeof(char **));
 
-	if (ms_copy_env(g_ms.env, env))
-		ret = ft_put_int(-1, MS_NO_MEMORY);
-	return (ret);
+	if (!(g_ms.env = ft_strsplit_copy(env, 0)))
+		return (-1);
+	return (0);
 }
 
 void ms_free(char **env)
@@ -46,8 +44,8 @@ int main(int ac, char **av, char **env)
 	(void) av;
 	if (env == NULL)
 		return (EXIT_FAILURE);
-//	printf("%ld \n", sizeof(char **) * 40000);
-//	ms_init(env);
+	//	printf("%ld \n", sizeof(char **) * 40000);
+	//	ms_init(env);
 
 	new_test_all();
 

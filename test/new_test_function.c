@@ -83,7 +83,7 @@ void test_ms_env_add(ms_test test)
 	// function tested
 	g_ms.argv = tSplit.argv;
 	g_ms.argv_size = ft_strsplit_count(g_ms.argv);
-	ret = ms_setenv(g_ms.argv, g_ms.env);
+	ret = ms_setenv(g_ms.argv);
 
 	// print error
 	if (
@@ -266,523 +266,523 @@ void new_passed_test()
 	(void) env_star;
 
 
-	// too much argv
-	test_ms_env_add((ms_test) {
-		.nb_test = 0,
-		.env = env_star,
-		.argv = "titi tata toto",
-		.print = MS_BAD_NB_ARG"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	// no argv
-	test_ms_env_add((ms_test) {
-		.nb_test = 1,
-		.env = env_star,
-		.argv = "",
-		.print = MS_BAD_NB_ARG"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	//	 forbidden char
-	test_ms_env_add((ms_test) {
-		.nb_test = 2,
-		.env = env_star,
-		.argv = "toto titi$",
-		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	test_ms_env_add((ms_test) {
-		.nb_test = 3,
-		.env = env_star,
-		.argv = "toto$titi",
-		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	test_ms_env_add((ms_test) {
-		.nb_test = 4,
-		.env = env_star,
-		.argv = "toto= titi",
-		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	test_ms_env_add((ms_test) {
-		.nb_test = 5,
-		.env = env_star,
-		.argv = "toto ti=ti",
-		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
-		.new_env = env_star,
-		.ret_int = -1
-	});
-
-	test_ms_env_add((ms_test) {
-		.nb_test = 6,
-		.env = env_star,
-		.new_env = env_star,
-		.argv = "toto=titi=",
-		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
-		.ret_int = -1
-	});
-
-	// test max env, check than MS_SIZE_MAX_ENV Will be 4
-	test_ms_env_add((ms_test) {
-		.nb_test = 7,
-		.env = "toto=fil tata=titi super=manger faire=chips",
-		.new_env = "toto=fil tata=titi super=manger faire=chips",
-		.argv = "toata titi",
-		.print = MS_NEW_ENV_TOO_BIG"\n",
-		.ret_int = -1
-	});
-
-	// good and add
-	char *full_env = "a1=toto a2=titi a3=tata";
-	test_ms_env_add((ms_test) {
-		.nb_test = 8,
-		.env = full_env,
-		.new_env = "a1=toto a2=titi a3=tata new=add",
-		.argv = "new=add",
-		.print = "",
-		.ret_int = 0
-	});
-
-	// good and replace
-	test_ms_env_add((ms_test) {
-		.nb_test = 9,
-		.env = "a1=toto a2=titi a3=tata",
-		.new_env = "a2=titi a3=tata a1=lalala",
-		.argv = "a1=lalala",
-		.print = "",
-		.ret_int = 0
-	});
-
-	test_ms_env_add((ms_test) {
-		.nb_test = 10,
-		.env = "a1=toto a2=titi a3=tata",
-		.new_env = "a1=toto a2=titi a3=hohoho",
-		.argv = "a3=hohoho",
-		.print = "",
-		.ret_int = 0
-	});
-
-	/* unsetenv ------------------------------------------------------------ */
-	// to much argv
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 11,
-		.env = "",
-		.argv = "titi tata toto",
-		.print = MS_BAD_NB_ARG"\n",
-		.new_env = "",
-		.ret_int = -1
-	});
-
-	// few argv
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 12,
-		.env = "",
-		.argv = "",
-		.print = MS_BAD_NB_ARG"\n",
-		.new_env = "",
-		.ret_int = -1
-	});
-
-	// key not in env
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 13,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv = "a",
-		.print = "",
-		.new_env = "a1=toto a2=titi a3=tata",
-		.ret_int = 0
-	});
-
-	// same
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 14,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv = "toto",
-		.print = "",
-		.new_env = "a1=toto a2=titi a3=tata",
-		.ret_int = 0
-	});
-
-	// delete first
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 15,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv = "a1",
-		.print = "",
-		.new_env = "a2=titi a3=tata",
-		.ret_int = 0
-	});
-
-	// middle
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 16,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv = "a2",
-		.print = "",
-		.new_env = "a1=toto a3=tata",
-		.ret_int = 0
-	});
-
-	// end
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 17,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv = "a3",
-		.print = "",
-		.new_env = "a1=toto a2=titi",
-		.ret_int = 0
-	});
-
-	// one
-	test_ms_unsetenv((ms_test) {
-		.nb_test = 18,
-		.env = "a1=toto",
-		.argv = "a1",
-		.print = "",
-		.new_env = "",
-		.ret_int = 0
-	});
-
-	/* env ------------------------------------------------------------ */
-	//	 test env null
-	test_ms_env((ms_test) {
-		.nb_test = 19,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv_end = "",
-		.env_tmp = "",
-		.argv = "",
-		.print = "a1=toto\na2=titi\na3=tata\n",
-		.ret_int = 0
-	});
-
-	// test env -i
-	test_ms_env((ms_test) {
-		.nb_test = 20,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv_end = "",
-		.env_tmp = "",
-		.argv = "-i",
-		.print = "\n",
-		.ret_int = 0
-	});
-
-	// env -i and option
-	test_ms_env((ms_test) {
-		.nb_test = 21,
-		.env = "a1=toto a2=titi a3=tata",
-		.argv_end = "ls",
-		.env_tmp = "",
-		.argv = "-i ls",
-		.print = "",
-		.ret_int = 0
-	});
-
-	test_ms_env((ms_test) {
-		.nb_test = 22,
-		.env = "a1=toto a2=titi a3=tata",
-		.env_tmp = "a1=toto a2=titi a3=tata",
-		.argv = "-u",
-		.argv_end = "",
-		.print = "a1=toto\na2=titi\na3=tata\n",
-		.ret_int = 0
-	});
-
-	// test env -u --
-	test_ms_env((ms_test) {
-		.nb_test = 23,
-		.env = "a1=toto a2=titi a3=tata",
-		.env_tmp = "a2=titi a3=tata",
-		.argv = "-u a1",
-		.argv_end = "",
-		.print = "a2=titi\na3=tata\n",
-		.ret_int = 0
-	});
-
-	test_ms_env((ms_test) {
-		.nb_test = 24,
-		.env = "a1=toto a2=titi a3=tata",
-		.env_tmp = "a1=toto a2=titi a3=tata",
-		.argv = "-u sp",
-		.argv_end = "",
-		.print = "a1=toto\na2=titi\na3=tata\n",
-		.ret_int = 0
-	});
-
-	/* cd test ------------------------------------------------------------ */
-
-	chdir("/Users/adpusel");
-	mkdir("test_minishell", 0777);
-
-	char *test_directory = "/Users/adpusel/test_minishell";
-
-	// : [ aa aa aa ]
-	test_ms_cd((ms_test) {
-		.nb_test= 25,
-		.argv = "aa aa aa",
-		.start_repository = test_directory,
-		.env = "HOME=/Users/adpusel",
-		.new_env = "HOME=/Users/adpusel",
-		.end_repository = test_directory,
-		.print = MS_BAD_NB_ARG"\n",
-		.ret_int = -1
-	});
-
-	// : [ ]
-	test_ms_cd((ms_test) {
-		.nb_test = 26,
-		.argv = "",
-		.start_repository = "/",
-		.env = "HOME=/Users/adpusel",
-		.new_env = "HOME=/Users/adpusel OLDPATH=/",
-		.end_repository = "/Users/adpusel",
-		.print = ""
-	});
-
-	// [ -- ]
-	test_ms_cd((ms_test) {
-		.nb_test = 27,
-		.argv = "--",
-		.start_repository = "/Users",
-		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
-		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
-		.end_repository = "/Users/adpusel",
-		.print = ""
-	});
-
-	// [ -- ] + no $HOME
-	test_ms_cd((ms_test) {
-		.nb_test = 28,
-		.argv = "",
-		.start_repository = "/Users",
-		.env = "OLDPATH=",
-		.new_env = "OLDPATH=",
-		.end_repository = "/Users",
-		.print = MS_CD_NO_HOME"\n",
-		.ret_int = -1
-	});
-
-
-	// : [ - ]
-	test_ms_cd((ms_test) {
-		.nb_test = 29,
-		.argv = "-",
-		.start_repository = "/Users",
-		.env = "OLDPATH=/Users/adpusel",
-		.new_env = "OLDPATH=/Users",
-		.end_repository = "/Users/adpusel",
-		.print = "/Users/adpusel\n",
-		.ret_int = 0
-	});
-
-	// : [ - ] + no $OLDPATH
-	test_ms_cd((ms_test) {
-		.nb_test = 30,
-		.argv = "-",
-		.start_repository = "/Users",
-		.env = "",
-		.new_env = "",
-		.end_repository = "/Users",
-		.print = MS_CD_NO_OLDPATH"\n",
-		.ret_int = -1
-	});
-
-	// : [ . ]
-	test_ms_cd((ms_test) {
-		.nb_test = 31,
-		.argv = ".",
-		.start_repository = "/Users",
-		.env = "OLDPATH=/Users/adpusel",
-		.new_env = "OLDPATH=/Users",
-		.end_repository = "/Users",
-		.print = "",
-		.ret_int = 0
-	});
-
-	// : [ /file/test ]
-	test_ms_cd((ms_test) {
-		.nb_test = 32,
-		.argv = "/Users/adpusel",
-		.start_repository = "/Users",
-		.env = "OLDPATH=/Users/adpusel",
-		.new_env = "OLDPATH=/Users",
-		.end_repository = "/Users/adpusel",
-		.print = "",
-		.ret_int = 0
-	});
-
-	// : [ /Users/ ]
-	test_ms_cd((ms_test) {
-		.nb_test = 33,
-		.argv = "/Users/",
-		.start_repository = "/Users",
-		.env = "OLDPATH=/Users/adpusel",
-		.new_env = "OLDPATH=/Users",
-		.end_repository = "/Users",
-		.print = "",
-		.ret_int = 0
-	});
-
-	// : [ .. ]
-	test_ms_cd((ms_test) {
-		.nb_test = 34,
-		.argv = "..",
-		.start_repository = "/Users/adpusel",
-		.env = "",
-		.new_env = "OLDPATH=/Users/adpusel",
-		.end_repository = "/Users",
-		.print = "",
-		.ret_int = 0
-	});
-
-	// : [ .././adpusel ]
-	test_ms_cd((ms_test) {
-		.nb_test = 35,
-		.argv = ".././adpusel",
-		.start_repository = "/Users/adpusel",
-		.env = "",
-		.new_env = "OLDPATH=/Users/adpusel",
-		.end_repository = "/Users/adpusel",
-		.print = "",
-		.ret_int = 0
-	});
-
-
-	// : [  ] file not exist
-	test_ms_cd((ms_test) {
-		.nb_test = 36,
-		.argv = "../asoeuth",
-		.start_repository = "/Users/adpusel",
-		.end_repository = "/Users/adpusel",
-		.env = "",
-		.new_env = "",
-		.print = "cd: no such file or directory: ../asoeuth\n",
-		.ret_int = -1
-	});
-
-
-	// : [ file ] no access
-	chdir("/Users/adpusel");
-	mkdir("test-cd-000", 0);
-
-	test_ms_cd((ms_test) {
-		.nb_test = 37,
-		.argv = "test-cd-000",
-		.start_repository = "/Users/adpusel",
-		.end_repository = "/Users/adpusel",
-		.env = "",
-		.new_env = "",
-		.print = "cd: permission denied: test-cd-000\n",
-		.ret_int = -1
-	});
-
-
-	// : [ file file ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	test_ms_cd((ms_test) {
-		.nb_test = 38,
-		.argv = "test-cd-1 test-cd-2",
-		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
-		.end_repository = "/Users/adpusel/test-cd-2/dir_1",
-		.env = "",
-		.new_env = "OLDPATH=/Users/adpusel/test-cd-1/dir_1",
-		.print = "/Users/adpusel/test-cd-2/dir_1\n",
-		.ret_int = 0
-	});
-
-
-	// : [ file no-exist ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	test_ms_cd((ms_test) {
-		.nb_test = 39,
-		.argv = "test-cd-1 test-cd-",
-		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
-		.end_repository = "/Users/adpusel/test-cd-1/dir_1",
-		.env = "",
-		.new_env = "",
-		.print = "cd: no such file or directory: /Users/adpusel/test-cd-/dir_1\n",
-		.ret_int = -1
-	});
-
-	// : [ file no-access ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	mkdir("test-cd-1/dir_2", 0777);
-	mkdir("test-cd-2/dir_2", 0000);
-
-	test_ms_cd((ms_test) {
-		.nb_test = 40,
-		.argv = "test-cd-1 test-cd-2",
-		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
-		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
-		.env = "",
-		.new_env = "",
-		.print = "cd: permission denied: /Users/adpusel/test-cd-2/dir_2\n",
-		.ret_int = -1
-	});
-
-	// : [ file .. ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	mkdir("test-cd-1/dir_2", 0777);
-	mkdir("test-cd-2/dir_2", 0000);
-
-	test_ms_cd((ms_test) {
-		.nb_test = 40,
-		.argv = "/Users/adpusel ..",
-		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
-		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
-		.env = "",
-		.new_env = "",
-		.print = "cd: no such file or directory: ../test-cd-1/dir_2\n",
-		.ret_int = -1
-	});
-
-	/* test parser ------------------------------------------------------------ */
-
-	// : [ \n ]
-	test_ms_parser((ms_test) {
-		.nb_test = 41,
-		.env = "",
-		.argv = "",
-		.line = "\n",
-		.ret_int = 0
-	});
+//	// too much argv
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 0,
+//		.env = env_star,
+//		.argv = "titi tata toto",
+//		.print = MS_BAD_NB_ARG"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	// no argv
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 1,
+//		.env = env_star,
+//		.argv = "",
+//		.print = MS_BAD_NB_ARG"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	//	 forbidden char
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 2,
+//		.env = env_star,
+//		.argv = "toto titi$",
+//		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 3,
+//		.env = env_star,
+//		.argv = "toto$titi",
+//		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 4,
+//		.env = env_star,
+//		.argv = "toto= titi",
+//		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 5,
+//		.env = env_star,
+//		.argv = "toto ti=ti",
+//		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
+//		.new_env = env_star,
+//		.ret_int = -1
+//	});
+//
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 6,
+//		.env = env_star,
+//		.new_env = env_star,
+//		.argv = "toto=titi=",
+//		.print = MS_SETENV_FORBIDDEN_CHAR"\n",
+//		.ret_int = -1
+//	});
+
+//	// test max env, check than MS_SIZE_MAX_ENV Will be 4
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 7,
+//		.env = "toto=fil tata=titi super=manger faire=chips",
+//		.new_env = "toto=fil tata=titi super=manger faire=chips toata=titi",
+//		.argv = "toata titi",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// good and add
+//	char *full_env = "a1=toto a2=titi a3=tata";
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 8,
+//		.env = full_env,
+//		.new_env = "a1=toto a2=titi a3=tata new=add",
+//		.argv = "new=add",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// good and replace
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 9,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.new_env = "a2=titi a3=tata a1=lalala",
+//		.argv = "a1=lalala",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	test_ms_env_add((ms_test) {
+//		.nb_test = 10,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.new_env = "a1=toto a2=titi a3=hohoho",
+//		.argv = "a3=hohoho",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	/* unsetenv ------------------------------------------------------------ */
+//	// to much argv
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 11,
+//		.env = "",
+//		.argv = "titi tata toto",
+//		.print = "env : too many arguments\n",
+//		.new_env = "",
+//		.ret_int = -1
+//	});
+//
+//	// few argv
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 12,
+//		.env = "",
+//		.argv = "",
+//		.print = "env : too many arguments\n",
+//		.new_env = "",
+//		.ret_int = -1
+//	});
+//
+//	// key not in env
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 13,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv = "a",
+//		.print = "",
+//		.new_env = "a1=toto a2=titi a3=tata",
+//		.ret_int = 0
+//	});
+//
+//	// same
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 14,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv = "toto",
+//		.print = "",
+//		.new_env = "a1=toto a2=titi a3=tata",
+//		.ret_int = 0
+//	});
+//
+//	// delete first
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 15,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv = "a1",
+//		.print = "",
+//		.new_env = "a2=titi a3=tata",
+//		.ret_int = 0
+//	});
+//
+//	// middle
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 16,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv = "a2",
+//		.print = "",
+//		.new_env = "a1=toto a3=tata",
+//		.ret_int = 0
+//	});
+//
+//	// end
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 17,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv = "a3",
+//		.print = "",
+//		.new_env = "a1=toto a2=titi",
+//		.ret_int = 0
+//	});
+//
+//	// one
+//	test_ms_unsetenv((ms_test) {
+//		.nb_test = 18,
+//		.env = "a1=toto",
+//		.argv = "a1",
+//		.print = "",
+//		.new_env = "",
+//		.ret_int = 0
+//	});
+//
+//	/* env ------------------------------------------------------------ */
+//	//	 test env null
+//	test_ms_env((ms_test) {
+//		.nb_test = 19,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv_end = "",
+//		.env_tmp = "",
+//		.argv = "",
+//		.print = "a1=toto\na2=titi\na3=tata\n",
+//		.ret_int = 0
+//	});
+//
+//	// test env -i
+//	test_ms_env((ms_test) {
+//		.nb_test = 20,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv_end = "",
+//		.env_tmp = "",
+//		.argv = "-i",
+//		.print = "\n",
+//		.ret_int = 0
+//	});
+//
+//	// env -i and option
+//	test_ms_env((ms_test) {
+//		.nb_test = 21,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.argv_end = "ls",
+//		.env_tmp = "",
+//		.argv = "-i ls",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	test_ms_env((ms_test) {
+//		.nb_test = 22,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.env_tmp = "a1=toto a2=titi a3=tata",
+//		.argv = "-u",
+//		.argv_end = "",
+//		.print = "a1=toto\na2=titi\na3=tata\n",
+//		.ret_int = 0
+//	});
+//
+//	// test env -u --
+//	test_ms_env((ms_test) {
+//		.nb_test = 23,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.env_tmp = "a2=titi a3=tata",
+//		.argv = "-u a1",
+//		.argv_end = "",
+//		.print = "a2=titi\na3=tata\n",
+//		.ret_int = 0
+//	});
+//
+//	test_ms_env((ms_test) {
+//		.nb_test = 24,
+//		.env = "a1=toto a2=titi a3=tata",
+//		.env_tmp = "a1=toto a2=titi a3=tata",
+//		.argv = "-u sp",
+//		.argv_end = "",
+//		.print = "a1=toto\na2=titi\na3=tata\n",
+//		.ret_int = 0
+//	});
+//
+//	/* cd test ------------------------------------------------------------ */
+//
+//	chdir("/Users/adpusel");
+//	mkdir("test_minishell", 0777);
+//
+//	char *test_directory = "/Users/adpusel/test_minishell";
+//
+//	// : [ aa aa aa ]
+//	test_ms_cd((ms_test) {
+//		.nb_test= 25,
+//		.argv = "aa aa aa",
+//		.start_repository = test_directory,
+//		.env = "HOME=/Users/adpusel",
+//		.new_env = "HOME=/Users/adpusel",
+//		.end_repository = test_directory,
+//		.print = MS_BAD_NB_ARG"\n",
+//		.ret_int = -1
+//	});
+//
+//	// : [ ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 26,
+//		.argv = "",
+//		.start_repository = "/",
+//		.env = "HOME=/Users/adpusel",
+//		.new_env = "HOME=/Users/adpusel OLDPATH=/",
+//		.end_repository = "/Users/adpusel",
+//		.print = ""
+//	});
+//
+//	// [ -- ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 27,
+//		.argv = "--",
+//		.start_repository = "/Users",
+//		.env = "HOME=/Users/adpusel OLDPATH=aoeuaoeu",
+//		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = ""
+//	});
+//
+//	// [ -- ] + no $HOME
+//	test_ms_cd((ms_test) {
+//		.nb_test = 28,
+//		.argv = "",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=",
+//		.new_env = "OLDPATH=",
+//		.end_repository = "/Users",
+//		.print = "The env variable : HOME is no set.\n",
+//		.ret_int = -1
+//	});
+//
+//
+//	// : [ - ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 29,
+//		.argv = "-",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel HOME=/Users/adpusel",
+//		.new_env = "HOME=/Users/adpusel OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = "~\n",
+//		.ret_int = 0
+//	});
+//
+//	// : [ - ] + no $OLDPATH
+//	test_ms_cd((ms_test) {
+//		.nb_test = 30,
+//		.argv = "-",
+//		.start_repository = "/Users",
+//		.env = "",
+//		.new_env = "",
+//		.end_repository = "/Users",
+//		.print = "The env variable : OLDPATH is no set.\n",
+//		.ret_int = -1
+//	});
+//
+//	// : [ . ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 31,
+//		.argv = ".",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel",
+//		.new_env = "OLDPATH=/Users",
+//		.end_repository = "/Users",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// : [ /file/test ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 32,
+//		.argv = "/Users/adpusel",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel",
+//		.new_env = "OLDPATH=/Users",
+//		.end_repository = "/Users/adpusel",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// : [ /Users/ ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 33,
+//		.argv = "/Users/",
+//		.start_repository = "/Users",
+//		.env = "OLDPATH=/Users/adpusel",
+//		.new_env = "OLDPATH=/Users",
+//		.end_repository = "/Users",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// : [ .. ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 34,
+//		.argv = "..",
+//		.start_repository = "/Users/adpusel",
+//		.env = "",
+//		.new_env = "OLDPATH=/Users/adpusel",
+//		.end_repository = "/Users",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//	// : [ .././adpusel ]
+//	test_ms_cd((ms_test) {
+//		.nb_test = 35,
+//		.argv = ".././adpusel",
+//		.start_repository = "/Users/adpusel",
+//		.env = "",
+//		.new_env = "OLDPATH=/Users/adpusel",
+//		.end_repository = "/Users/adpusel",
+//		.print = "",
+//		.ret_int = 0
+//	});
+//
+//
+//	// : [  ] file not exist
+//	test_ms_cd((ms_test) {
+//		.nb_test = 36,
+//		.argv = "../asoeuth",
+//		.start_repository = "/Users/adpusel",
+//		.end_repository = "/Users/adpusel",
+//		.env = "",
+//		.new_env = "",
+//		.print = "cd: no such file or directory: ../asoeuth\n",
+//		.ret_int = -1
+//	});
+//
+//
+//	// : [ file ] no access
+//	chdir("/Users/adpusel");
+//	mkdir("test-cd-000", 0);
+//
+//	test_ms_cd((ms_test) {
+//		.nb_test = 37,
+//		.argv = "test-cd-000",
+//		.start_repository = "/Users/adpusel",
+//		.end_repository = "/Users/adpusel",
+//		.env = "",
+//		.new_env = "",
+//		.print = "cd: permission denied: test-cd-000\n",
+//		.ret_int = -1
+//	});
+//
+//
+//	// : [ file file ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	test_ms_cd((ms_test) {
+//		.nb_test = 38,
+//		.argv = "test-cd-1 test-cd-2",
+//		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
+//		.end_repository = "/Users/adpusel/test-cd-2/dir_1",
+//		.env = "HOME=/Users/adpusel",
+//		.new_env = "HOME=/Users/adpusel OLDPATH=/Users/adpusel/test-cd-1/dir_1",
+//		.print = "~/test-cd-2/dir_1\n",
+//		.ret_int = 0
+//	});
+//
+//
+//	// : [ file no-exist ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	test_ms_cd((ms_test) {
+//		.nb_test = 39,
+//		.argv = "test-cd-1 test-cd-",
+//		.start_repository = "/Users/adpusel/test-cd-1/dir_1",
+//		.end_repository = "/Users/adpusel/test-cd-1/dir_1",
+//		.env = "HOME=/Users/adpusel",
+//		.new_env = "HOME=/Users/adpusel",
+//		.print = "cd: no such file or directory: /Users/adpusel/test-cd-/dir_1\n",
+//		.ret_int = -1
+//	});
+//
+//	// : [ file no-access ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	mkdir("test-cd-1/dir_2", 0777);
+//	mkdir("test-cd-2/dir_2", 0000);
+//
+//	test_ms_cd((ms_test) {
+//		.nb_test = 40,
+//		.argv = "test-cd-1 test-cd-2",
+//		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
+//		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
+//		.env = "",
+//		.new_env = "",
+//		.print = "cd: permission denied: /Users/adpusel/test-cd-2/dir_2\n",
+//		.ret_int = -1
+//	});
+//
+//	// : [ file .. ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	mkdir("test-cd-1/dir_2", 0777);
+//	mkdir("test-cd-2/dir_2", 0000);
+//
+//	test_ms_cd((ms_test) {
+//		.nb_test = 40,
+//		.argv = "/Users/adpusel ..",
+//		.start_repository = "/Users/adpusel/test-cd-1/dir_2",
+//		.end_repository = "/Users/adpusel/test-cd-1/dir_2",
+//		.env = "",
+//		.new_env = "",
+//		.print = "cd: no such file or directory: ../test-cd-1/dir_2\n",
+//		.ret_int = -1
+//	});
+//
+//	/* test parser ------------------------------------------------------------ */
+//
+//	// : [ \n ]
+//	test_ms_parser((ms_test) {
+//		.nb_test = 41,
+//		.env = "",
+//		.argv = "",
+//		.line = "\n",
+//		.ret_int = 0
+//	});
 
 	// : [ '' \n ]
 	test_ms_parser((ms_test) {

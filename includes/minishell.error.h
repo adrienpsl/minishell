@@ -4,8 +4,7 @@
 /*
 ** ALL *************************************************************************
 */
-# define MS_BAD_NB_ARG "Too much argv"
-# define MS_NO_FILE "Too much argv"
+# define MS_BAD_NB_ARG "too many arguments"
 # define MS_BUFFER_ERROR "MAX SIZE ARGV "
 
 /*

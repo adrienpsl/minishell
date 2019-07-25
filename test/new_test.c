@@ -17,7 +17,7 @@ void test_ms_cd(ms_test test);
 void new_test_all()
 {
 	g_test = 1;
-//	new_passed_test();
+	new_passed_test();
 
 
 //	char **t1 = ft_strsplit("$1 ", " ");

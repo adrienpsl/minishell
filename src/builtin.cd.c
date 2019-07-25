@@ -34,23 +34,23 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 	}
 }
 
-int cd_move_directory(char *path, char *pwd, char **argv)
+int cd_move_directory(char *path, char *pwd, char *error_path)
 {
 	char *oldpath;
 
 	if (!path || access(path, F_OK))
 	{
-		ft_printf("cd: no such file or directory: %s\n", *argv);
+		ft_printf("cd: no such file or directory: %s\n", error_path);
 		return (-1);
 	}
 	if (access(path, R_OK))
 	{
-		ft_printf("cd: permission denied: %s\n", *argv);
+		ft_printf("cd: permission denied: %s\n", error_path);
 		return (-1);
 	}
 	if (chdir(path))
 	{
-		ft_printf("cd : not a directory: %s\n", argv[0]);
+		ft_printf("cd : not a directory: %s\n", error_path);
 		return (-1);
 	}
 	if (!(oldpath = ft_strjoinby("OLDPATH", "=", pwd, 0)))
@@ -99,11 +99,12 @@ int ms_cd(char **argv)
 		argv++;
 	size = ft_strsplit_count(argv);
 	getcwd(current_pwd, MS_SIZE_BUFFER_FULL);
-	if (size < 2)
+	if (size < 3)
 	{
 		if ((path = cd_seriasize_path(argv, size, current_pwd)))
 		{
-			if (cd_move_directory(path, current_pwd, argv))
+			if (cd_move_directory(path, current_pwd,
+								  size == 2 ? path : argv[0]))
 				return (-1);
 			cd_print_path(argv, current_pwd, size);
 			free(path);

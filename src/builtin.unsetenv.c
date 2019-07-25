@@ -24,10 +24,8 @@ int ms_env_remove(char **env, char *var)
 
 int ms_unsetenv(char **argv, char **env)
 {
-	int size;
-
-	size = ft_strsplit_count(argv);
-	if (size == 1)
-		return (ms_env_remove(env, g_ms.argv[0]));
-	return (0);
+	if (ft_strsplit_count(argv) == 1)
+		return (ms_env_remove(env, argv[0]));
+	else
+		return (ft_put_int(-1, "env : "MS_BAD_NB_ARG));
 }

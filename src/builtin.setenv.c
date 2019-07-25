@@ -26,11 +26,13 @@ int ms_env_add(char ***env, char *var)
 	return (0);
 }
 
-int ms_setenv(char **argv, char **env)
+int ms_setenv(char **argv)
 {
 	int size;
 	char *var;
+	int ret;
 
+	ret = 0;
 	size = ft_strsplit_count(argv);
 	if (size > 2 || size == 0)
 		return ft_put_int(-1, MS_BAD_NB_ARG);
@@ -40,10 +42,10 @@ int ms_setenv(char **argv, char **env)
 	if (!var)
 		return (ft_put_int(-1, MS_NO_MEMORY));
 	if (ft_strchr(var, '$') == -1 && ft_strnchr(var, '=') == 1)
-		ms_env_add(&env, var);
+		ms_env_add(&g_ms.env, var);
 	else
-		ft_putstr_fd(MS_SETENV_FORBIDDEN_CHAR"\n", 2);
+		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
 	free(var);
-	return (0);
+	return (ret);
 }
 
