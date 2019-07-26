@@ -83,6 +83,7 @@ int ms_env_get_value(char *key, char *buffer);
 int ms_env_modify(char *key, char *new_value);
 int ms_env();
 int ms_func_search_var$name(char *current, void *p_searched);
+char *ms_find_binary(char *bin_name);
 
 int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);

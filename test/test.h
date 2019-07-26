@@ -28,6 +28,9 @@ typedef struct full_test
 	char *end_repository;
 	char *line;
 
+	char *binary_name;
+	char *binary_path;
+
 } ms_test;
 
 #endif //MINISHELL_TEST_H

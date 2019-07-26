@@ -36,8 +36,8 @@ static void ms_argv_no_null(char **argv)
 		&& ms_env());
 	else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
 		ms_handle_builtin(g_ms.argv);
-	else
-		ms_handle_binary(g_ms.argv);
+//	else
+//		ms_handle_binary(g_ms.argv);
 }
 
 void ms_loop()

@@ -1,19 +1,8 @@
 # refaire completement tout avec les built in 
 
-
-# parser wit
-- with the ~
-- with the ""
-- with the $
-
 # builtin 
--- cd       ok 
--- setenv   ok
--- unsetenv ok
-
 -- echo     
 -- exit
-
 
 # fix 
 - error fork 
@@ -25,3 +14,8 @@
 - print where I am in the shell
 
 - I will do now the big test ? in shell or in c ?
+
+# test and find binary
+
+# set all toghether, how I set the env stuff
+
