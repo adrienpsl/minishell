@@ -111,7 +111,6 @@ int ms_parser(char ***out)
 		tmp++;
 	}
 	*out = argv;
-
 	free(line);
 	return (0);
 }

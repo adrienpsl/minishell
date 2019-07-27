@@ -12,60 +12,50 @@
 
 #include "minishell.h"
 
-static int ms_env_init(long *options)
+char **ms_env_opt_u(char **argv, char ***real_env)
 {
-	int ret;
+	char **tmp_env;
 
-	ret = 0;
-	if (g_ms.i && **g_ms.argv == '-')
+	if (argv[1] == NULL)
 	{
-		if (ft_io_catch_options((*g_ms.argv) + 1, "iu", options))
-			ret = ft_put_int(-1, MS_CD_ENV_BAD_OPTION);
-		if (g_ms.i == 1)
-			ret = ft_put_int(-1, MS_CD_ENV_NO_ARGV);
-		g_ms.argv++;
+		ft_printf("env: option requires an argument -- %s", *argv + 1);
+		return (NULL);
 	}
-	return ret;
+	if (!(tmp_env = ft_strsplit_copy(g_env, 0)))
+		return ft_put_ptr(NULL, MS_NO_MEMORY);
+	ms_env_remove(tmp_env, argv[1]);
+	*real_env = g_env;
+	g_env = tmp_env;
+	return (argv + 2);
 }
 
-static int ft_env_handle_option(long options)
+char **ms_env_opt_i(char **argv, char ***real_env)
 {
-	if (options & OPTION_U)
-	{
-		if (ms_copy_env(g_ms.env_tmp, g_ms.env))
-			return ft_put_int(-1, MS_NO_MEMORY);
-		g_ms.is_env = 1;
-		if (g_ms.argv[0])
-		{
-			if (ms_env_remove(g_ms.env_tmp, g_ms.argv[0]) == -1)
-				return (-1);
-			g_ms.argv++;
-		}
-	}
-	if (options & OPTION_I)
-	{
-		ms_free(g_ms.env_tmp);
-		g_ms.is_env = 1;
-	}
-	return (0);
+	char **tmp_env;
+
+	if (!(tmp_env = ft_strsplit_copy(g_env, 0)))
+		return ft_put_ptr(NULL, MS_NO_MEMORY);
+	*real_env = g_env;
+	g_env = tmp_env;
+	return (argv + 1);
 }
 
-int ms_env()
+char **ms_env(char **argv, char ***real_env)
 {
-	long options;
-
-	g_ms.i--;
-	options = 0;
-	t_ms *ms = &g_ms;
-	(void) ms;
-	if (*g_ms.argv
-		&& (ms_env_init(&options) || ft_env_handle_option(options)))
-		return (-1);
-	if (!*g_ms.argv)
+	if (ft_streq("-u", argv[0]))
+		argv = ms_env_opt_u(argv, real_env);
+	else if (ft_streq("-i", argv[0]))
+		argv = ms_env_opt_i(argv, real_env);
+	else if (argv[0] && argv[0][0] == '-')
 	{
-		ft_strsplit_print(ms_get_env(), '\n');
+		ft_printf("env: option requires an argument -- %s", *argv + 1);
+		return (NULL);
+	}
+	if (!*argv)
+	{
+		ft_strsplit_print(g_env, '\n');
 		ft_printf("\n");
-		return (0);
+		return (NULL);
 	}
-	return (0);
+	return (argv);
 }

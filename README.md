@@ -18,4 +18,5 @@
 # test and find binary
 
 # set all toghether, how I set the env stuff
-
+- the main loop > 
+- the 

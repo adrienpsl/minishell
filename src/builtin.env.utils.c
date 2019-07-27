@@ -14,7 +14,7 @@
 
 int ms_env_copy(char **env)
 {
-	if (!(g_ms.env = ft_strsplit_copy(env, 0)))
+	if (!(g_env = ft_strsplit_copy(env, 0)))
 		return (-1);
 	return (0);
 }
@@ -34,15 +34,13 @@ int ms_func_search_var$name(char *current, void *p_searched)
 char *ms_get_value(char *key)
 {
 	int position;
-	char **env;
 
 	if (key)
 	{
-		env = ms_get_env();
-		position = ft_strsplit_search(env, ms_func_search_var$name, key);
+		position = ft_strsplit_search(g_env, ms_func_search_var$name, key);
 		if (position > -1)
 		{
-			return (env[position] + ft_strchr(env[position], '=') + 1);
+			return (g_env[position] + ft_strchr(g_env[position], '=') + 1);
 		}
 	}
 	ft_printf("The env variable : %s is no set.\n", key);

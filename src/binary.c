@@ -89,5 +89,5 @@ int ms_handle_binary(char **argv)
 	}
 	if (ms_test_file(MS_NAME, path))
 		return (-1);
-	return (ms_exec_binary(path, argv, g_ms.env));
+	return (ms_exec_binary(path, argv, g_env));
 }

@@ -14,46 +14,41 @@
 
 void ms_handle_builtin(char **argv)
 {
-//	if (ft_streq(*argv, "cd"))
-//		ft_cd(argv + 1);
+	//	if (ft_streq(*argv, "cd"))
+	//		ft_cd(argv + 1);
 	if (ft_streq(*argv, "exit"))
 		exit(EXIT_SUCCESS);
 	else if (ft_streq(*argv, "echo"))
 		ft_echo(argv + 1);
-//	else if (ft_streq(*argv, "setenv"))
-//		ft_setenv(argv + 1);
-//	else if (ft_streq(*argv, "unsetenv"))
-//		ms_unsetenv(0);
-}
-
-static void ms_argv_no_null(char **argv)
-{
-	static char *builtin[7] = { "cd", "echo", "setenv",
-								"unsetenv", "env", "exit", NULL };
-	g_ms.argv = argv;
-	g_ms.i = ft_strsplit_count(g_ms.argv);
-	if (ft_streq(*g_ms.argv, "env")
-		&& ms_env());
-	else if (ft_strsplit_search(builtin, ft_func_split_streq, *argv) > -1)
-		ms_handle_builtin(g_ms.argv);
-//	else
-//		ms_handle_binary(g_ms.argv);
+	//	else if (ft_streq(*argv, "setenv"))
+	//		ft_setenv(argv + 1);
+	//	else if (ft_streq(*argv, "unsetenv"))
+	//		ms_unsetenv(0);
 }
 
 void ms_loop()
 {
 	char **argv;
+	char **real_env;
 
+	real_env = NULL;
 	ft_printf("$> ");
-	while ((ms_parser(NULL)))
+	while (ms_parser(&argv))
 	{
-		g_ms.env_tmp = NULL;
 		signal(SIGINT, signal_minishell);
 		if (*argv != NULL)
-			ms_argv_no_null(argv);
+		{
+			if (ft_streq(*argv, "env"))
+				ms_env(argv, &real_env);
+			// lance l'option
+		}
+		if (real_env)
+		{
+			ft_strsplit_free(&g_env);
+			g_env = real_env;
+			real_env = NULL;
+		}
 		ft_strsplit_free(&argv);
-		if (g_ms.env_tmp)
-			ft_strsplit_free(&g_ms.env_tmp);
 		ft_printf("$> ");
 	}
 }

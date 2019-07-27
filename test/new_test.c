@@ -18,7 +18,6 @@ void new_test_all()
 {
 	g_test = 1;
 	new_passed_test();
-
 }
 
 

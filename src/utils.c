@@ -33,17 +33,6 @@ int ms_put_in_buffer(char *buffer, char *str)
 	return (0);
 }
 
-void ms_clear_buffer()
-{
-	ft_bzero(g_ms.buffer, MS_SIZE_BUFFER);
-}
-
-char **ms_get_env()
-{
-	return g_ms.is_env ? g_ms.env_tmp : g_ms.env;
-}
-
-
 
 // will return stuff if execution, are trigger.
 int ms_test_file(char *builtin, char *path)
