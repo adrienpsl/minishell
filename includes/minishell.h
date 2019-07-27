@@ -59,7 +59,7 @@ int replace_jocker(char **argv);
 int ms_setenv(char **argv);
 int ms_cd(char **argv);
 int ms_unsetenv(char **argv, char **env);
-int ms_env_add(char ***env, char *var);
+char **ms_env_add(char **src, char *var, int do_free);
 // echo
 // env
 //

@@ -146,6 +146,7 @@ void test_ms_env(ms_test test)
 	char **real_env;
 
 	// function tested
+	real_env = NULL;
 	new_argv = ms_env(tSplit.argv, &real_env);
 
 	// print error
@@ -164,7 +165,8 @@ void test_ms_env(ms_test test)
 
 	// free
 	ft_strsplit_free(&g_env);
-	ft_strsplit_free(&real_env);
+	if (real_env)
+		ft_strsplit_free(&real_env);
 	test_free(&tSplit);
 }
 

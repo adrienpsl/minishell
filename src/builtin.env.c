@@ -51,7 +51,7 @@ char **ms_env(char **argv, char ***real_env)
 		ft_printf("env: option requires an argument -- %s", *argv + 1);
 		return (NULL);
 	}
-	if (!*argv)
+	if (argv && !*argv)
 	{
 		ft_strsplit_print(g_env, '\n');
 		ft_printf("\n");

@@ -12,18 +12,15 @@
 
 #include "minishell.h"
 
-int ms_env_add(char ***env, char *var)
+// env source, la variable, le truc a set.
+char **ms_env_add(char **src, char *var, int do_free)
 {
 	char **env_tmp;
 
-	if (!(env_tmp = ft_strsplit_copy(*env, 0)))
-		return (-1);
+	if (!(env_tmp = ft_strsplit_copy(src, 0)))
+		return (NULL);
 	ms_env_remove(env_tmp, var);
-	if (!(env_tmp = ft_strsplit_add(env_tmp, var, FREE_FIRST)))
-		return (-1);
-	ft_strsplit_free(env);
-	*env = env_tmp;
-	return (0);
+	return (ft_strsplit_add(src, var, do_free));
 }
 
 int ms_setenv(char **argv)
@@ -42,7 +39,7 @@ int ms_setenv(char **argv)
 	if (!var)
 		return (ft_put_int(-1, MS_NO_MEMORY));
 	if (ft_strchr(var, '$') == -1 && ft_strnchr(var, '=') == 1)
-		ms_env_add(&g_env, var);
+		g_env = ms_env_add(g_env, var, FREE);
 	else
 		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
 	free(var);
