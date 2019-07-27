@@ -13,24 +13,32 @@ void new_passed_test();
 void test_set_fd(char *str);
 void test_ms_cd(ms_test test);
 
-void test_ms_find_binary(ms_test test)
+void test_ms_handle_binary(ms_test test)
 {
 	t_split tSplit;
-	char *binary_path;
+	int ret;
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
 	ms_init(tSplit.env);
 
-	// binary path
-	binary_path = ms_find_binary(test.binary_name);
+	ret = ms_handle_binary(tSplit.argv);
 
-	// say if I find it
-	if (!ft_streq(test.binary_path, binary_path))
+	if (
+	 !ft_streq(test.print, g_test_buffer) ||
+	 ret != test.ret_int
+	 )
 	{
-		printf("ms env %d *******************************\n", test.nb_test);
-		ft_test_if_streq(test.binary_path, binary_path, "binary find");
+		printf("ms_handle_binary %d ******************* \n", test.nb_test);
+
+		ft_test_if_streq(test.print, g_test_buffer, NULL);
+		if (ret != test.ret_int)
+			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
+
+	// free
+	ms_free(g_ms.env);
+	test_free(&tSplit);
 }
 
 void new_test_all()
@@ -38,44 +46,55 @@ void new_test_all()
 	g_test = 1;
 	new_passed_test();
 
-	// if no path
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 1,
+
+	// if no argv
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 58,
 	 .env = "",
-	 .binary_name = "",
-	 .binary_path = NULL
+	 .argv = "",
+	 .print = "",
+	 .ret_int = -1
+	});
+
+	// if no path
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 59,
+	 .env = "",
+	 .argv = "ls",
+	 .print = "The env variable : PATH is no set.\n"
+			  "mimishell: command not found: ls\n",
+	 .binary_path = NULL,
+	 .ret_int = -1
 	});
 
 	// if has binary
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 2,
-	 .env = "PATH=/bin",
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 60,
+	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
+	 .argv = "ls",
+	 .print = "",
+	 .ret_int = 0
+	});
+
+	// has binary and arguments
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 61,
+	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
 	 .binary_name = "ls",
-	 .binary_path = "/bin/ls"
+	 .argv = "ls a b",
+	 .print = "",
+	 .ret_int = 0
 	});
 
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 3,
-	 .env = "PATH=/bi:/Users/adpusel/code/42/minishell/prg",
-	 .binary_name = "pgr_print_name",
-	 .binary_path = "/Users/adpusel/code/42/minishell/prg/pgr_print_name"
+	// path and no binary
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 62,
+	 .env = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
+	 .argv = "ls /",
+	 .print = "mimishell: command not found: ls\n",
+	 .ret_int = -1
 	});
 
-	// no binary
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 2,
-	 .env = "",
-	 .binary_name = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
-	 .binary_path = NULL
-	});
-
-
-
-
-
-	// no access
-
-	// no access to the path var
 }
 
 

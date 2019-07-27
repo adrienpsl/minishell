@@ -90,6 +90,8 @@ void signal_minishell(int sign);
 
 char *ms_parser_get_commands();
 
+int ms_handle_binary(char **argv);
+
 // parse
 int ms_parser(char ***out);
 int replace_jocker(char **argv);
@@ -105,9 +107,6 @@ int ms_env_add(char ***env, char *var);
 // env
 //
 //
-
-// binary
-int ms_handle_binary(char **argv);
 
 // action
 int ms_do_cmd(char **argv);

@@ -56,12 +56,11 @@ char *ms_find_binary(char *bin_name)
 	return (path);
 }
 
-int ms_execute_binary(char *path, char **argv, char **env)
+int ms_exec_binary(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
 	signal(SIGINT, signal_program);
-
 	pid = fork();
 	if (pid == 0)
 		execve(path, argv, env);
@@ -75,4 +74,20 @@ int ms_execute_binary(char *path, char **argv, char **env)
 	return (0);
 }
 
-
+int ms_handle_binary(char **argv)
+{
+	char *path;
+	int size;
+	
+	size = ft_strsplit_count(argv);
+	if (size == 0)
+	    return (-1);
+	if (!(path = ms_find_binary(*argv)))
+	{
+		ft_printf(MS_NAME": command not found: %s\n", *argv);
+		return (-1);
+	}
+	if (ms_test_file(MS_NAME, path))
+		return (-1);
+	return (ms_exec_binary(path, argv, g_ms.env));
+}

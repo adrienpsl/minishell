@@ -256,6 +256,26 @@ void test_ms_parser(ms_test test)
 	test_free(&tSplit);
 }
 
+void test_ms_find_binary(ms_test test)
+{
+	t_split tSplit;
+	char *binary_path;
+
+	ft_test_clear_testbuff();
+	test_do_split(&test, &tSplit);
+	ms_init(tSplit.env);
+
+	// binary path
+	binary_path = ms_find_binary(test.binary_name);
+
+	// say if I find it
+	if (!ft_streq(test.binary_path, binary_path))
+	{
+		printf("ms env %d *******************************\n", test.nb_test);
+		ft_test_if_streq(test.binary_path, binary_path, "binary find");
+	}
+}
+
 /* all test passed ------------------------------------------------------------ */
 void new_passed_test()
 {
@@ -775,81 +795,81 @@ void new_passed_test()
 
 	/* test parser ------------------------------------------------------------ */
 
-		// : [ \n ]
-		test_ms_parser((ms_test) {
-		 .nb_test = 41,
-		 .env = "",
-		 .argv = "",
-		 .line = "\n",
-		 .ret_int = 0
-		});
+	// : [ \n ]
+	test_ms_parser((ms_test) {
+	 .nb_test = 41,
+	 .env = "",
+	 .argv = "",
+	 .line = "\n",
+	 .ret_int = 0
+	});
 
-		// : [ '' \n ]
-		test_ms_parser((ms_test) {
-		 .nb_test = 42,
-		 .env = "",
-		 .argv = "",
-		 .line = "'' \n",
-		 .ret_int = 0
-		});
+	// : [ '' \n ]
+	test_ms_parser((ms_test) {
+	 .nb_test = 42,
+	 .env = "",
+	 .argv = "",
+	 .line = "'' \n",
+	 .ret_int = 0
+	});
 
 
-		// : [ 'a' \n ]
-		test_ms_parser((ms_test) {
-		 .nb_test = 43,
-		 .env = "",
-		 .line = "'a' \n",
-		 .argv = "a",
-		 .ret_int = 0
-		});
+	// : [ 'a' \n ]
+	test_ms_parser((ms_test) {
+	 .nb_test = 43,
+	 .env = "",
+	 .line = "'a' \n",
+	 .argv = "a",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 44,
-		 .env = "",
-		 .line = "'a \"' \n",
-		 .argv = "a \"",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 44,
+	 .env = "",
+	 .line = "'a \"' \n",
+	 .argv = "a \"",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 45,
-		 .env = "",
-		 .line = "'a \"' a b c\n",
-		 .argv = "a \"|a|b|c",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 45,
+	 .env = "",
+	 .line = "'a \"' a b c\n",
+	 .argv = "a \"|a|b|c",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 46,
-		 .env = "",
-		 .line = "'a \"' a b c \"oooo\'\'\'\'\'\'\"\n",
-		 .argv = "a \"|a|b|c|oooo\'\'\'\'\'\'",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 46,
+	 .env = "",
+	 .line = "'a \"' a b c \"oooo\'\'\'\'\'\'\"\n",
+	 .argv = "a \"|a|b|c|oooo\'\'\'\'\'\'",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 47,
-		 .env = "",
-		 .line = "'a \"' a b c \"oooo\'\'\'\'\'\'\"\n",
-		 .argv = "a \"|a|b|c|oooo\'\'\'\'\'\'",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 47,
+	 .env = "",
+	 .line = "'a \"' a b c \"oooo\'\'\'\'\'\'\"\n",
+	 .argv = "a \"|a|b|c|oooo\'\'\'\'\'\'",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 48,
-		 .env = "TOTO=heyman",
-		 .line = "$TOTO",
-		 .argv = "heyman",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 48,
+	 .env = "TOTO=heyman",
+	 .line = "$TOTO",
+	 .argv = "heyman",
+	 .ret_int = 0
+	});
 
-		test_ms_parser((ms_test) {
-		 .nb_test = 49,
-		 .env = "TOTO=heyman tata=tata titi=titi",
-		 .line = "$TOTO $tata $titi",
-		 .argv = "heyman|tata|titi",
-		 .ret_int = 0
-		});
+	test_ms_parser((ms_test) {
+	 .nb_test = 49,
+	 .env = "TOTO=heyman tata=tata titi=titi",
+	 .line = "$TOTO $tata $titi",
+	 .argv = "heyman|tata|titi",
+	 .ret_int = 0
+	});
 
 	test_ms_parser((ms_test) {
 	 .nb_test = 50,
@@ -883,4 +903,35 @@ void new_passed_test()
 	 .ret_int = 0
 	});
 
+	/* test ms_find_binary ------------------------------------------------------------ */
+	// if no path
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 54,
+	 .env = "",
+	 .binary_name = "",
+	 .binary_path = NULL
+	});
+
+	// if has binary
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 55,
+	 .env = "PATH=/bin",
+	 .binary_name = "ls",
+	 .binary_path = "/bin/ls"
+	});
+
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 56,
+	 .env = "PATH=/bi:/Users/adpusel/code/42/minishell/prg",
+	 .binary_name = "pgr_print_name",
+	 .binary_path = "/Users/adpusel/code/42/minishell/prg/pgr_print_name"
+	});
+
+	// no binary
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 57,
+	 .env = "",
+	 .binary_name = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
+	 .binary_path = NULL
+	});
 }
