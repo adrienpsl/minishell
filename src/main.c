@@ -1,15 +1,6 @@
 #include <stdio.h>
 #include <minishell.h>
 
-void init(char **env)
-{
-	ms_env_copy(env);
-	signal(SIGINT, signal_minishell);
-	ms_loop();
-}
-
-
-
 void new_test_all();
 
 int main(int ac, char **av, char **env)

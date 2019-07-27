@@ -36,7 +36,7 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 
 int cd_move_directory(char *path, char *pwd, char *error_path)
 {
-	char *oldpath;
+	char *old_path;
 
 	if (!path || access(path, F_OK))
 	{
@@ -53,9 +53,9 @@ int cd_move_directory(char *path, char *pwd, char *error_path)
 		ft_printf("cd : not a directory: %s\n", error_path);
 		return (-1);
 	}
-	if (!(oldpath = ft_strjoinby("OLDPATH", "=", pwd, 0)))
+	if (!(old_path = ft_strjoinby("OLDPATH", "=", pwd, 0)))
 		return (ft_put_int(-1, MS_NO_MEMORY));
-	ms_env_add(&g_env, oldpath);
+	g_env = ms_env_add(g_env, old_path, FREE);
 	return (0);
 }
 

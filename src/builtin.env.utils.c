@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-int ms_env_copy(char **env)
-{
-	if (!(g_env = ft_strsplit_copy(env, 0)))
-		return (-1);
-	return (0);
-}
-
 int ms_func_search_var$name(char *current, void *p_searched)
 {
 	char *searched;
