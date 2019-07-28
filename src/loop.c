@@ -30,7 +30,7 @@ int ms_send_good(char **argv)
 	while (++i < 5)
 	{
 		if (ft_streq(func[i].name, argv[0]))
-			return (func[i].f(argv));
+			return (func[i].f(argv + 1));
 	}
 	return (ms_handle_binary(argv));
 }

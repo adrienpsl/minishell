@@ -21,7 +21,7 @@
 ** Setenv error ****************************************************************
 */
 # define MS_SETENV_SIZE_MAX "SIZE MAX var-name + value == 4095"
-# define MS_SETENV_FORBIDDEN_CHAR "one = & no $"
+# define MS_SETENV_FORBIDDEN_CHAR "supply one = or delete the $"
 
 /*
 ** Parser size *****************************************************************

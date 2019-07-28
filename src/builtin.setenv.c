@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// env source, la variable, le truc a set.
 char **ms_env_add(char **src, char *var, int do_free)
 {
 	char **new_env;
