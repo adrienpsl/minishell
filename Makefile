@@ -13,18 +13,19 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS =  binary.c \
-        builtin.cd.c \
-        builtin.echo.c \
-        builtin.env.c \
-        builtin.env.utils.c \
-        builtin.setenv.c \
-        builtin.unsetenv.c \
-        loop.c \
-        main.c \
-        parser.c \
-        parser.read_full_line.c \
-        utils.c
+SRCS = binary.c  \
+       builtin.cd.c \
+       builtin.echo.c \
+       builtin.env.c \
+       builtin.env.utils.c \
+       builtin.exit.c \
+       builtin.setenv.c \
+       builtin.unsetenv.c \
+       loop.c \
+       main.c \
+       parser.c \
+       parser.read_full_line.c \
+       utils.c \
 
 
 OBJS = $(addprefix $(OBJSDIR),$(SRCS:.c=.o))
