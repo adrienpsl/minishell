@@ -15,12 +15,12 @@
 // env source, la variable, le truc a set.
 char **ms_env_add(char **src, char *var, int do_free)
 {
-	char **env_tmp;
+	char **new_env;
 
-	if (!(env_tmp = ft_strsplit_copy(src, 0)))
+	if (!(new_env = ft_strsplit_copy(src, 0)))
 		return (NULL);
-	ms_env_remove(env_tmp, var);
-	return (ft_strsplit_add(src, var, do_free));
+	ms_env_remove(new_env, var);
+	return (ft_strsplit_add(new_env, var, do_free));
 }
 
 int ms_setenv(char **argv)
