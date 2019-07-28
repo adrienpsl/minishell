@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-void ft_echo(char **argv)
+int ms_echo(char **argv)
 {
 	int end;
 
@@ -25,4 +25,5 @@ void ft_echo(char **argv)
 	ft_strsplit_print(argv, ' ');
 	if (end)
 		ft_printf("\n");
+	return (0);
 }

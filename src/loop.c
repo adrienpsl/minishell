@@ -12,18 +12,27 @@
 
 #include "minishell.h"
 
-void ms_handle_builtin(char **argv)
+int ms_send_good(char **argv)
 {
-	//	if (ft_streq(*argv, "cd"))
-	//		ft_cd(argv + 1);
-	if (ft_streq(*argv, "exit"))
-		exit(EXIT_SUCCESS);
-	else if (ft_streq(*argv, "echo"))
-		ft_echo(argv + 1);
-	//	else if (ft_streq(*argv, "setenv"))
-	//		ft_setenv(argv + 1);
-	//	else if (ft_streq(*argv, "unsetenv"))
-	//		ms_unsetenv(0);
+	int i;
+	static t_n func[5] =
+	 {
+	  { "cd",       ms_cd },
+	  { "exit",     ms_exit },
+	  { "echo",     ms_echo },
+	  { "setenv",   ms_setenv },
+	  { "unsetenv", ms_unsetenv },
+	 };
+
+	if (!argv || !*argv)
+		return (0);
+	i = -1;
+	while (++i < 5)
+	{
+		if (ft_streq(func[i].name, argv[0]))
+			return (func[i].f(argv));
+	}
+	return (ms_handle_binary(argv));
 }
 
 void ms_loop()
@@ -33,14 +42,15 @@ void ms_loop()
 
 	real_env = NULL;
 	ft_printf("$> ");
-	while (ms_parser(&argv))
+	while (!ms_parser(&argv))
 	{
 		signal(SIGINT, signal_minishell);
 		if (*argv != NULL)
 		{
 			if (ft_streq(*argv, "env"))
-				ms_env(argv, &real_env);
-			// lance l'option
+				ms_send_good(ms_env(argv, &real_env));
+			else
+			ms_send_good(argv);
 		}
 		if (real_env)
 		{

@@ -12,20 +12,9 @@
 
 #include "minishell.h"
 
-int ms_env_remove(char **env, char *var)
+int ms_exit(char **argv)
 {
-	int i;
+	(void) argv;
 
-	i = ft_strsplit_search(env, ms_func_search_var$name, var);
-	if (i > -1)
-		ft_strsplit_remove(env, i);
-	return (0);
-}
-
-int ms_unsetenv(char **argv)
-{
-	if (ft_strsplit_count(argv) == 1)
-		return (ms_env_remove(g_env, argv[0]));
-	else
-		return (ft_put_int(-1, "env : "MS_BAD_NB_ARG));
+	exit(EXIT_SUCCESS);
 }

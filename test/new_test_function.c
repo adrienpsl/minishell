@@ -112,7 +112,7 @@ void test_ms_unsetenv(ms_test test)
 	g_env = ft_strsplit_copy(tSplit.env, 0);
 
 	// function tested
-	ret = ms_unsetenv(tSplit.argv, g_env);
+	ret = ms_unsetenv(tSplit.argv);
 
 	// print error
 	if (
