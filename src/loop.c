@@ -48,9 +48,9 @@ void ms_loop()
 		if (*argv != NULL)
 		{
 			if (ft_streq(*argv, "env"))
-				ms_send_good(ms_env(argv, &real_env));
+				ms_send_good(ms_env(argv + 1, &real_env));
 			else
-			ms_send_good(argv);
+				ms_send_good(argv);
 		}
 		if (real_env)
 		{

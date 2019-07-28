@@ -39,20 +39,24 @@ char *ms_find_binary(char *bin_name)
 	char **path_split;
 	int i;
 
-	i = 0;
-	if (!(path_split = ft_strsplit(ms_get_value("PATH"), ":")))
-		return (NULL);
 	path = NULL;
-	while (path_split[i])
+	path_split = ft_strsplit(ms_get_value("PATH"), ":");
+	if (path_split)
 	{
-		if (find_directory(path_split[i], bin_name))
+		i = 0;
+		while (path_split[i])
 		{
-			path = ft_strjoinby(path_split[i], "/", bin_name, 0);
-			break;
+			if (find_directory(path_split[i], bin_name))
+			{
+				path = ft_strjoinby(path_split[i], "/", bin_name, 0);
+				break;
+			}
+			i++;
 		}
-		i++;
+		ft_strsplit_free(&path_split);
 	}
-	ft_strsplit_free(&path_split);
+	if (path == NULL)
+		ft_printf(MS_NAME": command not found: %s\n", bin_name);
 	return (path);
 }
 
@@ -71,6 +75,7 @@ int ms_exec_binary(char *path, char **argv, char **env)
 	}
 	if (pid < 0)
 		return (ft_put_int(-1, MS_NAME" binary exec fail"));
+	free(path);
 	return (0);
 }
 
@@ -78,15 +83,16 @@ int ms_handle_binary(char **argv)
 {
 	char *path;
 	int size;
-	
+
 	size = ft_strsplit_count(argv);
 	if (size == 0)
-	    return (-1);
-	if (!(path = ms_find_binary(*argv)))
-	{
-		ft_printf(MS_NAME": command not found: %s\n", *argv);
 		return (-1);
-	}
+	if (argv[0][0] == '/')
+		path = ft_strdup(*argv);
+	else
+		path = ms_find_binary(*argv);
+	if (!path)
+		return (-1);
 	if (ms_test_file(MS_NAME, path))
 		return (-1);
 	return (ms_exec_binary(path, argv, g_env));
