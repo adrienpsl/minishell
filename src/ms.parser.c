@@ -36,7 +36,7 @@ static void transform_space(char *line)
 	}
 }
 
-static char **built_split_argv(char *line)
+static char **generate_argv(char *line)
 {
 	char **argv;
 	char **tmp;
@@ -53,6 +53,13 @@ static char **built_split_argv(char *line)
 	return (argv);
 }
 
+/**
+ * @brief
+ * @param line
+ * @param position
+ * @param key_length
+ * @return
+ */
 char *get_value(char *line, int position, int *key_length)
 {
 	char *key;
@@ -76,7 +83,7 @@ char *get_value(char *line, int position, int *key_length)
 	return (value ? value : "");
 }
 
-char *new_line(char *line)
+char *ms_replace_expansions(char *line)
 {
 	int position;
 	int key_end;
@@ -100,14 +107,15 @@ int ms_parser(char ***out)
 	char **argv;
 	char **tmp;
 
-	if (!(line = ms_parser_get_commands()))
-		return (-1);
-	if (!(argv = built_split_argv(line)))
+	if (
+	 !(line = ms_parser_get_commands())
+	 || !(argv = generate_argv(line))
+	 )
 		return (-1);
 	tmp = argv;
 	while (*tmp)
 	{
-		*tmp = new_line(*tmp);
+		*tmp = ms_replace_expansions(*tmp);
 		tmp++;
 	}
 	*out = argv;

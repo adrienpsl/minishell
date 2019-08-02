@@ -11,18 +11,23 @@
 # define OPTION_U 2
 
 # define MS_NAME "mimishell"
+# define MS_DEL "\177"
+# define MS_TAB "\t"
 
 
-// combien pese une sruct sur ptr ?
-// je peux mettre ca dand
 typedef struct func_name {
 	char *name;
 	int (*f)(char **arg);
 } t_n;
 
+
 int g_fd;
 char **g_env;
-char **g_tmp_env;
+
+/*
+**	canonical
+*/
+void ms_activate_canonical(int activate);
 
 /*
 **	cd
@@ -42,7 +47,7 @@ int ms_setenv(char **argv);
 //int ms_env_copy(char **env);
 char **ms_env(char **argv, char ***real_env);
 int ms_func_search_var$name(char *current, void *p_searched);
-char *ms_find_binary(char *bin_name);
+char *ms_find_binary(char *bin_name, int completion_mode);
 
 int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);

@@ -16,8 +16,8 @@
 #include "libft.h"
 
 # include "../src/binary.c"
-# include "../src/parser.c"
-# include "../src/parser.read_full_line.c"
+# include "../src/ms.parser.c"
+# include "../src/ms.parser.get_line.c"
 
 void test_get_env_variable(char *line, char **env, int end, char *res, int test)
 {

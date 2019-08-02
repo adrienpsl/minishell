@@ -10,41 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/termios.h>
 #include "minishell.h"
 
-static int ms_is_quote_match(char *command)
+void ms_activate_canonical(int activate)
 {
-	char current_quote;
+	static struct termios real_termios;
+	struct termios current_termios;
 
-	current_quote = 0;
-	while (*command)
+	if (activate == 1)
 	{
-		if (current_quote && *command == current_quote)
-			current_quote = 0;
-		else if (!current_quote && ft_strchr("'\"", *command) > -1)
-			current_quote = *command;
-		command++;
+		tcgetattr(STDIN_FILENO, &real_termios);
+		tcgetattr(STDIN_FILENO, &current_termios);
+		current_termios.c_lflag &= ~(ICANON | ECHO);
+		current_termios.c_cc[VMIN] = 1;
+		current_termios.c_cc[VTIME] = 0;
+		tcsetattr(STDIN_FILENO, TCSANOW, &current_termios);
 	}
-	return (current_quote ? 0 : 1);
-}
-
-char *ms_parser_get_commands()
-{
-	char *current_line;
-	char *tmp;
-	int ret;
-
-	if (get_next_line(g_fd, &current_line, 0) < 1)
-		return (NULL);
-	while (!ms_is_quote_match(current_line))
+	if (!activate)
 	{
-		ft_printf("quotes>  ");
-		tmp = current_line;
-		if ((ret = get_next_line(g_fd, &current_line, 0)) == -1)
-			return (NULL);
-		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
-												 FREE_FIRST | FREE_THIRD)))
-			return (NULL);
+		tcsetattr(STDIN_FILENO, TCSANOW, &real_termios);
 	}
-	return (current_line);
 }

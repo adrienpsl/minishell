@@ -44,7 +44,7 @@ void ms_loop()
 	ft_printf("$> ");
 	while (!ms_parser(&argv))
 	{
-		signal(SIGINT, signal_minishell);
+//		signal(SIGINT, signal_minishell);
 		if (*argv != NULL)
 		{
 			if (ft_streq(*argv, "env"))

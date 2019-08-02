@@ -255,7 +255,7 @@ void test_ms_find_binary(ms_test test)
 	g_env = ft_strsplit_copy(tSplit.env, 0);
 
 	// binary path
-	binary_path = ms_find_binary(test.binary_name);
+	binary_path = ms_find_binary(test.binary_name, 0);
 
 	// say if I find it
 	if (!ft_streq(test.binary_path, binary_path))
