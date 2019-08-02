@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-// here I need to call the completion stuff 
-
 char *handle_input(char buff[3], char *line)
 {
 	char *find;
@@ -22,22 +20,23 @@ char *handle_input(char buff[3], char *line)
 	{
 		line[ft_strlen(line) - 1] = 0;
 		ft_putstr_fd("\b \b", 1);
-		return (line);
 	}
 	else if (ft_streq(MS_TAB, buff))
 	{
-		printf("\n %s \n", line);
 		find = ms_find_binary(line, 1);
 		if (find)
-			printf("%s \n", find);
-		return (line);
+		{
+			ft_putstr_fd(find + ft_strlen(line), 1);
+			free(line);
+			return (find);
+		}
 	}
 	else if (!buff[1])
 	{
 		ft_putstr_fd(buff, 2);
 		return (ft_strjoin(line, buff, FREE_FIRST));
 	}
-	return line;
+	return (line);
 }
 
 char *get_line()
@@ -54,6 +53,7 @@ char *get_line()
 		if (!(line = handle_input(buff, line)))
 			return (NULL);
 	}
+	line[ft_strlen(line) - 1] = 0;
 	return (line);
 }
 

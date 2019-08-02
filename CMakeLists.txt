@@ -18,7 +18,7 @@ add_library(minishell_lib STATIC
         src/ms.parser.c
         src/builtin.cd.c
         src/builtin.echo.c
-        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/ms.parser.get_line.c src/builtin.exit.c src/ms.canonical.c src/ms.termcaps.c)
+        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/ms.parser.get_line.c src/builtin.exit.c src/ms.canonical.c src/ms.termcaps.c src/ms.path.utils.c)
 
 target_include_directories(minishell_lib PUBLIC includes)
 

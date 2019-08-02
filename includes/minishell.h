@@ -47,7 +47,7 @@ int ms_setenv(char **argv);
 //int ms_env_copy(char **env);
 char **ms_env(char **argv, char ***real_env);
 int ms_func_search_var$name(char *current, void *p_searched);
-char *ms_find_binary(char *bin_name, int completion_mode);
+char *ms_find_binary(char *bin_name, int start_mode);
 
 int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);

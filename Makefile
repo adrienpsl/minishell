@@ -13,7 +13,7 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = binary.c  \
+SRCS = binary.c \
        builtin.cd.c \
        builtin.echo.c \
        builtin.env.c \
@@ -23,8 +23,10 @@ SRCS = binary.c  \
        builtin.unsetenv.c \
        loop.c \
        main.c \
-       parser.c \
-       parser.read_full_line.c \
+       ms.canonical.c \
+       ms.parser.c \
+       ms.parser.get_line.c \
+       ms.termcaps.c \
        utils.c \
 
 
