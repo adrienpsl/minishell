@@ -21,11 +21,11 @@ char **ms_env_opt_u(char **argv, char ***real_env)
 		ft_printf("env: option requires an argument -- %s\n", *argv + 1);
 		return (NULL);
 	}
-	if (!(tmp_env = ft_strsplit_copy(g_env, 0)))
+	if (!(tmp_env = ft_strsplit_copy(g_ms.env, 0)))
 		return ft_put_ptr(NULL, MS_NO_MEMORY);
 	ms_env_remove(tmp_env, argv[1]);
-	*real_env = g_env;
-	g_env = tmp_env;
+	*real_env = g_ms.env;
+	g_ms.env = tmp_env;
 	return (argv + 2);
 }
 
@@ -35,8 +35,8 @@ char **ms_env_opt_i(char **argv, char ***real_env)
 
 	if (!(tmp_env = ft_strsplit("", " ")))
 		return ft_put_ptr(NULL, MS_NO_MEMORY);
-	*real_env = g_env;
-	g_env = tmp_env;
+	*real_env = g_ms.env;
+	g_ms.env = tmp_env;
 	return (argv + 1);
 }
 
@@ -53,7 +53,7 @@ char **ms_env(char **argv, char ***real_env)
 	}
 	if (argv && !*argv)
 	{
-		ft_strsplit_print(g_env, '\n');
+		ft_strsplit_print(g_ms.env, '\n');
 		ft_printf("\n");
 		return (NULL);
 	}

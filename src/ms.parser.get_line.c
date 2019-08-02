@@ -49,7 +49,7 @@ char *get_line()
 	while (!ft_streq(buff, "\n"))
 	{
 		ft_bzero(buff, 2);
-		read(g_fd, buff, 2);
+		read(g_ms.fd, buff, 2);
 		if (!(line = handle_input(buff, line)))
 			return (NULL);
 	}

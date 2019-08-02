@@ -20,9 +20,14 @@ typedef struct func_name {
 	int (*f)(char **arg);
 } t_n;
 
+typedef struct minishell {
+	int fd;
+	int is_test;
+	char **env;
+} t_ms;
 
-int g_fd;
-char **g_env;
+t_ms g_ms;
+
 
 /*
 **	canonical

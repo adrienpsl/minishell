@@ -54,8 +54,8 @@ void ms_loop()
 		}
 		if (real_env)
 		{
-			ft_strsplit_free(&g_env);
-			g_env = real_env;
+			ft_strsplit_free(&g_ms.env);
+			g_ms.env = real_env;
 			real_env = NULL;
 		}
 		ft_strsplit_free(&argv);

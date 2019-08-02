@@ -38,7 +38,7 @@ int ms_setenv(char **argv)
 	if (!var)
 		return (ft_put_int(-1, MS_NO_MEMORY));
 	if (ft_strchr(var, '$') == -1 && ft_strnchr(var, '=') == 1)
-		g_env = ms_env_add(g_env, var, FREE);
+		g_ms.env = ms_env_add(g_ms.env, var, FREE);
 	else
 		ret = ft_put_int(-1, MS_SETENV_FORBIDDEN_CHAR);
 	free(var);

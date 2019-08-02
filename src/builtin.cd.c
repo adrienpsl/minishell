@@ -54,7 +54,7 @@ int cd_move_directory(char *path, char *pwd, char *error_path)
 	}
 	if (!(old_path = ft_strjoinby("OLDPATH", "=", pwd, 0)))
 		return (ft_put_int(-1, MS_NO_MEMORY));
-	g_env = ms_env_add(g_env, old_path, FREE);
+	g_ms.env = ms_env_add(g_ms.env, old_path, FREE);
 	return (0);
 }
 
