@@ -10,25 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/termios.h>
 #include "minishell.h"
 
-void ms_activate_canonical(int activate)
+void ms_set_raw()
 {
-	static struct termios real_termios;
-	struct termios current_termios;
+	struct termios termios;
 
-	if (activate == 1)
+	if (!g_ms.is_raw)
 	{
-		tcgetattr(STDIN_FILENO, &real_termios);
-		tcgetattr(STDIN_FILENO, &current_termios);
-		current_termios.c_lflag &= ~(ICANON | ECHO);
-		current_termios.c_cc[VMIN] = 1;
-		current_termios.c_cc[VTIME] = 0;
-		tcsetattr(STDIN_FILENO, TCSANOW, &current_termios);
-	}
-	if (!activate)
-	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &real_termios);
+		tcgetattr(STDIN_FILENO, &termios);
+		tcgetattr(STDIN_FILENO, &g_ms.termios);
+		termios.c_lflag &= ~(ICANON | ECHO);
+		termios.c_cc[VMIN] = 1;
+		termios.c_cc[VTIME] = 0;
+		tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 	}
 }

@@ -3,6 +3,7 @@
 
 # import "libft.h"
 # include <dirent.h>
+#include <sys/termios.h>
 
 #import "minishell.limit.h"
 #import "minishell.error.h"
@@ -23,6 +24,8 @@ typedef struct func_name {
 typedef struct minishell {
 	int fd;
 	int is_test;
+	struct termios termios;
+	int is_raw;
 	char **env;
 } t_ms;
 
@@ -32,12 +35,12 @@ t_ms g_ms;
 /*
 **	canonical
 */
-void ms_activate_canonical(int activate);
+void ms_set_raw();
 
 /*
 **	cd
 */
-
+char *ms_test_input_line();
 /*
 **	env
 */
@@ -58,7 +61,7 @@ int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);
 void ms_loop();
 
-char *ms_parser_get_commands();
+char *ms_get_new_line();
 
 int ms_handle_binary(char **argv);
 

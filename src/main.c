@@ -9,20 +9,15 @@ int main(int ac, char **av, char **env)
 	(void) av;
 	if (env == NULL)
 		return (EXIT_FAILURE);
-	g_ms.fd = 0;
-	//	printf("%ld \n", sizeof(char **) * 40000);
-	//	ms_init(env);
-
+	ft_bzero(&g_ms, sizeof(g_ms));
 	g_ms.env = ft_strsplit_copy(env, 0);
-//	ms_loop();
-	new_test_all();
 
-	//	ms_free(g_ms.env);
-	//	test_all(env);
 
-	//	ft_strsplit_free(&g_ms.env);
+	if (!g_ms.is_test)
+		ms_set_raw();
 
-	//	ms_loop();
-	//	ft_strsplit_free(&g_ms.env);
+	//	new_test_all();
+	ms_loop();
+
 	return (0);
 }

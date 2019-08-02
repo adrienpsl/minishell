@@ -107,10 +107,10 @@ int ms_parser(char ***out)
 	char **argv;
 	char **tmp;
 
-	if (
-	 !(line = ms_parser_get_commands())
-	 || !(argv = generate_argv(line))
-	 )
+	line = g_ms.is_test ?
+		   ms_test_input_line() :
+		   ms_get_new_line();
+	if (!(line) || !(argv = generate_argv(line)))
 		return (-1);
 	tmp = argv;
 	while (*tmp)

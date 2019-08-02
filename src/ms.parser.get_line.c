@@ -73,12 +73,32 @@ static int ms_is_quote_match(char *command)
 	return (current_quote ? 0 : 1);
 }
 
-char *ms_parser_get_commands()
+char *ms_test_input_line()
+{
+	char *current_line;
+	char *tmp;
+	int ret;
+
+	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
+		return (NULL);
+	while (!ms_is_quote_match(current_line))
+	{
+		ft_printf("quotes>  ");
+		tmp = current_line;
+		if ((ret = get_next_line(g_ms.fd, &current_line, 0)) == -1)
+			return (NULL);
+		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
+												 FREE_FIRST | FREE_THIRD)))
+			return (NULL);
+	}
+	return (current_line);
+}
+
+char *ms_get_new_line()
 {
 	char *current_line;
 	char *tmp;
 
-	ms_activate_canonical(1);
 	current_line = get_line();
 	while (!ms_is_quote_match(current_line))
 	{

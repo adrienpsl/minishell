@@ -1,4 +1,13 @@
 # todo 
+[] canonical activation
+2. les droits
+3. directory name
+1. les signaux
+4. testing all that
+   - test . et ..
+5. do bash test for all that
+
+
 
 ## les signaux
 

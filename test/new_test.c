@@ -17,6 +17,7 @@ void test_ms_cd(ms_test test);
 void new_test_all()
 {
 	g_test = 1;
+	g_ms.is_test = 1;
 	new_passed_test();
 }
 
