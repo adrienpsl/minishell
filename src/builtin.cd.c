@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include "minishell.h"
 
 void cd_print_path(char **argv, char *path_buffer, int i)

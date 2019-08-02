@@ -1,34 +1,24 @@
-# refaire completement tout avec les built in 
+# todo 
 
-# builtin 
--- echo     
--- exit
+## les signaux
 
-# fix 
-- error fork 
-- error execve
+## les droit avec path
 
+## la completion
 
-# toDo 
-- handle multiple argv with split ;
-- print where I am in the shell
+## ; for separate order 
 
-- I will do now the big test ? in shell or in c ?
+## the ~ with cd
 
-# test and find binary
+## better env error handling
 
-# set all toghether, how I set the env stuff
-- the main loop > 
-- the 
+## the directory name
 
-# set the canonical mode for terminal
-  - add into exit the output of that
-  - exit need to acces this global value
-  
-# better way to get the signal
+## the ""
 
-# add bonus version with function witch are allowed
+## the 1 single global env
 
-# I need to use the termcaps to set get the delete and move carret
-  this can be use after in my project, thos it's good ! 
+## the unit testing 
+
+## the end 2 end testing 
 

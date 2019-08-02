@@ -40,7 +40,8 @@ int ms_handle_binary(char **argv)
 	if (size == 0)
 		return (-1);
 	path = argv[0][0] == '/' ?
-		   ft_strdup(*argv) : ms_find_binary(*argv, 0);
+		   ft_strdup(*argv) :
+		   ms_find_binary(*argv, 0);
 	if (!path)
 		return (-1);
 	if (ms_test_file(MS_NAME, path))

@@ -14,8 +14,8 @@ int main(int ac, char **av, char **env)
 	//	ms_init(env);
 
 	g_env = ft_strsplit_copy(env, 0);
-	ms_loop();
-//	new_test_all();
+//	ms_loop();
+	new_test_all();
 
 	//	ms_free(g_ms.env);
 	//	test_all(env);
