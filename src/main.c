@@ -9,7 +9,7 @@ int main(int ac, char **av, char **env)
 	(void) av;
 	if (env == NULL)
 		return (EXIT_FAILURE);
-	ft_bzero(&g_ms, sizeof(g_ms));
+	ft_bzero(&g_ms, sizeof(t_ms));
 	g_ms.env = ft_strsplit_copy(env, 0);
 
 

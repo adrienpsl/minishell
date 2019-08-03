@@ -16,14 +16,14 @@ int ms_exec_binary(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
-	//	signal(SIGINT, signal_program);
+	signal(SIGINT, signal_program);
 	pid = fork();
 	if (pid == 0)
 		execve(path, argv, env);
 	if (pid > 0)
 	{
 		wait(&pid);
-		//		signal(SIGINT, signal_minishell);
+		signal(SIGINT, signal_minishell);
 	}
 	if (pid < 0)
 		return (ft_put_int(-1, MS_NAME" binary exec fail"));
