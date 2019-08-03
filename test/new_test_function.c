@@ -213,7 +213,6 @@ void test_ms_parser(ms_test test)
 {
 	// init
 	t_split tSplit;
-	int ret;
 
 
 	ft_test_clear_testbuff();
@@ -225,20 +224,16 @@ void test_ms_parser(ms_test test)
 	test_set_fd(test.line);
 
 	// function tested
-	char **argv;
-	ret = ms_parser(&argv);
+	char **argv = ms_parser();
 
 
 	// print error
 	if (
-	 ft_strsplit_cmp(tSplit.argv, argv) ||
-	 ret != test.ret_int
+	 ft_strsplit_cmp(tSplit.argv, argv)
 	 )
 	{
 		printf("ms env %d *******************************\n", test.nb_test);
 		ft_test_ifcmp_printsplit(tSplit.argv, argv, "new_env");
-		if (ret != test.ret_int)
-			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
 
 	// free

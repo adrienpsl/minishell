@@ -12,6 +12,46 @@
 
 #include "minishell.h"
 
+static int ms_is_quote_match(char *command)
+{
+	char current_quote;
+
+	if (!command)
+		return (1);
+	current_quote = 0;
+	while (*command)
+	{
+		if (current_quote && *command == current_quote)
+			current_quote = 0;
+		else if (!current_quote && ft_strchr("'\"", *command) > -1)
+			current_quote = *command;
+		command++;
+	}
+	return (current_quote ? 0 : 1);
+}
+
+char *ms_test_input_line()
+{
+	int		ret;
+	char	*current_line;
+	char	*tmp;
+
+	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
+		return (NULL);
+	while (!ms_is_quote_match(current_line))
+	{
+		ft_printf("quotes>  ");
+		tmp = current_line;
+		if ((ret = get_next_line(g_ms.fd, &current_line, 0)) == -1)
+			return (NULL);
+		if (ret
+			&& !(current_line = ft_strjoinby(tmp, "\n", current_line,
+											 FREE_FIRST | FREE_THIRD)))
+			return (NULL);
+	}
+	return (current_line);
+}
+
 char *handle_input(char buff[3], char *line)
 {
 	char *find;
@@ -42,12 +82,18 @@ char *handle_input(char buff[3], char *line)
 char *get_line()
 {
 	char *line;
-	char buff[3];
+	static char buff[3] = { 0 };
 
-	ft_bzero(buff, 3);
-	line = ft_strnew(0);
+	if (!(line = ft_strnew(0)))
+		return (NULL);
 	while (!ft_streq(buff, "\n"))
 	{
+		if (g_ms.ctrlc)
+		{
+			ft_str_free(&line);
+			line = ft_strdup(buff);
+			g_ms.ctrlc = 0;
+		}
 		ft_bzero(buff, 2);
 		read(g_ms.fd, buff, 2);
 		if (!(line = handle_input(buff, line)))
@@ -55,43 +101,6 @@ char *get_line()
 	}
 	line[ft_strlen(line) - 1] = 0;
 	return (line);
-}
-
-static int ms_is_quote_match(char *command)
-{
-	char current_quote;
-
-	current_quote = 0;
-	while (*command)
-	{
-		if (current_quote && *command == current_quote)
-			current_quote = 0;
-		else if (!current_quote && ft_strchr("'\"", *command) > -1)
-			current_quote = *command;
-		command++;
-	}
-	return (current_quote ? 0 : 1);
-}
-
-char *ms_test_input_line()
-{
-	char *current_line;
-	char *tmp;
-	int ret;
-
-	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
-		return (NULL);
-	while (!ms_is_quote_match(current_line))
-	{
-		ft_printf("quotes>  ");
-		tmp = current_line;
-		if ((ret = get_next_line(g_ms.fd, &current_line, 0)) == -1)
-			return (NULL);
-		if (ret && !(current_line = ft_strjoinby(tmp, "\n", current_line,
-												 FREE_FIRST | FREE_THIRD)))
-			return (NULL);
-	}
-	return (current_line);
 }
 
 char *ms_get_new_line()
@@ -105,7 +114,10 @@ char *ms_get_new_line()
 		ft_printf("quotes>  ");
 		tmp = current_line;
 		if (!(current_line = get_line()))
+		{
+			ft_str_free(&tmp);
 			return (NULL);
+		}
 		if (!(current_line = ft_strjoinby(tmp, "\n", current_line,
 										  FREE_FIRST | FREE_THIRD)))
 			return (NULL);

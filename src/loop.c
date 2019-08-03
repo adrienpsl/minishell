@@ -42,10 +42,11 @@ void ms_loop()
 
 	real_env = NULL;
 	ft_printf("$> ");
-	while (!ms_parser(&argv))
+	signal(SIGINT, signal_minishell);
+	while (42)
 	{
-		signal(SIGINT, signal_minishell);
-		if (*argv != NULL)
+		argv = ms_parser();
+		if (argv && *argv != NULL)
 		{
 			if (ft_streq(*argv, "env"))
 				ms_send_good(ms_env(argv + 1, &real_env));
@@ -58,7 +59,8 @@ void ms_loop()
 			g_ms.env = real_env;
 			real_env = NULL;
 		}
+		if (argv)
+			ft_printf("$> ");
 		ft_strsplit_free(&argv);
-		ft_printf("$> ");
 	}
 }

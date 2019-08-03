@@ -22,6 +22,7 @@ void signal_program(int t)
 void signal_minishell(int sign)
 {
 	(void) sign;
+	g_ms.ctrlc = 1;
 	ft_printf("\n$> ");
 }
 

@@ -27,6 +27,7 @@ typedef struct minishell {
 	struct termios termios;
 	int is_raw;
 	char **env;
+	int ctrlc;
 } t_ms;
 
 t_ms g_ms;
@@ -66,7 +67,7 @@ char *ms_get_new_line();
 int ms_handle_binary(char **argv);
 
 // parse
-int ms_parser(char ***out);
+char **ms_parser();
 
 //env
 int ms_setenv(char **argv);

@@ -101,7 +101,7 @@ char *ms_replace_expansions(char *line)
 	return (line);
 }
 
-int ms_parser(char ***out)
+char **ms_parser()
 {
 	char *line;
 	char **argv;
@@ -111,14 +111,13 @@ int ms_parser(char ***out)
 		   ms_test_input_line() :
 		   ms_get_new_line();
 	if (!(line) || !(argv = generate_argv(line)))
-		return (-1);
+		return (NULL);
 	tmp = argv;
 	while (*tmp)
 	{
 		*tmp = ms_replace_expansions(*tmp);
 		tmp++;
 	}
-	*out = argv;
 	free(line);
-	return (0);
+	return (argv);
 }
