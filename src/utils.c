@@ -19,11 +19,30 @@ void signal_program(int t)
 	ft_printf("\n");
 }
 
+void ms_print_prompt()
+{
+	char current_pwd[MS_SIZE_BUFFER_FULL];
+	char *home;
+	char *replace;
+
+	if (!getcwd(current_pwd, MS_SIZE_BUFFER_FULL - 1))
+		return ;
+	home = ms_get_value("HOME");
+	replace = ft_str_replace(current_pwd, home, "~", 0);
+	if (replace)
+	{
+		ft_printf("\n%s\n$> ", replace);
+		free(replace);
+	}
+}
+
 void signal_minishell(int sign)
 {
 	(void) sign;
 	g_ms.ctrlc = 1;
-	ft_printf("\n$> ");
+	ft_str_free(&g_ms.line);
+	ft_printf("\n");
+	ms_print_prompt();
 }
 
 int ms_put_in_buffer(char *buffer, char *str)
@@ -33,7 +52,6 @@ int ms_put_in_buffer(char *buffer, char *str)
 	ft_strcat(buffer, str);
 	return (0);
 }
-
 
 // will return stuff if execution, are trigger.
 int ms_test_file(char *builtin, char *path)

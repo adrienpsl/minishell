@@ -12,115 +12,69 @@
 
 #include "minishell.h"
 
-static int ms_is_quote_match(char *command)
-{
-	char current_quote;
-
-	if (!command)
-		return (1);
-	current_quote = 0;
-	while (*command)
-	{
-		if (current_quote && *command == current_quote)
-			current_quote = 0;
-		else if (!current_quote && ft_strchr("'\"", *command) > -1)
-			current_quote = *command;
-		command++;
-	}
-	return (current_quote ? 0 : 1);
-}
-
 char *ms_test_input_line()
 {
-	int		ret;
-	char	*current_line;
-	char	*tmp;
+	char *current_line;
 
 	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
 		return (NULL);
-	while (!ms_is_quote_match(current_line))
-	{
-		ft_printf("quotes>  ");
-		tmp = current_line;
-		if ((ret = get_next_line(g_ms.fd, &current_line, 0)) == -1)
-			return (NULL);
-		if (ret
-			&& !(current_line = ft_strjoinby(tmp, "\n", current_line,
-											 FREE_FIRST | FREE_THIRD)))
-			return (NULL);
-	}
 	return (current_line);
 }
 
-char *handle_input(char buff[3], char *line)
+void handle_input(char buff[3])
 {
 	char *find;
 
+	if (g_ms.line == NULL)
+		return;
 	if (ft_streq(MS_DEL, buff))
 	{
-		line[ft_strlen(line) - 1] = 0;
+		g_ms.line[ft_strlen(g_ms.line) - 1] = 0;
 		ft_putstr_fd("\b \b", 1);
 	}
 	else if (ft_streq(MS_TAB, buff))
 	{
-		find = ms_find_binary(line, 1);
+		find = ms_find_binary(g_ms.line, 1);
 		if (find)
 		{
-			ft_putstr_fd(find + ft_strlen(line), 1);
-			free(line);
-			return (find);
+			ft_putstr_fd(find + ft_strlen(g_ms.line), 1);
+			ft_str_free(&g_ms.line);
+			g_ms.line = find;
 		}
 	}
 	else if (!buff[1])
 	{
 		ft_putstr_fd(buff, 2);
-		return (ft_strjoin(line, buff, FREE_FIRST));
+		g_ms.line = ft_strjoin(g_ms.line, buff, FREE_FIRST);
 	}
-	return (line);
 }
 
-char *get_line()
+char *ms_get_line()
 {
-	char *line;
 	static char buff[3] = { 0 };
 
-	if (!(line = ft_strnew(0)))
-		return (NULL);
+	g_ms.line = ft_strnew(0);
+	if (g_ms.ctrlc)
+	{
+		if (buff[0] == '\n')
+		{
+			ft_printf("\n");
+			ms_print_prompt();
+		}
+		g_ms.ctrlc = 0;
+	}
+	ft_bzero(buff, 2);
 	while (!ft_streq(buff, "\n"))
 	{
-		if (g_ms.ctrlc)
-		{
-			ft_str_free(&line);
-			line = ft_strdup(buff);
-			g_ms.ctrlc = 0;
-		}
 		ft_bzero(buff, 2);
 		read(g_ms.fd, buff, 2);
-		if (!(line = handle_input(buff, line)))
-			return (NULL);
-	}
-	line[ft_strlen(line) - 1] = 0;
-	return (line);
-}
-
-char *ms_get_new_line()
-{
-	char *current_line;
-	char *tmp;
-
-	current_line = get_line();
-	while (!ms_is_quote_match(current_line))
-	{
-		ft_printf("quotes>  ");
-		tmp = current_line;
-		if (!(current_line = get_line()))
+		if (g_ms.ctrlc)
 		{
-			ft_str_free(&tmp);
+			ft_str_free(&g_ms.line);
 			return (NULL);
 		}
-		if (!(current_line = ft_strjoinby(tmp, "\n", current_line,
-										  FREE_FIRST | FREE_THIRD)))
-			return (NULL);
+		handle_input(buff);
 	}
-	return (current_line);
+	ft_strchrreplace(g_ms.line, "\n", 0);
+	return (g_ms.line);
 }

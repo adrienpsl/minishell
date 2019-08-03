@@ -53,13 +53,6 @@ static char **generate_argv(char *line)
 	return (argv);
 }
 
-/**
- * @brief
- * @param line
- * @param position
- * @param key_length
- * @return
- */
 char *get_value(char *line, int position, int *key_length)
 {
 	char *key;
@@ -109,7 +102,7 @@ char **ms_parser()
 
 	line = g_ms.is_test ?
 		   ms_test_input_line() :
-		   ms_get_new_line();
+		   ms_get_line();
 	if (!(line) || !(argv = generate_argv(line)))
 		return (NULL);
 	tmp = argv;

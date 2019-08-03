@@ -27,6 +27,7 @@ typedef struct minishell {
 	struct termios termios;
 	int is_raw;
 	char **env;
+	char *line;
 	int ctrlc;
 } t_ms;
 
@@ -37,6 +38,9 @@ t_ms g_ms;
 **	canonical
 */
 void ms_set_raw();
+
+void ms_print_prompt();
+
 
 /*
 **	cd
@@ -62,7 +66,7 @@ int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);
 void ms_loop();
 
-char *ms_get_new_line();
+char *ms_get_line();
 
 int ms_handle_binary(char **argv);
 

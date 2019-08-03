@@ -41,7 +41,7 @@ void ms_loop()
 	char **real_env;
 
 	real_env = NULL;
-	ft_printf("$> ");
+	ms_print_prompt();
 	signal(SIGINT, signal_minishell);
 	while (42)
 	{
@@ -60,7 +60,7 @@ void ms_loop()
 			real_env = NULL;
 		}
 		if (argv)
-			ft_printf("$> ");
+			ms_print_prompt();
 		ft_strsplit_free(&argv);
 	}
 }
