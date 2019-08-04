@@ -47,16 +47,12 @@ void ms_loop()
 		if (argv && *argv != NULL)
 		{
 			if (ft_streq(*argv, "env"))
-				ms_send_good(ms_env(argv + 1, &real_env));
+				ms_send_good(ms_env(argv + 1));
 			else
 				ms_send_good(argv);
 		}
-		if (real_env)
-		{
-			ft_strsplit_free(&g_ms.env);
-			g_ms.env = real_env;
-			real_env = NULL;
-		}
+		if (g_ms.env_tmp)
+			ft_strsplit_free(&g_ms.env_tmp);
 		if (argv)
 			ms_print_prompt();
 		ft_strsplit_free(&argv);

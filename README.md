@@ -1,7 +1,8 @@
 # todo 
 [x] canonical activation
 [X] Rights
-[X] 
+[ ] rewrite env 
+[ ] set up the ; mode 
 
 4. testing all that
    - test . et ..

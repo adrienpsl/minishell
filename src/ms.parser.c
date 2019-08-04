@@ -49,13 +49,13 @@ char **ms_parser()
 	line = g_ms.is_test ?
 		   ms_test_input_line() :
 		   ms_get_line();
-	while ((r.word_position = ft_strchrstr(line, "$~")) > -1)
+	while (line
+		   && (r.word_position = ft_strchrstr(line, "$~")) > -1)
 	{
 		delimit_expansion(line, &r);
-		if (!(line = ms_replace_expansion(line, &r)))
-			return (NULL);
+		line = ms_replace_expansion(line, &r);
 	}
 	commands_split = ft_strsplit(line, ";");
-	free(line);
+	ft_str_free(&line);
 	return (commands_split);
 }

@@ -17,6 +17,6 @@ int ms_exit(char **argv)
 	(void) argv;
 	if (!g_ms.is_test)
 		tcsetattr(STDIN_FILENO, TCSANOW, &g_ms.termios);
-	ft_strsplit_free(&g_ms.env);
+	ft_strsplit_free(ms_get_ptr_env());
 	exit(EXIT_SUCCESS);
 }

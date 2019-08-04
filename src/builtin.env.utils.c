@@ -12,6 +12,16 @@
 
 #include "minishell.h"
 
+char **ms_get_env()
+{
+	return (g_ms.env_tmp ? g_ms.env_tmp : g_ms.env);
+}
+
+char ***ms_get_ptr_env()
+{
+	return (g_ms.env_tmp ? &g_ms.env_tmp : &g_ms.env);
+}
+
 int ms_func_search_var$name(char *current, void *p_searched)
 {
 	char *searched;
@@ -27,13 +37,15 @@ int ms_func_search_var$name(char *current, void *p_searched)
 char *ms_get_value(char *key)
 {
 	int position;
+	char **env;
 
+	env = ms_get_env();
 	if (key && *key)
 	{
-		position = ft_strsplit_search(g_ms.env, ms_func_search_var$name, key);
+		position = ft_strsplit_search(env, ms_func_search_var$name, key);
 		if (position > -1)
 		{
-			return (g_ms.env[position] + ft_strchr(g_ms.env[position], '=') +
+			return (env[position] + ft_strchr(env[position], '=') +
 					1);
 		}
 	}

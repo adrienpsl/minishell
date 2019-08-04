@@ -10,7 +10,7 @@ int main(int ac, char **av, char **env)
 	if (env == NULL)
 		return (EXIT_FAILURE);
 	ft_bzero(&g_ms, sizeof(t_ms));
-	g_ms.env = ft_strsplit_copy(env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(env, 0);
 
 
 	g_ms.is_test = 1;

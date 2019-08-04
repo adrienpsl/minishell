@@ -55,16 +55,16 @@ void test_ms_init(ms_test test)
 	t_split s;
 	test_do_split(&test, &s);
 
-	g_ms.env = ft_strsplit(test.env, " ");
+	*ms_get_ptr_env() = ft_strsplit(test.env, " ");
 	// print error
-	if (ft_strsplit_cmp(g_ms.env, s.env))
+	if (ft_strsplit_cmp(ms_get_env(), s.env))
 	{
 		printf("Ms init %d \n", test.nb_test);
-		ft_test_ifcmp_printsplit(g_ms.env, s.env, NULL);
+		ft_test_ifcmp_printsplit(ms_get_env(), s.env, NULL);
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);;
+	ft_strsplit_free(ms_get_ptr_env());
 	test_free(&s);
 }
 
@@ -76,7 +76,7 @@ void test_ms_env_add(ms_test test)
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit(test.env, " ");
+	*ms_get_ptr_env() = ft_strsplit(test.env, " ");
 
 	// function tested
 	char **argv = tSplit.argv;
@@ -84,21 +84,21 @@ void test_ms_env_add(ms_test test)
 
 	// print error
 	if (
-	 ft_strsplit_cmp(tSplit.new_env, g_ms.env) ||
+	 ft_strsplit_cmp(tSplit.new_env, ms_get_env()) ||
 	 !ft_streq(test.print, g_test_buffer) ||
 	 ret != test.ret_int
 	 )
 	{
 		printf("ms_setenv %d ***************************\n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env, NULL);
+		ft_test_ifcmp_printsplit(tSplit.new_env, ms_get_env(), NULL);
 		ft_test_if_streq(test.print, g_test_buffer, NULL);
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);;
+	ft_strsplit_free(ms_get_ptr_env());;
 	test_free(&tSplit);
 }
 void test_ms_unsetenv(ms_test test)
@@ -109,28 +109,28 @@ void test_ms_unsetenv(ms_test test)
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 
 	// function tested
 	ret = ms_unsetenv(tSplit.argv);
 
 	// print error
 	if (
-	 ft_strsplit_cmp(tSplit.new_env, g_ms.env) ||
+	 ft_strsplit_cmp(tSplit.new_env, ms_get_env()) ||
 	 !ft_streq(test.print, g_test_buffer) ||
 	 ret != test.ret_int
 	 )
 	{
 		printf("ms env add %d \n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env, NULL);
+		ft_test_ifcmp_printsplit(tSplit.new_env, ms_get_env(), NULL);
 		ft_test_if_streq(test.print, g_test_buffer, NULL);
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);;
+	ft_strsplit_free(ms_get_ptr_env());;
 	test_free(&tSplit);
 }
 
@@ -142,29 +142,29 @@ void test_ms_env(ms_test test)
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 	char **real_env;
 
 	// function tested
 	real_env = NULL;
-	new_argv = ms_env(tSplit.argv, &real_env);
+	new_argv = ms_env(tSplit.argv);
 
 	// print error
 	if (
-	 ft_strsplit_cmp(tSplit.env_tmp, g_ms.env) ||
+	 ft_strsplit_cmp(tSplit.env_tmp, ms_get_env()) ||
 	 ft_strsplit_cmp(tSplit.argv_end, new_argv) ||
 	 !ft_streq(test.print, g_test_buffer)
 	 )
 	{
 		printf("ms env %d \n", test.nb_test);
 
-		ft_test_ifcmp_printsplit(tSplit.env_tmp, g_ms.env, NULL);
+		ft_test_ifcmp_printsplit(tSplit.env_tmp, ms_get_env(), NULL);
 		ft_test_ifcmp_printsplit(tSplit.argv_end, new_argv, NULL);
 		ft_test_if_streq(test.print, g_test_buffer, NULL);
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);
+	ft_strsplit_free(ms_get_ptr_env());
 	if (real_env)
 		ft_strsplit_free(&real_env);
 	test_free(&tSplit);
@@ -180,7 +180,7 @@ void test_ms_cd(ms_test test)
 	chdir(test.start_repository);
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 
 	// function tested
 	ret = ms_cd(tSplit.argv);
@@ -191,7 +191,7 @@ void test_ms_cd(ms_test test)
 	if (
 	 !ft_streq(test.print, g_test_buffer) ||
 	 !ft_streq(test.end_repository, buffer_end_repository) ||
-	 ft_strsplit_cmp(tSplit.new_env, g_ms.env) ||
+	 ft_strsplit_cmp(tSplit.new_env, ms_get_env()) ||
 	 ret != test.ret_int
 	 )
 	{
@@ -199,13 +199,13 @@ void test_ms_cd(ms_test test)
 		ft_test_if_streq(test.end_repository, buffer_end_repository,
 						 "end_repo");
 		ft_test_if_streq(test.print, g_test_buffer, "print");
-		ft_test_ifcmp_printsplit(tSplit.new_env, g_ms.env, "new_env");
+		ft_test_ifcmp_printsplit(tSplit.new_env, ms_get_env(), "new_env");
 		if (ret != test.ret_int)
 			printf("ret diff %d // %d \n", test.ret_int, ret);
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);
+	ft_strsplit_free(ms_get_ptr_env());
 	test_free(&tSplit);
 }
 
@@ -214,12 +214,11 @@ void test_ms_parser(ms_test test)
 	// init
 	t_split tSplit;
 
-
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
 	ft_strsplit_free(&tSplit.argv);
 	tSplit.argv = ft_strsplit(test.argv, "|");
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 
 	test_set_fd(test.line);
 
@@ -237,7 +236,7 @@ void test_ms_parser(ms_test test)
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);
+	ft_strsplit_free(ms_get_ptr_env());
 	test_free(&tSplit);
 }
 
@@ -248,7 +247,7 @@ void test_ms_find_binary(ms_test test)
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 
 	// binary path
 	binary_path = ms_find_binary(test.binary_name, 0);
@@ -268,7 +267,7 @@ void test_ms_handle_binary(ms_test test)
 
 	ft_test_clear_testbuff();
 	test_do_split(&test, &tSplit);
-	g_ms.env = ft_strsplit_copy(tSplit.env, 0);
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
 
 	ret = ms_handle_binary(tSplit.argv);
 
@@ -285,7 +284,7 @@ void test_ms_handle_binary(ms_test test)
 	}
 
 	// free
-	ft_strsplit_free(&g_ms.env);;
+	ft_strsplit_free(ms_get_ptr_env());;
 	test_free(&tSplit);
 }
 

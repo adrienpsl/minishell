@@ -32,7 +32,10 @@ void cd_print_path(char **argv, char *path_buffer, int i)
 			ft_printf("%s\n", path_buffer);
 	}
 }
-
+/*
+**	pay attention at the last line, the getter return one *** and do * at
+**	the ptr
+*/
 int cd_move_directory(char *path, char *pwd, char *error_path)
 {
 	char *old_path;
@@ -54,7 +57,7 @@ int cd_move_directory(char *path, char *pwd, char *error_path)
 	}
 	if (!(old_path = ft_strjoinby("OLDPATH", "=", pwd, 0)))
 		return (ft_put_int(-1, MS_NO_MEMORY));
-	g_ms.env = ms_env_add(g_ms.env, old_path, FREE);
+	*ms_get_ptr_env() = ms_env_add(ms_get_env(), old_path, FREE);
 	return (0);
 }
 

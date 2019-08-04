@@ -27,6 +27,7 @@ typedef struct minishell {
 	struct termios termios;
 	int is_raw;
 	char **env;
+	char **env_tmp;
 	char *line;
 	int ctrlc;
 } t_ms;
@@ -54,11 +55,17 @@ int ms_env_remove(char **env, char *var);
 char *ms_get_value(char *key);
 int ms_exit(char **argv);
 
+/*
+**	utils env
+*/
+char **ms_get_env();
+char ***ms_get_ptr_env();
+
 // env
 int ms_echo(char **argv);
 int ms_setenv(char **argv);
 //int ms_env_copy(char **env);
-char **ms_env(char **argv, char ***real_env);
+char **ms_env(char **argv);
 int ms_func_search_var$name(char *current, void *p_searched);
 char *ms_find_binary(char *bin_name, int start_mode);
 
