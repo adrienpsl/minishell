@@ -13,11 +13,13 @@ int main(int ac, char **av, char **env)
 	g_ms.env = ft_strsplit_copy(env, 0);
 
 
-	if (!g_ms.is_test)
-		ms_set_raw();
+	g_ms.is_test = 1;
+	new_test_all();
 
-	//	new_test_all();
-	ms_loop();
+
+	//	if (!g_ms.is_test)
+	//		ms_set_raw();
+	//	ms_loop();
 
 	return (0);
 }

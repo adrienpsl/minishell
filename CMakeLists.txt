@@ -18,7 +18,7 @@ add_library(minishell_lib STATIC
         src/ms.parser.c
         src/builtin.cd.c
         src/builtin.echo.c
-        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/ms.parser.get_line.c src/builtin.exit.c src/ms.canonical.c src/ms.path.utils.c)
+        src/utils.c src/builtin.setenv.c src/builtin.unsetenv.c src/loop.c src/ms.parser.get_line.c src/builtin.exit.c src/ms.canonical.c src/ms.path.utils.c src/parser.h)
 
 target_include_directories(minishell_lib PUBLIC includes)
 
@@ -27,7 +27,7 @@ add_executable(
         src/main.c
 #        test/test_main.c
 #        test/test_function.c
-        includes/minishell.limit.h includes/minishell.limit.h includes/minishell.error.h test/new_test.c test/test.h test/new_test_function.c)
+        includes/minishell.limit.h includes/minishell.limit.h includes/minishell.error.h test/test.c test/test.h test/test_function.c)
 
 
 

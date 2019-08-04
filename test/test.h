@@ -28,6 +28,9 @@ typedef struct full_test
 	char *end_repository;
 	char *line;
 
+	char *expansion_line;
+	char *new_expansion_line;
+
 	char *binary_name;
 	char *binary_path;
 

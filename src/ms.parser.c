@@ -11,106 +11,51 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 
-/*
-**	replace all the space inside good ' ' by \02
-*/
-static void transform_space(char *line)
+static void delimit_expansion(char *line, t_r *r)
 {
-	int start;
-	int end;
-
-	while (*line)
-	{
-		if ((start = ft_strchrstr(line, "\'\"")) > -1)
-		{
-			line += start;
-			end = ft_strchr(line + 1, line[0]) + 1;
-			ft_strchrnreplace(line, " \t", '\2', end);
-			line[0] = ' ';
-			line[end] = ' ';
-			line += end;
-			continue;
-		}
-		line++;
-	}
-}
-
-static char **generate_argv(char *line)
-{
-	char **argv;
-	char **tmp;
-
-	transform_space(line);
-	if (!(argv = ft_strsplit(line, " ")))
-		return (ft_put_ptr(NULL, MS_NO_MEMORY));
-	tmp = argv;
-	while (*tmp)
-	{
-		ft_strchrreplace(*tmp, "\2", ' ');
-		tmp++;
-	}
-	return (argv);
-}
-
-char *get_value(char *line, int position, int *key_length)
-{
-	char *key;
-	char *value;
-
-	if (line[position] == '~')
-	{
-		*key_length = 1;
-		key = ft_strdup("$HOME");
-	}
+	r->word = line + r->word_position;
+	if (r->word[0] == '~')
+		r->word_end = 1;
 	else
-	{
-		*key_length = ft_strchr(line + position, ' ');
-		*key_length == -1 ? *key_length = ft_strlen(line + position) : 0;
-		key = ft_strndup(line + position, *key_length);
-	}
-	if (!key)
-		return (NULL);
-	value = ms_get_value(key + 1);
-	free(key);
-	return (value ? value : "");
+		r->word_end =
+		 ((r->word_end = ft_strchr(r->word, ' ')) == NOT_FIND) ?
+		 ft_strlen(r->word) : r->word_end;
+	r->word_separator = r->word[r->word_end];
+	r->word[r->word_end] = '\0';
 }
 
-char *ms_replace_expansions(char *line)
+static char *ms_replace_expansion(char *line, t_r *r)
 {
-	int position;
-	int key_end;
-	char *value;
-
-	while ((position = ft_strchrstr(line, "$~")) > -1)
-	{
-		if (!(value = get_value(line, position, &key_end)))
-			return (NULL);
-		line[position] = 0;
-		if (!(line = ft_strjoinby(line, value, line + position + key_end,
-								  FREE_FIRST)))
-			return (NULL);
-	}
+	r->env_value = (ft_streq(r->word, "~")) ?
+				   ms_get_value("HOME") :
+				   ms_get_value(r->word + (r->word[0] == '$' ? 1 : 0));
+	if (!r->env_value)
+		r->env_value = "";
+	r->word[0] = '\0';
+	r->word[r->word_end] = r->word_separator;
+	line = ft_strjoin(line, ft_strjoin(r->env_value, r->word + r->word_end, 0),
+					  FREE_FIRST);
 	return (line);
 }
 
 char **ms_parser()
 {
 	char *line;
-	char **argv;
-	char **tmp;
+	char **commands_split;
+	t_r r;
 
 	line = g_ms.is_test ?
 		   ms_test_input_line() :
 		   ms_get_line();
-	if (!(line) || !(argv = generate_argv(line)))
-		return (NULL);
-	tmp = argv;
-	while (*tmp)
+	while ((r.word_position = ft_strchrstr(line, "$~")) > -1)
 	{
-		*tmp = ms_replace_expansions(*tmp);
-		tmp++;
+		delimit_expansion(line, &r);
+		if (!(line = ms_replace_expansion(line, &r)))
+			return (NULL);
 	}
+	commands_split = ft_strsplit(line, ";");
 	free(line);
-	return (argv);
+	return (commands_split);
 }

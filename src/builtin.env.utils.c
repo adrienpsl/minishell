@@ -28,14 +28,16 @@ char *ms_get_value(char *key)
 {
 	int position;
 
-	if (key)
+	if (key && *key)
 	{
 		position = ft_strsplit_search(g_ms.env, ms_func_search_var$name, key);
 		if (position > -1)
 		{
-			return (g_ms.env[position] + ft_strchr(g_ms.env[position], '=') + 1);
+			return (g_ms.env[position] + ft_strchr(g_ms.env[position], '=') +
+					1);
 		}
 	}
-	ft_printf("The env variable : %s is no set.\n", key);
+	if (key && *key)
+		ft_printf("The env variable : %s is no set.\n", key);
 	return (NULL);
 }
