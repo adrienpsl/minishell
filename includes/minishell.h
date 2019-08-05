@@ -71,14 +71,14 @@ char *ms_find_binary(char *bin_name, int start_mode);
 
 int ms_test_file(char *builtin, char *path);
 void signal_minishell(int sign);
-void ms_loop();
+void ms_command_loop();
 
 char *ms_get_line();
 
 int ms_handle_binary(char **argv);
 
 // parse
-char **ms_parser();
+char **ms_get_commands();
 
 //env
 int ms_setenv(char **argv);

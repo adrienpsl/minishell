@@ -41,7 +41,7 @@ static char *ms_replace_expansion(char *line, t_r *r)
 	return (line);
 }
 
-char **ms_parser()
+char **ms_get_commands()
 {
 	char *line;
 	char **commands_split;

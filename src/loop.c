@@ -35,24 +35,41 @@ int ms_send_good(char **argv)
 	return (ms_handle_binary(argv));
 }
 
-void ms_loop()
+static void ms_argv_loop(char *command)
 {
 	char **argv;
 
+	argv = ft_strsplit(command, " ");
+	if (argv && argv[0])
+	{
+		if (ft_streq(argv[0], "env"))
+			ms_send_good(ms_env(argv + 1));
+		else
+			ms_send_good(argv);
+		g_ms.env_tmp ? ft_strsplit_free(&g_ms.env_tmp) : 0;
+	}
+	ft_strsplit_free(&argv);
+}
+
+void ms_command_loop()
+{
+	int i;
+	char **commands_split;
+
+	ms_print_prompt();
 	while (42)
 	{
-		argv = ms_parser();
-		if (argv && *argv != NULL)
+		i = 0;
+		if (!(commands_split = ms_get_commands()))
+			return;
+		while (commands_split[i])
 		{
-			if (ft_streq(*argv, "env"))
-				ms_send_good(ms_env(argv + 1));
-			else
-				ms_send_good(argv);
+			if (i)
+				ft_putstr_fd("\n", 1);
+			ms_argv_loop(commands_split[i]);
+			i++;
 		}
-		if (g_ms.env_tmp)
-			ft_strsplit_free(&g_ms.env_tmp);
-		if (argv)
-			ms_print_prompt();
-		ft_strsplit_free(&argv);
+		ft_strsplit_free(&commands_split);
+		ms_print_prompt();
 	}
 }

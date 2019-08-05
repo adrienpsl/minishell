@@ -271,7 +271,7 @@ void test_ms_parser(ms_test test)
 	test_set_fd(test.expansion_line);
 
 	// function tested
-	char **test_command_split = ms_parser();
+	char **test_command_split = ms_get_commands();
 
 	// print error
 	if (

@@ -12,14 +12,12 @@ int main(int ac, char **av, char **env)
 	ft_bzero(&g_ms, sizeof(t_ms));
 	*ms_get_ptr_env() = ft_strsplit_copy(env, 0);
 
-
-	g_ms.is_test = 1;
-	new_test_all();
-
-
-	//	if (!g_ms.is_test)
-	//		ms_set_raw();
-	//	ms_loop();
+	//	g_ms.is_test = 1;
+	//	new_test_all();
+	signal(SIGINT, signal_minishell);
+	if (!g_ms.is_test)
+		ms_set_raw();
+	ms_command_loop();
 
 	return (0);
 }
