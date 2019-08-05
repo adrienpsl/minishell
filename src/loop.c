@@ -38,9 +38,7 @@ int ms_send_good(char **argv)
 void ms_loop()
 {
 	char **argv;
-	char **real_env;
 
-	real_env = NULL;
 	while (42)
 	{
 		argv = ms_parser();

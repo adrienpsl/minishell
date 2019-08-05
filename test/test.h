@@ -29,7 +29,7 @@ typedef struct full_test
 	char *line;
 
 	char *expansion_line;
-	char *new_expansion_line;
+	char *command_split;
 
 	char *binary_name;
 	char *binary_path;

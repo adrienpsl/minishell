@@ -1,12 +1,8 @@
 #include <libft.h>
 #include <minishell.h>
 #include "test.h"
-
-#include <libft.h>
-#include <minishell.h>
 #include <fcntl.h>
 #include <sys/stat.h>
-#include "test.h"
 
 /* test utils ------------------------------------------------------------ */
 void test_free(t_split *split)
@@ -24,6 +20,8 @@ void test_free(t_split *split)
 void test_do_split(ms_test *test, t_split *split)
 {
 	ft_bzero(split, sizeof(t_split));
+	ft_bzero(&g_ms, sizeof(t_ms));
+	g_ms.is_test = 1;
 	if (test->env)
 		split->env = ft_strsplit(test->env, " ");
 	if (test->argv)
@@ -101,6 +99,7 @@ void test_ms_env_add(ms_test test)
 	ft_strsplit_free(ms_get_ptr_env());;
 	test_free(&tSplit);
 }
+
 void test_ms_unsetenv(ms_test test)
 {
 	// init
@@ -209,37 +208,6 @@ void test_ms_cd(ms_test test)
 	test_free(&tSplit);
 }
 
-void test_ms_parser(ms_test test)
-{
-	// init
-	t_split tSplit;
-
-	ft_test_clear_testbuff();
-	test_do_split(&test, &tSplit);
-	ft_strsplit_free(&tSplit.argv);
-	tSplit.argv = ft_strsplit(test.argv, "|");
-	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
-
-	test_set_fd(test.line);
-
-	// function tested
-	char **argv = ms_parser();
-
-
-	// print error
-	if (
-	 ft_strsplit_cmp(tSplit.argv, argv)
-	 )
-	{
-		printf("ms env %d *******************************\n", test.nb_test);
-		ft_test_ifcmp_printsplit(tSplit.argv, argv, "new_env");
-	}
-
-	// free
-	ft_strsplit_free(ms_get_ptr_env());
-	test_free(&tSplit);
-}
-
 void test_ms_find_binary(ms_test test)
 {
 	t_split tSplit;
@@ -288,8 +256,40 @@ void test_ms_handle_binary(ms_test test)
 	test_free(&tSplit);
 }
 
+void test_ms_parser(ms_test test)
+{
+	// init
+	t_split tSplit;
+
+	ft_test_clear_testbuff();
+	test_do_split(&test, &tSplit);
+	char **command_split = ft_strsplit(test.command_split, ";");
+
+	*ms_get_ptr_env() = ft_strsplit_copy(tSplit.env, 0);
+
+	// write in my file the expansion
+	test_set_fd(test.expansion_line);
+
+	// function tested
+	char **test_command_split = ms_parser();
+
+	// print error
+	if (
+	 ft_strsplit_cmp(command_split, test_command_split)
+	 )
+	{
+		printf("ms env %d *******************************\n", test.nb_test);
+		ft_test_ifcmp_printsplit(command_split, test_command_split, "command parser");
+	}
+
+	//	// free
+	//	ft_strsplit_free(&ms_get_env());
+	//	ft_str_free(&new_line);
+	test_free(&tSplit);
+}
+
 /* all test passed ------------------------------------------------------------ */
-void new_passed_test()
+void ms_passed_test()
 {
 	test_ms_init((ms_test) {
 	 .env = "toto=titi"
@@ -658,150 +658,384 @@ void new_passed_test()
 	 .print = "",
 	 .ret_int = 0
 	});
-
-	// : [ .. ]
-	test_ms_cd((ms_test) {
-	 .nb_test = 34,
-	 .argv = "..",
-	 .start_repository = "/Users/adpusel",
-	 .env = "",
-	 .new_env = "OLDPATH=/Users/adpusel",
-	 .end_repository = "/Users",
-	 .print = "",
-	 .ret_int = 0
-	});
-
-	// : [ .././adpusel ]
-	test_ms_cd((ms_test) {
-	 .nb_test = 35,
-	 .argv = ".././adpusel",
-	 .start_repository = "/Users/adpusel",
-	 .env = "",
-	 .new_env = "OLDPATH=/Users/adpusel",
-	 .end_repository = "/Users/adpusel",
-	 .print = "",
-	 .ret_int = 0
-	});
-
-
-	// : [  ] file not exist
-	test_ms_cd((ms_test) {
-	 .nb_test = 36,
-	 .argv = "../asoeuth",
-	 .start_repository = "/Users/adpusel",
-	 .end_repository = "/Users/adpusel",
-	 .env = "",
-	 .new_env = "",
-	 .print = "cd: no such file or directory: ../asoeuth\n",
-	 .ret_int = -1
-	});
-
-
-	// : [ file ] no access
-	chdir("/Users/adpusel");
-	mkdir("test-cd-000", 0);
-
-	test_ms_cd((ms_test) {
-	 .nb_test = 37,
-	 .argv = "test-cd-000",
-	 .start_repository = "/Users/adpusel",
-	 .end_repository = "/Users/adpusel",
-	 .env = "",
-	 .new_env = "",
-	 .print = "cd: permission denied: test-cd-000\n",
-	 .ret_int = -1
-	});
-
-
-	// : [ file file ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	test_ms_cd((ms_test) {
-	 .nb_test = 38,
-	 .argv = "test-cd-1 test-cd-2",
-	 .start_repository = "/Users/adpusel/test-cd-1/dir_1",
-	 .end_repository = "/Users/adpusel/test-cd-2/dir_1",
-	 .env = "HOME=/Users/adpusel",
-	 .new_env = "HOME=/Users/adpusel OLDPATH=/Users/adpusel/test-cd-1/dir_1",
-	 .print = "~/test-cd-2/dir_1\n",
-	 .ret_int = 0
-	});
-
-
-	// : [ file no-exist ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	test_ms_cd((ms_test) {
-	 .nb_test = 39,
-	 .argv = "test-cd-1 test-cd-",
-	 .start_repository = "/Users/adpusel/test-cd-1/dir_1",
-	 .end_repository = "/Users/adpusel/test-cd-1/dir_1",
-	 .env = "HOME=/Users/adpusel",
-	 .new_env = "HOME=/Users/adpusel",
-	 .print = "cd: no such file or directory: /Users/adpusel/test-cd-/dir_1\n",
-	 .ret_int = -1
-	});
-
-	// : [ file no-access ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	mkdir("test-cd-1/dir_2", 0777);
-	mkdir("test-cd-2/dir_2", 0000);
-
-	test_ms_cd((ms_test) {
-	 .nb_test = 40,
-	 .argv = "test-cd-1 test-cd-2",
-	 .start_repository = "/Users/adpusel/test-cd-1/dir_2",
-	 .end_repository = "/Users/adpusel/test-cd-1/dir_2",
-	 .env = "",
-	 .new_env = "",
-	 .print = "cd: permission denied: /Users/adpusel/test-cd-2/dir_2\n",
-	 .ret_int = -1
-	});
-
-	// : [ file .. ]
-	chdir("/Users/adpusel");
-
-	mkdir("test-cd-1", 0777);
-	mkdir("test-cd-2", 0777);
-
-	mkdir("test-cd-1/dir_1", 0777);
-	mkdir("test-cd-2/dir_1", 0777);
-
-	mkdir("test-cd-1/dir_2", 0777);
-	mkdir("test-cd-2/dir_2", 0000);
-
-	test_ms_cd((ms_test) {
-	 .nb_test = 40,
-	 .argv = "/Users/adpusel ..",
-	 .start_repository = "/Users/adpusel/test-cd-1/dir_2",
-	 .end_repository = "/Users/adpusel/test-cd-1/dir_2",
-	 .env = "",
-	 .new_env = "",
-	 .print = "cd: no such file or directory: ../test-cd-1/dir_2\n",
-	 .ret_int = -1
-	});
+//
+//	// : [ .. ]
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 34,
+//	 .argv = "..",
+//	 .start_repository = "/Users/adpusel",
+//	 .env = "",
+//	 .new_env = "OLDPATH=/Users/adpusel",
+//	 .end_repository = "/Users",
+//	 .print = "",
+//	 .ret_int = 0
+//	});
+//
+//	// : [ .././adpusel ]
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 35,
+//	 .argv = ".././adpusel",
+//	 .start_repository = "/Users/adpusel",
+//	 .env = "",
+//	 .new_env = "OLDPATH=/Users/adpusel",
+//	 .end_repository = "/Users/adpusel",
+//	 .print = "",
+//	 .ret_int = 0
+//	});
+//
+//
+//	// : [  ] file not exist
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 36,
+//	 .argv = "../asoeuth",
+//	 .start_repository = "/Users/adpusel",
+//	 .end_repository = "/Users/adpusel",
+//	 .env = "",
+//	 .new_env = "",
+//	 .print = "cd: no such file or directory: ../asoeuth\n",
+//	 .ret_int = -1
+//	});
+//
+//
+//	// : [ file ] no access
+//	chdir("/Users/adpusel");
+//	mkdir("test-cd-000", 0);
+//
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 37,
+//	 .argv = "test-cd-000",
+//	 .start_repository = "/Users/adpusel",
+//	 .end_repository = "/Users/adpusel",
+//	 .env = "",
+//	 .new_env = "",
+//	 .print = "cd: permission denied: test-cd-000\n",
+//	 .ret_int = -1
+//	});
+//
+//
+//	// : [ file file ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 38,
+//	 .argv = "test-cd-1 test-cd-2",
+//	 .start_repository = "/Users/adpusel/test-cd-1/dir_1",
+//	 .end_repository = "/Users/adpusel/test-cd-2/dir_1",
+//	 .env = "HOME=/Users/adpusel",
+//	 .new_env = "HOME=/Users/adpusel OLDPATH=/Users/adpusel/test-cd-1/dir_1",
+//	 .print = "~/test-cd-2/dir_1\n",
+//	 .ret_int = 0
+//	});
+//
+//
+//	// : [ file no-exist ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 39,
+//	 .argv = "test-cd-1 test-cd-",
+//	 .start_repository = "/Users/adpusel/test-cd-1/dir_1",
+//	 .end_repository = "/Users/adpusel/test-cd-1/dir_1",
+//	 .env = "HOME=/Users/adpusel",
+//	 .new_env = "HOME=/Users/adpusel",
+//	 .print = "cd: no such file or directory: /Users/adpusel/test-cd-/dir_1\n",
+//	 .ret_int = -1
+//	});
+//
+//	// : [ file no-access ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	mkdir("test-cd-1/dir_2", 0777);
+//	mkdir("test-cd-2/dir_2", 0000);
+//
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 40,
+//	 .argv = "test-cd-1 test-cd-2",
+//	 .start_repository = "/Users/adpusel/test-cd-1/dir_2",
+//	 .end_repository = "/Users/adpusel/test-cd-1/dir_2",
+//	 .env = "",
+//	 .new_env = "",
+//	 .print = "cd: permission denied: /Users/adpusel/test-cd-2/dir_2\n",
+//	 .ret_int = -1
+//	});
+//
+//	// : [ file .. ]
+//	chdir("/Users/adpusel");
+//
+//	mkdir("test-cd-1", 0777);
+//	mkdir("test-cd-2", 0777);
+//
+//	mkdir("test-cd-1/dir_1", 0777);
+//	mkdir("test-cd-2/dir_1", 0777);
+//
+//	mkdir("test-cd-1/dir_2", 0777);
+//	mkdir("test-cd-2/dir_2", 0000);
+//
+//	test_ms_cd((ms_test) {
+//	 .nb_test = 40,
+//	 .argv = "/Users/adpusel ..",
+//	 .start_repository = "/Users/adpusel/test-cd-1/dir_2",
+//	 .end_repository = "/Users/adpusel/test-cd-1/dir_2",
+//	 .env = "",
+//	 .new_env = "",
+//	 .print = "cd: no such file or directory: ../test-cd-1/dir_2\n",
+//	 .ret_int = -1
+//	});
 
 	/* test parser ------------------------------------------------------------ */
 
+	// test is with no value
+	test_ms_parser((ms_test) {
+	 .nb_test = 63,
+	 .expansion_line = "",
+	 .command_split = "",
+	 .env = ""
+	});
+
+	// test with ~ at start
+	test_ms_parser((ms_test) {
+	 .nb_test = 64,
+	 .expansion_line = "~",
+	 .command_split = "toto",
+	 .env = "HOME=toto"
+	});
+
+	// test with ~ at middle
+	test_ms_parser((ms_test) {
+	 .nb_test = 65,
+	 .expansion_line = "titi ~ tata",
+	 .command_split = "titi toto tata",
+	 .env = "HOME=toto SUPER=hola"
+	});
+
+	// test with ~ at the end
+	test_ms_parser((ms_test) {
+	 .nb_test = 66,
+	 .expansion_line = "titi tata ~",
+	 .command_split = "titi tata toto",
+	 .env = "HOME=toto SUPER=hola"
+	});
+
+	// test with ~ and no home
+	test_ms_parser((ms_test) {
+	 .nb_test = 67,
+	 .expansion_line = "titi tata ~",
+	 .command_split = "titi tata ",
+	 .env = "SUPER=hola"
+	});
+
+	// test with ~ and no home
+	test_ms_parser((ms_test) {
+	 .nb_test = 68,
+	 .expansion_line = "~ titi tata ~",
+	 .command_split = " titi tata ",
+	 .env = "SUPER=hola"
+	});
+
+	// test with ~ and no home
+	test_ms_parser((ms_test) {
+	 .nb_test = 69,
+	 .expansion_line = "~ ~ ~ ~ ~ ~ ~ ~ ~~ ~ ~ ~ ~ ~ ~ ~",
+	 .command_split = "               ",
+	 .env = "SUPER=hola"
+	});
+
+	// test with ~ and home
+	test_ms_parser((ms_test) {
+	 .nb_test = 70,
+	 .expansion_line = "~ ~ ~ ~ ~ ~ ~ ~ ~~ ~ ~ ~ ~ ~ ~ ~",
+	 .command_split = "TOTO TOTO TOTO TOTO TOTO TOTO TOTO TOTO TOTOTOTO TOTO TOTO TOTO TOTO TOTO TOTO TOTO",
+	 .env = "HOME=TOTO SUPER=hola"
+	});
+
+	// test with ~ and home
+	test_ms_parser((ms_test) {
+	 .nb_test = 70,
+	 .expansion_line = "~/desktop",
+	 .command_split = "adpusel/toto/desktop",
+	 .env = "HOME=adpusel/toto SUPER=hola"
+	});
+
+
+	// test with $
+	test_ms_parser((ms_test) {
+	 .nb_test = 71,
+	 .expansion_line = "$",
+	 .command_split = "",
+	 .env = "SUPER=hola"
+	});
+
+	// test with $
+	test_ms_parser((ms_test) {
+	 .nb_test = 72,
+	 .expansion_line = "$super",
+	 .command_split = "hola",
+	 .env = "super=hola"
+	});
+
+	// test with $
+	test_ms_parser((ms_test) {
+	 .nb_test = 73,
+	 .expansion_line = "tata $super toto",
+	 .command_split = "tata hola toto",
+	 .env = "super=hola"
+	});
+
+	// test with $
+	test_ms_parser((ms_test) {
+	 .nb_test = 74,
+	 .expansion_line = "tata toto $super",
+	 .command_split = "tata toto hola",
+	 .env = "super=hola"
+	});
+
+	// test with $
+	test_ms_parser((ms_test) {
+	 .nb_test = 75,
+	 .expansion_line = "tata toto $super",
+	 .command_split = "tata toto hola",
+	 .env = "super=hola"
+	});
+
+	test_ms_parser((ms_test) {
+	 .nb_test = 76,
+	 .expansion_line = "tata toto $~super",
+	 .command_split = "tata toto hola",
+	 .env = "~super=hola"
+	});
+
+	test_ms_parser((ms_test) {
+	 .nb_test = 77,
+	 .expansion_line = "tata toto ~$~super",
+	 .command_split = "tata toto tata/hola",
+	 .env = "~super=hola HOME=tata/"
+	});
+
+	test_ms_parser((ms_test) {
+	 .nb_test = 78,
+	 .expansion_line = "$tata $TOTO ~$~super $titi",
+	 .command_split = "tata heyman tata/hola titi",
+	 .env = "~super=hola HOME=tata/ TOTO=heyman tata=tata titi=titi"
+	});
+
+	// test with multiple commands
+	test_ms_parser((ms_test) {
+	 .nb_test = 79,
+	 .expansion_line = "$tata $TOTO ~$~super $titi ; $tata $TOTO ~$~super $titi",
+	 .command_split = "tata heyman tata/hola titi ; tata heyman tata/hola titi",
+	 .env = "~super=hola HOME=tata/ TOTO=heyman tata=tata titi=titi"
+	});
+
+
+	test_ms_parser((ms_test) {
+	 .nb_test = 80,
+	 .expansion_line = "; ; ; ;",
+	 .command_split = "; ; ; ;",
+	 .env = "~super=hola HOME=tata/ TOTO=heyman tata=tata titi=titi"
+	});
+
+
+
+	/* test ms_find_binary ------------------------------------------------------------ */
+	// if no path
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 54,
+	 .env = "",
+	 .binary_name = "",
+	 .binary_path = NULL
+	});
+
+	// if has binary
+	test_ms_find_binary((ms_test) {
+	 .nb_test = 55,
+	 .env = "PATH=/bin",
+	 .binary_name = "ls",
+	 .binary_path = "/bin/ls"
+	});
+
+//	test_ms_find_binary((ms_test) {
+//	 .nb_test = 56,
+//	 .env = "PATH=/bi:/Users/adpusel/code/42/minishell/prg",
+//	 .binary_name = "pgr_print_name",
+//	 .binary_path = "/Users/adpusel/code/42/minishell/prg/pgr_print_name"
+//	});
+//
+//	// no binary
+//	test_ms_find_binary((ms_test) {
+//	 .nb_test = 57,
+//	 .env = "",
+//	 .binary_name = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
+//	 .binary_path = NULL
+//	});
+//
+//	// if no argv
+//	test_ms_handle_binary((ms_test) {
+//	 .nb_test = 58,
+//	 .env = "",
+//	 .argv = "",
+//	 .print = "",
+//	 .ret_int = -1
+//	});
+//
+//	// if no path
+//	test_ms_handle_binary((ms_test) {
+//	 .nb_test = 59,
+//	 .env = "",
+//	 .argv = "ls",
+//	 .print = "The env variable : PATH is no set.\n"
+//			  "mimishell: command not found: ls\n",
+//	 .binary_path = NULL,
+//	 .ret_int = -1
+//	});
+//
+//	// if has binary
+//	test_ms_handle_binary((ms_test) {
+//	 .nb_test = 60,
+//	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
+//	 .argv = "ls",
+//	 .print = "",
+//	 .ret_int = 0
+//	});
+
+//	// has binary and arguments
+//	test_ms_handle_binary((ms_test) {
+//	 .nb_test = 61,
+//	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
+//	 .binary_name = "ls",
+//	 .argv = "ls a b",
+//	 .print = "",
+//	 .ret_int = 0
+//	});
+
+	// path and no binary
+	test_ms_handle_binary((ms_test) {
+	 .nb_test = 62,
+	 .env = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
+	 .argv = "ls /",
+	 .print = "mimishell: command not found: ls\n",
+	 .ret_int = -1
+	});
+}
+
+/* test quote, not used now
 	// : [ \n ]
 	test_ms_parser((ms_test) {
 	 .nb_test = 41,
@@ -861,132 +1095,4 @@ void new_passed_test()
 	 .argv = "a \"|a|b|c|oooo\'\'\'\'\'\'",
 	 .ret_int = 0
 	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 48,
-	 .env = "TOTO=heyman",
-	 .line = "$TOTO",
-	 .argv = "heyman",
-	 .ret_int = 0
-	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 49,
-	 .env = "TOTO=heyman tata=tata titi=titi",
-	 .line = "$TOTO $tata $titi",
-	 .argv = "heyman|tata|titi",
-	 .ret_int = 0
-	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 50,
-	 .env = "TOTO=heyman tata=tata titi=titi HOME=a",
-	 .line = "~",
-	 .argv = "a",
-	 .ret_int = 0
-	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 51,
-	 .env = "TOTO=heyman tata=tata titi=titi HOME=a",
-	 .line = "$TOTO $tata $titi ~ ~",
-	 .argv = "heyman|tata|titi|a|a",
-	 .ret_int = 0
-	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 52,
-	 .env = "TOTO=heyman tata=tata titi=titi HOME=a",
-	 .line = "faire du $TOTO -",
-	 .argv = "faire|du|heyman|-",
-	 .ret_int = 0
-	});
-
-	test_ms_parser((ms_test) {
-	 .nb_test = 53,
-	 .env = "TOTO=heyman tata=tata titi=titi HOME=home/toto",
-	 .line = "faire du $TOTO -- ~/et voila",
-	 .argv = "faire|du|heyman|--|home/toto/et|voila",
-	 .ret_int = 0
-	});
-
-	/* test ms_find_binary ------------------------------------------------------------ */
-	// if no path
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 54,
-	 .env = "",
-	 .binary_name = "",
-	 .binary_path = NULL
-	});
-
-	// if has binary
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 55,
-	 .env = "PATH=/bin",
-	 .binary_name = "ls",
-	 .binary_path = "/bin/ls"
-	});
-
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 56,
-	 .env = "PATH=/bi:/Users/adpusel/code/42/minishell/prg",
-	 .binary_name = "pgr_print_name",
-	 .binary_path = "/Users/adpusel/code/42/minishell/prg/pgr_print_name"
-	});
-
-	// no binary
-	test_ms_find_binary((ms_test) {
-	 .nb_test = 57,
-	 .env = "",
-	 .binary_name = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
-	 .binary_path = NULL
-	});
-
-	// if no argv
-	test_ms_handle_binary((ms_test) {
-	 .nb_test = 58,
-	 .env = "",
-	 .argv = "",
-	 .print = "",
-	 .ret_int = -1
-	});
-
-	// if no path
-	test_ms_handle_binary((ms_test) {
-	 .nb_test = 59,
-	 .env = "",
-	 .argv = "ls",
-	 .print = "The env variable : PATH is no set.\n"
-			  "mimishell: command not found: ls\n",
-	 .binary_path = NULL,
-	 .ret_int = -1
-	});
-
-	// if has binary
-	test_ms_handle_binary((ms_test) {
-	 .nb_test = 60,
-	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
-	 .argv = "ls",
-	 .print = "",
-	 .ret_int = 0
-	});
-
-	// has binary and arguments
-	test_ms_handle_binary((ms_test) {
-	 .nb_test = 61,
-	 .env = "PATH=/bin:/Users/adpusel/code/42/minishell/prg",
-	 .binary_name = "ls",
-	 .argv = "ls a b",
-	 .print = "",
-	 .ret_int = 0
-	});
-
-	// path and no binary
-	test_ms_handle_binary((ms_test) {
-	 .nb_test = 62,
-	 .env = "PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
-	 .argv = "ls /",
-	 .print = "mimishell: command not found: ls\n",
-	 .ret_int = -1
-	});
-}
+ * */

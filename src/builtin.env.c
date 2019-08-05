@@ -34,18 +34,16 @@ char **ms_env_opt_i(char **argv)
 
 char **ms_env(char **argv)
 {
-	if (!argv)
-		return (argv);
 	if (ft_streq("-u", argv[0]))
 		argv = ms_env_opt_u(argv);
 	else if (ft_streq("-i", argv[0]))
 		argv = ms_env_opt_i(argv);
-	else if (ft_str_search$start(argv[0], "-"))
+	else if (ft_str_search$start(argv[0], "-") > -1)
 	{
-		ft_printf("env: option requires an argument -- %s\n", *argv + 1);
+		ft_printf("env: option requires an argument -- %s\n", *argv);
 		return (NULL);
 	}
-	if (argv[0] == NULL )
+	if (argv && argv[0] == NULL )
 	{
 		ft_strsplit_print(ms_get_env(), '\n');
 		ft_printf("\n");

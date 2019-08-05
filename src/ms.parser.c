@@ -24,6 +24,7 @@ static void delimit_expansion(char *line, t_r *r)
 		 ft_strlen(r->word) : r->word_end;
 	r->word_separator = r->word[r->word_end];
 	r->word[r->word_end] = '\0';
+	r->word[r->word_end] = '\0';
 }
 
 static char *ms_replace_expansion(char *line, t_r *r)
@@ -55,7 +56,7 @@ char **ms_parser()
 		delimit_expansion(line, &r);
 		line = ms_replace_expansion(line, &r);
 	}
-	commands_split = ft_strsplit(line, ";");
+	commands_split = ft_strsplit(line ? line : "", ";");
 	ft_str_free(&line);
 	return (commands_split);
 }
