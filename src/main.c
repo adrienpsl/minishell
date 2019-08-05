@@ -14,7 +14,7 @@ int main(int ac, char **av, char **env)
 
 	//	g_ms.is_test = 1;
 	//	new_test_all();
-	signal(SIGINT, signal_minishell);
+	signal(SIGINT, ms_signal_minishell);
 	if (!g_ms.is_test)
 		ms_set_raw();
 	ms_command_loop();

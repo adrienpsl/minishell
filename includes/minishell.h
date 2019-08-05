@@ -14,6 +14,8 @@
 # define MS_NAME "mimishell"
 # define MS_DEL "\177"
 # define MS_TAB "\t"
+# define MS_BEFORE 1
+# define MS_AFTER 2
 
 
 typedef struct func_name {
@@ -36,11 +38,18 @@ t_ms g_ms;
 
 
 /*
+**	signal
+*/
+void ms_signal_minishell(int sign);
+void ms_signal_exec(int t);
+void ms_signal_minishell(int sign);
+
+/*
 **	canonical
 */
 void ms_set_raw();
 
-void ms_print_prompt();
+void ms_print_prompt(int new_line);
 
 
 /*
@@ -70,7 +79,7 @@ int ms_func_search_var$name(char *current, void *p_searched);
 char *ms_find_binary(char *bin_name, int start_mode);
 
 int ms_test_file(char *builtin, char *path);
-void signal_minishell(int sign);
+void ms_signal_minishell(int sign);
 void ms_command_loop();
 
 char *ms_get_line();
@@ -90,6 +99,6 @@ char **ms_env_add(char **src, char *var, int do_free);
 void test_all(char **env);
 
 // utils
-void signal_program(int t);
+void ms_signal_exec(int t);
 
 #endif //MINISHELL_MINISHELL_H

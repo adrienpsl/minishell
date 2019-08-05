@@ -12,15 +12,6 @@
 
 #include "minishell.h"
 
-char *ms_test_input_line()
-{
-	char *current_line;
-
-	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
-		return (NULL);
-	return (current_line);
-}
-
 void handle_input(char buff[3])
 {
 	char *find;
@@ -49,20 +40,23 @@ void handle_input(char buff[3])
 	}
 }
 
+static void get_line_handle_signal(char *buff)
+{
+	g_ms.ctrlc = 0;
+	ft_str_free(&g_ms.line);
+	g_ms.line = ft_strnew(0);
+	if (buff[0] == '\n')
+		ms_print_prompt(MS_BEFORE);
+	else
+		handle_input(buff);
+	ft_bzero(buff, 2);
+}
+
 char *ms_get_line()
 {
 	static char buff[3] = { 0 };
 
 	g_ms.line = ft_strnew(0);
-	if (g_ms.ctrlc)
-	{
-		if (buff[0] == '\n')
-		{
-			ft_printf("\n");
-			ms_print_prompt();
-		}
-		g_ms.ctrlc = 0;
-	}
 	ft_bzero(buff, 2);
 	while (!ft_streq(buff, "\n"))
 	{
@@ -70,8 +64,8 @@ char *ms_get_line()
 		read(g_ms.fd, buff, 2);
 		if (g_ms.ctrlc)
 		{
-			ft_str_free(&g_ms.line);
-			return (NULL);
+			get_line_handle_signal(buff);
+			continue;
 		}
 		handle_input(buff);
 	}

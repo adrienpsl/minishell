@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-int ms_exit(char **argv)
+char *ms_test_input_line()
 {
-	(void) argv;
-	if (!g_ms.is_test)
-		tcsetattr(STDIN_FILENO, TCSANOW, &g_ms.termios);
-	ft_strsplit_free(ms_get_ptr_env());
-	exit(EXIT_SUCCESS);
+	char *current_line;
+
+	if (get_next_line(g_ms.fd, &current_line, 0) < 1)
+		return (NULL);
+	return (current_line);
 }

@@ -12,11 +12,10 @@
 
 #include "minishell.h"
 
-int ms_exit(char **argv)
+void ms_signal_minishell(int sign)
 {
-	(void) argv;
-	if (!g_ms.is_test)
-		tcsetattr(STDIN_FILENO, TCSANOW, &g_ms.termios);
-	ft_strsplit_free(ms_get_ptr_env());
-	exit(EXIT_SUCCESS);
+	(void) sign;
+	g_ms.ctrlc = 1;
+	ft_printf("\n");
+	ms_print_prompt(0);
 }

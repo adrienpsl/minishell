@@ -56,7 +56,7 @@ void ms_command_loop()
 	int i;
 	char **commands_split;
 
-	ms_print_prompt();
+	ms_print_prompt(0);
 	while (42)
 	{
 		i = 0;
@@ -70,6 +70,6 @@ void ms_command_loop()
 			i++;
 		}
 		ft_strsplit_free(&commands_split);
-		ms_print_prompt();
+		ms_print_prompt(0);
 	}
 }

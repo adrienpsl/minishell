@@ -13,13 +13,8 @@
 #include <minishell.h>
 #include "libft.h"
 
-void signal_program(int t)
-{
-	(void) t;
-	ft_printf("\n");
-}
 
-void ms_print_prompt()
+void ms_print_prompt(int new_line)
 {
 	char current_pwd[MS_SIZE_BUFFER_FULL];
 	char *home;
@@ -31,18 +26,13 @@ void ms_print_prompt()
 	replace = ft_str_replace(current_pwd, home, "~", 0);
 	if (replace)
 	{
+		if (new_line == MS_BEFORE)
+		    ft_printf("\n");
 		ft_printf("\n%s\n$> ", replace);
 		free(replace);
+		if (new_line == MS_AFTER)
+			ft_printf("\n");
 	}
-}
-
-void signal_minishell(int sign)
-{
-	(void) sign;
-	g_ms.ctrlc = 1;
-	ft_str_free(&g_ms.line);
-	ft_printf("\n");
-	ms_print_prompt();
 }
 
 int ms_put_in_buffer(char *buffer, char *str)
