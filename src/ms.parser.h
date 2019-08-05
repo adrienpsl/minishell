@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_PARSER_H
-#define MINISHELL_PARSER_H
+#ifndef MINISHELL_MS_PARSER_H
+#define MINISHELL_MS_PARSER_H
 
 typedef struct	s_r
 {

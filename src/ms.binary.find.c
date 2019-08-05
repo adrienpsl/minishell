@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char *search_in_directory(char *path, char *bin_name, int start_mode)
+static char *search_in_directory(char *path, char *bin_name, int start_mode)
 {
 	DIR *dir;
 	struct dirent *dp;

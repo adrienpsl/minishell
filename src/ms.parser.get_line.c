@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void handle_input(char buff[3])
+static void handle_input(char buff[3])
 {
 	char *find;
 

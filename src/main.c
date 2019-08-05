@@ -3,6 +3,21 @@
 
 void new_test_all();
 
+void ms_activate_raw_mode()
+{
+	struct termios termios;
+
+	if (!g_ms.is_raw)
+	{
+		tcgetattr(STDIN_FILENO, &termios);
+		tcgetattr(STDIN_FILENO, &g_ms.termios);
+		termios.c_lflag &= ~(ICANON | ECHO);
+		termios.c_cc[VMIN] = 1;
+		termios.c_cc[VTIME] = 0;
+		tcsetattr(STDIN_FILENO, TCSANOW, &termios);
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
 	(void) ac;
@@ -16,7 +31,7 @@ int main(int ac, char **av, char **env)
 	//	new_test_all();
 	signal(SIGINT, ms_signal_minishell);
 	if (!g_ms.is_test)
-		ms_set_raw();
+		ms_activate_raw_mode();
 	ms_command_loop();
 
 	return (0);

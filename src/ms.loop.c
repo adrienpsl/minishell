@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int ms_send_good(char **argv)
+static int ms_send_good(char **argv)
 {
 	int i;
 	static t_n func[5] =
@@ -23,7 +23,6 @@ int ms_send_good(char **argv)
 	  { "setenv",   ms_setenv },
 	  { "unsetenv", ms_unsetenv },
 	 };
-
 	if (!argv || !*argv)
 		return (0);
 	i = -1;

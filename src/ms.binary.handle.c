@@ -12,42 +12,35 @@
 
 #include "minishell.h"
 
-char **ms_env_opt_u(char **argv)
+static int ms_exec_binary(char *path, char **argv, char **env)
 {
-	if (argv[1] == NULL)
-	{
-		ft_printf("env: option requires an argument -- %s\n", *argv + 1);
-		return (NULL);
-	}
-	if (!(g_ms.env_tmp = ft_strsplit_copy(ms_get_env(), 0)))
-		return ft_put_ptr(NULL, MS_NO_MEMORY);
-	ms_env_remove(g_ms.env_tmp, argv[1]);
-	return (argv + 2);
+	pid_t pid;
+
+	pid = fork();
+	if (pid == 0)
+		execve(path, argv, env);
+	if (pid > 0)
+		wait(&pid);
+	if (pid < 0)
+		return (ft_put_int(-1, MS_NAME" binary exec fail"));
+	free(path);
+	return (0);
 }
 
-char **ms_env_opt_i(char **argv)
+int ms_handle_binary(char **argv)
 {
-	if (!(g_ms.env_tmp = ft_strsplit("", " ")))
-		return ft_put_ptr(NULL, MS_NO_MEMORY);
-	return (argv + 1);
-}
+	char *path;
+	int size;
 
-char **ms_env(char **argv)
-{
-	if (ft_streq("-u", argv[0]))
-		argv = ms_env_opt_u(argv);
-	else if (ft_streq("-i", argv[0]))
-		argv = ms_env_opt_i(argv);
-	else if (ft_str_search$start(argv[0], "-") > -1)
-	{
-		ft_printf("env: option requires an argument -- %s\n", *argv);
-		return (NULL);
-	}
-	if (argv && argv[0] == NULL )
-	{
-		ft_strsplit_print(ms_get_env(), '\n');
-		ft_printf("\n");
-		return (NULL);
-	}
-	return (argv);
+	size = ft_strsplit_count(argv);
+	if (size == 0)
+		return (-1);
+	path = argv[0][0] == '/' ?
+		   ft_strdup(*argv) :
+		   ms_find_binary(*argv, 0);
+	if (!path)
+		return (-1);
+	if (ms_test_file(MS_NAME, path))
+		return (-1);
+	return (ms_exec_binary(path, argv, ms_get_env()));
 }

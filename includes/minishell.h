@@ -47,7 +47,7 @@ void ms_signal_minishell(int sign);
 /*
 **	canonical
 */
-void ms_set_raw();
+void ms_activate_raw_mode();
 
 void ms_print_prompt(int new_line);
 

@@ -33,7 +33,8 @@ int ms_setenv(char **argv)
 	if (size > 2 || size == 0)
 		return ft_put_int(-1, MS_BAD_NB_ARG);
 	var = (size == 2) ?
-		  ft_strjoinby(argv[0], "=", argv[1], 0) :
+		  ft_strjoinby(argv[0], "=", argv[1], 0)
+					  :
 		  ft_strdup(argv[0]);
 	if (!var)
 		return (ft_put_int(-1, MS_NO_MEMORY));
