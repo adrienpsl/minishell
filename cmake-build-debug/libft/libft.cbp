@@ -1,0 +1,678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="libft"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\libft\;CMake Files\libft\src\;CMake Files\libft\src\ft_array\;CMake Files\libft\src\ft_buffer\;CMake Files\libft\src\ft_errno\;CMake Files\libft\src\ft_io\;CMake Files\libft\src\ft_log\;CMake Files\libft\src\ft_mem\;CMake Files\libft\src\ft_printf\;CMake Files\libft\src\ft_s\;CMake Files\libft\src\ft_str\;CMake Files\libft\src\ft_strsplit\;CMake Files\libft\src\ft_test\;CMake Files\libft\tests\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/adpusel/code/42/minishell/cmake-build-debug/libft"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libft_run">
+				<Option output="/Users/adpusel/code/42/minishell/cmake-build-debug/libft/libft_run" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/adpusel/code/42/minishell/cmake-build-debug/libft"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_array/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_errno/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_io/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_log/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_mem/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_printf/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_s/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_str/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_test/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/tests/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 libft_run"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libft_run/fast">
+				<Option output="/Users/adpusel/code/42/minishell/cmake-build-debug/libft/libft_run" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/adpusel/code/42/minishell/cmake-build-debug/libft"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_array/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_errno/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_io/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_log/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_mem/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_printf/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_s/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_str/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_test/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/tests/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 libft_run/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libft">
+				<Option output="/Users/adpusel/code/42/minishell/cmake-build-debug/libft/liblibft.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/adpusel/code/42/minishell/cmake-build-debug/libft"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_array/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_errno/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_io/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_log/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_mem/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_printf/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_s/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_str/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_test/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/tests/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 libft"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libft/fast">
+				<Option output="/Users/adpusel/code/42/minishell/cmake-build-debug/libft/liblibft.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/adpusel/code/42/minishell/cmake-build-debug/libft"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_array/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_errno/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_io/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_log/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_mem/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_printf/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_s/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_str/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/src/ft_test/includes"/>
+					<Add directory="/Users/adpusel/code/42/minishell/libft/tests/includes"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 libft/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/Users/adpusel/code/42/minishell/cmake-build-debug/libft/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/main.c">
+			<Option target="libft_run"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.at.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.cmp.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.cmp_utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.copy.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.double_size.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.extract_by_func.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.free.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.free_func.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.func.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.func.utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.init.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.insert.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.next.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.prev.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.push.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.remove.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.remove_from.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.remove_func.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.slice.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.slice_and_remove.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.sort.utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.sort_bubble.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/ft_array.utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.at.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.bubble.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.cmp.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.copy.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.double_size.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.extract_by_func.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.free.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.func.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.init.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.prev.next.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.push.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.remove.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.remove_from.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.slice.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.slice_and_remove.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/ft_array.utils.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/tests/main.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/ft_buffer.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/tests/ft_buffer.main.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/tests/ft_buffer.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_errno/ft_errno.utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_errno/ft_perror.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_errno/ft_strerror.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/ft_atoi.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/ft_catch_options.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/ft_io.catch_options.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/ft_itoa.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/get_next_line.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/tests/ft_io.catch_options.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/tests/main.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_log/ft_log.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_log/tests/ft_log_test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_log/utlis.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_bzero.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memalloc.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memccpy.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memchr.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memcmp.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memcpy.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memdel.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memdup.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memmove.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memset.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/ft_memswap.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_pf.catch_format.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_pf.get_number.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_pf.get_str.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_pf.print.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_pf.utils.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/ft_printf.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_pf.catch_format.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_pf.get_nb.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_pf.get_str.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_pf.main.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_pf.print.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/tests/ft_printf.test.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/ft_s.add.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/ft_s.clear.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/ft_s.free.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/ft_s.init.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/tests/ft_s.add.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/tests/ft_s.clear.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/tests/ft_s.free.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/tests/ft_s.init.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/tests/main.test.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putchar.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putchar_fd.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putendl.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putendl_fd.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putnstr.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_putsteret.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str.add_buffer.c">
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str.char.modification.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str.char_helper_1.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str.char_helper_2.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str.free.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_str_replace.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strcat.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strchr.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strchrreplace.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strcmp.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strdup.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_streq.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strjoin.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strlcat.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strlen.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strnew.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/ft_strsub.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/str.ft_str_search.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_free_split.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_str_print_split.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_str_split_count.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.add.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.cmp.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.copy.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.func.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.remove.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/ft_strsplit.search.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_test/libft_utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/tests/utils.c">
+			<Option target="libft_run"/>
+			<Option target="libft"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_array/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_array\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_buffer/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_buffer\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_errno/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_errno\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_io/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_io\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_log/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_log\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_mem/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_mem\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_printf/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_printf\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_s/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_s\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_str/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_str\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_strsplit/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_strsplit\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/src/ft_test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\src\ft_test\"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/libft/tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\libft\tests\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
