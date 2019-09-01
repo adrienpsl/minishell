@@ -10,7 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_DEFINES
-#define MINISHELL_MINISHELL_DEFINES
+#include <ft_array.h>
 
-#endif
+
+void ms__env_remove(t_array *env, char *key)
+{
+	ftarray__remove_func(env, find)
+}
+
+
+
+
+//int ms__env_add(t_array *env, char *key, char *value, char *var)
+//{
+//
+//}

@@ -17,7 +17,7 @@
 #include <ft_mem.h>
 #include <ft_printf.h>
 
-static int find_variable(void *v_element, void *param)
+int find_variable(void *v_element, void *param)
 {
 	t_env_el *element;
 	char *key;
@@ -31,6 +31,7 @@ static int find_variable(void *v_element, void *param)
 	else
 		return (0);
 }
+
 
 char *ms__find_env_key(t_array *env, char *key)
 {

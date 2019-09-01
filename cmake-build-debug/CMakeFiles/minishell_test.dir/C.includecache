@@ -7,6 +7,10 @@
 #IncludeRegexTransform: 
 
 ../includes/minishell.prototypes.h
+ft_array.h
+-
+ft_s.h
+-
 
 ../includes/minishell.stuctures.h
 ft_array.h

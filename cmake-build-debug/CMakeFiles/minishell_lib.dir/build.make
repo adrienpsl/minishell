@@ -83,18 +83,18 @@ CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/adpusel/code/42/minishell/src/ft_ms.utils.c -o CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.s
 
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: CMakeFiles/minishell_lib.dir/flags.make
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../src/ft_ms.parse_env.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o   -c /Users/adpusel/code/42/minishell/src/ft_ms.parse_env.c
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: CMakeFiles/minishell_lib.dir/flags.make
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../src/ft_ms.env.parse.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o   -c /Users/adpusel/code/42/minishell/src/ft_ms.env.parse.c
 
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/adpusel/code/42/minishell/src/ft_ms.parse_env.c > CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.i
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/adpusel/code/42/minishell/src/ft_ms.env.parse.c > CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.i
 
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/adpusel/code/42/minishell/src/ft_ms.parse_env.c -o CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.s
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/adpusel/code/42/minishell/src/ft_ms.env.parse.c -o CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.s
 
 CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.push.c.o: CMakeFiles/minishell_lib.dir/flags.make
 CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.push.c.o: ../libft/src/ft_array/ft_array.push.c
@@ -1452,7 +1452,7 @@ CMakeFiles/minishell_lib.dir/libft/tests/utils.c.s: cmake_force
 minishell_lib_OBJECTS = \
 "CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o" \
 "CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o" \
-"CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o" \
+"CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o" \
 "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.push.c.o" \
 "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.insert.c.o" \
 "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.at.c.o" \
@@ -1563,7 +1563,7 @@ minishell_lib_EXTERNAL_OBJECTS =
 
 libminishell_lib.a: CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o
 libminishell_lib.a: CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o
-libminishell_lib.a: CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o
+libminishell_lib.a: CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o
 libminishell_lib.a: CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.push.c.o
 libminishell_lib.a: CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.insert.c.o
 libminishell_lib.a: CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.at.c.o

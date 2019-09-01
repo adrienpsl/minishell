@@ -605,17 +605,7 @@ CMakeFiles/minishell_lib.dir/libft/tests/utils.c.o
  ../libft/src/ft_str/includes/ft_str.h
  ../libft/src/ft_test/includes/libft.test.h
  /Users/adpusel/code/42/minishell/libft/tests/utils.c
-CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o
- ../includes/minishell.stuctures.h
- ../libft/includes/libft_define.h
- ../libft/src/ft_array/includes/ft_array.h
- ../libft/src/ft_buffer/includes/ft_buffer.h
- ../libft/src/ft_mem/includes/ft_mem.h
- ../libft/src/ft_printf/includes/ft_printf.h
- ../libft/src/ft_s/includes/ft_s.h
- ../libft/src/ft_str/includes/ft_str.h
- /Users/adpusel/code/42/minishell/src/ft_ms.env.utils.c
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o
  ../includes/minishell.stuctures.h
  ../libft/includes/libft.h
  ../libft/includes/libft_define.h
@@ -629,7 +619,17 @@ CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o
  ../libft/src/ft_s/includes/ft_s.h
  ../libft/src/ft_str/includes/ft_str.h
  ../libft/src/ft_strsplit/includes/ft_strsplit.h
- /Users/adpusel/code/42/minishell/src/ft_ms.parse_env.c
+ /Users/adpusel/code/42/minishell/src/ft_ms.env.parse.c
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o
+ ../includes/minishell.stuctures.h
+ ../libft/includes/libft_define.h
+ ../libft/src/ft_array/includes/ft_array.h
+ ../libft/src/ft_buffer/includes/ft_buffer.h
+ ../libft/src/ft_mem/includes/ft_mem.h
+ ../libft/src/ft_printf/includes/ft_printf.h
+ ../libft/src/ft_s/includes/ft_s.h
+ ../libft/src/ft_str/includes/ft_str.h
+ /Users/adpusel/code/42/minishell/src/ft_ms.env.utils.c
 CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o
  ../includes/minishell.prototypes.h
  ../includes/minishell.stuctures.h

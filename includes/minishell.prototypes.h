@@ -10,14 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_PROTOTYPES_H
-#define MINISHELL_MINISHELL_PROTOTYPES_H
+#ifndef MINISHELL_MINISHELL_PROTOTYPES
+#define MINISHELL_MINISHELL_PROTOTYPES
+
+#include <ft_array.h>
+#include <ft_s.h>
 
 /*
 **	Env handling ---------------------------------------------------------------
 */
 char **ms__convert_env(t_array *env, t_s *s);
 char *ms__find_env_key(t_array *env, char *key);
+int find_variable(void *v_element, void *param);
 
 /*
 **	Utils ----------------------------------------------------------------------

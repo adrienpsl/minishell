@@ -109,6 +109,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/adpusel/code/42/minishell/libft/src/ft_test/libft_utils.c" "/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libft/src/ft_test/libft_utils.c.o"
   "/Users/adpusel/code/42/minishell/libft/tests/utils.c" "/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libft/tests/utils.c.o"
   "/Users/adpusel/code/42/minishell/main.c" "/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/main.c.o"
+  "/Users/adpusel/code/42/minishell/src/ft_ms.env.add.c" "/Users/adpusel/code/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/ft_ms.env.add.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

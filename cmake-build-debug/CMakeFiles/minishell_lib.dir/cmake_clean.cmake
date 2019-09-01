@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o"
   "CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o"
-  "CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o"
+  "CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o"
   "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.push.c.o"
   "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.insert.c.o"
   "CMakeFiles/minishell_lib.dir/libft/src/ft_array/ft_array.at.c.o"

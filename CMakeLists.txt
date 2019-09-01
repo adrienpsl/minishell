@@ -14,7 +14,7 @@ include_directories(includes)
 # ------------------------------------------------------------------------------
 add_library(${PROJECT_NAME}_lib
         src/ft_ms.env.utils.c
-        src/ft_ms.utils.c src/ft_ms.parse_env.c)
+        src/ft_ms.utils.c src/ft_ms.env.parse.c)
 
 target_link_libraries(${PROJECT_NAME}_lib libft)
 
@@ -24,7 +24,7 @@ target_link_libraries(${PROJECT_NAME}_lib libft)
 add_executable(${PROJECT_NAME}
         main.c
 
-        )
+        src/ft_ms.env.add.c)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 

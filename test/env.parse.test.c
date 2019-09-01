@@ -288,12 +288,13 @@ void test_ms__parse_env()
 					log_test(13)
 			}
 
-
 			ft_strsplit_free(&split);
 			ftarray__free_func(&env, ms__func_free_env, NULL);
 			fts__free(&s);
 		}
 	}
+
+
 
 	g_test = 0;
 }

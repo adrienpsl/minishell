@@ -3634,6 +3634,60 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/main.c.s
 .PHONY : main.c.s
 
+src/ft_ms.env.add.o: src/ft_ms.env.add.c.o
+
+.PHONY : src/ft_ms.env.add.o
+
+# target to build an object file
+src/ft_ms.env.add.c.o:
+	$(MAKE) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/ft_ms.env.add.c.o
+.PHONY : src/ft_ms.env.add.c.o
+
+src/ft_ms.env.add.i: src/ft_ms.env.add.c.i
+
+.PHONY : src/ft_ms.env.add.i
+
+# target to preprocess a source file
+src/ft_ms.env.add.c.i:
+	$(MAKE) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/ft_ms.env.add.c.i
+.PHONY : src/ft_ms.env.add.c.i
+
+src/ft_ms.env.add.s: src/ft_ms.env.add.c.s
+
+.PHONY : src/ft_ms.env.add.s
+
+# target to generate assembly for a file
+src/ft_ms.env.add.c.s:
+	$(MAKE) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/ft_ms.env.add.c.s
+.PHONY : src/ft_ms.env.add.c.s
+
+src/ft_ms.env.parse.o: src/ft_ms.env.parse.c.o
+
+.PHONY : src/ft_ms.env.parse.o
+
+# target to build an object file
+src/ft_ms.env.parse.c.o:
+	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o
+.PHONY : src/ft_ms.env.parse.c.o
+
+src/ft_ms.env.parse.i: src/ft_ms.env.parse.c.i
+
+.PHONY : src/ft_ms.env.parse.i
+
+# target to preprocess a source file
+src/ft_ms.env.parse.c.i:
+	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.i
+.PHONY : src/ft_ms.env.parse.c.i
+
+src/ft_ms.env.parse.s: src/ft_ms.env.parse.c.s
+
+.PHONY : src/ft_ms.env.parse.s
+
+# target to generate assembly for a file
+src/ft_ms.env.parse.c.s:
+	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.s
+.PHONY : src/ft_ms.env.parse.c.s
+
 src/ft_ms.env.utils.o: src/ft_ms.env.utils.c.o
 
 .PHONY : src/ft_ms.env.utils.o
@@ -3660,33 +3714,6 @@ src/ft_ms.env.utils.s: src/ft_ms.env.utils.c.s
 src/ft_ms.env.utils.c.s:
 	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.s
 .PHONY : src/ft_ms.env.utils.c.s
-
-src/ft_ms.parse_env.o: src/ft_ms.parse_env.c.o
-
-.PHONY : src/ft_ms.parse_env.o
-
-# target to build an object file
-src/ft_ms.parse_env.c.o:
-	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o
-.PHONY : src/ft_ms.parse_env.c.o
-
-src/ft_ms.parse_env.i: src/ft_ms.parse_env.c.i
-
-.PHONY : src/ft_ms.parse_env.i
-
-# target to preprocess a source file
-src/ft_ms.parse_env.c.i:
-	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.i
-.PHONY : src/ft_ms.parse_env.c.i
-
-src/ft_ms.parse_env.s: src/ft_ms.parse_env.c.s
-
-.PHONY : src/ft_ms.parse_env.s
-
-# target to generate assembly for a file
-src/ft_ms.parse_env.c.s:
-	$(MAKE) -f CMakeFiles/minishell_lib.dir/build.make CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.s
-.PHONY : src/ft_ms.parse_env.c.s
 
 src/ft_ms.utils.o: src/ft_ms.utils.c.o
 
@@ -4097,12 +4124,15 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... src/ft_ms.env.add.o"
+	@echo "... src/ft_ms.env.add.i"
+	@echo "... src/ft_ms.env.add.s"
+	@echo "... src/ft_ms.env.parse.o"
+	@echo "... src/ft_ms.env.parse.i"
+	@echo "... src/ft_ms.env.parse.s"
 	@echo "... src/ft_ms.env.utils.o"
 	@echo "... src/ft_ms.env.utils.i"
 	@echo "... src/ft_ms.env.utils.s"
-	@echo "... src/ft_ms.parse_env.o"
-	@echo "... src/ft_ms.parse_env.i"
-	@echo "... src/ft_ms.parse_env.s"
 	@echo "... src/ft_ms.utils.o"
 	@echo "... src/ft_ms.utils.i"
 	@echo "... src/ft_ms.utils.s"

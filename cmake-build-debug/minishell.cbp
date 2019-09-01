@@ -1168,10 +1168,13 @@
 		<Unit filename="/Users/adpusel/code/42/minishell/main.c">
 			<Option target="minishell"/>
 		</Unit>
-		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.env.utils.c">
+		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.env.add.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.env.parse.c">
 			<Option target="minishell_lib"/>
 		</Unit>
-		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.parse_env.c">
+		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.env.utils.c">
 			<Option target="minishell_lib"/>
 		</Unit>
 		<Unit filename="/Users/adpusel/code/42/minishell/src/ft_ms.utils.c">

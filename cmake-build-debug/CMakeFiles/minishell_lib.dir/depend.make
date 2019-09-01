@@ -605,6 +605,21 @@ CMakeFiles/minishell_lib.dir/libft/tests/utils.c.o: ../libft/src/ft_str/includes
 CMakeFiles/minishell_lib.dir/libft/tests/utils.c.o: ../libft/src/ft_test/includes/libft.test.h
 CMakeFiles/minishell_lib.dir/libft/tests/utils.c.o: ../libft/tests/utils.c
 
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../includes/minishell.stuctures.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/includes/libft.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/includes/libft_define.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_array/includes/ft_array.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_buffer/includes/ft_buffer.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_errno/includes/ft_errno.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_io/includes/ft_io.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_log/includes/ft_log.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_mem/includes/ft_mem.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_printf/includes/ft_printf.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_s/includes/ft_s.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_str/includes/ft_str.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../libft/src/ft_strsplit/includes/ft_strsplit.h
+CMakeFiles/minishell_lib.dir/src/ft_ms.env.parse.c.o: ../src/ft_ms.env.parse.c
+
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../includes/minishell.stuctures.h
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../libft/includes/libft_define.h
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../libft/src/ft_array/includes/ft_array.h
@@ -614,21 +629,6 @@ CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../libft/src/ft_printf/inc
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../libft/src/ft_s/includes/ft_s.h
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../libft/src/ft_str/includes/ft_str.h
 CMakeFiles/minishell_lib.dir/src/ft_ms.env.utils.c.o: ../src/ft_ms.env.utils.c
-
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../includes/minishell.stuctures.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/includes/libft.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/includes/libft_define.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_array/includes/ft_array.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_buffer/includes/ft_buffer.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_errno/includes/ft_errno.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_io/includes/ft_io.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_log/includes/ft_log.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_mem/includes/ft_mem.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_printf/includes/ft_printf.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_s/includes/ft_s.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_str/includes/ft_str.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../libft/src/ft_strsplit/includes/ft_strsplit.h
-CMakeFiles/minishell_lib.dir/src/ft_ms.parse_env.c.o: ../src/ft_ms.parse_env.c
 
 CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o: ../includes/minishell.prototypes.h
 CMakeFiles/minishell_lib.dir/src/ft_ms.utils.c.o: ../includes/minishell.stuctures.h
