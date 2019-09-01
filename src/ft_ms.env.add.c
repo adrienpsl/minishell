@@ -11,11 +11,22 @@
 /* ************************************************************************** */
 
 #include <ft_array.h>
+#include <minishell.prototypes.h>
 
-
-void ms__env_remove(t_array *env, char *key)
+int ms__env_remove(t_array *env, char *key)
 {
-	ftarray__remove_func(env, find)
+	int index;
+
+	index = ftarray__find(env, find_variable, key);
+	if (
+		index > -1
+		)
+	{
+		ms__func_free_env(ftarray__at(env, index), NULL);
+		ftarray__remove(env, index);
+		return (0);
+	}
+	return (1);
 }
 
 

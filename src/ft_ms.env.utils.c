@@ -17,6 +17,16 @@
 #include <ft_mem.h>
 #include <ft_printf.h>
 
+int ms__print_env(void *p_el, void *param)
+{
+	t_env_el *el;
+
+	(void)param;
+	el = p_el;
+	ft_printf("%s=%s\n", el->key, el->value);
+	return (0);
+}
+
 int find_variable(void *v_element, void *param)
 {
 	t_env_el *element;
@@ -56,15 +66,13 @@ void build_variable(t_env_el *element, t_s *s)
 char **ms__convert_env(t_array *env, t_s *s)
 {
 	char **env_system;
-	char **ptr;
 	t_env_el *element;
 
 	if (
 		NULL == (env_system =
-					 ft_memalloc(sizeof(char **) + (env->length + 1)))
+					 ft_memalloc(sizeof(char **) * (env->length + 1)))
 		)
 		return (NULL);
-	ptr = env_system;
 	ftarray__set_start(env);
 	while (
 		(element = ftarray__next(env))
@@ -72,10 +80,10 @@ char **ms__convert_env(t_array *env, t_s *s)
 	{
 		build_variable(element, s);
 		if (
-			NULL == (*ptr = ft_strdup(s->data))
+			NULL == (*env_system = ft_strdup(s->data))
 			)
 			return (NULL);
-		ptr++;
+		env_system++;
 	}
-	return (env_system);
+	return (env_system - env->length);
 }

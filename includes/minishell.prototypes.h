@@ -22,10 +22,13 @@
 char **ms__convert_env(t_array *env, t_s *s);
 char *ms__find_env_key(t_array *env, char *key);
 int find_variable(void *v_element, void *param);
+int ms__env_remove(t_array *env, char *key);
 
 /*
 **	Utils ----------------------------------------------------------------------
 */
 void ms__func_free_env(void *element, void*param);
+int ms__print_env(void *p_el, void *param);
+
 
 #endif
