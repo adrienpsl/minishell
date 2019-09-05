@@ -17,6 +17,7 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.utils.c
         src/ft_ms.env.parse.c
         src/ft_ms.env.add.c
+        src/ft_parse.c
         )
 
 target_link_libraries(${PROJECT_NAME}_lib libft)
@@ -36,6 +37,6 @@ add_executable(${PROJECT_NAME}_test
 
         test/env.test.c
         test/main.test.c
-        )
+        test/ms.parser.test.c)
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 

@@ -13,10 +13,12 @@
 #include "libft.h"
 
 void test_ms__parse_env();
+void test_ms__parse_str();
 
 void test_all()
 {
-	test_ms__parse_env();
+//	test_ms__parse_env();
+	test_ms__parse_str();
 }
 
 int main(int ac, char **av)

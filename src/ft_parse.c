@@ -10,17 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.stuctures.h>
-#include "minishell.prototypes.h"
-#include "stdlib.h"
+#include "libft.h"
 
-int ms__func_free_env(void *element, void *param)
+/*
+ * I build the split
+ * I create an array of that split
+ * I copy the 2 element
+ * I clear the split mem
+ * */
+t_array *ms__parse_str(char *input, char *sep)
 {
-	t_env_el *el;
-	(void)param;
+	int size;
+	char **split;
+	t_array *a_parsed;
 
-	el = element;
-	free(el->value);
-	free(el->key);
-	return (0);
+	if (
+		NULL == (split = ft_strsplit(input, sep))
+		)
+		return (NULL);
+	size = ft_strsplit_count(split);
+	if (
+		NULL == (a_parsed = ftarray__init_data(split, size, sizeof(char **)))
+		)
+		return (NULL);
+	free(split);
+	return (a_parsed);
 }
