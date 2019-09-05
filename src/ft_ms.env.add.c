@@ -12,6 +12,9 @@
 
 #include <ft_array.h>
 #include <minishell.prototypes.h>
+#include <minishell.stuctures.h>
+#include <ft_str.h>
+#include <ft_printf.h>
 
 int ms__env_remove(t_array *env, char *key)
 {
@@ -26,13 +29,47 @@ int ms__env_remove(t_array *env, char *key)
 		ftarray__remove(env, index);
 		return (0);
 	}
-	return (1);
+	return (-1);
 }
 
 
+static int add_to_env(t_array *env, t_env_el *element)
+{
+	if (
+		NULL != element
+		)
+	{
+		ms__env_remove(env, element->key);
+		return (
+			ftarray__push(env, element)
+		);
+	}
+	else
+		return (
+			-1
+		);
+}
 
-
-//int ms__env_add(t_array *env, char *key, char *value, char *var)
-//{
-//
-//}
+int ms__env_add(t_array *env, char *key, char *value, char *variable)
+{
+	if (
+		NULL != variable
+		)
+	{
+		return (
+			add_to_env(env,
+					   ms__parse_env_variable(variable, 1)
+			)
+		);
+	}
+	else
+	{
+		return (
+			add_to_env(env,
+					   ms__fill_env_el(
+						   ft_strdup(key),
+						   ft_strdup(value), 1)
+			)
+		);
+	}
+}

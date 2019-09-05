@@ -11,19 +11,27 @@
 /* ************************************************************************** */
 
 #include <minishell.stuctures.h>
+#include <stdlib.h>
 #include "libft.h"
 
-t_env_el *ms__fill_env_el(char *key, char *value, int free)
+t_env_el *ms__fill_env_el(char *key, char *value, int print_error)
 {
 	static t_env_el element = { 0 };
 
 	if (NULL == key || NULL == value)
 	{
-		if (free)
-		{
-			ftstr__free(&key);
-			ftstr__free(&value);
-		}
+		ftstr__free(&key);
+		ftstr__free(&value);
+		return (NULL);
+	}
+	if (
+		1 == print_error
+		&& ('\0' == *key || '\0' == *value)
+		)
+	{
+		ft_printf("minishell: setenv wrong variables [ %s ]  [ %s ]\n", key, value);
+		free(key);
+		free(value);
 		return (NULL);
 	}
 	element.value = value;
@@ -31,7 +39,7 @@ t_env_el *ms__fill_env_el(char *key, char *value, int free)
 	return (&element);
 }
 
-t_env_el *ms__parse_env_variable(char *variable)
+t_env_el *ms__parse_env_variable(char *variable, int print_error)
 {
 	int equal_position;
 
@@ -39,12 +47,18 @@ t_env_el *ms__parse_env_variable(char *variable)
 	if (
 		equal_position <= 0 || '\0' == variable[equal_position + 1]
 		)
+	{
+		if (
+			1 == print_error
+			)
+		{
+			ft_printf("minishell: setenv wrong variables: [ %s ]\n", variable);
+		}
 		return (NULL);
+	}
 	return (
 		ms__fill_env_el(ft_strndup(variable, equal_position),
-						ft_strdup(variable + equal_position + 1),
-						1
-		)
+						ft_strdup(variable + equal_position + 1), 0)
 	);
 }
 
@@ -60,7 +74,7 @@ t_array *ms__parse_env(char **env_system)
 	while (NULL != *env_system)
 	{
 		if (
-			(element = ms__parse_env_variable(*env_system))
+			(element = ms__parse_env_variable(*env_system, 0))
 			)
 			ftarray__push(env, element);
 		else
