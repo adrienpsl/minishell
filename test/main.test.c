@@ -14,14 +14,15 @@
 
 void test_ms__parse_env();
 void test_ms__parse_str();
-
 void test_ms__find_binary();
+void test_ms__get_line();
 
 void test_all()
 {
 	//	test_ms__parse_env();
 	//	test_ms__parse_str();
-	test_ms__find_binary();
+	//	test_ms__find_binary();
+	test_ms__get_line();
 }
 
 int main(int ac, char **av)

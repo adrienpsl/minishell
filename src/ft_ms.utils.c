@@ -32,6 +32,7 @@ int ms__init(char **env)
 	if (
 		NULL == (g_ms.env_current = ms__parse_env(env))
 		|| NULL == (g_ms.buffer = fts__init(200))
+		|| NULL == (g_ms.current_line = fts__init(200))
 		)
 		return (-1);
 	else
@@ -48,4 +49,8 @@ void ms__free()
 		g_ms.buffer
 		)
 	    fts__free(&g_ms.buffer);
+	if (
+		g_ms.current_line
+		)
+		fts__free(&g_ms.current_line);
 }

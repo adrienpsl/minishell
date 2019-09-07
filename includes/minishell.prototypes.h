@@ -36,6 +36,7 @@ t_env_el *ms__fill_env_el(char *key, char *value, int print_error);
 **	parser
 */
 t_array *ms__parse_str(char *input, char *sep);
+char *ms__get_line(int size_read);
 
 // utils
 char *ms__find_binary(t_array *env, char *binary_name, t_s *buffer, int mode);
@@ -45,6 +46,9 @@ char *ms__find_binary(t_array *env, char *binary_name, t_s *buffer, int mode);
 */
 int ms__func_free_env(void *element, void *param);
 int ms__print_env(void *p_el, void *param);
+
+// raw mode
+void ms__activate_raw_mode(struct termios *saved_termios);
 
 
 // main

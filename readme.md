@@ -11,7 +11,3 @@
 # tap test
 
 # 
-
-# test env search with ng like in mongodb
-    rewrite in the libft a good function to handle that
-    

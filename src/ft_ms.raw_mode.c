@@ -10,31 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_STRUCTURES
-#define MINISHELL_STRUCTURES
+#include <minishell.stuctures.h>
 
-#include <ft_array.h>
-#include <ft_s.h>
-#include <termios.h>
-
-typedef struct s_ms
+void ms__activate_raw_mode(struct termios *saved_termios)
 {
-	int fd;
-	int ctrl_c;
-	t_array *env_current;
-	t_array *env_tmp;
-	t_s *buffer;
-	t_s *current_line;
 	struct termios termios;
-} t_ms;
 
-typedef struct s_env_el
-{
-	char *key;
-	char *value;
-} t_env_el;
-
-t_ms g_ms;
-extern t_ms g_ms;
-
-#endif
+	tcgetattr(STDIN_FILENO, &termios);
+	tcgetattr(STDIN_FILENO, saved_termios);
+	termios.c_lflag &= ~(ICANON | ECHO);
+	termios.c_cc[VMIN] = 1;
+	termios.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
+}

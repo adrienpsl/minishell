@@ -14,10 +14,9 @@
 #include <ft_strsplit.h>
 #include <ft_s.h>
 #include <ft_printf.h>
-#include <libft.test.h>
-#include <test.h>
 #include <minishell.stuctures.h>
 #include <ft_str.h>
+#include <ft_test.h>
 #include "minishell.prototypes.h"
 
 char **ms__convert_env(t_array *env, t_s *s);

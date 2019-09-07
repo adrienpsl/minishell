@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include <minishell.prototypes.h>
-#include <libft.test.h>
 #include <minishell.defines.h>
-#include <test.h>
+#include <ft_test.h>
 #include "libft.h"
 
 static void test_function(int test_nb, int mode, char *binary_name, char *res)
