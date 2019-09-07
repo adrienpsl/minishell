@@ -5,7 +5,13 @@
 [X]  add
 
 ## get parse entry
-// add take all entry of that split and put in the array
-[] parse with ;
-[] parse with " "
+[X] parse with ;
+[X] parse with " "
 
+# tap test
+
+# 
+
+# test env search with ng like in mongodb
+    rewrite in the libft a good function to handle that
+    

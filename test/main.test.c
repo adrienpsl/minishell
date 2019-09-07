@@ -15,16 +15,19 @@
 void test_ms__parse_env();
 void test_ms__parse_str();
 
+void test_ms__find_binary();
+
 void test_all()
 {
-//	test_ms__parse_env();
-	test_ms__parse_str();
+	//	test_ms__parse_env();
+	//	test_ms__parse_str();
+	test_ms__find_binary();
 }
 
 int main(int ac, char **av)
 {
-    (void)ac;
-    (void)av;
-    test_all();
-    return (EXIT_SUCCESS);
+	(void)ac;
+	(void)av;
+	test_all();
+	return (EXIT_SUCCESS);
 }

@@ -26,6 +26,8 @@ char *ms__find_env_key(t_array *env, char *key);
 int find_variable(void *v_element, void *param);
 int ms__env_remove(t_array *env, char *key);
 int ms__env_add(t_array *env, char *key, char *value, char *variable);
+t_array *ms__parse_env(char **env_system);
+
 // utils
 t_env_el *ms__parse_env_variable(char *variable, int print_error);
 t_env_el *ms__fill_env_el(char *key, char *value, int print_error);
@@ -35,10 +37,18 @@ t_env_el *ms__fill_env_el(char *key, char *value, int print_error);
 */
 t_array *ms__parse_str(char *input, char *sep);
 
+// utils
+char *ms__find_binary(t_array *env, char *binary_name, t_s *buffer, int mode);
+
 /*
 **	Utils ----------------------------------------------------------------------
 */
 int ms__func_free_env(void *element, void *param);
 int ms__print_env(void *p_el, void *param);
+
+
+// main
+int ms__init(char **env);
+void ms__free();
 
 #endif

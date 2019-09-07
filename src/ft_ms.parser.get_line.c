@@ -10,28 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_STRUCTURES
-#define MINISHELL_STRUCTURES
+#include <minishell.stuctures.h>
+#include "libft.h"
 
-#include <ft_array.h>
-#include <ft_s.h>
-
-typedef struct s_ms
+char *ms__get_line()
 {
-	int fd;
-	int ctrl_c;
-	t_array *env_current;
-	t_array *env_tmp;
-	t_s *buffer;
-} t_ms;
+	static char buff[3] = { 0 };
 
-typedef struct s_env_el
-{
-	char *key;
-	char *value;
-} t_env_el;
-
-t_ms g_ms;
-extern t_ms g_ms;
-
-#endif
+	ft_bzero(buff, 2);
+	while (!ft_streq(buff, "\n"))
+	{
+		ft_bzero(buff, 2);
+		read(g_ms.fd, buff, 2);
+		if (g_ms.ctrl_c)
+		{
+//			get_line_handle_signal(buff);
+			continue;
+		}
+//		handle_input(buff);
+	}
+//	ft_strchrreplace(g_ms.line, "\n", 0);
+	return (g_ms.buffer->data);
+}

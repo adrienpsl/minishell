@@ -21,7 +21,7 @@ void test_ms__parse_str()
 
 	// test with no data
 	{
-		lib_clear_testbuff();
+		test_clear_testbuff();
 		char *str = "";
 		t_array *res = ms__parse_str(str, " ");
 
@@ -29,7 +29,7 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			lib_cmp_testbuff("\n")
+			test_cmp_testbuff("\n")
 			)
 			log_test(0)
 
@@ -38,7 +38,7 @@ void test_ms__parse_str()
 
 	// test with 1 data
 	{
-		lib_clear_testbuff();
+		test_clear_testbuff();
 		char *str = "minhesttresjolie";
 		t_array *res = ms__parse_str(str, " ");
 
@@ -46,7 +46,7 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			lib_cmp_testbuff(" _minhesttresjolie_ \n")
+			test_cmp_testbuff(" _minhesttresjolie_ \n")
 			)
 			log_test(0)
 
@@ -55,7 +55,7 @@ void test_ms__parse_str()
 
 	// test with 3 element
 	{
-		lib_clear_testbuff();
+		test_clear_testbuff();
 		char *str = "el_1; el_2 ;el_3";
 		t_array *res = ms__parse_str(str, ";");
 
@@ -63,11 +63,42 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			lib_cmp_testbuff(" _el_1_  _ el_2 _  _el_3_ \n")
+			test_cmp_testbuff(" _el_1_  _ el_2 _  _el_3_ \n")
 			)
 			log_test(0)
 
 		ftarray__free_func(&res, ftarray__free_func_str, NULL);
+	}
+
+	// test with 1000
+	{
+		test_clear_testbuff();
+		char *ex = "el_1; el_2 ;el_3";
+		char *str = ft_strnew(0);
+		for (int i = 0; i < 1000; ++i)
+		{
+			str = ft_strjoin(str, ex, FREE_FIRST);
+		}
+		t_array *res = ms__parse_str(str, ";");
+		char **split = ft_strsplit(str, ";");
+
+		if (ft_strsplit_cmp(split, (char **)res->data))
+			log_test(10)
+
+		ftarray__free_func(&res, ftarray__free_func_str, NULL);
+		ft_strsplit_free(&split);
+		free(str);
+	}
+
+	/*
+	* test get line
+	* */
+	{
+		// test with one line
+		{
+
+		}
+
 	}
 
 

@@ -44,7 +44,7 @@ int print_env_element(void *element, void *param)
 void test_ms__parse_env()
 {
 	g_test = 1;
-	lib_clear_testbuff();
+	test_clear_testbuff();
 	char **char_env;
 	(void)char_env;
 
@@ -60,7 +60,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				lib_cmp_testbuff("")
+				test_cmp_testbuff("")
 				)
 				log_test(0)
 
@@ -75,7 +75,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"Env add bad arguments: super\n")
 				)
 				log_test(1)
@@ -91,7 +91,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"Env add bad arguments: super=\n")
 				)
 				log_test(2)
@@ -107,7 +107,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"Env add bad arguments: =\n")
 				)
 				log_test(3)
@@ -123,7 +123,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"Env add bad arguments: ======aoeuaoeu\n")
 				)
 				log_test(4)
@@ -144,7 +144,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_env_element, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"super=minh")
 				)
 				log_test(1)
@@ -162,7 +162,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_env_element, NULL);
 			if (
-				lib_cmp_testbuff(
+				test_cmp_testbuff(
 					"super==miaoeuaoeu,aoeuaeosu,saoeuhaoehusaoehunh"
 					"toto========aa")
 				)
@@ -359,7 +359,7 @@ void test_ms__parse_env()
 
 		// test delete one var
 		{
-			lib_clear_testbuff();
+			test_clear_testbuff();
 			char **split = ft_strsplit("minh=belle", " ");
 			t_array *env = ms__parse_env(split);
 
@@ -368,7 +368,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				lib_cmp_testbuff("")
+				test_cmp_testbuff("")
 				)
 				log_test(15)
 
@@ -379,7 +379,7 @@ void test_ms__parse_env()
 
 		// test delete 1 / 2
 		{
-			lib_clear_testbuff();
+			test_clear_testbuff();
 			char **split = ft_strsplit("minh=belle super=minh", " ");
 			t_array *env = ms__parse_env(split);
 
@@ -388,7 +388,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				lib_cmp_testbuff("super=minh\n")
+				test_cmp_testbuff("super=minh\n")
 				)
 				log_test(15)
 
@@ -398,7 +398,7 @@ void test_ms__parse_env()
 
 		// test delete 1 / 3
 		{
-			lib_clear_testbuff();
+			test_clear_testbuff();
 			char **split = ft_strsplit("minh=belle super=minh titi=toto", " ");
 			t_array *env = ms__parse_env(split);
 
@@ -407,7 +407,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				lib_cmp_testbuff("minh=belle\ntiti=toto\n")
+				test_cmp_testbuff("minh=belle\ntiti=toto\n")
 				)
 				log_test(15)
 
@@ -417,7 +417,7 @@ void test_ms__parse_env()
 
 		// test delete 1 / 3 no element
 		{
-			lib_clear_testbuff();
+			test_clear_testbuff();
 			char **split = ft_strsplit("minh=belle super=minh titi=toto", " ");
 			t_array *env = ms__parse_env(split);
 
@@ -426,7 +426,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != -1 ||
-				lib_cmp_testbuff("minh=belle\nsuper=minh\ntiti=toto\n")
+				test_cmp_testbuff("minh=belle\nsuper=minh\ntiti=toto\n")
 				)
 				log_test(15)
 
@@ -444,7 +444,7 @@ void test_ms__parse_env()
 		{
 			// test add variable no valid
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("", " ");
 				t_array *env = ms__parse_env(split);
@@ -454,7 +454,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					lib_cmp_testbuff(
+					test_cmp_testbuff(
 						"minishell: setenv wrong variables: [ minhestbell ]\n")
 					)
 					log_test(16)
@@ -465,7 +465,7 @@ void test_ms__parse_env()
 
 			// test null key
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("", " ");
 				t_array *env = ms__parse_env(split);
@@ -475,7 +475,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					lib_cmp_testbuff(
+					test_cmp_testbuff(
 						"minishell: setenv wrong variables [  ]  [ toto ]\n")
 					)
 					log_test(17)
@@ -486,7 +486,7 @@ void test_ms__parse_env()
 
 			// test null value
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("", " ");
 				t_array *env = ms__parse_env(split);
@@ -496,7 +496,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					lib_cmp_testbuff(
+					test_cmp_testbuff(
 						"minishell: setenv wrong variables [ toto ]  [  ]\n")
 					)
 					log_test(17)
@@ -507,7 +507,7 @@ void test_ms__parse_env()
 
 			// test key with env
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("minh=belle", " ");
 				t_array *env = ms__parse_env(split);
@@ -517,7 +517,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					lib_cmp_testbuff(
+					test_cmp_testbuff(
 						"minishell: setenv wrong variables [ toto ]  [  ]\n"
 						"minh=belle\n")
 					)
@@ -529,7 +529,7 @@ void test_ms__parse_env()
 
 			// test variable null with env
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("minh=belle", " ");
 				t_array *env = ms__parse_env(split);
@@ -539,7 +539,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					lib_cmp_testbuff("minishell: setenv wrong variables: [  ]\n"
+					test_cmp_testbuff("minishell: setenv wrong variables: [  ]\n"
 									 "minh=belle\n")
 					)
 					log_test(17)
@@ -555,7 +555,7 @@ void test_ms__parse_env()
 		{
 			// test key / value, new var
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("minh=belle", " ");
 				t_array *env = ms__parse_env(split);
@@ -565,7 +565,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					lib_cmp_testbuff("minh=belle\n"
+					test_cmp_testbuff("minh=belle\n"
 									 "toto=less_beau_minh\n")
 					)
 					log_test(17)
@@ -576,7 +576,7 @@ void test_ms__parse_env()
 
 			// test key / value, replace env
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit(
 					"minh=belle toto=very_pretty titi=tata", " ");
@@ -587,7 +587,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					lib_cmp_testbuff("minh=belle\n"
+					test_cmp_testbuff("minh=belle\n"
 									 "titi=tata\n"
 									 "toto=less_beau_minh\n")
 					)
@@ -599,7 +599,7 @@ void test_ms__parse_env()
 
 			// test variable, new
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit("minh=belle", " ");
 				t_array *env = ms__parse_env(split);
@@ -609,7 +609,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					lib_cmp_testbuff("minh=belle\n"
+					test_cmp_testbuff("minh=belle\n"
 									 "toto=less_beau_minh\n")
 					)
 					log_test(17)
@@ -620,7 +620,7 @@ void test_ms__parse_env()
 
 			// test variable null with env, variable same key existant
 			{
-				lib_clear_testbuff();
+				test_clear_testbuff();
 				int ret;
 				char **split = ft_strsplit(
 					"minh=belle toto=very_pretty titi=tata", " ");
@@ -631,7 +631,7 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					lib_cmp_testbuff("minh=belle\n"
+					test_cmp_testbuff("minh=belle\n"
 									 "titi=tata\n"
 									 "toto=less_beau_minh\n")
 					)
