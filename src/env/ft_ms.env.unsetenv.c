@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_array.h>
 #include <minishell.prototypes.h>
-#include <minishell.stuctures.h>
-#include <ft_str.h>
 #include <ft_printf.h>
+#include <minishell.defines.h>
 
 int ms__env_remove(t_array *env, char *key)
 {
@@ -32,44 +30,16 @@ int ms__env_remove(t_array *env, char *key)
 	return (-1);
 }
 
-
-static int add_to_env(t_array *env, t_env_el *element)
+void ms__unsetenv(t_array *argv, t_array *env, t_array *null)
 {
+	(void)null;
 	if (
-		NULL != element
+		2 == argv->length
 		)
-	{
-		ms__env_remove(env, element->key);
-		return (
-			ftarray__push(env, element)
+		ms__env_remove(
+			env,
+			ftarray__at(argv, 1)
 		);
-	}
 	else
-		return (
-			-1
-		);
-}
-
-int ms__env_add(t_array *env, char *key, char *value, char *variable)
-{
-	if (
-		NULL != variable
-		)
-	{
-		return (
-			add_to_env(env,
-					   ms__parse_env_variable(variable, 1)
-			)
-		);
-	}
-	else
-	{
-		return (
-			add_to_env(env,
-					   ms__fill_env_el(
-						   ft_strdup(key),
-						   ft_strdup(value), 1)
-			)
-		);
-	}
+		ft_printf(MS__NAME"setenv: wrong arguments number");
 }

@@ -13,10 +13,15 @@ include_directories(includes)
 #    lib module
 # ------------------------------------------------------------------------------
 add_library(${PROJECT_NAME}_lib
-        src/ft_ms.env.utils.c
+
+        #[[ env ]]
+        src/env/ft_ms.env
+        src/env/ft_ms.env.parse.c
+        src/env/ft_ms.env.utils.c
+        src/env/ft_ms.env.unsetenv.c
+        src/env/ft_ms.env.setenv.c
+
         src/ft_ms.utils.c
-        src/ft_ms.env.parse.c
-        src/ft_ms.env.add.c
         src/ft_ms.parse_str.c
         src/ft_ms.parser.get_line.c
         src/ft_ms.utils.find_binary.c

@@ -55,7 +55,7 @@ char *ms__find_env_key(t_array *env, char *key)
 		return (fail);
 }
 
-void build_variable(t_env_el *element, t_s *s)
+static void build_variable(t_env_el *element, t_s *s)
 {
 	fts__clear(s);
 	fts__add(s, element->key);

@@ -83,7 +83,7 @@ static int init(t_array *env, char **path_str, t_array **paths)
 		|| NULL == (*paths = ms__parse_str(*path_str, ":"))
 		)
 	{
-		ft_printf(MINISHELL_NAME"no env PATH\n");
+		ft_printf(MS__NAME"no env PATH\n");
 		return (
 			-1
 		);

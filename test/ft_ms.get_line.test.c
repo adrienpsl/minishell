@@ -114,15 +114,15 @@ void test_ms__get_line()
 
 	//	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 
-	// TODO : pas pu tested del, I need to activate the row mode to do that !
-//	//	/*
-//	//	* test del
-//	//	* */
-//		{
-//			// test search
-//			test_function((mt_test){ 0, L, "testl\177\n", "test", "testl\b \b\n", 1 });
-//		}
-//
+	// TODO : pas pu tested del, I need to activate the row mode to do that
+	//	//	/*
+	//	//	* test del
+	//	//	* */
+	//		{
+	//			// test search
+	//			test_function((mt_test){ 0, L, "testl\177\n", "test", "testl\b \b\n", 1 });
+	//		}
+	//
 
 
 }

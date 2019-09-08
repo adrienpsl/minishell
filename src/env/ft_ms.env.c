@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_DEFINES
-#define MINISHELL_MINISHELL_DEFINES
+#include "libft.h"
 
-# define MS__NAME "minishell: "
-# define MS__FIND_BINARY_COMPLETION 0
-# define MS__FIND_BINARY_SEARCH 1
-# define MS__DEL "\177"
-# define MS__TAB "\t"
-
-#endif
+void ms__env(t_array *array, t_array *env, t_array *env_tmp)
+{
+	if (
+	    NULL == ()
+	    )
+	    ;
+}

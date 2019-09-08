@@ -18,6 +18,7 @@
 static void search_binary()
 {
 	char *binary_name;
+
 	if (
 		NULL != (binary_name =
 					 ms__find_binary(
@@ -78,7 +79,6 @@ char *ms__get_line(int size_read)
 {
 	char buff[4] = { 0 };
 
-	*(int *)&buff = 0;
 	while (OK != ft_str_cmp(buff, "\n"))
 	{
 		*(int *)&buff = 0;
