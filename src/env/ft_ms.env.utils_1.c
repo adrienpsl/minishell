@@ -83,3 +83,13 @@ t_array *ms__parse_env(char **env_system)
 	}
 	return (env);
 }
+
+int ms__print_env(void *p_el, void *param)
+{
+	t_env_el *el;
+
+	(void)param;
+	el = p_el;
+	ft_printf("%s=%s\n", el->key, el->value);
+	return (0);
+}

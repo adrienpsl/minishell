@@ -10,47 +10,56 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.stuctures.h>
 #include <minishell.prototypes.h>
-#include <ft_mem.h>
-#include "stdlib.h"
+#include <ft_test.h>
+#include "libft.h"
 
-int ms__func_free_env(void *element, void *param)
+typedef struct ms_test
 {
-	t_env_el *el;
-	(void)param;
+	int nb_test;
+	int nb_line;
+	char *str_argv;
+	char *str_env;
+	int result;
+	char *result_env;
+} ms_test;
 
-	el = element;
-	free(el->value);
-	free(el->key);
-	return (0);
+int ms__env(t_array *argv, t_array *env);
+
+static void test_function(ms_test test)
+{
+	char **env = ft_strsplit(test.str_env, " ");
+	t_array *argv = ms__parse_str(test.str_argv, " ");
+	ms__init(env);
+
+	int ret;
+	while ((ret = ms__env(argv, g_ms.env)));
+
+	if (ret != test.result)
+	{
+		printf("return diff %d %d\n", test.result, ret);
+		log_test_line(test.nb_test, test.nb_line)
+	}
+
+	if (ret == 1)
+	{
+		ftarray__func(g_ms.env_option, ms__print_env, NULL);
+	}
+
+	if (test_cmp_testbuff(test.result_env))
+		log_test_line(test.nb_test, test.nb_line)
+
+	ft_strsplit_free(&env);
+	ms__free();
 }
 
-int ms__init(char **env)
+void test_ms__env()
 {
-	ft_bzero(&g_ms, sizeof(g_ms));
-	if (
-		NULL == (g_ms.env = ms__parse_env(env))
-		|| NULL == (g_ms.buffer = fts__init(200))
-		|| NULL == (g_ms.current_line = fts__init(200))
-		)
-		return (-1);
-	else
-		return (0);
-}
+	g_test = 1;
 
-void ms__free()
-{
-	if (
-		g_ms.env
-		)
-		ftarray__free_func(&g_ms.env, ms__func_free_env, NULL);
-	if (
-		g_ms.buffer
-		)
-	    fts__free(&g_ms.buffer);
-	if (
-		g_ms.current_line
-		)
-		fts__free(&g_ms.current_line);
+	// test with no argument
+	test_function(
+		(ms_test){ 0, L, "", "PATH=1 toto=titi", 0, "PATH=1\ntoto=titi\n" });
+
+	// test
 }

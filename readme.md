@@ -20,3 +20,13 @@
 
 - signal - and with get_line
 - link all
+
+
+# test 
+test les fuites memoire avec env -u de env -u
+
+
+
+# pseudo code env 
+** le tmp env, une utils return the good one
+** 

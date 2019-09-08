@@ -22,7 +22,7 @@ static void search_binary()
 	if (
 		NULL != (binary_name =
 					 ms__find_binary(
-						 g_ms.env_current,
+						 g_ms.env,
 						 g_ms.current_line->data,
 						 g_ms.buffer,
 						 MS__FIND_BINARY_COMPLETION

@@ -17,16 +17,6 @@
 #include <ft_mem.h>
 #include <ft_printf.h>
 
-int ms__print_env(void *p_el, void *param)
-{
-	t_env_el *el;
-
-	(void)param;
-	el = p_el;
-	ft_printf("%s=%s\n", el->key, el->value);
-	return (0);
-}
-
 int find_variable(void *v_element, void *param)
 {
 	t_env_el *element;
@@ -87,3 +77,4 @@ char **ms__convert_env(t_array *env, t_s *s)
 	}
 	return (env_system - env->length);
 }
+

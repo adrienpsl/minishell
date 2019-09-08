@@ -30,9 +30,8 @@ int ms__env_remove(t_array *env, char *key)
 	return (-1);
 }
 
-void ms__unsetenv(t_array *argv, t_array *env, t_array *null)
+int ms__unsetenv(t_array *argv, t_array *env)
 {
-	(void)null;
 	if (
 		2 == argv->length
 		)
@@ -42,4 +41,5 @@ void ms__unsetenv(t_array *argv, t_array *env, t_array *null)
 		);
 	else
 		ft_printf(MS__NAME"setenv: wrong arguments number");
+	return (0);
 }

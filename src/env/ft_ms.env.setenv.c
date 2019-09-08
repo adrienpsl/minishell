@@ -58,9 +58,8 @@ int ms__env_add(t_array *env, char *key, char *value, char *variable)
 	}
 }
 
-void ms__setenv(t_array *argv, t_array *env, t_array *null)
+int ms__setenv(t_array *argv, t_array *env)
 {
-	(void)null;
 	if (
 		2 == argv->length
 		)
@@ -81,4 +80,5 @@ void ms__setenv(t_array *argv, t_array *env, t_array *null)
 		);
 	else
 		ft_printf(MS__NAME"setenv: wrong arguments number");
+	return (0);
 }

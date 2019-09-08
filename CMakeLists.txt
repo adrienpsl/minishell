@@ -16,8 +16,8 @@ add_library(${PROJECT_NAME}_lib
 
         #[[ env ]]
         src/env/ft_ms.env
-        src/env/ft_ms.env.parse.c
-        src/env/ft_ms.env.utils.c
+        src/env/ft_ms.env.utils_1.c
+        src/env/ft_ms.env.utils_2.c
         src/env/ft_ms.env.unsetenv.c
         src/env/ft_ms.env.setenv.c
 
@@ -44,12 +44,12 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 add_executable(${PROJECT_NAME}_test
         test/main.test.c
 
-        test/env.test.c
+        test/ft_ms.env.utils.test.c
         test/main.test.c
         test/ms.parser.test.c
         test/ft_ms.utils.find_binary.test.c
         test/ft_ms.get_line.test.c
-
+        test/ft_ms.env.test.c
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 

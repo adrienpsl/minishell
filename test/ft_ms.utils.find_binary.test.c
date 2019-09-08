@@ -23,7 +23,7 @@ static void test_function(int test_nb, int mode, char *binary_name, char *res)
 		" ");
 	ms__init(env);
 
-	char *ret = ms__find_binary(g_ms.env_current, binary_name,
+	char *ret = ms__find_binary(g_ms.env, binary_name,
 								g_ms.buffer,
 								mode);
 	if (
@@ -60,7 +60,7 @@ void test_ms__find_binary()
 			char **env = ft_strsplit("noting=toto", " ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "test", g_ms.buffer,
+			char *ret = ms__find_binary(g_ms.env, "test", g_ms.buffer,
 										MS__FIND_BINARY_COMPLETION);
 			if (
 				NULL != ret ||
@@ -86,7 +86,7 @@ void test_ms__find_binary()
 				" ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "toto", g_ms.buffer,
+			char *ret = ms__find_binary(g_ms.env, "toto", g_ms.buffer,
 										MS__FIND_BINARY_SEARCH);
 			if (
 				NULL != ret
@@ -105,7 +105,7 @@ void test_ms__find_binary()
 				" ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "test", g_ms.buffer,
+			char *ret = ms__find_binary(g_ms.env, "test", g_ms.buffer,
 										MS__FIND_BINARY_SEARCH);
 			if (
 				ft_str_cmp(ret, "/bin/test")
@@ -124,7 +124,7 @@ void test_ms__find_binary()
 				" ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "cd", g_ms.buffer,
+			char *ret = ms__find_binary(g_ms.env, "cd", g_ms.buffer,
 										MS__FIND_BINARY_SEARCH);
 			if (
 				ft_str_cmp(ret, "/usr/bin/cd")
@@ -143,7 +143,7 @@ void test_ms__find_binary()
 				" ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "mongod",
+			char *ret = ms__find_binary(g_ms.env, "mongod",
 										g_ms.buffer,
 										MS__FIND_BINARY_SEARCH);
 			if (
@@ -163,7 +163,7 @@ void test_ms__find_binary()
 				" ");
 			ms__init(env);
 
-			char *ret = ms__find_binary(g_ms.env_current, "mongoodb",
+			char *ret = ms__find_binary(g_ms.env, "mongoodb",
 										g_ms.buffer,
 										MS__FIND_BINARY_SEARCH);
 			if (

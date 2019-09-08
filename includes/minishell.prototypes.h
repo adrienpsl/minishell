@@ -28,8 +28,8 @@ int ms__env_remove(t_array *env, char *key);
 int ms__env_add(t_array *env, char *key, char *value, char *variable);
 t_array *ms__parse_env(char **env_system);
 
-void ms__setenv(t_array *argv, t_array *env, t_array *null);
-void ms__unsetenv(t_array *argv, t_array *env, t_array *null);
+int ms__setenv(t_array *argv, t_array *env);
+int ms__unsetenv(t_array *argv, t_array *env);
 
 // utils
 t_env_el *ms__parse_env_variable(char *variable, int print_error);
