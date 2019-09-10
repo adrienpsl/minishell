@@ -10,94 +10,90 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
 #include <ft_test.h>
 #include "libft.h"
+#include "../src/env/ft_ms.env.c"
 
-typedef struct ms_test
+typedef struct s
 {
-	int nb_test;
-	int nb_line;
-	char *str_argv;
-	char *str_env;
-	int result;
-	char *result_env;
-	int print_env;
-	int print_remaing_argv;
-} ms_test;
+	char *argv_string;
+	char *env_string;
+	//
+	int result_int;
+	char *result_env_string;
+	char *result_argv_string;
+} t;
 
-int ms__env(t_array *argv, t_array *env);
+// check le return
+// check argv good place
+// check env_tmp good
 
-static void test_function(ms_test test)
+void test_cmp_split(char *name, char *expected, char **returned)
 {
-	char **env = ft_strsplit(test.str_env, " ");
-	t_array *argv = ms__parse_str(test.str_argv, " ");
-	ms__init(env);
+	g_test = 1;
+	test_clear_testbuff();
+	ft_strsplit_print(returned, '\n');
 
-	int ret;
-
-	while ((ret = ms__env(argv, g_ms.env)))
+	if (test_cmp_testbuff(expected))
 	{
-		if (OK == ft_str_cmp(get__argv_current(argv), "env"))
-			argv->i += 1;
-		else
-			break;
+		printf("%s", name);
 	}
+	g_test = 0;
+}
 
-	if (ret != test.result)
+void test_env_option_i(t t)
+{
+	// function data
+	char **argv_start = ft_strsplit(t.argv_string, " ");
+	char **argv = argv_start;
+
+	char **split_tmp =  ft_strsplit(t.env_string, " ");
+	t_array *sys_env = ms__parse_env(split_tmp);
+	ft_strsplit_free(&split_tmp);
+
+	// return function
+	int function_return;
+	t_array *env_tmp = NULL;
+
+	// function call
+	function_return = option_i(&argv, &env_tmp);
+
+	// function result test
+	if (t.result_int != function_return)
 	{
-		printf("return diff %d %d\n", test.result, ret);
-		log_test_line(test.nb_test, test.nb_line)
+		printf("error return : \n");
+		printf("expected : %d \n", t.result_int);
+		printf("returned : %d \n", function_return);
 	}
+	// function argv forward test
+	test_cmp_split("argv forward", t.result_argv_string, argv);
+	// function test env
+	test_cmp_split("env test", t.result_env_string, (char **)env_tmp->data);
 
-	if (test.print_env)
-		ftarray__func(g_ms.env_option, ms__print_env, NULL);
+	// free function data
+	ft_strsplit_free(&argv_start);
+	ftarray__free_func(&sys_env, ms__func_free_env, NULL);
 
-	if (test.print_remaing_argv)
-		ft_strsplit_print(ftarray__current(argv), ' ');
-
-	if (test_cmp_testbuff(test.result_env))
-		log_test_line(test.nb_test, test.nb_line)
-
-
-	ft_strsplit_free(&env);
-	ms__free();
+	// free function created data
+	if (env_tmp)
+		ftarray__free_func(&env_tmp, ms__func_free_env, NULL);
 }
 
 void test_ms__env()
 {
-	g_test = 1;
-
-//	/*
-	//	* test classic !
-	//	* */
-	//	{
-	//		// test with no argument
-	//		test_function(
-	//			(ms_test){ 0, L, "", "PATH=1 toto=titi", 0,
-	//					   "PATH=1\ntoto=titi\n", 0, 0 });
-	//
-	//		// test with env argument
-	//		test_function(
-	//			(ms_test){ 1, L, "env", "PATH=1 toto=titi", 0,
-	//					   "PATH=1\ntoto=titi\n", 0, 0 });
-	//
-	//		// test with env argument
-	//		test_function(
-	//			(ms_test){ 2, L, "env ls", "PATH=1 toto=titi", 1,
-	//					   "ls", 1, 1 });
-	//
-	//		// test with env env env env  argument
-	//		test_function(
-	//			(ms_test){ 3, L, "env env env env ls", "PATH=1 toto=titi", 1,
-	//					   "ls", 1, 1 });
-	//	}
-
-
 	/*
-	* test env -i
+	* test env_option_i
 	* */
-	test_function(
-		(ms_test){ 4, L, "-i", "PATH=1 toto=titi", 0,
-				   "", 0, 1 });
+	{
+		// test with no param
+		{
+			test_env_option_i((t){
+				.env_string = "PATH=super toto=titi Minh=jolie",
+				.argv_string = "",
+				.result_int = OK,
+				.result_env_string = "",
+				.result_argv_string = ""
+			});
+		}
+	}
 }

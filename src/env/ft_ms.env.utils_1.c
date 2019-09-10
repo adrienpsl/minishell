@@ -16,7 +16,7 @@
 
 t_env_el *ms__fill_env_el(char *key, char *value, int print_error)
 {
-	static t_env_el element = { 0 };
+	static t_env_el element = { 0,0 };
 
 	if (NULL == key || NULL == value)
 	{
