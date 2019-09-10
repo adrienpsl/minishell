@@ -42,9 +42,7 @@ int option_u(char ***argv, t_array *env, t_array **env_tmp)
 
 static int option_i(char ***argv, t_array **env_tmp)
 {
-	if (NULL !=
-		(*env_tmp = ftarray__init(10, sizeof(char **)))
-		)
+	if (NULL != (*env_tmp = ftarray__init(10, sizeof(t_env_el))))
 	{
 		while (
 			NULL != **argv
