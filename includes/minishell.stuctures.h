@@ -22,7 +22,7 @@ typedef struct s_ms
 	int fd;
 	int ctrl_c;
 	t_array *env;
-	t_array *env_option;
+	t_array *env_tmp;
 	t_s *buffer;
 	t_s *current_line;
 	struct termios termios;

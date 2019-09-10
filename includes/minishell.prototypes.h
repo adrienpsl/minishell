@@ -54,7 +54,7 @@ int ms__print_env(void *p_el, void *param);
 char *get__argv_current(t_array *argv);
 char *get__argv_at(t_array *argv, int index);
 char *get__argv_next(t_array *argv);
-t_array *get__env();
+t_array *get__env(t_ms *ms);
 
 // raw mode
 void ms__activate_raw_mode(struct termios *saved_termios);

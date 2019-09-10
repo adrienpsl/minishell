@@ -35,10 +35,10 @@ char *get__argv_next(t_array *argv)
 		return (NULL);
 }
 
-t_array *get__env()
+t_array *get__env(t_ms *ms)
 {
-	if (g_ms.env_option)
-		return (g_ms.env_option);
+	if (ms->env_tmp)
+		return (ms->env_tmp);
 	else
-		return (g_ms.env);
+		return (ms->env);
 }

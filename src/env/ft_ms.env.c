@@ -16,7 +16,8 @@
 
 static int print_usage()
 {
-	ft_printf("usage");
+	ft_printf("usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
+			  "           [name=value ...] [utility [argument ...]]");
 	return (-1);
 }
 
@@ -86,7 +87,7 @@ static int handle_options(char ***argv, t_array *env, t_array **env_tmp)
 		return (option_i(argv, env_tmp));
 	}
 	else
-		return (ft_printf("usage"));
+		return (print_usage());
 }
 
 /**
@@ -95,19 +96,19 @@ static int handle_options(char ***argv, t_array *env, t_array **env_tmp)
  * @param env
  * @return success == remain argument,
  */
-char **ms__env(char **argv, t_array *env, t_array **env_tmp)
+char **ms__env(char **argv, t_ms *ms)
 {
 	if (
 		*argv
 		&& **argv == '-'
 		)
 	{
-		if (OK != handle_options(&argv, env, env_tmp))
+		if (OK != handle_options(&argv, ms->env, &ms->env_tmp))
 			return (NULL);
 	}
 	if (NULL == *argv)
 	{
-		ftarray__func(get__env(), ms__print_env, NULL);
+		ftarray__func(get__env(ms), ms__print_env, NULL);
 		return (NULL);
 	}
 	return (argv);

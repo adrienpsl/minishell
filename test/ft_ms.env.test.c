@@ -25,6 +25,7 @@ typedef struct s
 	int result_int;
 	char *result_env_string;
 	char *result_argv_string;
+	char *result_error_string;
 } t;
 
 int test_cmp_split_str(char *name, char *expected, char **returned)
@@ -127,7 +128,38 @@ void test_env_option_u(t t)
 		)
 		log_test_line(t.nb_test, t.nb_line)
 
+	// free function data
+	ft_strsplit_free(&argv_start);
+	ftarray__free_func(&sys_env, ms__func_free_env, NULL);
 
+	// free function created data
+	if (env_tmp)
+		ftarray__free_func(&env_tmp, ms__func_free_env, NULL);
+}
+
+void test_handle_option(t t)
+{
+	// function data
+	char **argv_start = ft_strsplit(t.argv_string, " ");
+	char **argv = argv_start;
+
+	char **split_tmp = ft_strsplit(t.env_string, " ");
+	t_array *sys_env = ms__parse_env(split_tmp);
+	ft_strsplit_free(&split_tmp);
+
+	// return function
+	int function_return;
+	t_array *env_tmp = NULL;
+
+	// function call
+	function_return = handle_options(&argv, sys_env, &env_tmp);
+
+	// function result test
+	if (
+		test_cmp_int(t.result_int, function_return)
+		|| test_cmp_testbuff(t.result_error_string)
+		)
+		log_test_line(t.nb_test, t.nb_line)
 
 	// free function data
 	ft_strsplit_free(&argv_start);
@@ -247,7 +279,7 @@ void test_ms__env()
 	* */
 	if (1)
 	{
-//		// test with no argument and empty env
+		//		// test with no argument and empty env
 		//		{
 		//			test_env_option_u((t){
 		//				.nb_test = 8,
@@ -301,7 +333,7 @@ void test_ms__env()
 		});
 
 		// delete bad no element
-		test_env_option_u((t){ .nb_test = 10, .nb_line = L,
+		test_env_option_u((t){ .nb_test = 12, .nb_line = L,
 			.env_string = "minh=jolie toto=titi ",
 			.argv_string = "-u",
 			.result_int = -1,
@@ -310,7 +342,7 @@ void test_ms__env()
 		});
 
 		// delete bad 2 element
-		test_env_option_u((t){ .nb_test = 10, .nb_line = L,
+		test_env_option_u((t){ .nb_test = 13, .nb_line = L,
 			.env_string = "minh=jolie toto=titi ",
 			.argv_string = "-u toto -u",
 			.result_int = -1,
@@ -318,13 +350,46 @@ void test_ms__env()
 			.result_argv_string = ""
 		});
 
-		test_env_option_u((t){ .nb_test = 10, .nb_line = L,
+		test_env_option_u((t){ .nb_test = 14, .nb_line = L,
 			.env_string = "minh=jolie toto=titi ",
 			.argv_string = "-u toto -u super -u holalala -u ",
 			.result_int = -1,
 			.result_env_string = "minh=jolie ",
 			.result_argv_string = ""
 		});
+	}
 
+	/*
+	* test handle option
+	* */
+	{
+		// test work with -u, -i and bad option
+
+		// test -i good
+		{
+			g_test = 1;
+			test_handle_option((t){ .nb_test = 14, .nb_line = L,
+				.env_string = "minh=jolie toto=titi ",
+				.argv_string = "-i minh=belle",
+				.result_int = OK,
+				.result_error_string = ""
+			});
+
+			test_handle_option((t){ .nb_test = 15, .nb_line = L,
+				.env_string = "minh=jolie toto=titi ",
+				.argv_string = "-u ",
+				.result_int = -1,
+				.result_error_string = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
+									   "           [name=value ...] [utility [argument ...]]"
+			});
+
+			test_handle_option((t){ .nb_test = 15, .nb_line = L,
+				.env_string = "minh=jolie toto=titi ",
+				.argv_string = "-aou ",
+				.result_int = -1,
+				.result_error_string = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
+									   "           [name=value ...] [utility [argument ...]]"
+			});
+		}
 	}
 }
