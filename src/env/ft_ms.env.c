@@ -16,8 +16,8 @@
 
 static int print_usage()
 {
-	ft_printf("usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
-			  "           [name=value ...] [utility [argument ...]]");
+	ft_printf("usage: env [-i] [name=value ...] [-u name]\n"
+			  "          [utility [argument ...]]");
 	return (-1);
 }
 

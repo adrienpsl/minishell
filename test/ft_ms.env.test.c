@@ -379,16 +379,16 @@ void test_ms__env()
 				.env_string = "minh=jolie toto=titi ",
 				.argv_string = "-u ",
 				.result_int = -1,
-				.result_error_string = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
-									   "           [name=value ...] [utility [argument ...]]"
+				.result_error_string = "usage: env [-i] [name=value ...] [-u name]\n"
+									   "          [utility [argument ...]]"
 			});
 
 			test_handle_option((t){ .nb_test = 15, .nb_line = L,
 				.env_string = "minh=jolie toto=titi ",
 				.argv_string = "-aou ",
 				.result_int = -1,
-				.result_error_string = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n"
-									   "           [name=value ...] [utility [argument ...]]"
+				.result_error_string = "usage: env [-i] [name=value ...] [-u name]\n"
+									   "          [utility [argument ...]]"
 			});
 		}
 	}
