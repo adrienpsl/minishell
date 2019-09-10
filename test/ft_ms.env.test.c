@@ -374,22 +374,32 @@ void test_ms__env()
 				.result_int = OK,
 				.result_error_string = ""
 			});
+		}
 
+		// test error -u
+		{
 			test_handle_option((t){ .nb_test = 15, .nb_line = L,
 				.env_string = "minh=jolie toto=titi ",
 				.argv_string = "-u ",
 				.result_int = -1,
-				.result_error_string = "usage: env [-i] [name=value ...] [-u name]\n"
+				.result_error_string = "env: option requires an argument -- u\n"
+									   "usage: env [-i] [name=value ...] [-u name]\n"
 									   "          [utility [argument ...]]"
 			});
+		}
 
-			test_handle_option((t){ .nb_test = 15, .nb_line = L,
+		// test bad option
+		{
+			test_handle_option((t){ .nb_test = 16, .nb_line = L,
 				.env_string = "minh=jolie toto=titi ",
 				.argv_string = "-aou ",
 				.result_int = -1,
-				.result_error_string = "usage: env [-i] [name=value ...] [-u name]\n"
+				.result_error_string = "env: illegal option -- a\n"
+									   "usage: env [-i] [name=value ...] [-u name]\n"
 									   "          [utility [argument ...]]"
 			});
 		}
 	}
+
+	// test with - et -- ?
 }

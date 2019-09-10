@@ -14,8 +14,12 @@
 #include <minishell.prototypes.h>
 # include "libft.h"
 
-static int print_usage()
+static int print_usage(char *bad_option)
 {
+	if (NULL != bad_option)
+		ft_printf("env: illegal option -- %c\n", bad_option[1]);
+	else
+		ft_printf("env: option requires an argument -- u\n");
 	ft_printf("usage: env [-i] [name=value ...] [-u name]\n"
 			  "          [utility [argument ...]]");
 	return (-1);
@@ -80,14 +84,14 @@ static int handle_options(char ***argv, t_array *env, t_array **env_tmp)
 		if (OK == option_u(argv, env, env_tmp))
 			return (OK);
 		else
-			return (print_usage());
+			return (print_usage(NULL));
 	}
 	else if (OK == ft_str_cmp("-i", **argv))
 	{
 		return (option_i(argv, env_tmp));
 	}
 	else
-		return (print_usage());
+		return (print_usage(**argv));
 }
 
 /**
@@ -101,6 +105,7 @@ char **ms__env(char **argv, t_ms *ms)
 	if (
 		*argv
 		&& **argv == '-'
+		&& (*argv)[1]
 		)
 	{
 		if (OK != handle_options(&argv, ms->env, &ms->env_tmp))
