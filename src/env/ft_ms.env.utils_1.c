@@ -16,7 +16,7 @@
 
 t_env_el *ms__fill_env_el(char *key, char *value, int print_error)
 {
-	static t_env_el element = { 0,0 };
+	static t_env_el element = { 0, 0 };
 
 	if (NULL == key || NULL == value)
 	{
@@ -29,7 +29,8 @@ t_env_el *ms__fill_env_el(char *key, char *value, int print_error)
 		&& ('\0' == *key || '\0' == *value)
 		)
 	{
-		ft_printf("minishell: setenv wrong variables [ %s ]  [ %s ]\n", key, value);
+		ft_printf("minishell: setenv wrong variables [ %s ]  [ %s ]\n", key,
+			value);
 		free(key);
 		free(value);
 		return (NULL);
@@ -58,7 +59,7 @@ t_env_el *ms__parse_env_variable(char *variable, int print_error)
 	}
 	return (
 		ms__fill_env_el(ft_strndup(variable, equal_position),
-						ft_strdup(variable + equal_position + 1), 0)
+			ft_strdup(variable + equal_position + 1), 0)
 	);
 }
 
@@ -88,8 +89,10 @@ int ms__print_env(void *p_el, void *param)
 {
 	t_env_el *el;
 
-	(void)param;
 	el = p_el;
-	ft_printf("%s=%s\n", el->key, el->value);
+	if (param != NULL)
+		ft_printf("%s=%s ", el->key, el->value);
+	else
+		ft_printf("%s=%s\n", el->key, el->value);
 	return (0);
 }

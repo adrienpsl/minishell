@@ -19,7 +19,7 @@
 
 static int add_to_env(t_array *env, t_env_el *element)
 {
-		if (NULL != element)
+	if (NULL != element)
 	{
 		ms__env_remove(env, element->key);
 		return (ftarray__push(env, element));

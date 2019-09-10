@@ -20,9 +20,25 @@ static int print_usage()
 	return (-1);
 }
 
+int deep_copy_link(void *p_dest, void *p_src, void *null)
+{
+	t_env_el *dest;
+	t_env_el *src;
+	(void)null;
+
+	dest = p_dest;
+	src = p_src;
+	if (
+		NULL == (dest->key = ft_strdup(src->key))
+		|| NULL == (dest->value = ft_strdup(src->value))
+		)
+		return (1);
+	return (0);
+}
+
 int option_u(char ***argv, t_array *env, t_array **env_tmp)
 {
-	if (NULL != (*env_tmp = ftarray__copy(env)))
+	if (NULL != (*env_tmp = ftarray__copy_func(env, deep_copy_link, NULL)))
 	{
 		while (OK == ft_str_cmp("-u", **argv))
 		{
