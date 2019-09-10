@@ -50,6 +50,12 @@ char *ms__find_binary(t_array *env, char *binary_name, t_s *buffer, int mode);
 int ms__func_free_env(void *element, void *param);
 int ms__print_env(void *p_el, void *param);
 
+// utils need to move
+char *get__argv_current(t_array *argv);
+char *get__argv_at(t_array *argv, int index);
+char *get__argv_next(t_array *argv);
+t_array *get__env();
+
 // raw mode
 void ms__activate_raw_mode(struct termios *saved_termios);
 

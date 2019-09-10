@@ -14,77 +14,78 @@
 #include <minishell.prototypes.h>
 # include "libft.h"
 
-static int env_option_u(t_array *argv)
+int env_option_u(t_array *argv, t_array *env_tmp)
 {
-	char **key;
-	char **option;
+	char *key;
+	char *option;
 
 	ftarray__prev(argv);
 	while (
-		NULL != (option = ftarray__next(argv))
-		&& EXIT_SUCCESS == ft_str_cmp("-u", *option)
+		NULL != (option = get__argv_next(argv))
+		&& OK == ft_str_cmp("-u", option)
 		)
 	{
-		if (
-			NULL != (key = ftarray__next(argv))
-			)
-			ms__env_remove(g_ms.env_option, *key);
+		if (NULL != (key = get__argv_next(argv)))
+			ms__env_remove(env_tmp, key);
 		else
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int env_option_i(t_array *argv)
+static int env_option_i(char **argv, t_array *env_tmp)
 {
-	char **variable;
+	int i;
 
-	ftarray__prev(argv);
+	i = 0;
 	while (
-		NULL != (variable = ftarray__next(argv))
-		&& ft_strchr(*variable, '=') > 0
+		NULL != argv[i]
+		&& ft_strchr(argv[i], '=') > 0
 		)
 	{
-		ms__env_add(g_ms.env_option, NULL, NULL, *variable);
+		ms__env_add(env_tmp, NULL, NULL, *argv);
+		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (i);
 }
 
 static int clean_and_malloc_env_option(t_array *env)
 {
-	if (
-		NULL != g_ms.env_option
-		)
+	if (NULL != g_ms.env_option)
 		ftarray__free_func(&g_ms.env_option, ms__func_free_env, NULL);
 	return (
-		NULL != (g_ms.env_option = ftarray__copy(env)) ?
-		EXIT_SUCCESS : EXIT_FAILURE
+		!(NULL != (g_ms.env_option = ftarray__copy(env)))
 	);
 }
 
-static int handle_options(t_array *argv, t_array *env)
+static int print_usage()
 {
-	int ret;
+	ft_printf("usage");
+	return (-1);
+}
 
-	ret = EXIT_FAILURE;
-	if (
-		OK == clean_and_malloc_env_option(env)
-		)
+/*
+**	if option, I need to save free the last env if it exist and, init a new one
+**	option -u can fail, but no -i
+**	if no options find, I print usage
+*/
+static int handle_options(t_array *argv)
+{
+
+	if (OK == ft_str_cmp("-u", get__argv_at(argv, argv->i)))
 	{
-		if (
-			OK == ft_str_cmp("-u", ftarray__at(argv, argv->i))
-			)
-			ret = env_option_u(argv);
-		else if (
-			OK == ft_str_cmp("-i", ftarray__at(argv, argv->i))
-			)
-			ret = env_option_i(argv);
-		else if (
-			ret == EXIT_FAILURE
-			)
-			ft_printf("usage");
+		if (OK == env_option_u(argv))
+			return (OK);
+		else
+			return (print_usage());
 	}
-	return (ret);
+	else if (OK == ft_str_cmp("-i", get__argv_at(argv, argv->i)))
+	{
+		return (env_option_i(argv));
+	}
+	else
+		ft_printf("usage");
+	return (EXIT_FAILURE);
 }
 
 /**
@@ -95,21 +96,16 @@ static int handle_options(t_array *argv, t_array *env)
  */
 int ms__env(t_array *argv, t_array *env)
 {
-	int ret;
-
-	ret = EXIT_SUCCESS;
-	if (
-		0 < ftarray__remain(argv)
-		&& '-' == **(char **)ftarray__current(argv)
-		)
-		ret = handle_options(argv, env);
-	if (
-		EXIT_SUCCESS == ret
-		&& 0 == ftarray__remain(argv)
-		)
+	if (0 < ftarray__remain(argv)
+		&& '-' == *get__argv_current(argv))
 	{
-		ftarray__func(env, ms__print_env, NULL);
-		ret = 0;
+		if (handle_options(argv, env))
+			return (EXIT_SUCCESS);
 	}
-	return (ret);
+	if (0 == ftarray__remain(argv))
+	{
+		ftarray__func(get__env(), ms__print_env, NULL);
+		return (EXIT_SUCCESS);
+	}
+	return (EXIT_FAILURE);
 }

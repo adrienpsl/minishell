@@ -26,6 +26,8 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.parser.get_line.c
         src/ft_ms.utils.find_binary.c
         src/ft_ms.raw_mode.c
+        src/ft_ms.raw_mode.c
+        src/ms__ftarray_adapter.c
 
         )
 
