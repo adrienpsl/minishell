@@ -20,9 +20,9 @@ void test_ms__env();
 
 void test_all()
 {
-	//		test_ms__parse_env();
-	//		test_ms__parse_str();
-	//		test_ms__find_binary();
+	//	test_ms__parse_env();
+	//	test_ms__parse_str();
+	//	test_ms__find_binary();
 	//	test_ms__get_line();
 	test_ms__env();
 }

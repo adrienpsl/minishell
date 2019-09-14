@@ -16,6 +16,7 @@
 #include <ft_str.h>
 #include <ft_printf.h>
 #include <minishell.defines.h>
+#include <ft_strsplit.h>
 
 static int add_to_env(t_array *env, t_env_el *element)
 {
@@ -46,20 +47,15 @@ int ms__env_add(t_array *env, char *key, char *value, char *variable)
 	}
 }
 
-int ms__setenv(t_array *argv, t_array *env)
+int ms__setenv(char **argv, t_array *env)
 {
-	if (2 == argv->length)
-		ms__env_add(
-			env,
-			NULL,
-			NULL,
-			ftarray__at(argv, 1));
-	else if (3 == argv->length)
-		ms__env_add(
-			env,
-			ftarray__at(argv, 1),
-			ftarray__at(argv, 2),
-			NULL);
+	int size;
+
+	size = ft_strsplit_count(argv);
+	if (1 == size)
+		ms__env_add(env, NULL, NULL, argv[0]);
+	else if (2 == size)
+		ms__env_add(env, argv[0], argv[1], NULL);
 	else
 		ft_printf(MS__NAME"setenv: wrong arguments number");
 	return (0);

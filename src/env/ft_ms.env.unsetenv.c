@@ -13,6 +13,7 @@
 #include <minishell.prototypes.h>
 #include <ft_printf.h>
 #include <minishell.defines.h>
+#include <ft_strsplit.h>
 
 int ms__env_remove(t_array *env, char *key)
 {
@@ -30,15 +31,13 @@ int ms__env_remove(t_array *env, char *key)
 	return (-1);
 }
 
-int ms__unsetenv(t_array *argv, t_array *env)
+int ms__unsetenv(char **argv, t_array *env)
 {
-	if (
-		2 == argv->length
-		)
-		ms__env_remove(
-			env,
-			ftarray__at(argv, 1)
-		);
+	int size;
+
+	size = ft_strsplit_count(argv);
+	if (2 == size)
+		ms__env_remove(env, argv[1]);
 	else
 		ft_printf(MS__NAME"setenv: wrong arguments number");
 	return (0);

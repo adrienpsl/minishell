@@ -11,9 +11,9 @@
 # tap test
 ** built in 
    - all the same prototype
-       * setenv
-       * unsetenv
-       * env 
+       [X] setenv
+       [X] unsetenv
+       [X] env 
        * echo
        * cd
        * exit
