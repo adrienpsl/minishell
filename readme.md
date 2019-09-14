@@ -23,7 +23,8 @@
 
 
 # test 
-test les fuites memoire avec env -u de env -u
+test les fuites memoire avec env -u de env -u en recusif
+test env -- env -
 
 
 

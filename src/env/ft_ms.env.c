@@ -79,6 +79,14 @@ static int option_i(char ***argv, t_array **env_tmp)
 
 static int handle_options(char ***argv, t_array *env, t_array **env_tmp)
 {
+	if (
+		OK == ft_str_cmp("-", **argv)
+		|| OK == ft_str_cmp("--", **argv)
+		)
+	{
+		(*argv) += 1;
+		return (0);
+	}
 	if (OK == ft_str_cmp("-u", **argv))
 	{
 		if (OK == option_u(argv, env, env_tmp))
@@ -105,7 +113,6 @@ char **ms__env(char **argv, t_ms *ms)
 	if (
 		*argv
 		&& **argv == '-'
-		&& (*argv)[1]
 		)
 	{
 		if (OK != handle_options(&argv, ms->env, &ms->env_tmp))

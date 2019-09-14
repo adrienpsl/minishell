@@ -25,13 +25,20 @@ typedef struct s
 	int result_int;
 	char *result_env_string;
 	char *result_argv_string;
-	char *result_error_string;
+	char *result_std_1;
 } t;
 
 int test_cmp_split_str(char *name, char *expected, char **returned)
 {
 	g_test = 1;
 	test_clear_testbuff();
+	if (expected == NULL && returned == NULL)
+		return (0);
+	if (expected == NULL || returned == NULL)
+	{
+		printf("%s ptr null : %p %p", name, expected, returned);
+		return (1);
+	}
 	ft_strsplit_print(returned, ' ');
 
 	if (test_cmp_testbuff(expected))
@@ -157,7 +164,7 @@ void test_handle_option(t t)
 	// function result test
 	if (
 		test_cmp_int(t.result_int, function_return)
-		|| test_cmp_testbuff(t.result_error_string)
+		|| test_cmp_testbuff(t.result_std_1)
 		)
 		log_test_line(t.nb_test, t.nb_line)
 
@@ -170,11 +177,44 @@ void test_handle_option(t t)
 		ftarray__free_func(&env_tmp, ms__func_free_env, NULL);
 }
 
+void test_ms__env_function(t t)
+{
+	g_test = 1;
+	// function data
+	char **argv_start = ft_strsplit(t.argv_string, " ");
+	char **argv = argv_start;
+
+	char **split_tmp = ft_strsplit(t.env_string, " ");
+	ms__init(split_tmp);
+	ft_strsplit_free(&split_tmp);
+
+	// return function
+	char **function_return;
+
+	// function call
+	function_return = ms__env(argv, &g_ms);
+
+	// function result test
+	if (
+		test_cmp_testbuff(t.result_std_1)
+		|| test_cmp_split_str("res argv", t.result_argv_string, function_return)
+		)
+		log_test_line(t.nb_test, t.nb_line)
+
+	// free function data
+	ft_strsplit_free(&argv_start);
+	ms__free();
+	g_test = 0;
+}
+
 void test_ms__env()
 {
 	/*
-	* test env_option_i
-	* */
+		*/
+	/*
+		* test env_option_i
+		* *//*
+
 	if (1)
 	{
 		// test with no param
@@ -274,23 +314,25 @@ void test_ms__env()
 		}
 	}
 
+	*/
 	/*
-	* test option -u
-	* */
+		* test option -u
+		* *//*
+
 	if (1)
 	{
-		//		// test with no argument and empty env
-		//		{
-		//			test_env_option_u((t){
-		//				.nb_test = 8,
-		//				.nb_line = L,
-		//				.env_string = "",
-		//				.argv_string = "",
-		//				.result_int = OK,
-		//				.result_env_string = "",
-		//				.result_argv_string = ""
-		//			});
-		//		}
+		// test with no argument and empty env
+		{
+			test_env_option_u((t){
+				.nb_test = 8,
+				.nb_line = L,
+				.env_string = "",
+				.argv_string = "",
+				.result_int = OK,
+				.result_env_string = "",
+				.result_argv_string = ""
+			});
+		}
 
 		// test with no argument and env
 		{
@@ -359,9 +401,11 @@ void test_ms__env()
 		});
 	}
 
+	*/
 	/*
-	* test handle option
-	* */
+		* test handle option
+		* *//*
+
 	{
 		// test work with -u, -i and bad option
 
@@ -400,6 +444,32 @@ void test_ms__env()
 			});
 		}
 	}
+*/
 
-	// test with - et -- ?
+	/*
+	* test ms__env
+	* */
+	{
+		// test with -
+		{
+			test_ms__env_function((t){ .nb_test = 16, .nb_line = L,
+				.env_string = "minh=jolie toto=titi Path=sisi;aa",
+				.argv_string = "-",
+				.result_argv_string = NULL,
+				.result_std_1 = "minh=jolie\ntoto=titi\nPath=sisi;aa\n"
+			});
+		}
+
+		// test with --
+		{
+			test_ms__env_function((t){ .nb_test = 17, .nb_line = L,
+				.env_string = "minh=jolie toto=titi Path=sisi;aa",
+				.argv_string = "--",
+				.result_argv_string = NULL,
+				.result_std_1 = "minh=jolie\ntoto=titi\nPath=sisi;aa\n"
+			});
+		}
+		// test
+	}
+
 }
