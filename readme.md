@@ -14,7 +14,7 @@
        [X] setenv
        [X] unsetenv
        [X] env 
-       * echo
+       [X] echo
        * cd
        * exit
 

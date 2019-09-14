@@ -10,32 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <minishell.stuctures.h>
+#include <minishell.prototypes.h>
+#include <minishell.defines.h>
+#include <sys/param.h>
 #include "libft.h"
 
-void test_ms__parse_env();
-void test_ms__parse_str();
-void test_ms__find_binary();
-void test_ms__get_line();
-void test_ms__env();
-void test_ms__echo();
-
-void test_cd__serialize_path();
-
-void test_all()
+// utils qui me return le buffer avec le current path
+char *get_current_path()
 {
-	//	test_ms__parse_env();
-	//	test_ms__parse_str();
-	//	test_ms__find_binary();
-	//	test_ms__get_line();
-	//	test_ms__env();
-//	test_ms__echo();
-	test_cd__serialize_path();
+	static char buff[MAXPATHLEN + 1];
+
+	ft_bzero(buff, MAXPATHLEN + 1);
+	return (getcwd(buff, MAXPATHLEN));
 }
 
-int main(int ac, char **av)
+int add_beguining_path(t_s *buffer);
+
+// search at pathenv.
+int go_path(t_array *env, t_s *buffer);
+int cd__serialize_path(char **argv, t_array *env, t_s *buffer);
+
+int ms__cd(char **argv, t_array *env, t_s *buffer)
 {
-	(void)ac;
-	(void)av;
-	test_all();
-	return (EXIT_SUCCESS);
+	fts__clear(buffer);
+	if (*argv && OK == ft_str_cmp("--", *argv))
+		argv += 1;
+	if (OK != cd__serialize_path(argv, env, buffer))
+	    return (-1);
+
+	return (0);
 }

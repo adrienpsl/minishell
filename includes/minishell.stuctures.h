@@ -25,6 +25,7 @@ typedef struct s_ms
 	t_array *env_tmp;
 	t_s *buffer;
 	t_s *current_line;
+	t_s *buffer_cd;
 	struct termios termios;
 } t_ms;
 
