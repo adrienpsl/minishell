@@ -12,27 +12,22 @@
 
 #include "libft.h"
 
-void test_ms__parse_env();
-void test_ms__parse_str();
-void test_ms__find_binary();
-void test_ms__get_line();
-void test_ms__env();
-void test_ms__echo();
-
-void test_all()
+int ms__echo(char **argv, t_array **env)
 {
-	//	test_ms__parse_env();
-	//	test_ms__parse_str();
-	//	test_ms__find_binary();
-	//	test_ms__get_line();
-	//	test_ms__env();
-	test_ms__echo();
-}
+	int new_line;
+	(void)env;
 
-int main(int ac, char **av)
-{
-	(void)ac;
-	(void)av;
-	test_all();
-	return (EXIT_SUCCESS);
+	if (OK == ft_str_cmp("-n", argv[0]))
+	{
+		new_line = 0;
+		argv += 1;
+	}
+	else
+		new_line = 1;
+	if (OK == ft_str_cmp("-", argv[0]))
+		argv += 1;
+	ft_strsplit_print(argv, ' ');
+	if (new_line)
+		ft_printf("\n");
+	return (OK);
 }

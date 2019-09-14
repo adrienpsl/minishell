@@ -17,6 +17,8 @@
 #include <ft_s.h>
 
 #include "minishell.stuctures.h"
+// builtin
+int ms__echo(char **argv, t_array **env);
 
 /*
 **	Env handling ---------------------------------------------------------------

@@ -29,6 +29,9 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.raw_mode.c
         src/ms__ftarray_adapter.c
 
+        #[[ builtin ]]
+        src/ft_ms.builtin.echo.c
+
         )
 
 target_link_libraries(${PROJECT_NAME}_lib libft)
@@ -52,6 +55,7 @@ add_executable(${PROJECT_NAME}_test
         test/ft_ms.utils.find_binary.test.c
         test/ft_ms.get_line.test.c
         test/ft_ms.env.test.c
+        test/ft_ms.builtin.echo.test.c
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 
