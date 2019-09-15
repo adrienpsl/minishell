@@ -21,7 +21,6 @@ char *get_current_path()
 {
 	static char buff[MAXPATHLEN + 1];
 
-	ft_bzero(buff, MAXPATHLEN + 1);
 	return (getcwd(buff, MAXPATHLEN));
 }
 
@@ -31,13 +30,22 @@ int add_beguining_path(t_s *buffer);
 int go_path(t_array *env, t_s *buffer);
 int cd__serialize_path(char **argv, t_array *env, t_s *buffer);
 
+// si le path est relatif, j'
+int add_start_if_relative(t_buffer *buffer)
+{
+	if ('/' == buffer->data[0])
+	{
+
+	}
+}
+
 int ms__cd(char **argv, t_array *env, t_s *buffer)
 {
 	fts__clear(buffer);
 	if (*argv && OK == ft_str_cmp("--", *argv))
 		argv += 1;
 	if (OK != cd__serialize_path(argv, env, buffer))
-	    return (-1);
+		return (-1);
 
 	return (0);
 }
