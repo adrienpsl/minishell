@@ -65,4 +65,7 @@ void ms__activate_raw_mode(struct termios *saved_termios);
 int ms__init(char **env);
 void ms__free();
 
+// cd
+int ms__cd(char **argv, t_array *env, t_s *buffer);
+
 #endif

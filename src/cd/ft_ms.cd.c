@@ -26,6 +26,6 @@ int ms__cd(char **argv, t_array *env, t_s *buffer)
 	if (OK != cd_move_directory(buffer, env))
 		return (-1);
 	if (print_new_path)
-		printf("%s\n", get_current_path());
+		ft_printf("%s\n", get_current_path());
 	return (OK);
 }

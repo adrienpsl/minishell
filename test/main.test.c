@@ -20,8 +20,8 @@ void test_ms__get_line();
 void test_ms__env();
 void test_ms__echo();
 void test_cd_move_directory();
-
 void test_cd__serialize_path();
+void test__ms_cd();
 
 void test_all()
 {
@@ -32,7 +32,8 @@ void test_all()
 	//	test_ms__env();
 	//	test_ms__echo();
 	//	test_cd__serialize_path();
-	test_cd_move_directory();
+	//	test_cd_move_directory();
+	test__ms_cd();
 }
 
 int main(int ac, char **av)

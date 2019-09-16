@@ -38,7 +38,7 @@ int static add_env_var(t_array *env, t_s *buffer, int size)
 	}
 }
 
-int static  replace_in_path(char **argv, t_s *buffer)
+int static replace_in_path(char **argv, t_s *buffer)
 {
 	char *current_path;
 
@@ -55,30 +55,28 @@ int static  replace_in_path(char **argv, t_s *buffer)
 	}
 }
 
+int static is_home_or_old(char **argv, int size)
+{
+	return (
+		0 == size
+		|| (1 == size && OK == ft_str_cmp("-", argv[0]))
+	);
+}
+
 int cd__serialize_path(char **argv, t_array *env, t_s *buffer, int *print_path)
 {
 	int size;
 	int ret;
 
 	size = ft_strsplit_count(argv);
-	if (0 == size
-		|| (1 == size && OK == ft_str_cmp("-", argv[0])))
-	{
-		*print_path = 1;
+	if (is_home_or_old(argv, size))
 		ret = add_env_var(env, buffer, size);
-	}
 	else if (1 == size)
-	{
-		*print_path = 0;
-		fts__add(buffer, *argv);
-		ret = OK;
-	}
+		ret = fts__add(buffer, *argv) && OK;
 	else if (2 == size)
-	{
-		*print_path = 1;
 		ret = replace_in_path(argv, buffer);
-	}
 	else
 		ret = -1;
+	*print_path = (size == 2 || OK == ft_str_cmp("-", argv[0])) ? 1 : 0;
 	return (ret);
 }

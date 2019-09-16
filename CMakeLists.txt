@@ -66,6 +66,7 @@ add_executable(${PROJECT_NAME}_test
         #[[ cd ]]
         test/ft_ms.cd.serialize_path.test.c
         test/ft_ms.cd.move_directory.test.c
+        test/ft_ms.cd.test.c
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 
