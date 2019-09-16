@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <minishell.prototypes.h>
 #include "libft.h"
 
 void test_ms__parse_env();
@@ -18,6 +19,7 @@ void test_ms__find_binary();
 void test_ms__get_line();
 void test_ms__env();
 void test_ms__echo();
+void test_ms__cd();
 
 void test_cd__serialize_path();
 
@@ -28,8 +30,9 @@ void test_all()
 	//	test_ms__find_binary();
 	//	test_ms__get_line();
 	//	test_ms__env();
-//	test_ms__echo();
-	test_cd__serialize_path();
+	//	test_ms__echo();
+	//	test_cd__serialize_path();
+	test_ms__cd();
 }
 
 int main(int ac, char **av)
@@ -38,4 +41,13 @@ int main(int ac, char **av)
 	(void)av;
 	test_all();
 	return (EXIT_SUCCESS);
+}
+
+// utils
+void test_init_g_ms(char *str)
+{
+	char **split = ft_strsplit(str, " ");
+
+	ms__init(split);
+	ft_strsplit_free(&split);
 }

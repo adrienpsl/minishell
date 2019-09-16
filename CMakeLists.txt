@@ -31,8 +31,7 @@ add_library(${PROJECT_NAME}_lib
 
         #[[ builtin ]]
         src/ft_ms.builtin.echo.c
-
-        src/cd/ft_ms.builtin.cd.c
+        src/cd/ft_ms.cd.c
         src/cd/ft_ms.cd.serialize_path.c
 
         )
@@ -42,7 +41,7 @@ target_link_libraries(${PROJECT_NAME}_lib libft)
 # ------------------------------------------------------------------------------
 #    main module
 # ------------------------------------------------------------------------------
-add_executable(${PROJECT_NAME} main.c)
+add_executable(${PROJECT_NAME} main.c test/ft_ms.cd.h)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 
@@ -62,6 +61,7 @@ add_executable(${PROJECT_NAME}_test
 
         #[[ cd ]]
         test/ft_ms.cd.serialize_path.test.c
+        test/ft_ms.cd.test.c
 
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)

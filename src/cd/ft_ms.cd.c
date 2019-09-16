@@ -16,27 +16,31 @@
 #include <sys/param.h>
 #include "libft.h"
 
-// utils qui me return le buffer avec le current path
 char *get_current_path()
 {
 	static char buff[MAXPATHLEN + 1];
 
 	return (getcwd(buff, MAXPATHLEN));
 }
-
-int add_beguining_path(t_s *buffer);
-
-// search at pathenv.
 int go_path(t_array *env, t_s *buffer);
 int cd__serialize_path(char **argv, t_array *env, t_s *buffer);
 
-// si le path est relatif, j'
-int add_start_if_relative(t_buffer *buffer)
+int add_start_if_relative(t_s *buffer)
 {
-	if ('/' == buffer->data[0])
-	{
+	char *current_dir_path;
 
+	if ('/' != buffer->data[0])
+	{
+		if (NULL != (current_dir_path = get_current_path()))
+		{
+			fts__add_at(buffer, "/", 0);
+			fts__add_at(buffer, current_dir_path, 0);
+			return (OK);
+		}
+		else
+			return (-1);
 	}
+	return (OK);
 }
 
 int ms__cd(char **argv, t_array *env, t_s *buffer)
@@ -46,6 +50,9 @@ int ms__cd(char **argv, t_array *env, t_s *buffer)
 		argv += 1;
 	if (OK != cd__serialize_path(argv, env, buffer))
 		return (-1);
-
+	if (OK != add_start_if_relative(buffer))
+	    return (-1);
+	// go in file, update if needed env variable,
+	// print if need the last path
 	return (0);
 }

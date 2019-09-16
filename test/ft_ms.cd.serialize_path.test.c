@@ -28,13 +28,8 @@ typedef struct s
 	char *result_print;
 } t;
 
-void test_init_g_ms(char *str)
-{
-	char **split = ft_strsplit(str, " ");
+void test_init_g_ms(char *str);
 
-	ms__init(split);
-	ft_strsplit_free(&split);
-}
 void static test_add_env_var(t t)
 {
 	g_test = 1;
