@@ -47,7 +47,7 @@ int static test_and_go_dir(char *path, char *argv)
 	}
 	if (OK != chdir(path))
 	{
-		ft_printf("cd : not a directory: %s\n", argv);
+		ft_printf("cd: not a directory: %s\n", argv);
 		return (-1);
 	}
 	return (OK);

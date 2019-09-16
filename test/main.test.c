@@ -19,7 +19,7 @@ void test_ms__find_binary();
 void test_ms__get_line();
 void test_ms__env();
 void test_ms__echo();
-void test_ms__cd();
+void test_cd_move_directory();
 
 void test_cd__serialize_path();
 
@@ -32,7 +32,7 @@ void test_all()
 	//	test_ms__env();
 	//	test_ms__echo();
 	//	test_cd__serialize_path();
-	test_ms__cd();
+	test_cd_move_directory();
 }
 
 int main(int ac, char **av)
