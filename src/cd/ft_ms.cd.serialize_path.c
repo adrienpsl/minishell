@@ -16,7 +16,7 @@
 #include "libft.h"
 #include "ft_ms.cd.h"
 
-static int add_env_var(t_array *env, t_s *buffer, int size)
+int static add_env_var(t_array *env, t_s *buffer, int size)
 {
 	char *key;
 	char *value;
@@ -38,7 +38,7 @@ static int add_env_var(t_array *env, t_s *buffer, int size)
 	}
 }
 
-static int replace_in_path(char **argv, t_s *buffer)
+int static  replace_in_path(char **argv, t_s *buffer)
 {
 	char *current_path;
 
@@ -55,7 +55,7 @@ static int replace_in_path(char **argv, t_s *buffer)
 	}
 }
 
-int cd__serialize_path(char **argv, t_array *env, t_s *buffer)
+int cd__serialize_path(char **argv, t_array *env, t_s *buffer, int *print_path)
 {
 	int size;
 	int ret;
@@ -63,14 +63,21 @@ int cd__serialize_path(char **argv, t_array *env, t_s *buffer)
 	size = ft_strsplit_count(argv);
 	if (0 == size
 		|| (1 == size && OK == ft_str_cmp("-", argv[0])))
+	{
+		*print_path = 1;
 		ret = add_env_var(env, buffer, size);
+	}
 	else if (1 == size)
 	{
+		*print_path = 0;
 		fts__add(buffer, *argv);
 		ret = OK;
 	}
 	else if (2 == size)
+	{
+		*print_path = 1;
 		ret = replace_in_path(argv, buffer);
+	}
 	else
 		ret = -1;
 	return (ret);

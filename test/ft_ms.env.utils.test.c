@@ -59,7 +59,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				test_cmp_testbuff("")
+				test_cmp_buff("")
 				)
 				log_test(0)
 
@@ -74,7 +74,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"Env add bad arguments: super\n")
 				)
 				log_test(1)
@@ -90,7 +90,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"Env add bad arguments: super=\n")
 				)
 				log_test(2)
@@ -106,7 +106,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"Env add bad arguments: =\n")
 				)
 				log_test(3)
@@ -122,7 +122,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_string, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"Env add bad arguments: ======aoeuaoeu\n")
 				)
 				log_test(4)
@@ -143,7 +143,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_env_element, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"super=minh")
 				)
 				log_test(1)
@@ -161,7 +161,7 @@ void test_ms__parse_env()
 
 			ftarray__func(env, print_env_element, NULL);
 			if (
-				test_cmp_testbuff(
+				test_cmp_buff(
 					"super==miaoeuaoeu,aoeuaeosu,saoeuhaoehusaoehunh"
 					"toto========aa")
 				)
@@ -367,7 +367,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				test_cmp_testbuff("")
+					test_cmp_buff("")
 				)
 				log_test(15)
 
@@ -387,7 +387,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				test_cmp_testbuff("super=minh\n")
+					test_cmp_buff("super=minh\n")
 				)
 				log_test(15)
 
@@ -406,7 +406,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != 0 ||
-				test_cmp_testbuff("minh=belle\ntiti=toto\n")
+					test_cmp_buff("minh=belle\ntiti=toto\n")
 				)
 				log_test(15)
 
@@ -425,7 +425,7 @@ void test_ms__parse_env()
 
 			if (
 				ret != -1 ||
-				test_cmp_testbuff("minh=belle\nsuper=minh\ntiti=toto\n")
+					test_cmp_buff("minh=belle\nsuper=minh\ntiti=toto\n")
 				)
 				log_test(15)
 
@@ -453,8 +453,8 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					test_cmp_testbuff(
-						"minishell: setenv wrong variables: [ minhestbell ]\n")
+						test_cmp_buff(
+							"minishell: setenv wrong variables: [ minhestbell ]\n")
 					)
 					log_test(16)
 
@@ -474,8 +474,8 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					test_cmp_testbuff(
-						"minishell: setenv wrong variables [  ]  [ toto ]\n")
+						test_cmp_buff(
+							"minishell: setenv wrong variables [  ]  [ toto ]\n")
 					)
 					log_test(17)
 
@@ -495,8 +495,8 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					test_cmp_testbuff(
-						"minishell: setenv wrong variables [ toto ]  [  ]\n")
+						test_cmp_buff(
+							"minishell: setenv wrong variables [ toto ]  [  ]\n")
 					)
 					log_test(17)
 
@@ -516,9 +516,9 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					test_cmp_testbuff(
-						"minishell: setenv wrong variables [ toto ]  [  ]\n"
-						"minh=belle\n")
+						test_cmp_buff(
+							"minishell: setenv wrong variables [ toto ]  [  ]\n"
+							"minh=belle\n")
 					)
 					log_test(17)
 
@@ -538,8 +538,9 @@ void test_ms__parse_env()
 
 				if (
 					ret != -1 ||
-					test_cmp_testbuff("minishell: setenv wrong variables: [  ]\n"
-									 "minh=belle\n")
+						test_cmp_buff(
+							"minishell: setenv wrong variables: [  ]\n"
+							"minh=belle\n")
 					)
 					log_test(17)
 
@@ -564,8 +565,8 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					test_cmp_testbuff("minh=belle\n"
-									 "toto=less_beau_minh\n")
+						test_cmp_buff("minh=belle\n"
+									  "toto=less_beau_minh\n")
 					)
 					log_test(17)
 
@@ -586,9 +587,9 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					test_cmp_testbuff("minh=belle\n"
-									 "titi=tata\n"
-									 "toto=less_beau_minh\n")
+						test_cmp_buff("minh=belle\n"
+									  "titi=tata\n"
+									  "toto=less_beau_minh\n")
 					)
 					log_test(17)
 
@@ -608,8 +609,8 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					test_cmp_testbuff("minh=belle\n"
-									 "toto=less_beau_minh\n")
+						test_cmp_buff("minh=belle\n"
+									  "toto=less_beau_minh\n")
 					)
 					log_test(17)
 
@@ -630,9 +631,9 @@ void test_ms__parse_env()
 
 				if (
 					ret != 0 ||
-					test_cmp_testbuff("minh=belle\n"
-									 "titi=tata\n"
-									 "toto=less_beau_minh\n")
+						test_cmp_buff("minh=belle\n"
+									  "titi=tata\n"
+									  "toto=less_beau_minh\n")
 					)
 					log_test(17)
 

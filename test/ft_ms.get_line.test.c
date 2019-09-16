@@ -58,7 +58,7 @@ test_function(mt_test test)
 		)
 		log_test_line(test.nb_test, test.nb_line)
 	if (
-		test_cmp_testbuff(test.res_buff)
+		test_cmp_buff(test.res_buff)
 		)
 		log_test_line(test.nb_test, test.nb_line)
 

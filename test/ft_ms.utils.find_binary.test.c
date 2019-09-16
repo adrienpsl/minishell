@@ -64,7 +64,7 @@ void test_ms__find_binary()
 										MS__FIND_BINARY_COMPLETION);
 			if (
 				NULL != ret ||
-				test_cmp_testbuff(MS__NAME"no env PATH\n")
+					test_cmp_buff(MS__NAME"no env PATH\n")
 				)
 				log_test(1)
 

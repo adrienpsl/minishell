@@ -16,12 +16,16 @@
 
 int ms__cd(char **argv, t_array *env, t_s *buffer)
 {
+	int print_new_path;
+
 	fts__clear(buffer);
 	if (*argv && OK == ft_str_cmp("--", *argv))
 		argv += 1;
-	if (OK != cd__serialize_path(argv, env, buffer))
+	if (OK != cd__serialize_path(argv, env, buffer, &print_new_path))
 		return (-1);
 	if (OK != cd_move_directory(buffer, env))
 		return (-1);
+	if (print_new_path)
+		printf("%s\n", get_current_path());
 	return (OK);
 }

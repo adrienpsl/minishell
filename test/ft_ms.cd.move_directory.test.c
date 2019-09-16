@@ -25,7 +25,8 @@ typedef struct s
 	char *argv_str;
 
 	int result_int;
-	char *result_str;
+	char *result_buffer;
+	char *result_path;
 	char *result_oldpath;
 	char *result_print;
 } t;
@@ -43,19 +44,20 @@ void static test_move_directory(t t)
 
 	// test
 	if (test_cmp_int(t.result_int, ret)
-		|| test_cmp_str(t.result_str, g_ms.buffer_cd->data))
+		|| test_cmp_str(t.result_buffer, g_ms.buffer_cd->data))
 		log_test(1)
 
 	char *current = get_current_path();
-	if (test_cmp_str(t.result_str, current))
+	if (test_cmp_str(t.result_path, current))
 		log_test(1)
 
 	char *oldpath = ms__find_env_key(g_ms.env, "OLDPATH");
 	if (test_cmp_str(t.result_oldpath, oldpath))
 		log_test(1)
 
-	if (t.result_print)
-	    ;
+	if (t.result_print
+		&& test_cmp_buff(t.result_print))
+		log_test(1)
 
 	// clean
 	chdir("..");
@@ -102,7 +104,7 @@ void test_cd_move_directory()
 
 			int ret = test_and_go_dir("no_access", "no_access");
 			if (-1 != ret
-				|| test_cmp_testbuff("cd: permission denied: no_access\n"))
+				|| test_cmp_buff("cd: permission denied: no_access\n"))
 				log_test(1)
 		}
 
@@ -114,7 +116,7 @@ void test_cd_move_directory()
 			int ret = test_and_go_dir(name, name);
 			if (-1 != ret
 				||
-				test_cmp_testbuff("cd: no such file or directory: no_exist\n"))
+				test_cmp_buff("cd: no such file or directory: no_exist\n"))
 				log_test(1)
 			ms__free();
 		}
@@ -129,7 +131,7 @@ void test_cd_move_directory()
 			int ret = test_and_go_dir(name, name);
 
 			if (-1 != ret
-				|| test_cmp_testbuff("cd: not a directory: is_file\n"))
+				|| test_cmp_buff("cd: not a directory: is_file\n"))
 				log_test(1)
 
 			ms__free();
@@ -145,7 +147,7 @@ void test_cd_move_directory()
 			int ret = test_and_go_dir(name, name);
 
 			if (OK != ret
-				|| test_cmp_testbuff(""))
+				|| test_cmp_buff(""))
 				log_test(1)
 
 			char *current = get_current_path();
@@ -171,7 +173,8 @@ void test_cd_move_directory()
 				.env_str = "PATH=toto",
 
 				.result_int = OK,
-				.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_path = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_buffer = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
 				.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug"
 			});
 		}
@@ -183,31 +186,34 @@ void test_cd_move_directory()
 				.env_str = "PATH=toto OLDPATH=super",
 
 				.result_int = OK,
-				.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_path = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_buffer = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
 				.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug"
 			});
 		}
 
-		// test with error in path
+		// test change bien OLDPATH
 		test_move_directory((t){
 			.argv_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
 			.env_str = "PATH=toto OLDPATH=super",
 
 			.result_int = OK,
-			.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+			.result_buffer = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
 			.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug",
+			.result_path = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
 			.result_print = ""
 		});
 
-//		// if change bien oldpath
-//		test_move_directory((t){
-//			.argv_str = "aa",
-//			.env_str = "PATH=toto OLDPATH=super",
-//
-//			.result_int = -1,
-//			.result_str = "/aa",
-//			.result_oldpath = "super",
-//			.result_print = "cd: no such file or directory: aa\n"
-//		});
+		// Test error
+		test_move_directory((t){
+			.argv_str = "prout",
+			.env_str = "PATH=toto OLDPATH=super",
+
+			.result_int = -1,
+			.result_buffer = "/Users/adpusel/code/42/minishell/cmake-build-debug/prout",
+			.result_oldpath = "super",
+			.result_path = "/Users/adpusel/code/42/minishell/cmake-build-debug",
+			.result_print = "cd: no such file or directory: prout\n"
+		});
 	}
 }

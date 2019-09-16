@@ -28,7 +28,7 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			test_cmp_testbuff("\n")
+				test_cmp_buff("\n")
 			)
 			log_test(0)
 
@@ -45,7 +45,7 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			test_cmp_testbuff(" _minhesttresjolie_ \n")
+				test_cmp_buff(" _minhesttresjolie_ \n")
 			)
 			log_test(0)
 
@@ -62,7 +62,7 @@ void test_ms__parse_str()
 
 		if (
 			res == NULL ||
-			test_cmp_testbuff(" _el_1_  _ el_2 _  _el_3_ \n")
+				test_cmp_buff(" _el_1_  _ el_2 _  _el_3_ \n")
 			)
 			log_test(0)
 

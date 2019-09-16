@@ -19,7 +19,7 @@ typedef struct s
 	int nb_test;
 	int nb_line;
 	char *argument_str;
-	char *result_str;
+	char *result_buffer;
 } t;
 
 static void func_test(t t)
@@ -28,7 +28,7 @@ static void func_test(t t)
 	char **argv = ft_strsplit(t.argument_str, " ");
 	ms__echo(argv, NULL);
 
-	if (test_cmp_testbuff(t.result_str))
+	if (test_cmp_buff(t.result_buffer))
 		log_test_line(t.nb_test, t.nb_line)
 
 	ft_strsplit_free(&argv);

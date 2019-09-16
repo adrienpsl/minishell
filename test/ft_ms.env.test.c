@@ -34,7 +34,7 @@ int test_cmp_env_str(char *name, char *expected, t_array *env)
 	test_clear_testbuff();
 	ftarray__func(env, ms__print_env, (void *)1);
 
-	if (test_cmp_testbuff(expected))
+	if (test_cmp_buff(expected))
 	{
 		printf("\n%s\n", name);
 		return (1);
@@ -130,7 +130,7 @@ void test_handle_option(t t)
 	// function result test
 	if (
 		test_cmp_int(t.result_int, function_return)
-		|| test_cmp_testbuff(t.result_std_1)
+		|| test_cmp_buff(t.result_std_1)
 		)
 		log_test_line(t.nb_test, t.nb_line)
 
@@ -162,7 +162,7 @@ void test_ms__env_function(t t)
 
 	// function result test
 	if (
-		test_cmp_testbuff(t.result_std_1)
+		test_cmp_buff(t.result_std_1)
 		|| test_cmp_split_str("res argv", t.result_argv_string, function_return)
 		)
 		log_test_line(t.nb_test, t.nb_line)

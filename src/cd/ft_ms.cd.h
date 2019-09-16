@@ -21,7 +21,7 @@ char *get_current_path();
 /*
 **	Function
 */
-int cd__serialize_path(char **argv, t_array *env, t_s *buffer);
+int cd__serialize_path(char **argv, t_array *env, t_s *buffer, int *print_path);
 int cd_move_directory(t_s *buffer, t_array *env);
 
 #endif

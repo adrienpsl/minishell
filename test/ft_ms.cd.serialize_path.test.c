@@ -24,7 +24,7 @@ typedef struct s
 	char *argv_str;
 
 	int result_int;
-	char *result_str;
+	char *result_buffer;
 	char *result_print;
 } t;
 
@@ -39,9 +39,9 @@ void static test_add_env_var(t t)
 
 	if (test_cmp_int(t.result_int, ret))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_str(t.result_str, g_ms.buffer_cd->data))
+	if (test_cmp_str(t.result_buffer, g_ms.buffer_cd->data))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_testbuff(t.result_print))
+	if (test_cmp_buff(t.result_print))
 		log_test_line(t.nb_test, t.nb_line);
 	ms__free();
 	g_test = 0;
@@ -57,9 +57,9 @@ void static test_replace_in_path(t t)
 
 	if (test_cmp_int(t.result_int, ret))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_str(t.result_str, g_ms.buffer_cd->data))
+	if (test_cmp_str(t.result_buffer, g_ms.buffer_cd->data))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_testbuff(t.result_print))
+	if (test_cmp_buff(t.result_print))
 		log_test_line(t.nb_test, t.nb_line)
 
 	ft_strsplit_free(&argv);
@@ -73,13 +73,13 @@ void static test_serialize_path(t t)
 	test_init_g_ms(t.env_str);
 	char **argv = ft_strsplit(t.argv_str, " ");
 
-	int ret = cd__serialize_path(argv, g_ms.env, g_ms.buffer_cd);
+	int ret = cd__serialize_path(argv, g_ms.env, g_ms.buffer_cd, NULL);
 
 	if (test_cmp_int(t.result_int, ret))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_str(t.result_str, g_ms.buffer_cd->data))
+	if (test_cmp_str(t.result_buffer, g_ms.buffer_cd->data))
 		log_test_line(t.nb_test, t.nb_line)
-	if (test_cmp_testbuff(t.result_print))
+	if (test_cmp_buff(t.result_print))
 		log_test_line(t.nb_test, t.nb_line);
 
 	ms__free();
