@@ -26,31 +26,42 @@ typedef struct s
 
 	int result_int;
 	char *result_str;
+	char *result_oldpath;
 	char *result_print;
 } t;
 
+void static test_move_directory(t t)
+{
+	g_test = 1;
+	// set up
+	test_init_g_ms(t.env_str);
+	system("mkdir -p move_test_dir");
+	fts__add(g_ms.buffer_cd, t.argv_str);
 
-//void static test_serialize_path(t t)
-//{
-//	g_test = 1;
-//
-//	test_init_g_ms(t.env_str);
-//	char **argv = ft_strsplit(t.argv_str, " ");
-//
-//	int ret = cd__serialize_path(argv, g_ms.env, g_ms.buffer_cd);
-//
-//	if (test_cmp_int(t.result_int, ret))
-//		log_test_line(t.nb_test, t.nb_line)
-//	if (test_cmp_str(t.result_str, g_ms.buffer_cd->data))
-//		log_test_line(t.nb_test, t.nb_line)
-//	if (test_cmp_testbuff(t.result_print))
-//		log_test_line(t.nb_test, t.nb_line);
-//
-//	ms__free();
-//	ft_strsplit_free(&argv);
-//	g_test = 0;
-//}
+	// call
+	int ret = cd_move_directory(g_ms.buffer_cd, g_ms.env);
 
+	// test
+	if (test_cmp_int(t.result_int, ret)
+		|| test_cmp_str(t.result_str, g_ms.buffer_cd->data))
+		log_test(1)
+
+	char *current = get_current_path();
+	if (test_cmp_str(t.result_str, current))
+		log_test(1)
+
+	char *oldpath = ms__find_env_key(g_ms.env, "OLDPATH");
+	if (test_cmp_str(t.result_oldpath, oldpath))
+		log_test(1)
+
+	if (t.result_print)
+	    ;
+
+	// clean
+	chdir("..");
+	ms__free();
+	g_test = 0;
+}
 
 void test_cd_move_directory()
 {
@@ -75,16 +86,12 @@ void test_cd_move_directory()
 
 		fts__free(&s);
 	}
+
 	/*
 	* test_and_go_dir
 	* */
 	{
 		g_test = 1;
-		// create 3 file
-		// - one not dir
-		// - one no access
-		// - one no exist
-		// - one good
 
 		// test no- access
 		{
@@ -109,6 +116,7 @@ void test_cd_move_directory()
 				||
 				test_cmp_testbuff("cd: no such file or directory: no_exist\n"))
 				log_test(1)
+			ms__free();
 		}
 
 		// not a directory
@@ -117,10 +125,14 @@ void test_cd_move_directory()
 			char *name = "is_file";
 			test_init_g_ms("PATH=taat");
 			fts__add(g_ms.buffer_cd, name);
+
 			int ret = test_and_go_dir(name, name);
+
 			if (-1 != ret
 				|| test_cmp_testbuff("cd: not a directory: is_file\n"))
 				log_test(1)
+
+			ms__free();
 		}
 
 		// not a directory
@@ -129,17 +141,73 @@ void test_cd_move_directory()
 			char *name = "good_dir";
 			test_init_g_ms("PATH=taat");
 			fts__add(g_ms.buffer_cd, name);
+
 			int ret = test_and_go_dir(name, name);
+
 			if (OK != ret
 				|| test_cmp_testbuff(""))
 				log_test(1)
+
 			char *current = get_current_path();
 			if (test_cmp_str(current,
 							 "/Users/adpusel/code/42/minishell/cmake-build-debug/good_dir"))
 				log_test(1)
+
 			chdir("..");
+			ms__free();
 		}
 
 		g_test = 0;
+	}
+
+	/*
+	* test move director
+	* */
+	{
+		// test relative path
+		{
+			test_move_directory((t){
+				.argv_str = "move_test_dir",
+				.env_str = "PATH=toto",
+
+				.result_int = OK,
+				.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug"
+			});
+		}
+
+		// test absolute path
+		{
+			test_move_directory((t){
+				.argv_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.env_str = "PATH=toto OLDPATH=super",
+
+				.result_int = OK,
+				.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+				.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug"
+			});
+		}
+
+		// test with error in path
+		test_move_directory((t){
+			.argv_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+			.env_str = "PATH=toto OLDPATH=super",
+
+			.result_int = OK,
+			.result_str = "/Users/adpusel/code/42/minishell/cmake-build-debug/move_test_dir",
+			.result_oldpath = "/Users/adpusel/code/42/minishell/cmake-build-debug",
+			.result_print = ""
+		});
+
+//		// if change bien oldpath
+//		test_move_directory((t){
+//			.argv_str = "aa",
+//			.env_str = "PATH=toto OLDPATH=super",
+//
+//			.result_int = -1,
+//			.result_str = "/aa",
+//			.result_oldpath = "super",
+//			.result_print = "cd: no such file or directory: aa\n"
+//		});
 	}
 }
