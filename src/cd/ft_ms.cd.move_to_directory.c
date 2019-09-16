@@ -11,67 +11,67 @@
 /* ************************************************************************** */
 
 #include <ft_s.h>
-#include <minishell.defines.h>
 #include <minishell.prototypes.h>
 #include "libft.h"
 #include "ft_ms.cd.h"
 
-static int add_env_var(t_array *env, t_s *buffer, int size)
+int static add_start_if_relative(t_s *buffer)
 {
-	char *key;
-	char *value;
+	char *current_dir_path;
 
-	if (size == 0)
-		key = "HOME";
-	else
-		key = "OLDPATH";
-	value = ms__find_env_key(env, key);
-	if ('\0' != *value)
+	if ('/' != buffer->data[0])
 	{
-		fts__add(buffer, value);
-		return (OK);
+		if (NULL != (current_dir_path = get_current_path()))
+		{
+			fts__add_at(buffer, "/", 0);
+			fts__add_at(buffer, current_dir_path, 0);
+			return (OK);
+		}
+		else
+			return (-1);
 	}
-	else
-	{
-		ft_printf(MS__NAME"line %d: cd: %s not set\n", __LINE__, key);
-		return (-1);
-	}
+	return (OK);
 }
 
-static int replace_in_path(char **argv, t_s *buffer)
+int static test_and_go_dir(char *path, char *argv)
 {
-	char *current_path;
-
-	current_path = get_current_path();
-	if (NULL == current_path)
-		return (-1);
-	fts__add(buffer, current_path);
-	if (OK == fts__replace_str(buffer, argv[0], argv[1]))
-		return (OK);
-	else
+	if (OK != access(path, F_OK))
 	{
-		ft_printf("cd: string not in pwd: %s\n", argv[0]);
+		ft_printf("cd: no such file or directory: %s\n", argv);
 		return (-1);
 	}
+	if (OK != access(path, R_OK))
+	{
+		ft_printf("cd: permission denied: %s\n", argv);
+		return (-1);
+	}
+	if (OK != chdir(path))
+	{
+		ft_printf("cd : not a directory: %s\n", argv);
+		return (-1);
+	}
+	return (OK);
 }
 
-int cd__serialize_path(char **argv, t_array *env, t_s *buffer)
+int cd_move_directory(t_s *buffer, t_array *env)
 {
-	int size;
 	int ret;
+	char *argument;
+	char *old_path;
 
-	size = ft_strsplit_count(argv);
-	if (0 == size
-		|| (1 == size && OK == ft_str_cmp("-", argv[0])))
-		ret = add_env_var(env, buffer, size);
-	else if (1 == size)
+	ret = -1;
+	if (NULL == (argument = ft_strdup(buffer->data))
+		|| NULL == (old_path = ft_strdup(get_current_path())))
+		return (ret);
+	if (OK == add_start_if_relative(buffer))
 	{
-		fts__add(buffer, *argv);
-		ret = OK;
+		if (OK == test_and_go_dir(buffer->data, argument))
+		{
+			ms__env_add(env, "OLDPATH", old_path, NULL);
+			ret = OK;
+		}
 	}
-	else if (2 == size)
-		ret = replace_in_path(argv, buffer);
-	else
-		ret = -1;
+	free(argument);
+	free(old_path);
 	return (ret);
 }

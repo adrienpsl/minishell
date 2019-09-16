@@ -10,18 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.stuctures.h>
-#include "libft.h"
-#include "ft_ms.cd.h"
+#include <sys/param.h>
+#include <zconf.h>
 
-int ms__cd(char **argv, t_array *env, t_s *buffer)
+char *get_current_path()
 {
-	fts__clear(buffer);
-	if (*argv && OK == ft_str_cmp("--", *argv))
-		argv += 1;
-	if (OK != cd__serialize_path(argv, env, buffer))
-		return (-1);
-	if (OK != cd_move_directory(buffer, env))
-		return (-1);
-	return (OK);
+	static char buff[MAXPATHLEN + 1];
+
+	return (getcwd(buff, MAXPATHLEN));
 }
