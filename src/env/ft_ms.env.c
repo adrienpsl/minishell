@@ -108,17 +108,23 @@ static int handle_options(char ***argv, t_array *env, t_array **env_tmp)
  * @param env
  * @return success == remain argument,
  */
-char **ms__env(char **argv, t_array *env, t_array **env_tmp)
+t_array *ms__env(char ***argv, t_array *env)
 {
-	if (*argv && **argv == '-')
+	t_array *env_tmp;
+
+	env_tmp = NULL;
+	if (*argv && ***argv == '-')
 	{
-		if (OK != handle_options(&argv, env, env_tmp))
+		if (OK != handle_options(argv, env, &env_tmp))
 			return (NULL);
 	}
 	if (NULL == *argv)
 	{
-//		ftarray__func(get__env(ms), ms__print_env, NULL);
+		ftarray__func(env_tmp ? env_tmp : env, ms__print_env, NULL);
 		return (NULL);
 	}
-	return (argv);
+	else
+	{
+		return (env_tmp);
+	}
 }

@@ -61,19 +61,22 @@ char *find_binary_path(char *name, t_array *env, t_s *buffer)
 	}
 }
 
-int ms__exec(char **argv, t_array *env, t_s *buffer)
+int ms__exec(char **argv, t_array *env)
 {
 	char **split_env;
 	char *path;
+	t_s *buffer;
 
 	split_env = NULL;
 	path = NULL;
-	if (NULL != (path = find_binary_path(argv[0], env, buffer))
+	if (NULL != (buffer = fts__init(100))
+		&& NULL != (path = find_binary_path(argv[0], env, buffer))
 		&& NULL != (split_env = ms__convert_env(env, buffer)))
 	{
 		ms_exec_binary(path, argv, split_env);
 	}
 	ft_strsplit_free(&split_env);
 	ftstr__free(&path);
+	fts__free(&buffer);
 	return (0);
 }

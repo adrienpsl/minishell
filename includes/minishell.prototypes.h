@@ -18,9 +18,9 @@
 
 #include "minishell.stuctures.h"
 // builtin
-int ms__echo(char **argv, t_array **env);
-int ms__exit();
-int ms__exec(char **argv, t_array *env, t_s *buffer);
+int ms__echo(char **argv, t_array *env);
+int ms__exit(char **null, t_array *array);
+int ms__exec(char **argv, t_array *env);
 
 /*
 **	Env handling ---------------------------------------------------------------
@@ -30,7 +30,7 @@ char *ms__find_env_key(t_array *env, char *key);
 int find_variable(void *v_element, void *param);
 int ms__env_remove(t_array *env, char *key);
 int ms__env_add(t_array *env, char *key, char *value, char *variable);
-char **ms__env(char **argv, t_array *env, t_array **env_tmp);
+t_array *ms__env(char ***argv, t_array *env);
 t_array *ms__parse_env(char **env_system);
 
 int ms__setenv(char **argv, t_array *env);
@@ -70,6 +70,6 @@ int ms__init(char **env);
 void ms__free();
 
 // cd
-int ms__cd(char **argv, t_array *env, t_s *buffer);
+int ms__cd(char **argv, t_array *env);
 
 #endif

@@ -14,11 +14,13 @@
 #include "libft.h"
 #include "ft_ms.cd.h"
 
-int ms__cd(char **argv, t_array *env, t_s *buffer)
+int ms__cd(char **argv, t_array *env)
 {
 	int print_new_path;
+	t_s *buffer;
 
-	fts__clear(buffer);
+	if (NULL == (buffer = fts__init(100)))
+		return (-1);
 	if (*argv && OK == ft_str_cmp("--", *argv))
 		argv += 1;
 	if (OK != cd__serialize_path(argv, env, buffer, &print_new_path))
@@ -27,5 +29,6 @@ int ms__cd(char **argv, t_array *env, t_s *buffer)
 		return (-1);
 	if (print_new_path)
 		ft_printf("%s\n", get_current_path());
+	fts__free(&buffer);
 	return (OK);
 }

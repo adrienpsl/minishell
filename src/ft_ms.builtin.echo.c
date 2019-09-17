@@ -10,12 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <ft_s.h>
 #include "libft.h"
 
-int ms__echo(char **argv, t_array **env)
+int ms__echo(char **argv, t_array *env, t_s *s)
 {
 	int new_line;
 	(void)env;
+	(void)s;
 
 	if (OK == ft_str_cmp("-n", argv[0]))
 	{

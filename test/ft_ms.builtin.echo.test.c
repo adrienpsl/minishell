@@ -26,7 +26,7 @@ static void func_test(t t)
 {
 	g_test = 1;
 	char **argv = ft_strsplit(t.argument_str, " ");
-	ms__echo(argv, NULL);
+	ms__echo(argv, NULL, NULL);
 
 	if (test_cmp_buff(t.result_buffer))
 		log_test_line(t.nb_test, t.nb_line)

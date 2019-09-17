@@ -13,8 +13,10 @@
 #include <minishell.prototypes.h>
 #include "libft.h"
 
-int ms__exit()
+int ms__exit(char **null, t_array *array)
 {
+	(void)null;
+	(void)array;
 	ms__free();
 	exit(EXIT_SUCCESS);
 }
