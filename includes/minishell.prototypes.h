@@ -19,6 +19,7 @@
 #include "minishell.stuctures.h"
 // builtin
 int ms__echo(char **argv, t_array **env);
+int ms__exit();
 
 /*
 **	Env handling ---------------------------------------------------------------

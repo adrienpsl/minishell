@@ -28,9 +28,11 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.raw_mode.c
         src/ft_ms.raw_mode.c
         src/ms__ftarray_adapter.c
+        src/ft_ms.exec.c
 
         #[[ builtin ]]
         src/ft_ms.builtin.echo.c
+        src/ft_ms.exit.c
 
         #[[ cd ]]
         src/cd/ft_ms.cd.c

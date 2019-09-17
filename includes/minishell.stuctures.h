@@ -26,6 +26,7 @@ typedef struct s_ms
 	t_s *buffer;
 	t_s *current_line;
 	t_s *buffer_cd;
+	t_s *buffer_exec;
 	struct termios termios;
 } t_ms;
 

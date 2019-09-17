@@ -32,6 +32,7 @@ void static test_function(t t)
 {
 	g_test = 1;
 	// init
+	test_clear_testbuff();
 	test_init_g_ms(t.env_str);
 	char **argv = ft_strsplit(t.str_argv, " ");
 
@@ -90,8 +91,8 @@ void test__ms_cd()
 		.result_print = "",
 	});
 
-this not work !
-	// test print path with arg arg
+	chdir("/Users/adpusel/code/42/minishell/cmake-build-debug");
+	// test   print path with arg arg
 	test_function((t){
 		.nb_test = 1,
 		.nb_line = L,
@@ -100,6 +101,6 @@ this not work !
 		.env_str = "OLDPATH=..",
 
 		.result_int = OK,
-		.result_print = "/Users/adpusel/code/42\n",
+		.result_print = "/Users/adpusel/code/42/minishell/cmake-build-debug\n",
 	});
 }

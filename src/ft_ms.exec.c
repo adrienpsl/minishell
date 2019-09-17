@@ -10,48 +10,46 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.stuctures.h>
+#include <ft_s.h>
 #include <minishell.prototypes.h>
-#include <ft_mem.h>
-#include <sys/param.h>
-#include "stdlib.h"
+#include <minishell.defines.h>
+#include "libft.h"
 
-int ms__func_free_env(void *element, void *param)
+static int ms_exec_binary(char *path, char **argv, char **env)
 {
-	t_env_el *el;
-	(void)param;
+	pid_t pid;
 
-	el = element;
-	free(el->value);
-	free(el->key);
+	pid = fork();
+	//	signal(SIGINT, ms_signal_exec);
+	if (pid == 0)
+		execve(path, argv, env);
+	if (pid > 0)
+		wait(&pid);
+	if (pid < 0)
+	{
+		ft_printf("error binary");
+	}
+	//	signal(SIGINT, ms_signal_minishell);
+	free(path);
 	return (0);
 }
 
-int ms__init(char **env)
+int ms__exec(char **argv, t_array *env, t_s *buffer)
 {
-	ft_bzero(&g_ms, sizeof(g_ms));
-	if (
-		NULL == (g_ms.env = ms__parse_env(env))
-		|| NULL == (g_ms.buffer = fts__init(200))
-		|| NULL == (g_ms.current_line = fts__init(200))
-		|| NULL == (g_ms.buffer_cd = fts__init(MAXPATHLEN * 2))
-		|| NULL == (g_ms.buffer_exec = fts__init(MAXPATHLEN * 2))
-		)
-		return (-1);
-	else
-		return (0);
-}
+	char **split_env;
+	char *path;
 
-void ms__free()
-{
-	if (g_ms.env)
-		ftarray__free_func(&g_ms.env, ms__func_free_env, NULL);
-	if (g_ms.buffer)
-		fts__free(&g_ms.buffer);
-	if (g_ms.current_line)
-		fts__free(&g_ms.current_line);
-	if (g_ms.buffer_cd)
-		fts__free(&g_ms.buffer_cd);
-	if (g_ms.buffer_exec)
-		fts__free(&g_ms.buffer_exec);
+	fts__clear(buffer);
+	if (argv[0][1] == '/')
+		path = ft_strdup(argv[0]);
+	else
+		path = ft_strdup(
+			ms__find_binary(env, argv[0], buffer, MS__FIND_BINARY_SEARCH));
+	split_env = ms__convert_env(env, buffer);
+	if (NULL != path && NULL != split_env)
+	{
+		ms_exec_binary(path, argv, split_env);
+	}
+	ft_strsplit_free(&split_env);
+	ftstr__free(&path);
 }

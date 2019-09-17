@@ -15,7 +15,7 @@
        [X] unsetenv
        [X] env 
        [X] echo
-       * cd
+       [X] cd
        * exit
 
 - signal - and with get_line
@@ -31,3 +31,7 @@ test env -- env -
 # pseudo code env 
 ** le tmp env, une utils return the good one
 ** 
+
+# note of the day
+
+- la function system n'influt pas sur mon program

@@ -24,9 +24,7 @@ int find_variable(void *v_element, void *param)
 
 	element = v_element;
 	key = param;
-	if (
-		0 == ft_str_cmp(element->key, key)
-		)
+	if (0 == ft_str_cmp(element->key, key))
 		return (1);
 	else
 		return (0);
@@ -58,23 +56,16 @@ char **ms__convert_env(t_array *env, t_s *s)
 	char **env_system;
 	t_env_el *element;
 
-	if (
-		NULL == (env_system =
-					 ft_memalloc(sizeof(char **) * (env->length + 1)))
-		)
+	if (NULL == (env_system =
+					 ft_memalloc(sizeof(char **) * (env->length + 1))))
 		return (NULL);
 	ftarray__set_start(env);
-	while (
-		(element = ftarray__next(env))
-		)
+	while ((element = ftarray__next(env)))
 	{
 		build_variable(element, s);
-		if (
-			NULL == (*env_system = ft_strdup(s->data))
-			)
+		if (NULL == (*env_system = ft_strdup(s->data)))
 			return (NULL);
 		env_system++;
 	}
 	return (env_system - env->length);
 }
-
