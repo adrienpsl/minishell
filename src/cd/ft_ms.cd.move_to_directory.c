@@ -35,16 +35,8 @@ int static add_start_if_relative(t_s *buffer)
 
 int static test_and_go_dir(char *path, char *argv)
 {
-	if (OK != access(path, F_OK))
-	{
-		ft_printf("cd: no such file or directory: %s\n", argv);
-		return (-1);
-	}
-	if (OK != access(path, R_OK))
-	{
-		ft_printf("cd: permission denied: %s\n", argv);
-		return (-1);
-	}
+	if (OK != ft_exist_and_right_file(path, "cd", argv))
+	    return (-1);
 	if (OK != chdir(path))
 	{
 		ft_printf("cd: not a directory: %s\n", argv);

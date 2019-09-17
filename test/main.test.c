@@ -22,6 +22,7 @@ void test_ms__echo();
 void test_cd_move_directory();
 void test_cd__serialize_path();
 void test__ms_cd();
+void test_ms__exec();
 
 void test_all()
 {
@@ -33,7 +34,8 @@ void test_all()
 	//	test_ms__echo();
 	//	test_cd__serialize_path();
 	//	test_cd_move_directory();
-	test__ms_cd();
+	//	test__ms_cd();
+	test_ms__exec();
 }
 
 int main(int ac, char **av)

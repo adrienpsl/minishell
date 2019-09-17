@@ -14,6 +14,8 @@
 #include <minishell.prototypes.h>
 #include <ft_mem.h>
 #include <sys/param.h>
+#include <libft_define.h>
+#include <ft_printf.h>
 #include "stdlib.h"
 
 int ms__func_free_env(void *element, void *param)
@@ -54,4 +56,19 @@ void ms__free()
 		fts__free(&g_ms.buffer_cd);
 	if (g_ms.buffer_exec)
 		fts__free(&g_ms.buffer_exec);
+}
+
+int ft_exist_and_right_file(char *path, char *name, char *argv)
+{
+	if (OK != access(path, F_OK))
+	{
+		ft_printf("%s: no such file or directory: %s\n", name, argv);
+		return (-1);
+	}
+	if (OK != access(path, R_OK))
+	{
+		ft_printf("%s: permission denied: %s\n", name, argv);
+		return (-1);
+	}
+	return (OK);
 }

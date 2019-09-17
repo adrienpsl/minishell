@@ -15,41 +15,72 @@
 #include <minishell.defines.h>
 #include "libft.h"
 
-static int ms_exec_binary(char *path, char **argv, char **env)
+int ms_exec_binary(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
 	pid = fork();
 	//	signal(SIGINT, ms_signal_exec);
 	if (pid == 0)
-		execve(path, argv, env);
+		if (-1 == execve(path, argv, env))
+			return (-1);
 	if (pid > 0)
 		wait(&pid);
 	if (pid < 0)
-	{
-		ft_printf("error binary");
-	}
+		return (-1);
 	//	signal(SIGINT, ms_signal_minishell);
-	free(path);
-	return (0);
+	return (OK);
+}
+
+char *find_binary_path(char *name, t_array *env, t_s *buffer)
+{
+	if (name[0] != '/')
+	{
+		ms__find_binary(env, name, buffer, MS__FIND_BINARY_SEARCH);
+		if ('\0' == buffer->data[0])
+		{
+			ft_printf(MS__NAME" command not found: %s\n", name);
+			return (NULL);
+		}
+		else
+		{
+			if (OK == ft_exist_and_right_file(buffer->data, MS__NAME, name))
+				return (ft_strdup(buffer->data));
+			else
+				return (NULL);
+		}
+	}
+	else
+	{
+		if (OK == ft_exist_and_right_file(name, MS__NAME, name))
+			return (ft_strdup(name));
+		else
+			return (NULL);
+	}
 }
 
 int ms__exec(char **argv, t_array *env, t_s *buffer)
 {
 	char **split_env;
 	char *path;
+	(void)argv;
+	(void)path;
 
-	fts__clear(buffer);
-	if (argv[0][1] == '/')
-		path = ft_strdup(argv[0]);
-	else
-		path = ft_strdup(
-			ms__find_binary(env, argv[0], buffer, MS__FIND_BINARY_SEARCH));
+	int ret;
+	(void)ret;
+
+	//	if ();
 	split_env = ms__convert_env(env, buffer);
-	if (NULL != path && NULL != split_env)
-	{
-		ms_exec_binary(path, argv, split_env);
-	}
+	//	if (NULL != path && '\0' != *path
+	//		&& NULL != split_env)
+	//		ret = ms_exec_binary(path, argv, split_env);
+	//	else
+	//		ret = -1;
 	ft_strsplit_free(&split_env);
-	ftstr__free(&path);
+	//	ftstr__free(&path);
+	//	return (ret);
+	return (0);
 }
+
+// il me faut une fonction pour tester les files
+// et savoir quelle est le pb.

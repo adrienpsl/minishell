@@ -63,6 +63,7 @@ add_executable(${PROJECT_NAME}_test
         test/ft_ms.utils.find_binary.test.c
         test/ft_ms.get_line.test.c
         test/ft_ms.env.test.c
+        test/ft_ms.test_exec.c
         test/ft_ms.builtin.echo.test.c
 
         #[[ cd ]]

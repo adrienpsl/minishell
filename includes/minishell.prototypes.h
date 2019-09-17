@@ -20,6 +20,7 @@
 // builtin
 int ms__echo(char **argv, t_array **env);
 int ms__exit();
+int ms__exec(char **argv, t_array *env, t_s *buffer);
 
 /*
 **	Env handling ---------------------------------------------------------------
@@ -37,6 +38,7 @@ int ms__unsetenv(char **argv, t_array *env);
 // utils
 t_env_el *ms__parse_env_variable(char *variable, int print_error);
 t_env_el *ms__fill_env_el(char *key, char *value, int print_error);
+int ft_exist_and_right_file(char *path, char *name, char *argv);
 
 /*
 **	parser

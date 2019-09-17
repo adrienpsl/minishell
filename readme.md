@@ -35,3 +35,8 @@ test env -- env -
 # note of the day
 
 - la function system n'influt pas sur mon program
+-   j'ai une fonction qui attents sont buffer d'une autre, et c'est grave relou 
+    car je dois lui donner tout ca tout ca. 
+    comme je dois gerer les buffers avec les possibiliter de kill, 
+    je vais faire une sorte de garbage collector !
+    
