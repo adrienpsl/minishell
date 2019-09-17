@@ -22,8 +22,10 @@ int ms_exec_binary(char *path, char **argv, char **env)
 	pid = fork();
 	//	signal(SIGINT, ms_signal_exec);
 	if (pid == 0)
+	{
 		if (-1 == execve(path, argv, env))
 			return (-1);
+	}
 	if (pid > 0)
 		wait(&pid);
 	if (pid < 0)
@@ -63,24 +65,15 @@ int ms__exec(char **argv, t_array *env, t_s *buffer)
 {
 	char **split_env;
 	char *path;
-	(void)argv;
-	(void)path;
 
-	int ret;
-	(void)ret;
-
-	//	if ();
-	split_env = ms__convert_env(env, buffer);
-	//	if (NULL != path && '\0' != *path
-	//		&& NULL != split_env)
-	//		ret = ms_exec_binary(path, argv, split_env);
-	//	else
-	//		ret = -1;
+	split_env = NULL;
+	path = NULL;
+	if (NULL != (path = find_binary_path(argv[0], env, buffer))
+		&& NULL != (split_env = ms__convert_env(env, buffer)))
+	{
+		ms_exec_binary(path, argv, split_env);
+	}
 	ft_strsplit_free(&split_env);
-	//	ftstr__free(&path);
-	//	return (ret);
+	ftstr__free(&path);
 	return (0);
 }
-
-// il me faut une fonction pour tester les files
-// et savoir quelle est le pb.

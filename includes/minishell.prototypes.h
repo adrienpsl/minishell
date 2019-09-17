@@ -30,6 +30,7 @@ char *ms__find_env_key(t_array *env, char *key);
 int find_variable(void *v_element, void *param);
 int ms__env_remove(t_array *env, char *key);
 int ms__env_add(t_array *env, char *key, char *value, char *variable);
+char **ms__env(char **argv, t_array *env, t_array **env_tmp);
 t_array *ms__parse_env(char **env_system);
 
 int ms__setenv(char **argv, t_array *env);

@@ -133,45 +133,4 @@ void test_ms__exec()
 	});
 
 
-
-
-
-
-
-
-	//	// work with  /
-	//	test_function((t){ .nb_test = 0, .nb_line = L,
-	//						.env_str = "toto=tiit",
-	//						.str_argv = "/bin/ls -l /Users/adpusel/code/42/minishell/cmake-build-debug/toto",
-	//						.result_int = OK,
-	//						.result_print = ""
-	//					});
-	//
-	//	// error in with /
-	//	test_function((t){ .nb_test = 0, .nb_line = L,
-	//		.env_str = "toto=tiit",
-	//		.str_argv = "/bi/ls -l /Users/adpusel/code/42/minishell/cmake-build-debug/toto",
-	//		.result_int = OK,
-	//		.result_print = ""
-	//	});
-	//
-	//	// test no path
-	//	test_function((t){ .nb_test = 0, .nb_line = L,
-	//		.env_str = "toto=tiit",
-	//		.str_argv = "ls -l /Users/adpusel/code/42/minishell/cmake-build-debug/toto",
-	//		.result_int = -1,
-	//		.result_print = "minishell: PATH not set\n"
-	//	});
-
-	//	// test path but no ls
-	//	test_function((t){ .nb_test = 0, .nb_line = L,
-	//		.env_str = "toto=tiit",
-	//		.str_argv = "ls -l /Users/adpusel/code/42/minishell/cmake-build-debug/toto",
-	//		.result_int = -1,
-	//		.result_print = "minishell: PATH not set\n"
-	//	});
-
-	// test without path
-
-	// test with
 }

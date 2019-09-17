@@ -25,6 +25,7 @@
 # test 
 test les fuites memoire avec env -u de env -u en recusif
 test env -- env -
+pas tester la fin de exec
 
 
 
