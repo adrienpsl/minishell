@@ -30,7 +30,7 @@ char *one_and_zero_argv(char *argv, char **env)
 	return (path);
 }
 
-char *two_argument(char **argv)
+char *two_argument(char *argv[2])
 {
 	char *current_path;
 	char *new_path;
@@ -67,6 +67,9 @@ char *add_current_path(char *path)
 	new_path = ft_strjoin(ftsystm__get_current_path(), new_path, 2);
 	return (new_path);
 }
+
+// il doit avoir un triple ptr sur env, et c'est lui qu
+// que je passe a tout mes elements
 
 //int ms__cd(char **argv, char  **env)
 //{
