@@ -10,25 +10,76 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.stuctures.h>
-#include "libft.h"
+#include <minishell.defines.h>
 #include "ft_ms.cd.h"
+#include "stdlib.h"
 
-int ms__cd(char **argv, t_array *env)
+char *one_and_zero_argv(char *argv, char **env)
 {
-	int print_new_path;
-	t_s *buffer;
+	char *path;
+	char *key;
 
-	if (NULL == (buffer = fts__init(100)))
+	if (NULL == argv || OK == ft_strcmp("-", argv))
+	{
+		key = (argv == NULL) ? "HOME" : "OLDPATH";
+		path = ms__get_value(env, key);
+		if (path == NULL)
+			ft_printf(MS__NAME"line %d: cd: %s not set\n", __LINE__, key);
+	}
+	else
+		path = ft_strdup(argv);
+	return (path);
+}
+
+char *two_argument(char **argv)
+{
+	char *current_path;
+	char *new_path;
+
+	current_path = ftsystm__get_current_path();
+	if (NULL != current_path)
+	{
+		new_path = ftstr__replace_str(current_path, argv[0], argv[1]);
+		if (new_path)
+			return (new_path);
+		else
+			ft_printf("cd: string not in pwd: %s\n", argv[0]);
+	}
+	return (NULL);
+}
+
+int test_and_go_dir(char *path, char *argv)
+{
+	if (OK != ftsystm__test_file(path, "cd", argv))
 		return (-1);
-	if (*argv && OK == ft_str_cmp("--", *argv))
-		argv += 1;
-	if (OK != cd__serialize_path(argv, env, buffer, &print_new_path))
+	if (OK != chdir(path))
+	{
+		ft_printf("cd: not a directory: %s\n", argv);
 		return (-1);
-	if (OK != cd_move_directory(buffer, env))
-		return (-1);
-	if (print_new_path)
-		ft_printf("%s\n", get_current_path());
-	fts__free(&buffer);
+	}
 	return (OK);
 }
+
+char *add_current_path(char *path)
+{
+	char *new_path;
+
+	new_path = ft_strjoin("/", path, 3);
+	new_path = ft_strjoin(ftsystm__get_current_path(), new_path, 3);
+	return (new_path);
+}
+
+//int ms__cd(char **argv, char  **env)
+//{
+//
+//	if (*argv && OK == ft_str_cmp("--", *argv))
+//		argv += 1;
+////	if (OK != cd__serialize_path(argv, env, buffer, &print_new_path))
+////		return (-1);
+////	if (OK != cd_move_directory(buffer, env))
+////		return (-1);
+////	if (print_new_path)
+////		ft_printf("%s\n", ftsystm__get_current_path());
+////	fts__free(&buffer);
+//	return (OK);
+//}

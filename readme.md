@@ -1,3 +1,20 @@
+# rewrite full of that shit
+
+env = un split
+internal >  search value
+            add value
+            delete value 
+of the split;
+
+but I can do that with the simple str and no build fucking stuff that we didn't care
+that's my pb I build shit.
+
+set_env
+unset_en 
+
+
+
+
 ## env intern variable
 [x] parse
 [x] convert 

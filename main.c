@@ -1,13 +1,6 @@
-#include <stdio.h>
-
-# include "minishell.defines.h"
-# include "minishell.prototypes.h"
-# include "minishell.stuctures.h"
-
-//// TODO :  tester with bad env
-
-int main()
+int main(int ac, char **av)
 {
-	printf("Hello, World!\n");
-	return 0;
+	(void)ac;
+	(void)av;
+	return (1);
 }

@@ -17,26 +17,4 @@
 #include <ft_s.h>
 #include <termios.h>
 
-typedef struct s_ms
-{
-	int fd;
-	int ctrl_c;
-	t_array *env;
-	t_array *env_tmp;
-	t_s *buffer;
-	t_s *current_line;
-	t_s *buffer_cd;
-	t_s *buffer_exec;
-	struct termios termios;
-} t_ms;
-
-typedef struct s_env_el
-{
-	char *key;
-	char *value;
-} t_env_el;
-
-t_ms g_ms;
-extern t_ms g_ms;
-
 #endif

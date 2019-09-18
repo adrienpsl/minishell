@@ -14,8 +14,6 @@
 #define MINISHELL_MINISHELL_DEFINES
 
 # define MS__NAME "minishell: "
-# define MS__FIND_BINARY_COMPLETION 0
-# define MS__FIND_BINARY_SEARCH 1
 # define MS__DEL "\177"
 # define MS__TAB "\t"
 

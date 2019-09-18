@@ -14,12 +14,19 @@
 #define FT_MS_CD
 
 /*
-**	Utils
+**	Libft  ---------------------------------------------------------------------
 */
-char *get_current_path();
+# include <ft_s.h>
+# include <ft_array.h>
+# include <libft_define.h>
+# include <ft_str.h>
+# include <ft_printf.h>
+# include <minishell.prototypes.h>
+
+# include <ft_systm.h>
 
 /*
-**	Function
+**	Prototypes  ----------------------------------------------------------------
 */
 int cd__serialize_path(char **argv, t_array *env, t_s *buffer, int *print_path);
 int cd_move_directory(t_s *buffer, t_array *env);
