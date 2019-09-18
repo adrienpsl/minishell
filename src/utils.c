@@ -16,8 +16,14 @@ static int ms__find_variable(char *current, void *searched)
 {
 	int position;
 
-	return (0 < (position = ft_strchr(current, '='))
-			&& OK == ft_strncmp(current, searched, position));
+	position = ft_strchr(current, '=');
+	if (0 < position)
+	{
+		if (OK == ft_strncmp(current, searched, position)
+			&& '\0' == ((char *)searched)[position])
+			return (1);
+	}
+	return (0);
 }
 
 /*
@@ -26,11 +32,16 @@ static int ms__find_variable(char *current, void *searched)
 char *ms__get_value(char **env, char *key)
 {
 	int position;
+	int index;
 
-	if (0 < (position = ft_strsplit_search(env, ms__find_variable, key)))
-		return (ft_strdup(env[position]));
-	else
-		return (NULL);
+	index = ft_strsplit_search(env, ms__find_variable, key);
+	if (0 <= index)
+	{
+		position = ft_strchr(env[index], '=');
+		if (0 < position)
+			return (ft_strdup(env[index] + position + 1));
+	}
+	return (NULL);
 }
 
 void ms__env_delete(char **env, char *key)

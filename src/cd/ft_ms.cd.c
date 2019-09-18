@@ -12,7 +12,6 @@
 
 #include <minishell.defines.h>
 #include "ft_ms.cd.h"
-#include "stdlib.h"
 
 char *one_and_zero_argv(char *argv, char **env)
 {
@@ -64,8 +63,8 @@ char *add_current_path(char *path)
 {
 	char *new_path;
 
-	new_path = ft_strjoin("/", path, 3);
-	new_path = ft_strjoin(ftsystm__get_current_path(), new_path, 3);
+	new_path = ft_strjoin("/", path, 2);
+	new_path = ft_strjoin(ftsystm__get_current_path(), new_path, 2);
 	return (new_path);
 }
 

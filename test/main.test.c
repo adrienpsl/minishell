@@ -13,9 +13,11 @@
 #include <minishell.prototypes.h>
 #include "libft.h"
 
+void test_ms__utils();
+
 void test_all()
 {
-
+	test_ms__utils();
 }
 
 int main(int ac, char **av)
