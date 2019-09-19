@@ -14,12 +14,12 @@
 #include "libft.h"
 
 void test_ms__utils();
-void test_ms__cd();
+void test__main_cd();
 
 void test_all()
 {
 	test_ms__utils();
-	test_ms__cd();
+	test__main_cd();
 }
 
 int main(int ac, char **av)

@@ -10,78 +10,81 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.defines.h>
 #include "ft_ms.cd.h"
 
-char *one_and_zero_argv(char *argv, char **env)
+// get the key if need
+// return change dir
+// do need old path ? nop
+// si -
+
+int static is_old_path(char *argv)
+{
+	return (argv != NULL);
+}
+
+int one_and_zero_argv(char *argv, char **env)
 {
 	char *path;
 	char *key;
 
 	if (NULL == argv || OK == ft_strcmp("-", argv))
 	{
-		key = (argv == NULL) ? "HOME" : "OLDPATH";
+		key = is_old_path(argv) ? "OLDPATH" : "HOME";
 		path = ms__get_value(env, key);
 		if (path == NULL)
+		{
 			ft_printf(MS__NAME"line %d: cd: %s not set\n", __LINE__, key);
+			return (-1);
+		}
+		else
+			return (cd__change_directory(path, path, is_old_path(argv)));
 	}
 	else
-		path = ft_strdup(argv);
-	return (path);
+		return (cd__change_directory(ft_strdup(argv), argv, 0));
 }
 
-char *two_argument(char *argv[2])
+int two_argument(char *argv[2], char *current_directory)
 {
-	char *current_path;
 	char *new_path;
 
-	current_path = ftsystm__get_current_path();
-	if (NULL != current_path)
+	if (NULL != current_directory)
 	{
-		new_path = ftstr__replace_str(current_path, argv[0], argv[1]);
+		new_path = ftstr__replace_str(current_directory, argv[0], argv[1]);
 		if (new_path)
-			return (new_path);
+			return (cd__change_directory(new_path, new_path, TRUE));
 		else
 			ft_printf("cd: string not in pwd: %s\n", argv[0]);
 	}
-	return (NULL);
+	return (-1);
 }
 
-int test_and_go_dir(char *path, char *argv)
+static int handle_argument(char **argv, char **env, char *current_path)
 {
-	if (OK != ftsystm__test_file(path, "cd", argv))
-		return (-1);
-	if (OK != chdir(path))
+	int size;
+
+	size = ft_strsplit_count(argv);
+	if (0 == size || 1 == size)
+		return (one_and_zero_argv(*argv, env));
+	else if (2 == size)
+		return (two_argument(argv, current_path));
+	else
 	{
-		ft_printf("cd: not a directory: %s\n", argv);
+		ft_printf("cd: to much argument\n");
 		return (-1);
 	}
+}
+
+int ms__cd(char **argv, char ***env)
+{
+	char *current_path;
+
+	if (NULL == (current_path = ft_strdup(ftsystm__get_current_path())))
+		return (-1);
+	if (OK == ft_strcmp("--", *argv))
+		argv += 1;
+	if (OK != handle_argument(argv, *env, current_path))
+		return (-1);
+	ms__env_add(env, "OLDPATH", current_path);
+	ftstr__free(&current_path);
 	return (OK);
 }
-
-char *add_current_path(char *path)
-{
-	char *new_path;
-
-	new_path = ft_strjoin("/", path, 2);
-	new_path = ft_strjoin(ftsystm__get_current_path(), new_path, 2);
-	return (new_path);
-}
-
-// il doit avoir un triple ptr sur env, et c'est lui qu
-// que je passe a tout mes elements
-
-//int ms__cd(char **argv, char  **env)
-//{
-//
-//	if (*argv && OK == ft_str_cmp("--", *argv))
-//		argv += 1;
-////	if (OK != cd__serialize_path(argv, env, buffer, &print_new_path))
-////		return (-1);
-////	if (OK != cd_move_directory(buffer, env))
-////		return (-1);
-////	if (print_new_path)
-////		ft_printf("%s\n", ftsystm__get_current_path());
-////	fts__free(&buffer);
-//	return (OK);
-//}

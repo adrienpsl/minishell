@@ -15,6 +15,7 @@ include_directories(includes)
 add_library(${PROJECT_NAME}_lib
         #[[ builtin ]]
         src/cd/ft_ms.cd.c
+        src/cd/ft_ms.cd.change_dir.c
 
         #[[ utils ]]
         src/utils.c

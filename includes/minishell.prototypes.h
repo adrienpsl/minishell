@@ -33,6 +33,7 @@
 **	Utils
 */
 char *ms__get_value(char **env, char *key);
+void ms__env_add(char ***env, char *key, char *value);
 
 
 #endif

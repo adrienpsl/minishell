@@ -22,13 +22,13 @@
 # include <ft_str.h>
 # include <ft_printf.h>
 # include <minishell.prototypes.h>
+#include <minishell.defines.h>
 
 # include <ft_systm.h>
 
 /*
 **	Prototypes  ----------------------------------------------------------------
 */
-int cd__serialize_path(char **argv, t_array *env, t_s *buffer, int *print_path);
-int cd_move_directory(t_s *buffer, t_array *env);
+int cd__change_directory(char *path, char *argv, int print);
 
 #endif
