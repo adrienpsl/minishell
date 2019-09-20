@@ -15,11 +15,13 @@
 
 void test_ms__utils();
 void test__main_cd();
+void test_main_env();
 
 void test_all()
 {
-	test_ms__utils();
-	test__main_cd();
+//	test_ms__utils();
+//	test__main_cd();
+	test_main_env();
 }
 
 int main(int ac, char **av)

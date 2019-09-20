@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME}_lib
 
         #[[ utils ]]
         src/utils.c
+        src/ft_ms.env.c
         )
 
 target_link_libraries(${PROJECT_NAME}_lib libft)
@@ -37,6 +38,7 @@ add_executable(${PROJECT_NAME}_test
         test/main.test.c
         test/ft_ms.cd.test.c
         test/ft_ms.utils.test.c
+        test/ft_ms.env.test.c
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 

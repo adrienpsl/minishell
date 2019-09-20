@@ -13,6 +13,12 @@
 #ifndef MINISHELL_STRUCTURES
 #define MINISHELL_STRUCTURES
 
+typedef struct s_env_ret
+{
+	char **argv;
+	char **env;
+} t_env_ret;
+
 #include <ft_array.h>
 #include <ft_s.h>
 #include <termios.h>

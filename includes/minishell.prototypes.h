@@ -22,7 +22,7 @@
 /*
 **	Project  -------------------------------------------------------------------
 */
-#include "minishell.stuctures.h"
+#include "minishell.structures.h"
 
 /*
 **	Prototypes  ================================================================
@@ -34,6 +34,7 @@
 */
 char *ms__get_value(char **env, char *key);
 void ms__env_add(char ***env, char *key, char *value);
+void ms__env_delete(char **env, char *key);
 
 
 #endif
