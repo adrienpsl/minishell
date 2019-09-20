@@ -12,7 +12,7 @@
 
 #include <libft.h>
 #include <ft_test.h>
-#include  "../src/utils.c"
+#include  "../src/ft_ms.utils_1.c"
 
 void test_ms__utils()
 {

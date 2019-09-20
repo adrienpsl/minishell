@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ms.cd.h"
+#include <minishell.prototypes.h>
 
 static int test_and_go_dir(char *path, char *argv)
 {

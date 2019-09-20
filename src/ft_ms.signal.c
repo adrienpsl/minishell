@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_DEFINES
-#define MINISHELL_MINISHELL_DEFINES
+#include <minishell.defines.h>
+#include <minishell.prototypes.h>
 
-#include <ft_s.h>
-#include <termios.h>
+void ms_signal_exec(int sign)
+{
+	(void)sign;
+}
 
-# define MS__NAME "minishell: "
-# define MS__DEL "\177"
-# define MS__TAB "\t"
-
-struct termios g_termios;
-t_s *g_line;
-int g_ctrl;
-
-
-#endif
+void ms_signal_minishell(int sign)
+{
+	(void) sign;
+	g_ctrl = 1;
+	clean_char(g_line);
+	print_promp();
+}

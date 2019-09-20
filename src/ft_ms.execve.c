@@ -10,19 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_DEFINES
-#define MINISHELL_MINISHELL_DEFINES
+#include <libft.h>
+#include <minishell.prototypes.h>
+#include <minishell.defines.h>
 
-#include <ft_s.h>
-#include <termios.h>
+static int exec_binary(char *path, char **argv, char **env)
+{
+	pid_t pid;
 
-# define MS__NAME "minishell: "
-# define MS__DEL "\177"
-# define MS__TAB "\t"
+	pid = fork();
+	signal(SIGINT, ms_signal_exec);
+	if (pid == 0)
+		execve(path, argv, env);
+	if (pid > 0)
+		wait(&pid);
+	if (pid < 0)
+	{
+		ft_printf(MS__NAME" binary exec fail");
+		return (-1);
+	}
+	signal(SIGINT, ms_signal_minishell);
+	free(path);
+	return (0);
+}
 
-struct termios g_termios;
-t_s *g_line;
-int g_ctrl;
+int ms__handle_binary(char **argv, char **env)
+{
+	char *path;
 
-
-#endif
+	path = (*argv && **argv == '/')
+		   ? ft_strdup(*argv) : ms__search_binary(env, *argv);
+	if (path == NULL)
+		return (-1);
+	else if (OK != ftsystm__test_file(path, MS__NAME, *argv))
+		return (-1);
+	else
+		return (exec_binary(path, argv, env));
+}

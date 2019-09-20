@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ms.cd.h"
+#include <minishell.defines.h>
+#include "minishell.prototypes.h"
 
 // get the key if need
 // return change dir

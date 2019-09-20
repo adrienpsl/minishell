@@ -14,12 +14,18 @@ include_directories(includes)
 # ------------------------------------------------------------------------------
 add_library(${PROJECT_NAME}_lib
         #[[ builtin ]]
-        src/cd/ft_ms.cd.c
-        src/cd/ft_ms.cd.change_dir.c
+        src/ft_ms.cd.c
+        src/ft_ms.cd.change_dir.c
+        src/ft_ms.execve.c
+        src/ft_ms.env.c
+        src/ft_ms.signal.c
+        src/ft_ms.get_line.c
 
         #[[ utils ]]
-        src/utils.c
-        src/ft_ms.env.c
+        src/ft_ms.utils_1.c
+        src/ft_ms.utils_2.c
+
+
         )
 
 target_link_libraries(${PROJECT_NAME}_lib libft)

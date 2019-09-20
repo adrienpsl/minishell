@@ -17,9 +17,6 @@
 #include <minishell.prototypes.h>
 #include <ft_systm.h>
 
-struct termios g_termios;
-t_s *g_line;
-int g_ctrl;
 
 void ms__activate_raw_mode(struct termios *saved_termios)
 {
@@ -34,87 +31,8 @@ void ms__activate_raw_mode(struct termios *saved_termios)
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
-char *search_binary(char **env, char *binary_name)
-{
-	char *path;
-	char *found;
 
-	if (NULL != (path = ms__get_value(env, "PATH")))
-	{
-		found = ftsystm__find_in_path(path, ":", binary_name,
-			ftstr__search_start);
-		free(path);
-		return (found);
-	}
-	return (NULL);
-}
 
-void delete_char(t_s *line)
-{
-	ft_putstr_fd("\b \b", 1);
-	if (line->length)
-		fts__remove_from(line, line->length - 1);
-}
-
-void clean_char(t_s *line)
-{
-	while (line->length)
-		delete_char(line);
-}
-
-void tab_char(t_s *line, char **env)
-{
-	char *found;
-
-	if (NULL != (found = search_binary(env, line->data)))
-	{
-		clean_char(line);
-		if (OK == fts__add(line, found))
-			ft_printf(line->data);
-		free(found);
-	}
-}
-
-void handle_input(char buffer[4], t_s *line, char **env)
-{
-	if (OK == ft_strcmp(MS__DEL, buffer))
-		delete_char(line);
-	else if (OK == ft_strcmp(MS__TAB, buffer))
-		tab_char(line, env);
-	else if ('\0' == buffer[1])
-	{
-		ft_printf(buffer);
-		fts__add(line, buffer);
-	}
-}
-
-char *ms__get_line(char **env)
-{
-	char buffer[5] = { 0 };
-
-	while (OK != ft_strcmp(buffer, "\n"))
-	{
-		ft_bzero(&buffer, 5);
-		if (read(0, buffer, 4) <= 0)
-			break;
-		if (OK != ft_strcmp(buffer, "\n"))
-			handle_input(buffer, g_line, env);
-	}
-	return (NULL);
-}
-
-void print_promp()
-{
-	ft_printf("$> %s:\n", ftsystm__get_current_path());
-}
-
-void ms_signal_minishell(int sign)
-{
-	(void) sign;
-	g_ctrl = 1;
-	clean_char(g_line);
-	print_promp();
-}
 
 
 int main(int ac, char **av)

@@ -10,25 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_MS_CD
-#define FT_MS_CD
+#include <minishell.prototypes.h>
 
-/*
-**	Libft  ---------------------------------------------------------------------
-*/
-# include <ft_s.h>
-# include <ft_array.h>
-# include <libft_define.h>
-# include <ft_str.h>
-# include <ft_printf.h>
-# include <minishell.prototypes.h>
-#include <minishell.defines.h>
+char *ms__search_binary(char **env, char *binary_name)
+{
+	char *path;
+	char *found;
 
-# include <ft_systm.h>
+	if (NULL != (path = ms__get_value(env, "PATH")))
+	{
+		found = ftsystm__find_in_path(path, ":", binary_name,
+			ftstr__search_start);
+		free(path);
+		return (found);
+	}
+	return (NULL);
+}
 
-/*
-**	Prototypes  ----------------------------------------------------------------
-*/
-int cd__change_directory(char *path, char *argv, int print);
-
-#endif
+void print_promp()
+{
+	ft_printf("$> %s:\n", ftsystm__get_current_path());
+}

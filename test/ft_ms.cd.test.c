@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <../src/cd/ft_ms.cd.c>
-#include <../src/cd/ft_ms.cd.change_dir.c>
+#include "../src/ft_ms.cd.c"
+#include "../src/ft_ms.cd.change_dir.c"
 #include <ft_test.h>
 
 struct test_cd
