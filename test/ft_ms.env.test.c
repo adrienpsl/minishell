@@ -25,6 +25,7 @@ struct test
 	char *expect_print;
 	char *expect_env;
 	char *expect_argv;
+	char *expected_result;
 };
 
 void t_option_i(struct test t)
@@ -62,6 +63,37 @@ void t_option_u(struct test t)
 
 	ft_strsplit_free(&argv);
 	ft_strsplit_free(&ret.env);
+	ft_strsplit_free(&env);
+	g_test = 0;
+}
+
+void t_ms__env(struct test t)
+{
+	g_test = 1;
+	char **argv = ft_strsplit(t.argv_str, " ");
+	char **env = ft_strsplit(t.env_str, " ");
+
+	t_env_ret *result = ms__env(argv, env);
+
+	if (test_cmp_buff(t.expect_print))
+		log_test_line(1, t.line_nb)
+
+	if (NULL == t.expected_result)
+	{
+		if (t.expected_result != (void *)result)
+			log_test_line(1, t.line_nb)
+	}
+	else
+	{
+		if (
+			test_cmp_split_str("env diff", t.expect_env, result->env) ||
+			test_cmp_split_str("argv diff", t.expect_argv, result->argv))
+			log_test_line(1, t.line_nb)
+	}
+
+	ft_strsplit_free(&argv);
+	if (result)
+		ft_strsplit_free(&result->env);
 	ft_strsplit_free(&env);
 	g_test = 0;
 }
@@ -131,8 +163,6 @@ void test_main_env()
 	* test option  -u
 	* */
 	{
-		g_test = 1;
-
 		// no key
 		t_option_u((struct test){ .line_nb = L,
 			.argv_str = "-u",
@@ -188,6 +218,94 @@ void test_main_env()
 			.expect_argv = "ls -aoe",
 			.expect_env = "aaa=ooo"
 		});
+	}
+
+	/*
+	* test ms__env
+	* */
+	{
+		// no argument
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "",
+			.env_str = "toto=titi",
+
+			.expect_argv = "",
+			.expect_print = "toto=titi\n",
+			.expected_result = NULL,
+			.expect_env = NULL
+		});
+
+		// no bad option
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-ps",
+			.env_str = "toto=titi",
+
+			.expect_argv = "",
+			.expect_print = "env: illegal option -- p\n"
+							"usage: env [-i] [name=value ...] [-u name]\n"
+							"          [utility [argument ...]]\n",
+			.expected_result = NULL,
+			.expect_env = NULL
+		});
+
+		// no bad -u
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-u toto -u",
+			.env_str = "toto=titi",
+
+			.expect_argv = "-u",
+			.expect_print = "env: option requires an argument -- u\n"
+							"usage: env [-i] [name=value ...] [-u name]\n"
+							"          [utility [argument ...]]\n",
+			.expected_result = NULL,
+			.expect_env = NULL
+		});
+
+		// test i
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-i a=1 ,.poeuch=11239euo",
+			.env_str = "toto=titi",
+
+			.expect_argv = "",
+			.expect_print = "a=1\n,.poeuch=11239euo\n",
+			.expected_result = NULL,
+			.expect_env = NULL
+		});
+
+		// test u
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-u a -u b",
+			.env_str = "a=1 b=2 c=3",
+
+			.expect_argv = "",
+			.expect_print = "c=3\n",
+			.expected_result = NULL,
+			.expect_env = NULL
+		});
+
+		// test -i arguments
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-i a=1 ,.poeuch=11239euo ls -r",
+			.env_str = "toto=titi",
+
+			.expect_argv = "ls -r",
+			.expect_print = "",
+			.expected_result = (void*)1,
+			.expect_env = "a=1 ,.poeuch=11239euo"
+		});
+
+		// test -u arguments
+		t_ms__env((struct test){ .line_nb = L,
+			.argv_str = "-u a -u ,.poeuch=11239euo ls -r",
+			.env_str = "a=1 b=2 c=3",
+
+			.expect_argv = "ls -r",
+			.expect_print = "",
+			.expected_result = (void*)1,
+			.expect_env = "b=2 c=3"
+		});
+
+
 	}
 }
 

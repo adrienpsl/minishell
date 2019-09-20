@@ -24,7 +24,7 @@ static int print_usage(char bad_option)
 	return (-1);
 }
 
-int option_i(t_env_ret *ret)
+static int option_i(t_env_ret *ret)
 {
 	int position;
 
@@ -41,7 +41,7 @@ int option_i(t_env_ret *ret)
 	return (OK);
 }
 
-int option_u(t_env_ret *ret, char **env)
+static int option_u(t_env_ret *ret, char **env)
 {
 	if (NULL == (ret->env = ft_strsplit_copy(env, 0)))
 		return (-1);
@@ -62,28 +62,41 @@ int option_u(t_env_ret *ret, char **env)
 	return (OK);
 }
 
-t_env_ret *ms_env(char **argv, char **env)
+static int handle_option(t_env_ret *ret, char **env)
+{
+	if (OK == ft_strcmp("-i", *ret->argv))
+	{
+		if (OK != option_i(ret))
+			return (-1);
+	}
+	else if (OK == ft_strcmp("-u", *ret->argv))
+	{
+		if (OK != option_u(ret, env))
+			return (-1);
+	}
+	else
+	{
+		print_usage(ret->argv[0][1]);
+		return (-1);
+	}
+	return (OK);
+}
+
+t_env_ret *ms__env(char **argv, char **env)
 {
 	static t_env_ret ret;
 
-	ret.argv = argv;
 	ft_bzero(&ret, sizeof(t_env_ret));
+	ret.argv = argv;
 	if (*ret.argv && **ret.argv == '-')
 	{
-		if (OK == ft_strcmp("-i", *argv))
-		{
-			if (OK != option_i(&ret))
-				return (NULL);
-		}
-		if (OK == ft_strcmp("-u", *argv))
-		{
-			if (OK != option_u(&ret, env))
-				return (NULL);
-		}
+		if (OK != handle_option(&ret, env))
+			return (NULL);
 	}
 	if (NULL == *ret.argv)
 	{
 		ft_strsplit_print(ret.env ? ret.env : env, '\n');
+		ft_printf("\n");
 		ft_strsplit_free(&ret.env);
 		return (NULL);
 	}
