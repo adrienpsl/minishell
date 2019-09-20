@@ -19,6 +19,7 @@
 
 struct termios g_termios;
 t_s *g_line;
+int g_ctrl;
 
 void ms__activate_raw_mode(struct termios *saved_termios)
 {
@@ -55,14 +56,19 @@ void delete_char(t_s *line)
 		fts__remove_from(line, line->length - 1);
 }
 
+void clean_char(t_s *line)
+{
+	while (line->length)
+		delete_char(line);
+}
+
 void tab_char(t_s *line, char **env)
 {
 	char *found;
 
 	if (NULL != (found = search_binary(env, line->data)))
 	{
-		while (line->length)
-			delete_char(line);
+		clean_char(line);
 		if (OK == fts__add(line, found))
 			ft_printf(line->data);
 		free(found);
@@ -97,14 +103,30 @@ char *ms__get_line(char **env)
 	return (NULL);
 }
 
+void print_promp()
+{
+	ft_printf("$> %s:\n", ftsystm__get_current_path());
+}
+
+void ms_signal_minishell(int sign)
+{
+	(void) sign;
+	g_ctrl = 1;
+	clean_char(g_line);
+	print_promp();
+}
+
+
 int main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
+	g_ctrl = 0;
 
+	signal(SIGINT, ms_signal_minishell);
 	g_line = fts__init(10);
 	ms__activate_raw_mode(&g_termios);
-
+	print_promp();
 	char **env = ft_strsplit(
 		"PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
 		" ");
