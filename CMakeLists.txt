@@ -42,3 +42,11 @@ add_executable(${PROJECT_NAME}_test
         )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 
+# ------------------------------------------------------------------------------
+#    test raw mode
+# ------------------------------------------------------------------------------
+add_executable(${PROJECT_NAME}_raw
+        test/main.test.raw_mode.c
+        )
+target_link_libraries(${PROJECT_NAME}_raw ${PROJECT_NAME}_lib)
+
