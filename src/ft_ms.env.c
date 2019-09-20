@@ -13,14 +13,14 @@
 #include <libft.h>
 #include <minishell.prototypes.h>
 
-static int print_usage(char *bad_option)
+static int print_usage(char bad_option)
 {
-	if (NULL != bad_option)
-		ft_printf("env: illegal option -- %c\n", bad_option[0]);
+	if (bad_option)
+		ft_printf("env: illegal option -- %c\n", bad_option);
 	else
 		ft_printf("env: option requires an argument -- u\n");
 	ft_printf("usage: env [-i] [name=value ...] [-u name]\n"
-			  "          [utility [argument ...]]");
+			  "          [utility [argument ...]]\n");
 	return (-1);
 }
 
@@ -28,6 +28,7 @@ int option_i(t_env_ret *ret)
 {
 	int position;
 
+	ret->argv += 1;
 	if (NULL == (ret->env = ft_strsplit("", " ")))
 		return (-1);
 	while (NULL != ret->argv
@@ -44,7 +45,7 @@ int option_u(t_env_ret *ret, char **env)
 {
 	if (NULL == (ret->env = ft_strsplit_copy(env, 0)))
 		return (-1);
-	while (OK != ft_strcmp("-u", *ret->argv))
+	while (OK == ft_strcmp("-u", *ret->argv))
 	{
 		ret->argv += 1;
 		if (NULL != *ret->argv)
@@ -53,7 +54,10 @@ int option_u(t_env_ret *ret, char **env)
 			ret->argv += 1;
 		}
 		else
-			return (print_usage(NULL));
+		{
+			ft_strsplit_free(&ret->env);
+			return (print_usage(0));
+		}
 	}
 	return (OK);
 }
