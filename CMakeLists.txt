@@ -33,7 +33,7 @@ target_link_libraries(${PROJECT_NAME}_lib libft)
 # ------------------------------------------------------------------------------
 #    main module
 # ------------------------------------------------------------------------------
-add_executable(${PROJECT_NAME} main.c)
+add_executable(${PROJECT_NAME} main.c src/ft_ms.main.c src/ft_ms.env.utils.c)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 

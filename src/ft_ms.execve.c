@@ -47,3 +47,44 @@ int ms__handle_binary(char **argv, char **env)
 	else
 		return (exec_binary(path, argv, env));
 }
+
+t_func find_funct(char *name)
+{
+	static t_element_func g_func[5] = {
+		{ "setenv",   ms__setenv },
+		{ "unsetenv", ms__unset_env },
+		{ "cd",       ms__cd },
+		{ "echo", NULL },
+		{ "exit", NULL }
+	};
+	int i;
+
+	i = 0;
+	while (i < 5)
+	{
+		if (OK == ft_strcmp(g_func[i].name, name))
+			return (g_func[i].func);
+		i++;
+	}
+	return (NULL);
+}
+
+int ms__dipatch(char *line, char **env)
+{
+	int i;
+	char **argv;
+	t_env_ret *ret;
+
+	if ('\0' == line)
+		return (OK);
+	if (NULL == (argv = ft_strsplit(line, " ")))
+		return (-1);
+	if (argv)
+	{
+		if (OK == ft_strcmp("env", *argv))
+
+	}
+
+	ft_strsplit_free(&argv);
+	return (OK);
+}

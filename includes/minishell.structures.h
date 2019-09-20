@@ -19,6 +19,14 @@ typedef struct s_env_ret
 	char **env;
 } t_env_ret;
 
+typedef int (*t_func)(char **arg, char ***env);
+
+typedef struct s_element_func
+{
+	char *name;
+	t_func func;
+} t_element_func;
+
 #include <ft_array.h>
 #include <ft_s.h>
 #include <termios.h>

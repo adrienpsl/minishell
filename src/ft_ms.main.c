@@ -10,21 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_MINISHELL_DEFINES
-#define MINISHELL_MINISHELL_DEFINES
+#include <minishell.prototypes.h>
 
-#include <ft_s.h>
-#include <minishell.structures.h>
-#include <termios.h>
+void ms__activate_raw_mode(struct termios *saved_termios)
+{
+	struct termios termios;
+	//// TODO :  check the return system
 
-# define MS__NAME "minishell: "
-# define MS__DEL "\177"
-# define MS__TAB "\t"
+	tcgetattr(STDIN_FILENO, &termios);
+	tcgetattr(STDIN_FILENO, saved_termios);
+	termios.c_lflag &= ~(ICANON | ECHO);
+	termios.c_cc[VMIN] = 1;
+	termios.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
+}
 
-struct termios g_termios;
-t_s *g_line;
-int g_ctrl;
 
 
 
-#endif
+void loop(char **env)
+{
+
+}
+

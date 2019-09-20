@@ -52,18 +52,3 @@ void ms__env_delete(char **env, char *key)
 		ft_strsplit_remove(env, position);
 }
 
-void ms__env_add(char ***env, char *key, char *value)
-{
-	char *variable;
-
-	if (NULL == env || NULL == key || NULL == value)
-		return;
-	ms__env_delete(*env, key);
-	if (NULL == (variable = ft_strjoin("=", value, 0))
-		|| NULL == (variable = ft_strjoin(key, variable, 2)))
-		return;
-	if (OK != ft_strsplit_add(env, variable))
-		return;
-	ftstr__free(&variable);
-}
-

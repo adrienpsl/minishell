@@ -15,21 +15,7 @@
 #include <minishell.defines.h>
 #include <ft_s.h>
 #include <minishell.prototypes.h>
-#include <ft_systm.h>
 
-
-void ms__activate_raw_mode(struct termios *saved_termios)
-{
-	struct termios termios;
-	//// TODO :  check the return system
-
-	tcgetattr(STDIN_FILENO, &termios);
-	tcgetattr(STDIN_FILENO, saved_termios);
-	termios.c_lflag &= ~(ICANON | ECHO);
-	termios.c_cc[VMIN] = 1;
-	termios.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
-}
 
 
 
@@ -43,7 +29,7 @@ int main(int ac, char **av)
 
 	signal(SIGINT, ms_signal_minishell);
 	g_line = fts__init(10);
-	ms__activate_raw_mode(&g_termios);
+//	ms__activate_raw_mode(&g_termios);
 	print_promp();
 	char **env = ft_strsplit(
 		"PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",

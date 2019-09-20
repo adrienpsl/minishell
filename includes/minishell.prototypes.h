@@ -33,7 +33,10 @@
 /*
 **	Prototypes  ================================================================
 */
-
+int ms__handle_binary(char **argv, char **env);
+int ms__unset_env(char **argv, char ***env);
+int ms__setenv(char **argv, char ***env);
+int ms__cd(char **argv, char ***env);
 
 /*
 **	Utils
@@ -52,6 +55,7 @@ void print_promp();
 void clean_char(t_s *line);
 void ms_signal_exec(int sign);
 void ms_signal_minishell(int sign);
+
 
 
 #endif
