@@ -16,16 +16,10 @@
 #include <ft_s.h>
 #include <minishell.prototypes.h>
 
-
-
-
-
-
 int main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
-	g_ctrl = 0;
 
 	signal(SIGINT, ms_signal_minishell);
 	g_line = fts__init(10);

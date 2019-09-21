@@ -23,7 +23,6 @@
 
 struct termios g_termios;
 t_s *g_line;
-int g_ctrl;
 
 
 

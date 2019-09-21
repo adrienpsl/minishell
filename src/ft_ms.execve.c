@@ -30,32 +30,33 @@ static int exec_binary(char *path, char **argv, char **env)
 		return (-1);
 	}
 	signal(SIGINT, ms_signal_minishell);
-	free(path);
 	return (0);
 }
 
-int ms__handle_binary(char **argv, char **env)
+static int find_and_check_binary(char **argv, char ***env)
 {
 	char *path;
 
 	path = (*argv && **argv == '/')
-		   ? ft_strdup(*argv) : ms__search_binary(env, *argv);
+		   ? ft_strdup(*argv) : ms__search_binary(*env, *argv);
+	if (path == NULL && *argv && **argv != '/')
+		ft_printf(MS__NAME"command not found: %s\n", *argv);
 	if (path == NULL)
 		return (-1);
-	else if (OK != ftsystm__test_file(path, MS__NAME, *argv))
+	if (OK != ftsystm__test_file(path, MS__NAME, *argv))
 		return (-1);
-	else
-		return (exec_binary(path, argv, env));
+	exec_binary(path, argv, *env);
+	free(path);
+	return (OK);
 }
 
-t_func find_funct(char *name)
+static t_func find_function(char *name)
 {
 	static t_element_func g_func[5] = {
 		{ "setenv",   ms__setenv },
 		{ "unsetenv", ms__unset_env },
 		{ "cd",       ms__cd },
 		{ "echo", NULL },
-		{ "exit", NULL }
 	};
 	int i;
 
@@ -66,25 +67,39 @@ t_func find_funct(char *name)
 			return (g_func[i].func);
 		i++;
 	}
-	return (NULL);
+	return (find_and_check_binary);
 }
 
-int ms__dipatch(char *line, char **env)
+static int loop_and_recursive(char **argv, char ***env)
 {
-	int i;
-	char **argv;
 	t_env_ret *ret;
+
+	ret = NULL;
+	if (OK == ft_strcmp("env", *argv))
+	{
+		if (NULL != (ret = ms__env(argv, *env))
+			&& NULL != ret->env)
+			loop_and_recursive(ret->argv, &ret->env);
+	}
+	else if (OK == ft_strcmp("exit", *argv) && NULL == ret)
+		return (2);
+	else
+		find_function(*argv)(argv, env);
+	if (ret->env)
+		ft_strsplit_free(&ret->env);
+	return (OK);
+}
+
+int ms__command(char *line, char ***env)
+{
+	char **argv;
+	int ret;
 
 	if ('\0' == line)
 		return (OK);
 	if (NULL == (argv = ft_strsplit(line, " ")))
 		return (-1);
-	if (argv)
-	{
-		if (OK == ft_strcmp("env", *argv))
-
-	}
-
+	ret = loop_and_recursive(argv, env);
 	ft_strsplit_free(&argv);
-	return (OK);
+	return (ret);
 }

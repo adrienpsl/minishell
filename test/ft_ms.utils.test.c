@@ -12,6 +12,7 @@
 
 #include <libft.h>
 #include <ft_test.h>
+#include <minishell.prototypes.h>
 #include  "../src/ft_ms.utils_1.c"
 
 void test_ms__utils()

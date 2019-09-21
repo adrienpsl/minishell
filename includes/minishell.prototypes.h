@@ -33,10 +33,12 @@
 /*
 **	Prototypes  ================================================================
 */
-int ms__handle_binary(char **argv, char **env);
+//int ms__handle_binary(char **argv, char ***env);
 int ms__unset_env(char **argv, char ***env);
 int ms__setenv(char **argv, char ***env);
 int ms__cd(char **argv, char ***env);
+t_env_ret *ms__env(char **argv, char **env);
+void ms__env_add(char ***env, char *key, char *value);
 
 /*
 **	Utils

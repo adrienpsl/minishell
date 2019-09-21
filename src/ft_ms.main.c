@@ -15,7 +15,7 @@
 void ms__activate_raw_mode(struct termios *saved_termios)
 {
 	struct termios termios;
-	//// TODO :  check the return system
+	// TODO :  check the return system
 
 	tcgetattr(STDIN_FILENO, &termios);
 	tcgetattr(STDIN_FILENO, saved_termios);
@@ -25,11 +25,32 @@ void ms__activate_raw_mode(struct termios *saved_termios)
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
-
-
-
-void loop(char **env)
+int ms__command(char *line, char ***env);
+int ms__loop(char **commands, char ***env)
 {
-
+	while (NULL != *commands)
+	{
+		if (2 == ms__command(*commands, env))
+			break;
+		commands += 1;
+	}
+	return (OK);
 }
 
+int ms__init(char **env_system)
+{
+	char **env;
+	char *line;
+	char **command;
+
+	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
+		return (-1);
+	while (NULL != (line = ms__get_line(env)))
+	{
+		if (NULL == (command = ft_strsplit(line, ";")))
+			return (-1);
+		if (2 == ms__loop(command, &env))
+			return (OK);
+	}
+	return (OK);
+}

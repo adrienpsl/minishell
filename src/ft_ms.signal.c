@@ -21,7 +21,7 @@ void ms_signal_exec(int sign)
 void ms_signal_minishell(int sign)
 {
 	(void) sign;
-	g_ctrl = 1;
 	clean_char(g_line);
 	print_promp();
 }
+// dans develo
