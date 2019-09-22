@@ -43,14 +43,14 @@ static int find_and_check_binary(char **argv, char ***env)
 		ft_printf(MS__NAME"command not found: %s\n", *argv);
 	if (path == NULL)
 		return (-1);
-	if (OK != ftsystm__test_file(path, MS__NAME, *argv))
+	if (OK != ftsystm__test_file(path, "minishell", *argv))
 		return (-1);
 	exec_binary(path, argv, *env);
 	free(path);
 	return (OK);
 }
 
-static t_func find_function(char *name)
+static int ms__dispatch_good_binary(char **argv, char ***env)
 {
 	static t_element_func g_func[5] = {
 		{ "setenv",   ms__setenv },
@@ -63,43 +63,52 @@ static t_func find_function(char *name)
 	i = 0;
 	while (i < 5)
 	{
-		if (OK == ft_strcmp(g_func[i].name, name))
-			return (g_func[i].func);
+		if (OK == ft_strcmp(g_func[i].name, *argv))
+			return (g_func[i].func(++argv, env));
 		i++;
 	}
-	return (find_and_check_binary);
+	return (find_and_check_binary(argv, env));
 }
 
+/*
+**	that function recursive until the end of the env stuff,
+**	and after return
+*/
 static int loop_and_recursive(char **argv, char ***env)
 {
 	t_env_ret *ret;
+	int result;
 
 	ret = NULL;
 	if (OK == ft_strcmp("env", *argv))
 	{
-		if (NULL != (ret = ms__env(argv, *env))
+		if (NULL != (ret = ms__env(++argv, *env))
 			&& NULL != ret->env)
-			loop_and_recursive(ret->argv, &ret->env);
+			result = loop_and_recursive(ret->argv, &ret->env);
+		else
+			result = OK;
 	}
 	else if (OK == ft_strcmp("exit", *argv) && NULL == ret)
-		return (2);
+		result = 2;
 	else
-		find_function(*argv)(argv, env);
-	if (ret->env)
+		result = ms__dispatch_good_binary(argv, env);
+	if (ret && ret->env)
 		ft_strsplit_free(&ret->env);
-	return (OK);
+	return (result);
 }
 
 int ms__command(char *line, char ***env)
 {
 	char **argv;
+	char **start;
 	int ret;
 
-	if ('\0' == line)
+	if (line && '\0' == *line)
 		return (OK);
 	if (NULL == (argv = ft_strsplit(line, " ")))
 		return (-1);
+	start = argv;
 	ret = loop_and_recursive(argv, env);
-	ft_strsplit_free(&argv);
+	ft_strsplit_free(&start);
 	return (ret);
 }
