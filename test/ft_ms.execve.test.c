@@ -228,7 +228,7 @@ void test__execve()
 				.env_str = "OLDPATH=/bin",
 
 				.expect_print = "",
-				.expect_int = 2
+				.expect_int =  MS__EXIT
 			});
 		}
 	}
@@ -255,9 +255,8 @@ void test__execve()
 			.env_str = "OLDPATH=/bin",
 
 			.expect_print = "",
-			.expect_int = 2
+			.expect_int =  MS__EXIT
 		});
-
 	}
 
 	system("rm -rf test_dir");

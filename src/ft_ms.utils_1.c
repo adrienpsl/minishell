@@ -39,7 +39,7 @@ char *ms__get_value(char **env, char *key)
 	{
 		position = ft_strchr(env[index], '=');
 		if (0 < position)
-			return (ft_strdup(env[index] + position + 1));
+			return (env[index] + position + 1);
 	}
 	return (NULL);
 }
@@ -50,5 +50,21 @@ void ms__env_delete(char **env, char *key)
 
 	if (0 <= (position = ft_strsplit_search(env, ms__find_variable, key)))
 		ft_strsplit_remove(env, position);
+}
+
+int find_next_good_dollar(char *line)
+{
+	int index;
+
+	index = 0;
+	while (line[index])
+	{
+		if (line[index] == '$'
+			&& line[index + 1] != '\0'
+			&& FALSE == ft_isspace(line[index + 1]))
+			return (index);
+		index += 1;
+	}
+	return (-1);
 }
 

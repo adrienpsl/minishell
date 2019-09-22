@@ -26,6 +26,10 @@ unset_en
        [X] echo
        [X] cd
        * exit
+       
+* the quote 
+* replace the $ builtin
+
 
 - signal - and with get_line
 - link all

@@ -20,8 +20,8 @@ void test__execve();
 
 void test_all()
 {
-//	test_ms__utils();
-//	test__main_cd();
+	test_ms__utils();
+	test__main_cd();
 	test_main_env();
 	test__execve();
 }

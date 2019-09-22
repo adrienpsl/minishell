@@ -15,8 +15,86 @@
 #include <minishell.prototypes.h>
 #include  "../src/ft_ms.utils_1.c"
 
+struct test
+{
+	int line_nb;
+
+	char *env_str;
+	char *line_str;
+
+	char *expect_line;
+};
+
+void t_replace_dollar(struct test t)
+{
+	g_test = 1;
+	char **env = ft_strsplit(t.env_str, " ");
+//	char *fresh_line = ft_strdup(t.line_str);
+
+//	char *result_char = replace_dollar(fresh_line, env);
+
+//	if (test_cmp_str(t.expect_line, result_char))
+//		log_test_line(1, t.line_nb)
+
+	ft_strsplit_free(&env);
+//	free(result_char);
+}
+
+void test_replace_dollar()
+{
+	// all empty
+	t_replace_dollar((struct test){ .line_nb = L,
+		.env_str = "",
+		.line_str = "",
+
+		.expect_line = ""
+	});
+
+	// no $
+	t_replace_dollar((struct test){ .line_nb = L,
+		.env_str = "",
+		.line_str = "toto",
+		.expect_line = "toto"
+	});
+
+	// no test $
+	t_replace_dollar((struct test){ .line_nb = L,
+		.env_str = "",
+		.line_str = "$ toto",
+		.expect_line = "$ toto"
+	});
+
+	// no test $ at the end
+	t_replace_dollar((struct test){ .line_nb = L,
+		.env_str = "",
+		.line_str = "toto$",
+		.expect_line = "toto$"
+	});
+
+	// no test $ at the end
+	t_replace_dollar((struct test){ .line_nb = L,
+		.env_str = "",
+		.line_str = "toto$",
+		.expect_line = "toto$"
+	});
+
+	t_replace_dollar((struct test) {.line_nb = L,
+		.env_str = "toto=test",
+		.line_str = "$toto",
+		.expect_line = "test"
+	});
+
+	t_replace_dollar((struct test) {.line_nb = L,
+		.env_str = "toto=test",
+		.line_str = "$toto $toto",
+		.expect_line = "test test"
+	});
+}
+
 void test_ms__utils()
 {
+	test_replace_dollar();
+
 	/*
 	* test ms__get_value
 	* */
@@ -88,18 +166,20 @@ void test_ms__utils()
 		ms__env_add(&env, "minh", "tresJolie");
 		ft_strsplit_print(env, ' ');
 
-		if (test_cmp_buff("val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"))
+		if (test_cmp_buff(
+			"val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"))
 			log_test(1)
 
 		// existing
 		ms__env_add(&env, "val2", "tresJolie");
 		ft_strsplit_print(env, ' ');
 
-		if (test_cmp_buff("val1=toto =error val3=tata val4=tito minh=tresJolie val2=tresJolie"))
+		if (test_cmp_buff(
+			"val1=toto =error val3=tata val4=tito minh=tresJolie val2=tresJolie"))
 			log_test(1)
-
 
 		ft_strsplit_free(&env);
 		g_test = 0;
 	}
 }
+

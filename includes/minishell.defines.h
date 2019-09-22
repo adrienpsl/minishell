@@ -18,6 +18,7 @@
 #include <termios.h>
 
 # define MS__NAME "minishell: "
+# define MS__EXIT 2
 # define MS__DEL "\177"
 # define MS__TAB "\t"
 

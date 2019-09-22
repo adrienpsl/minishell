@@ -89,7 +89,7 @@ static int loop_and_recursive(char **argv, char ***env)
 			result = OK;
 	}
 	else if (OK == ft_strcmp("exit", *argv) && NULL == ret)
-		result = 2;
+		result = MS__EXIT;
 	else
 		result = ms__dispatch_good_binary(argv, env);
 	if (ret && ret->env)

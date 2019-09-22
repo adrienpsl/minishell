@@ -34,23 +34,17 @@ static char *add_current_path(char *path)
 	return (full_path);
 }
 
-// get fresh path str, and need to clean it.
 int cd__change_directory(char *path, char *argv, int print)
 {
 	int ret;
-	char *full_path;
 
-	full_path = (NULL != path
-				 && '/' != path[0]) ? add_current_path(path) : ft_strdup(path);
+	full_path = (NULL != path&& '/' != path[0]) ? add_current_path(path) : ft_strdup(path);
 	if (NULL != full_path)
 	{
-		ret = test_and_go_dir(path, argv);
+		ret = test_and_go_dir(full_path, argv);
 		if (OK == ret && TRUE == print)
 			ft_printf("%s\n", ftsystm__get_current_path());
-		ftstr__free(&path);
-		ftstr__free(&full_path);
 		return (ret);
 	}
-	ftstr__free(&path);
 	return (-1);
 }
