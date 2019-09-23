@@ -37,14 +37,14 @@
 int ms__unset_env(char **argv, char ***env);
 int ms__setenv(char **argv, char ***env);
 int ms__cd(char **argv, char ***env);
-t_env_ret *ms__env(char **argv, char **env);
-void ms__env_add(char ***env, char *key, char *value);
+char **ms__env(char ***argv, char **env);
+void ms__env_add(char ***env, char *key, char *value, char *variable);
 
 /*
 **	Utils
 */
 char *ms__get_value(char **env, char *key);
-void ms__env_add(char ***env, char *key, char *value);
+void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
 char *ms__search_binary(char **env, char *binary_name);
 char *ms__get_line(char **env);

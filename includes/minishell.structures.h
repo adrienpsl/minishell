@@ -13,11 +13,6 @@
 #ifndef MINISHELL_STRUCTURES
 #define MINISHELL_STRUCTURES
 
-typedef struct s_env_ret
-{
-	char **argv;
-	char **env;
-} t_env_ret;
 
 typedef int (*t_func)(char **arg, char ***env);
 

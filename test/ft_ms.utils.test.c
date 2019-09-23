@@ -161,7 +161,7 @@ void test_ms__utils()
 			"val1=toto =error val2=titi val3=tata val4=tito", " ");
 
 		// new
-		ms__env_add(&env, "minh", "tresJolie");
+		ms__env_add(&env, "minh", "tresJolie", NULL);
 		ft_strsplit_print(env, ' ');
 
 		if (test_cmp_buff(
@@ -169,7 +169,7 @@ void test_ms__utils()
 			log_test(1)
 
 		// existing
-		ms__env_add(&env, "val2", "tresJolie");
+		ms__env_add(&env, "val2", "tresJolie", NULL);
 		ft_strsplit_print(env, ' ');
 
 		if (test_cmp_buff(

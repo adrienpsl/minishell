@@ -13,19 +13,21 @@
 #include <minishell.prototypes.h>
 #include <minishell.defines.h>
 
-void ms__env_add(char ***env, char *key, char *value)
+/*
+** @brief if variable is NULL, join of key and value will be use
+*/
+void ms__env_add(char ***env, char *key, char *value, char *variable)
 {
-	char *variable;
-
-	if (NULL == env || NULL == key || NULL == value)
-		return;
-	ms__env_delete(*env, key);
-	if (NULL == (variable = ft_strjoin("=", value, 0))
-		|| NULL == (variable = ft_strjoin(key, variable, 2)))
-		return;
-	if (OK != ft_strsplit_add(env, variable))
-		return;
-	ftstr__free(&variable);
+	ms__env_delete(*env, variable ? variable : key);
+	if (variable == NULL)
+	{
+		variable = ft_strjoin("=", value, 0);
+		variable = ft_strjoin(key, variable, 2);
+		ft_strsplit_add(env, variable);
+		ftstr__free(&variable);
+	}
+	else
+		ft_strsplit_add(env, variable);
 }
 
 static int one_argument(char **argv, char ***env)
@@ -35,7 +37,7 @@ static int one_argument(char **argv, char ***env)
 	if (0 < (position = ft_strchr_int(*argv, '=')))
 	{
 		(*argv)[position] = '\0';
-		ms__env_add(env, *argv, (*argv) + position + 1);
+		ms__env_add(env, *argv, (*argv) + position + 1, NULL);
 		return (OK);
 	}
 	else
@@ -53,7 +55,7 @@ int ms__setenv(char **argv, char ***env)
 			ft_printf(MS__NAME"setenv: if one argv, must contain =");
 	}
 	else if (2 == size)
-		ms__env_add(env, argv[0], argv[1]);
+		ms__env_add(env, argv[0], argv[1], NULL);
 	else
 		ft_printf(MS__NAME"setenv: wrong arguments number");
 	return (0);

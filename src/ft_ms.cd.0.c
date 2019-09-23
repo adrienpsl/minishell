@@ -108,7 +108,7 @@ int			ms__cd(char **argv, char ***env)
 	if (OK == ft_strcmp("--", *argv))
 		argv += 1;
 	if (OK == (ret = handle_argument(argv, *env, current_path)))
-		ms__env_add(env, "OLDPATH", current_path);
+		ms__env_add(env, "OLDPATH", current_path, NULL);
 	ftstr__free(&current_path);
 	return (ret);
 }

@@ -24,81 +24,79 @@ static int print_usage(char bad_option)
 	return (-1);
 }
 
-static int option_i(t_env_ret *ret)
+static int option_i(char ***argv, char ***o_env)
 {
-	int position;
+	char **new_env;
 
-	ret->argv += 1;
-	if (NULL == (ret->env = ft_strsplit("", " ")))
+	(*argv) += 1;
+	if (NULL == (new_env = ft_strsplit("", " ")))
 		return (-1);
-	while (NULL != ret->argv
-		   && 0 < (position = ft_strchr_int(*ret->argv, '=')))
+	while (NULL != **argv && 0 < ft_strchr_int(**argv, '='))
 	{
-		(*ret->argv)[position] = '\0';
-		ms__env_add(&ret->env, *ret->argv, (*ret->argv) + position + 1);
-		ret->argv += 1;
+		ms__env_add(&new_env, NULL, NULL, **argv);
+		*argv += 1;
 	}
+	*o_env = new_env;
 	return (OK);
 }
 
-static int option_u(t_env_ret *ret, char **env)
+static int option_u(char ***argv, char **env, char ***o_env)
 {
-	if (NULL == (ret->env = ft_strsplit_copy(env, 0)))
+	char **tmp_env;
+
+	if (NULL == (tmp_env = ft_strsplit_copy(env, 0)))
 		return (-1);
-	while (OK == ft_strcmp("-u", *ret->argv))
+	while (OK == ft_strcmp("-u", **argv))
 	{
-		ret->argv += 1;
-		if (NULL != *ret->argv)
+		*argv += 1;
+		if (NULL != **argv)
 		{
-			ms__env_delete(ret->env, *ret->argv);
-			ret->argv += 1;
+			ms__env_delete(tmp_env, **argv);
+			*argv += 1;
 		}
 		else
 		{
-			ft_strsplit_free(&ret->env);
-			return (print_usage(0));
+			ft_strsplit_free(&tmp_env);
+			print_usage(0);
+			return (-1);
 		}
 	}
+	*o_env = tmp_env;
 	return (OK);
 }
 
-static int handle_option(t_env_ret *ret, char **env)
+static int handle_option(char ***argv, char **env, char ***o_env)
 {
-	if (OK == ft_strcmp("-i", *ret->argv))
-	{
-		if (OK != option_i(ret))
-			return (-1);
-	}
-	else if (OK == ft_strcmp("-u", *ret->argv))
-	{
-		if (OK != option_u(ret, env))
-			return (-1);
-	}
+	if (OK == ft_strcmp("-i", **argv))
+		return option_i(argv, o_env);
+	else if (OK == ft_strcmp("-u", **argv))
+		return option_u(argv, env, o_env);
 	else
 	{
-		print_usage(ret->argv[0][1]);
+		print_usage((*argv)[0][1]);
 		return (-1);
 	}
-	return (OK);
 }
 
-t_env_ret *ms__env(char **argv, char **env)
+/*
+**	will parse the env stuff and return new env
+*/
+char **ms__env(char ***argv, char **env)
 {
-	static t_env_ret ret;
+	char **new_env;
 
-	ft_bzero(&ret, sizeof(t_env_ret));
-	ret.argv = argv;
-	if (*ret.argv && **ret.argv == '-')
+	new_env = NULL;
+	if (**argv && ***argv == '-')
 	{
-		if (OK != handle_option(&ret, env))
+		if (OK != handle_option(argv, env, &new_env))
 			return (NULL);
 	}
-	if (NULL == *ret.argv)
+	if (NULL == **argv)
 	{
-		ft_strsplit_print(ret.env ? ret.env : env, '\n');
+		ft_strsplit_print(new_env ? new_env : env, '\n');
 		ft_printf("\n");
-		ft_strsplit_free(&ret.env);
+		ft_strsplit_free(&new_env);
 		return (NULL);
 	}
-	return (&ret);
+	return (new_env);
 }
