@@ -38,19 +38,19 @@ int one_and_zero_argv(char *argv, char **env)
 			return (-1);
 		}
 		else
-			return (cd__change_directory(path, path, is_old_path(argv)));
+			return (cd__change_directory(path,  is_old_path(argv)));
 	}
 	else
-		return (cd__change_directory(argv, argv, 0));
+		return (cd__change_directory(argv, 0));
 }
 
 int two_argument(char *argv[2], char *current_directory)
 {
 	char *new_path;
-
+//
 	new_path = ftstr__replace_str(current_directory, argv[0], argv[1]);
 	if (new_path)
-		return (cd__change_directory(new_path, new_path, TRUE));
+		return (cd__change_directory(new_path, TRUE));
 	else
 	{
 		ft_printf("cd: string not in pwd: %s\n", argv[0]);

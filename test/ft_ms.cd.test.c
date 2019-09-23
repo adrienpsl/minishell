@@ -32,7 +32,8 @@ struct test_cd
 
 void func_test_change_directory(struct test_cd t)
 {
-	int ret = cd__change_directory(ft_strdup(t.path), t.argv, t.print);
+	g_test = 1;
+	int ret = cd__change_directory(t.argv, t.print);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_str(t.expect_current_dir, ftsystm__get_current_path())
@@ -100,7 +101,7 @@ void test__main_cd()
 	{
 		// test if null
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.path= NULL, .argv= "toto", .print= 1,
+			.argv= NULL, .print= 1,
 			.expect_int = -1,
 			.expect_current_dir = start_directory,
 			.expect_print = "" }
@@ -108,15 +109,23 @@ void test__main_cd()
 
 		// test if relative
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.path="../", .argv= "toto", .print= 0,
+			.argv= "../", .print= 0,
 			.expect_int = OK,
 			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
 			.expect_print = "" }
 		);
 
+		// test if relative error
+		func_test_change_directory((struct test_cd){ .line_nb = L,
+			.argv= "../tata", .print= 0,
+			.expect_int = -1,
+			.expect_current_dir = "/Users/adpusel/code/42/minishell_new/cmake-build-debug",
+			.expect_print = "cd: no such file or directory: ../tata\n" }
+		);
+
 		// test if hard
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.path="/Users/adpusel/code/42/minishell_new", .argv= "toto", .print= 0,
+			.argv= "/Users/adpusel/code/42/minishell_new", .print= 0,
 			.expect_int = OK,
 			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
 			.expect_print = "" }
@@ -124,7 +133,7 @@ void test__main_cd()
 
 		// if print
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.path="/Users/adpusel/code/42/minishell_new", .argv= "toto", .print= 1,
+			.argv= "/Users/adpusel/code/42/minishell_new", .print= 1,
 			.expect_int = OK,
 			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
 			.expect_print = "/Users/adpusel/code/42/minishell_new\n" }
@@ -132,10 +141,10 @@ void test__main_cd()
 
 		// if error and print
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.path="/Users/adpusel/code/4asoeuohew", .argv= "test_error", .print= 1,
+			.argv= "/Users/adpusel/code/4asoeuohew", .print= 1,
 			.expect_int = -1,
 			.expect_current_dir = start_directory,
-			.expect_print = "cd: no such file or directory: test_error\n" }
+			.expect_print = "cd: no such file or directory: /Users/adpusel/code/4asoeuohew\n" }
 		);
 	}
 

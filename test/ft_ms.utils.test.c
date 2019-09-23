@@ -114,13 +114,11 @@ void test_ms__utils()
 		response = ms__get_value(env, "val1");
 		if (test_cmp_str("toto", response))
 			log_test(1)
-		ftstr__free(&response);
 
 		// start
 		response = ms__get_value(env, "val4");
 		if (test_cmp_str("tito", response))
 			log_test(1)
-		ftstr__free(&response);
 
 		// value does not exist
 		ft_strsplit_free(&env);

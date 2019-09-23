@@ -12,11 +12,13 @@
 
 #include <minishell.prototypes.h>
 
-static int test_and_go_dir(char *path, char *argv)
+static int test_and_go_dir(char *full_path, char *argv)
 {
-	if (OK != ftsystm__test_file(path, "cd", argv))
+	if (!full_path || !argv)
 		return (-1);
-	if (OK == chdir(path))
+	if (OK != ftsystm__test_file(full_path, "cd", argv))
+		return (-1);
+	if (OK == chdir(full_path))
 		return (OK);
 	else
 	{
@@ -25,26 +27,31 @@ static int test_and_go_dir(char *path, char *argv)
 	}
 }
 
-static char *add_current_path(char *path)
+static int add_current_path(char *argv)
 {
 	char *full_path;
+	char ret;
 
-	full_path = ft_strjoin("/", path, 0);
+	if (!argv)
+		return (-1);
+	full_path = ft_strjoin("/", argv, 0);
 	full_path = ft_strjoin(ftsystm__get_current_path(), full_path, 2);
-	return (full_path);
+	ret = test_and_go_dir(full_path, argv);
+	free(full_path);
+	return (ret);
 }
 
-int cd__change_directory(char *path, char *argv, int print)
+int cd__change_directory(char *argv, int print)
 {
 	int ret;
 
-	full_path = (NULL != path&& '/' != path[0]) ? add_current_path(path) : ft_strdup(path);
-	if (NULL != full_path)
-	{
-		ret = test_and_go_dir(full_path, argv);
-		if (OK == ret && TRUE == print)
-			ft_printf("%s\n", ftsystm__get_current_path());
-		return (ret);
-	}
-	return (-1);
+	if (!argv)
+		return (-1);
+	if (argv[0] != '/')
+		ret = add_current_path(argv);
+	else
+		ret = test_and_go_dir(argv, argv);
+	if (OK == ret && TRUE == print)
+		ft_printf("%s\n", ftsystm__get_current_path());
+	return (ret);
 }

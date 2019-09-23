@@ -21,7 +21,6 @@ char *ms__search_binary(char **env, char *binary_name)
 	{
 		found = ftsystm__find_in_path(path, ":", binary_name,
 			ftstr__search_start);
-		free(path);
 		return (found);
 	}
 	return (NULL);
