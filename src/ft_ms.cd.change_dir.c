@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
+#include <minishell.h>
 
 /*
 ** @brief	:will try to go to the directory that is at full_path,
