@@ -206,7 +206,7 @@ void test__execve()
 				.argv_str = "env -i toto=titi env -u titi -u toto env -i HOME=/ cd -",
 				.env_str = "OLDPATH=/bin",
 
-				.expect_print = "minishell: line 37: cd: OLDPATH not set\n",
+				.expect_print = "minishell: line 39: cd: OLDPATH not set\n",
 				.expect_int = -1
 			});
 

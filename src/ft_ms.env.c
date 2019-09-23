@@ -32,7 +32,7 @@ static int option_i(t_env_ret *ret)
 	if (NULL == (ret->env = ft_strsplit("", " ")))
 		return (-1);
 	while (NULL != ret->argv
-		   && 0 < (position = ft_strchr(*ret->argv, '=')))
+		   && 0 < (position = ft_strchr_int(*ret->argv, '=')))
 	{
 		(*ret->argv)[position] = '\0';
 		ms__env_add(&ret->env, *ret->argv, (*ret->argv) + position + 1);

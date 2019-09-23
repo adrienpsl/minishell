@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include <libft.h>
-#include "../src/ft_ms.cd.c"
-#include "../src/ft_ms.cd.change_dir.c"
+#include "../src/ft_ms.cd.0.c"
+#include "../src/ft_ms.cd.1.c"
 #include <ft_test.h>
 
 struct test_cd
@@ -173,7 +173,7 @@ void test__main_cd()
 			.argv= "-", .env_str="OLDPAH=/aeu",
 			.expect_int = -1,
 			.expect_current_dir = start_directory,
-			.expect_print = "minishell: line 37: cd: OLDPATH not set\n" }
+			.expect_print = "minishell: line 39: cd: OLDPATH not set\n" }
 		);
 
 		// with home
@@ -189,7 +189,7 @@ void test__main_cd()
 			.argv= NULL, .env_str="HOM=/aeu",
 			.expect_int = -1,
 			.expect_current_dir = start_directory,
-			.expect_print = "minishell: line 37: cd: HOME not set\n" }
+			.expect_print = "minishell: line 39: cd: HOME not set\n" }
 		);
 
 		// with classic argument
@@ -312,7 +312,7 @@ void test__main_cd()
 
 				.expect_int = -1,
 				.expect_current_dir = start_directory,
-				.expect_print = "minishell: line 37: cd: OLDPATH not set\n",
+				.expect_print = "minishell: line 39: cd: OLDPATH not set\n",
 				.expect_env = "OLDPAT=/"
 			}
 		);

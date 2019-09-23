@@ -13,8 +13,8 @@ include_directories(includes)
 #    lib module
 # ------------------------------------------------------------------------------
 add_library(${PROJECT_NAME}_lib
-        src/ft_ms.cd.c
-        src/ft_ms.cd.change_dir.c
+        src/ft_ms.cd.0.c
+        src/ft_ms.cd.1.c
         src/ft_ms.env.c
         src/ft_ms.env.utils.c
         src/ft_ms.execve.c

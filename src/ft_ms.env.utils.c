@@ -32,7 +32,7 @@ static int one_argument(char **argv, char ***env)
 {
 	int position;
 
-	if (0 < (position = ft_strchr(*argv, '=')))
+	if (0 < (position = ft_strchr_int(*argv, '=')))
 	{
 		(*argv)[position] = '\0';
 		ms__env_add(env, *argv, (*argv) + position + 1);

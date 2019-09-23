@@ -10,24 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.defines.h>
-#include "minishell.prototypes.h"
-
-// get the key if need
-// return change dir
-// do need old path ? nop
-// si -
+#include <minishell.h>
 
 int static is_old_path(char *argv)
 {
 	return (argv != NULL);
 }
 
-int one_and_zero_argv(char *argv, char **env)
+/*
+** @brief					:try to replace in pwd with the user input, 
+** @param argv				:input given by user 
+** @param current_directory	:env of the minishell
+** @return					:ok => 0 || ko => -1
+*/
+int			one_and_zero_argv(char *argv, char **env)
 {
-	char *path;
-	char *key;
+	char	*path;
+	char	*key;
 
+	if (env == NULL)
+		return (-1);
 	if (NULL == argv || OK == ft_strcmp("-", argv))
 	{
 		key = is_old_path(argv) ? "OLDPATH" : "HOME";
@@ -38,16 +40,24 @@ int one_and_zero_argv(char *argv, char **env)
 			return (-1);
 		}
 		else
-			return (cd__change_directory(path,  is_old_path(argv)));
+			return (cd__change_directory(path, is_old_path(argv)));
 	}
 	else
 		return (cd__change_directory(argv, 0));
 }
 
-int two_argument(char *argv[2], char *current_directory)
+/*
+** @brief					:try to replace in pwd with the user input, 
+** @param argv				:input given by user 
+** @param current_directory	:env of the minishell
+** @return					:ok => 0 || ko => -1
+*/
+static int	two_argument(char *argv[2], char *current_directory)
 {
-	char *new_path;
-//
+	char	*new_path;
+
+	if (argv == NULL || current_directory == NULL)
+		return (-1);
 	new_path = ftstr__replace_str(current_directory, argv[0], argv[1]);
 	if (new_path)
 		return (cd__change_directory(new_path, TRUE));
@@ -57,10 +67,16 @@ int two_argument(char *argv[2], char *current_directory)
 		return (-1);
 	}
 }
-
-static int handle_argument(char **argv, char **env, char *current_path)
+/*
+** @brief				:dispatch according to the size of argv
+** @param argv			:input given by user
+** @param env			:env of the minishell
+** @param current_path	:env of the minishell
+** @return				:ok => 0 || ko => -1
+*/
+static int	handle_argument(char **argv, char **env, char *current_path)
 {
-	int size;
+	int		size;
 
 	size = ft_strsplit_count(argv);
 	if (0 == size || 1 == size)
@@ -74,17 +90,25 @@ static int handle_argument(char **argv, char **env, char *current_path)
 	}
 }
 
-int ms__cd(char **argv, char ***env)
+/*
+** @brief		:Execute the builtin CD.
+** @param argv	:input given by user
+** @param env	:env of the minishell
+** @return		:ok => 0 || ko => -1
+*/
+int			ms__cd(char **argv, char ***env)
 {
-	char *current_path;
+	char	*current_path;
+	int		ret;
 
+	if (!argv || !env)
+		return (-1);
 	if (NULL == (current_path = ft_strdup(ftsystm__get_current_path())))
 		return (-1);
 	if (OK == ft_strcmp("--", *argv))
 		argv += 1;
-	if (OK != handle_argument(argv, *env, current_path))
-		return (-1);
-	ms__env_add(env, "OLDPATH", current_path);
+	if (OK == (ret = handle_argument(argv, *env, current_path)))
+		ms__env_add(env, "OLDPATH", current_path);
 	ftstr__free(&current_path);
-	return (OK);
+	return (ret);
 }
