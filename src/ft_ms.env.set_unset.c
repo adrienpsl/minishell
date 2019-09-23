@@ -23,12 +23,12 @@ int ms__setenv(char **argv, char ***env)
 		if (0 < ft_strchr_int(*argv, '='))
 			ms__env_add(env, NULL, NULL, *argv);
 		else
-			ft_printf(MS__NAME"setenv: if one argv, must contain =");
+			ft_printf(MS__NAME"setenv: if one argv, must contain =\n");
 	}
 	else if (2 == size)
 		ms__env_add(env, argv[0], argv[1], NULL);
 	else
-		ft_printf(MS__NAME"setenv: wrong arguments number");
+		ft_printf(MS__NAME"setenv: wrong arguments number\n");
 	return (0);
 }
 
@@ -37,9 +37,9 @@ int ms__unset_env(char **argv, char ***env)
 	int size;
 
 	size = ft_strsplit_count(argv);
-	if (2 == size)
+	if (1 == size)
 		ms__env_delete(*env, *argv);
 	else
-		ft_printf(MS__NAME"setenv: wrong arguments number");
+		ft_printf(MS__NAME"unsetenv: wrong arguments number\n");
 	return (0);
 }

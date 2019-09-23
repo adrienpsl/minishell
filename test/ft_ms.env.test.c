@@ -23,6 +23,10 @@ struct test
 	int expect_int;
 	char *env_str;
 
+	char *value;
+	char *key;
+	char *variable;
+
 	char *expect_print;
 	char *expect_env;
 	char *expect_argv;
@@ -55,7 +59,7 @@ void t_option_u(struct test t)
 	char **argv = ft_strsplit(t.argv_str, " ");
 	char **argv_start = argv;
 
-	char **new_env;
+	char **new_env = NULL;
 	int result_int = option_u(&argv, env, &new_env);
 
 	if (test_cmp_int(t.expect_int, result_int)
@@ -305,38 +309,195 @@ void test_main_env()
 /* ===== test utils ================================================================ */
 
 
-void f_ms__env_add()
+void f_ms__env_add(struct test t)
+{
+	g_test = 1;
+	// init
+	char **env = ft_strsplit(t.env_str, " ");
+
+	// do
+	ms__env_add(&env, t.key, t.value, t.variable);
+
+	// test
+	ft_strsplit_print(env, ' ');
+	if (test_cmp_buff(t.expect_env))
+		log_test(1)
+
+	// clean
+	ft_strsplit_free(&env);
+}
+
+void f_ms__env_set(struct test t)
+{
+	g_test = 1;
+
+	char **argv = ft_strsplit(t.argv_str, " ");
+	char **env = ft_strsplit(t.env_str, " ");
+
+	int ret = ms__setenv(argv, &env);
+
+	if (test_cmp_int(t.expect_int, ret) ||
+		test_cmp_buff(t.expect_print) ||
+		test_cmp_split_str("env diff", t.expect_env, env))
+		log_test_line(1, t.line_nb)
+
+	ft_strsplit_free(&argv);
+	ft_strsplit_free(&env);
+}
+
+void f_ms__unset_env(struct test t)
+{
+	g_test = 1;
+
+	char **argv = ft_strsplit(t.argv_str, " ");
+	char **env = ft_strsplit(t.env_str, " ");
+
+	int ret = ms__unset_env(argv, &env);
+
+	if (test_cmp_int(t.expect_int, ret) ||
+		test_cmp_buff(t.expect_print) ||
+		test_cmp_split_str("env diff", t.expect_env, env))
+		log_test_line(1, t.line_nb)
+
+	ft_strsplit_free(&argv);
+	ft_strsplit_free(&env);
+}
+
+void test_utils_env()
 {
 	/*
 	* test ms__env_add
 	* */
 	{
-		g_test = 1;
-		char **env = ft_strsplit(
-			"val1=toto =error val2=titi val3=tata val4=tito", " ");
+		// test key null
+		f_ms__env_add((struct test){
+			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
 
-		// new
-		ms__env_add(&env, "minh", "tresJolie", NULL);
-		ft_strsplit_print(env, ' ');
+			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito"
+		});
 
-		if (test_cmp_buff(
-			"val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"))
-			log_test(1)
+		// key + value, new variable
+		f_ms__env_add((struct test){
+			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
+			.key = "minh", .value = "tresJolie",
 
-		// existing
-		ms__env_add(&env, "val2", "tresJolie", NULL);
-		ft_strsplit_print(env, ' ');
+			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+		});
 
-		if (test_cmp_buff(
-			"val1=toto =error val3=tata val4=tito minh=tresJolie val2=tresJolie"))
-			log_test(1)
+		// variable, new variable
+		f_ms__env_add((struct test){
+			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
+			.variable = "minh=tresJolie",
 
-		ft_strsplit_free(&env);
-		g_test = 0;
+			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+		});
+
+		// key + value, existing variable
+		f_ms__env_add((struct test){
+			.env_str = "val1=toto minh=toto =error val2=titi val3=tata val4=tito",
+			.key = "minh", .value = "tresJolie",
+
+			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+		});
+
+		// variable, existing variable
+		f_ms__env_add((struct test){
+			.env_str = "val1=toto minh=toto =error val2=titi val3=tata val4=tito",
+			.variable = "minh=tresJolie",
+
+			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+		});
 	}
-}
 
-void test_utils_env()
-{
-	f_ms__env_add();
+	/*
+	* test ms_env_set
+	* */
+	{
+		// error : no argument
+		f_ms__env_set((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "",
+
+			.expect_print = MS__NAME"setenv: wrong arguments number\n",
+			.expect_env = "a=1 b=2"
+		});
+
+		// to much argument
+		f_ms__env_set((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "toto titi tata",
+
+			.expect_print = MS__NAME"setenv: wrong arguments number\n",
+			.expect_env = "a=1 b=2"
+		});
+
+
+		// one argument and no =
+		f_ms__env_set((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "tototiti",
+
+			.expect_print = MS__NAME"setenv: if one argv, must contain =\n",
+			.expect_env = "a=1 b=2"
+		});
+
+		// one arguments
+		f_ms__env_set((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "toto=titi",
+
+			.expect_print = "",
+			.expect_env = "a=1 b=2 toto=titi"
+		});
+
+		// 2 arguements
+		f_ms__env_set((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "toto titi",
+
+			.expect_print = "",
+			.expect_env = "a=1 b=2 toto=titi"
+		});
+	}
+
+	/*
+	* test ms__unset_env
+	* */
+	{
+		// no arguments
+		f_ms__unset_env((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "",
+
+			.expect_print = MS__NAME"unsetenv: wrong arguments number\n",
+			.expect_env = "a=1 b=2"
+		});
+
+		// to munch arguments
+		f_ms__unset_env((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "a a a ",
+
+			.expect_print = MS__NAME"unsetenv: wrong arguments number\n",
+			.expect_env = "a=1 b=2"
+		});
+
+		// delete one
+		f_ms__unset_env((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "a",
+
+			.expect_print = "",
+			.expect_env = "b=2"
+		});
+
+		// delete is not in env
+		f_ms__unset_env((struct test){ .line_nb = L,
+			.env_str = "a=1 b=2",
+			.argv_str = "au",
+
+			.expect_print = "",
+			.expect_env = "a=1 b=2"
+		});
+	}
 }

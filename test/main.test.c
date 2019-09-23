@@ -16,6 +16,7 @@
 void test_ms__utils();
 void test__main_cd();
 void test_main_env();
+void test_utils_env();
 void test__execve();
 
 void test_all()
@@ -23,6 +24,7 @@ void test_all()
 	test_ms__utils();
 	test__main_cd();
 	test_main_env();
+	test_utils_env();
 //	test__execve();
 }
 
