@@ -13,6 +13,7 @@
 #include <libft.h>
 #include <ft_test.h>
 #include "../src/ft_ms.env.c"
+#include "../src/ft_ms.env.set_unset.c"
 
 struct test
 {
@@ -27,6 +28,8 @@ struct test
 	char *expect_argv;
 	int expected_result_int;
 };
+
+/* ===== test env ================================================================ */
 
 void t_option_i(struct test t)
 {
@@ -299,4 +302,41 @@ void test_main_env()
 	}
 }
 
+/* ===== test utils ================================================================ */
 
+
+void f_ms__env_add()
+{
+	/*
+	* test ms__env_add
+	* */
+	{
+		g_test = 1;
+		char **env = ft_strsplit(
+			"val1=toto =error val2=titi val3=tata val4=tito", " ");
+
+		// new
+		ms__env_add(&env, "minh", "tresJolie", NULL);
+		ft_strsplit_print(env, ' ');
+
+		if (test_cmp_buff(
+			"val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"))
+			log_test(1)
+
+		// existing
+		ms__env_add(&env, "val2", "tresJolie", NULL);
+		ft_strsplit_print(env, ' ');
+
+		if (test_cmp_buff(
+			"val1=toto =error val3=tata val4=tito minh=tresJolie val2=tresJolie"))
+			log_test(1)
+
+		ft_strsplit_free(&env);
+		g_test = 0;
+	}
+}
+
+void test_utils_env()
+{
+	f_ms__env_add();
+}

@@ -10,8 +10,59 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
-#include <minishell.defines.h>
+#include <libft.h>
+
+/*
+** @brief			- test if searched == data before the '=' of current
+**					- current (before '=' ) == searched (before the first '=')
+** @param current	where I search
+** @param searched	what I search
+** @return 1 if match // 0 otherwise
+*/
+static int find_variable(char *current, void *searched)
+{
+	int position;
+
+	if (current == NULL || searched == NULL)
+		return (-1);
+	position = ft_strchr_int(current, '=');
+	if (0 < position)
+	{
+		if (OK == ft_strncmp(current, searched, position)
+			&& ('\0' == ((char *)searched)[position]
+				|| '=' == ((char *)searched)[position]))
+			return (1);
+	}
+	return (0);
+}
+
+/*
+** @brief will loop on the env and return the corresponding value of the key
+*/
+char *ms__env_get_value(char **env, char *key)
+{
+	int position;
+	int index;
+
+	if (env == NULL || key == NULL)
+		return (NULL);
+	index = ft_strsplit_search(env, find_variable, key);
+	if (0 <= index)
+	{
+		position = ft_strchr_int(env[index], '=');
+		if (0 < position)
+			return (env[index] + position + 1);
+	}
+	return (NULL);
+}
+
+void ms__env_delete(char **env, char *key)
+{
+	int position;
+
+	if (0 <= (position = ft_strsplit_search(env, find_variable, key)))
+		ft_strsplit_remove(env, position);
+}
 
 /*
 ** @brief if variable is NULL, join of key and value will be use
@@ -28,47 +79,4 @@ void ms__env_add(char ***env, char *key, char *value, char *variable)
 	}
 	else
 		ft_strsplit_add(env, variable);
-}
-
-static int one_argument(char **argv, char ***env)
-{
-	int position;
-
-	if (0 < (position = ft_strchr_int(*argv, '=')))
-	{
-		(*argv)[position] = '\0';
-		ms__env_add(env, *argv, (*argv) + position + 1, NULL);
-		return (OK);
-	}
-	else
-		return (-1);
-}
-
-int ms__setenv(char **argv, char ***env)
-{
-	int size;
-
-	size = ft_strsplit_count(argv);
-	if (1 == size)
-	{
-		if (OK != one_argument(argv, env))
-			ft_printf(MS__NAME"setenv: if one argv, must contain =");
-	}
-	else if (2 == size)
-		ms__env_add(env, argv[0], argv[1], NULL);
-	else
-		ft_printf(MS__NAME"setenv: wrong arguments number");
-	return (0);
-}
-
-int ms__unset_env(char **argv, char ***env)
-{
-	int size;
-
-	size = ft_strsplit_count(argv);
-	if (2 == size)
-		ms__env_delete(*env, *argv);
-	else
-		ft_printf(MS__NAME"setenv: wrong arguments number");
-	return (0);
 }

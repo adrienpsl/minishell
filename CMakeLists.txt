@@ -16,12 +16,12 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.cd.0.c
         src/ft_ms.cd.1.c
         src/ft_ms.env.c
-        src/ft_ms.env.utils.c
+        src/ft_ms.env.set_unset.c
         src/ft_ms.execve.c
         src/ft_ms.get_line.c
         src/ft_ms.main.c
         src/ft_ms.signal.c
-        src/ft_ms.utils_1.c
+        src/ft_ms.env.utils.c
         src/ft_ms.utils_2.c
 
 
@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME}_lib libft)
 # ------------------------------------------------------------------------------
 #    main module
 # ------------------------------------------------------------------------------
-add_executable(${PROJECT_NAME} main.c src/ft_ms.main.c src/ft_ms.env.utils.c)
+add_executable(${PROJECT_NAME} main.c src/ft_ms.main.c src/ft_ms.env.set_unset.c)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 

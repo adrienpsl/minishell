@@ -13,7 +13,7 @@
 #include <libft.h>
 #include <ft_test.h>
 #include <minishell.prototypes.h>
-#include  "../src/ft_ms.utils_1.c"
+#include  "../src/ft_ms.env.utils.c"
 
 struct test
 {
@@ -29,15 +29,15 @@ void t_replace_dollar(struct test t)
 {
 	g_test = 1;
 	char **env = ft_strsplit(t.env_str, " ");
-//	char *fresh_line = ft_strdup(t.line_str);
+	//	char *fresh_line = ft_strdup(t.line_str);
 
-//	char *result_char = replace_dollar(fresh_line, env);
+	//	char *result_char = replace_dollar(fresh_line, env);
 
-//	if (test_cmp_str(t.expect_line, result_char))
-//		log_test_line(1, t.line_nb)
+	//	if (test_cmp_str(t.expect_line, result_char))
+	//		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&env);
-//	free(result_char);
+	//	free(result_char);
 }
 
 void test_replace_dollar()
@@ -78,18 +78,20 @@ void test_replace_dollar()
 		.expect_line = "toto$"
 	});
 
-	t_replace_dollar((struct test) {.line_nb = L,
+	t_replace_dollar((struct test){ .line_nb = L,
 		.env_str = "toto=test",
 		.line_str = "$toto",
 		.expect_line = "test"
 	});
 
-	t_replace_dollar((struct test) {.line_nb = L,
+	t_replace_dollar((struct test){ .line_nb = L,
 		.env_str = "toto=test",
 		.line_str = "$toto $toto",
 		.expect_line = "test test"
 	});
 }
+
+
 
 void test_ms__utils()
 {
@@ -105,18 +107,18 @@ void test_ms__utils()
 			" ");
 
 		// value not exist
-		response = ms__get_value(env, "val30");
+		response = ms__env_get_value(env, "val30");
 		if (test_cmp_str(NULL, response))
 			log_test(0)
 		ftstr__free(&response);
 
 		// start
-		response = ms__get_value(env, "val1");
+		response = ms__env_get_value(env, "val1");
 		if (test_cmp_str("toto", response))
 			log_test(1)
 
 		// start
-		response = ms__get_value(env, "val4");
+		response = ms__env_get_value(env, "val4");
 		if (test_cmp_str("tito", response))
 			log_test(1)
 
@@ -146,34 +148,6 @@ void test_ms__utils()
 		ft_strsplit_print(env, ' ');
 
 		if (test_cmp_buff("val1=toto =error val3=tata val4=tito"))
-			log_test(1)
-
-		ft_strsplit_free(&env);
-		g_test = 0;
-	}
-
-	/*
-	* test ms__env_add
-	* */
-	{
-		g_test = 1;
-		char **env = ft_strsplit(
-			"val1=toto =error val2=titi val3=tata val4=tito", " ");
-
-		// new
-		ms__env_add(&env, "minh", "tresJolie", NULL);
-		ft_strsplit_print(env, ' ');
-
-		if (test_cmp_buff(
-			"val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"))
-			log_test(1)
-
-		// existing
-		ms__env_add(&env, "val2", "tresJolie", NULL);
-		ft_strsplit_print(env, ' ');
-
-		if (test_cmp_buff(
-			"val1=toto =error val3=tata val4=tito minh=tresJolie val2=tresJolie"))
 			log_test(1)
 
 		ft_strsplit_free(&env);

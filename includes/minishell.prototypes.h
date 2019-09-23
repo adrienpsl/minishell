@@ -43,7 +43,7 @@ void ms__env_add(char ***env, char *key, char *value, char *variable);
 /*
 **	Utils
 */
-char *ms__get_value(char **env, char *key);
+char *ms__env_get_value(char **env, char *key);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
 char *ms__search_binary(char **env, char *binary_name);

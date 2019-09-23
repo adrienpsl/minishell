@@ -11,22 +11,35 @@
 /* ************************************************************************** */
 
 #include <minishell.prototypes.h>
+#include <minishell.defines.h>
 
-char *ms__search_binary(char **env, char *binary_name)
+int ms__setenv(char **argv, char ***env)
 {
-	char *path;
-	char *found;
+	int size;
 
-	if (NULL != (path = ms__env_get_value(env, "PATH")))
+	size = ft_strsplit_count(argv);
+	if (1 == size)
 	{
-		found = ftsystm__find_in_path(path, ":", binary_name,
-			ftstr__search_start);
-		return (found);
+		if (0 < ft_strchr_int(*argv, '='))
+			ms__env_add(env, NULL, NULL, *argv);
+		else
+			ft_printf(MS__NAME"setenv: if one argv, must contain =");
 	}
-	return (NULL);
+	else if (2 == size)
+		ms__env_add(env, argv[0], argv[1], NULL);
+	else
+		ft_printf(MS__NAME"setenv: wrong arguments number");
+	return (0);
 }
 
-void print_promp()
+int ms__unset_env(char **argv, char ***env)
 {
-	ft_printf("$> %s:\n", ftsystm__get_current_path());
+	int size;
+
+	size = ft_strsplit_count(argv);
+	if (2 == size)
+		ms__env_delete(*env, *argv);
+	else
+		ft_printf(MS__NAME"setenv: wrong arguments number");
+	return (0);
 }
