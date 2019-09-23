@@ -52,7 +52,7 @@ char *ms__get_line(char **env);
 /*
 **	Intern function
 */
-int cd__change_directory(char *argv, int print);
+int cd__change_directory(char *path, int print);
 void print_promp();
 void clean_char(t_s *line);
 void ms_signal_exec(int sign);

@@ -12,7 +12,15 @@
 
 #include <minishell.prototypes.h>
 
-static int test_and_go_dir(char *full_path, char *argv)
+/*
+** @brief	:will try to go to the directory that is at full_path,
+**			 and ft_printf the error if it appears
+** @param	 full_path the path of the directory
+** @param	:argv can be path or relative path, in purpose of log the error
+**			 according to the zsh CD command
+** @return	:ok => 0 || ko => -1
+*/
+static int	test_and_chdir(char *full_path, char *argv)
 {
 	if (!full_path || !argv)
 		return (-1);
@@ -27,31 +35,32 @@ static int test_and_go_dir(char *full_path, char *argv)
 	}
 }
 
-static int add_current_path(char *argv)
+/*
+** @brief		:- will transform the argv in full path, if it relative.
+**				 - test and chdir with the func test_and_chdir
+**				 - print the path according to the CD zsh's builtin
+** @param path	: path for the chdir system function
+** @param print	: if true, will print the new pwd
+** @return		: ok => 0 || ko => -1
+*/
+int			cd__change_directory(char *path, int print)
 {
-	char *full_path;
-	char ret;
+	int		ret;
+	char	*full_path;
 
-	if (!argv)
+	if (!path)
 		return (-1);
-	full_path = ft_strjoin("/", argv, 0);
-	full_path = ft_strjoin(ftsystm__get_current_path(), full_path, 2);
-	ret = test_and_go_dir(full_path, argv);
-	free(full_path);
-	return (ret);
-}
-
-int cd__change_directory(char *argv, int print)
-{
-	int ret;
-
-	if (!argv)
-		return (-1);
-	if (argv[0] != '/')
-		ret = add_current_path(argv);
+	if (path[0] != '/')
+	{
+		full_path = ft_strjoin("/", path, 0);
+		full_path = ft_strjoin(ftsystm__get_current_path(), full_path, 2);
+	}
 	else
-		ret = test_and_go_dir(argv, argv);
+		full_path = path;
+	ret = test_and_chdir(path, path);
 	if (OK == ret && TRUE == print)
 		ft_printf("%s\n", ftsystm__get_current_path());
+	if (full_path != path)
+		ftstr__free(&full_path);
 	return (ret);
 }
