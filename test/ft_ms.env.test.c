@@ -40,37 +40,39 @@ void t_option_i(struct test t)
 	char **argv = ft_strsplit(t.argv_str, " ");
 	char **argv_start = argv;
 
-	char **new_env;
-	int result_int = option_i(&argv, &new_env);
+	t_env e;
+	ft_bzero(&e, sizeof(t_env));
+	int result_int = option_i(&argv, &e);
 
 	if (test_cmp_int(t.expect_int, result_int)
-		|| test_cmp_split_str("env diff ", t.expect_env, new_env)
+		|| test_cmp_split_str("env diff ", t.expect_env, *get_env(&e))
 		|| test_cmp_split_str("argv diff ", t.expect_argv, argv))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv_start);
-	ft_strsplit_free(&new_env);
+	ft_strsplit_free(get_env(&e));
 }
 
 void t_option_u(struct test t)
 {
 	g_test = 1;
-	char **env = ft_strsplit(t.env_str, " ");
+	t_env e;
+	ft_bzero(&e, sizeof(t_env));
+
+	e.env = ft_strsplit(t.env_str, " ");
 	char **argv = ft_strsplit(t.argv_str, " ");
 	char **argv_start = argv;
 
-	char **new_env = NULL;
-	int result_int = option_u(&argv, env, &new_env);
+	int result_int = option_u(&argv, &e);
 
 	if (test_cmp_int(t.expect_int, result_int)
 		|| (t.expect_print && test_cmp_buff(t.expect_print))
-		|| test_cmp_split_str("env diff ", t.expect_env, new_env)
+		|| test_cmp_split_str("env diff ", t.expect_env, *get_env(&e))
 		|| test_cmp_split_str("argv diff ", t.expect_argv, argv))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv_start);
-	ft_strsplit_free(&new_env);
-	ft_strsplit_free(&env);
+	free_env(&e);
 	g_test = 0;
 }
 
@@ -79,21 +81,24 @@ void t_ms__env(struct test t)
 	g_test = 1;
 	char **argv = ft_strsplit(t.argv_str, " ");
 	char **argv_start = argv;
-	char **env = ft_strsplit(t.env_str, " ");
 
-	char **new_env = ms__env(&argv, env);
+	t_env e;
+	ft_bzero(&e, sizeof(t_env));
+	e.env = ft_strsplit(t.env_str, " ");
+
+	int ret = ms__env(&argv, &e);
 
 	if (test_cmp_buff(t.expect_print))
 		log_test_line(1, t.line_nb)
 
 	if (
-		test_cmp_split_str("env diff", t.expect_env, new_env) ||
+		test_cmp_int(t.expected_result_int, ret) ||
+		test_cmp_split_str("env diff", t.expect_env, *get_env(&e)) ||
 		test_cmp_split_str("argv diff", t.expect_argv, argv))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv_start);
-	ft_strsplit_free(&new_env);
-	ft_strsplit_free(&env);
+	free_env(&e);
 	g_test = 0;
 }
 
@@ -230,7 +235,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "toto=titi\n",
-			.expected_result_int = -1,
+			.expected_result_int = 1,
 			.expect_env = NULL
 		});
 
@@ -267,7 +272,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "a=1\n,.poeuch=11239euo\n",
-			.expected_result_int = -1,
+			.expected_result_int = 1,
 			.expect_env = NULL
 		});
 
@@ -278,7 +283,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "c=3\n",
-			.expected_result_int = -1,
+			.expected_result_int = 1,
 			.expect_env = NULL
 		});
 
@@ -352,7 +357,7 @@ void f_ms__unset_env(struct test t)
 	char **argv = ft_strsplit(t.argv_str, " ");
 	char **env = ft_strsplit(t.env_str, " ");
 
-	int ret = ms__unset_env(argv, &env);
+	int ret = ms__unsetenv(argv, &env);
 
 	if (test_cmp_int(t.expect_int, ret) ||
 		test_cmp_buff(t.expect_print) ||

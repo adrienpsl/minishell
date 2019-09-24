@@ -32,7 +32,7 @@ int ms__setenv(char **argv, char ***env)
 	return (0);
 }
 
-int ms__unset_env(char **argv, char ***env)
+int ms__unsetenv(char **argv, char ***env)
 {
 	int size;
 

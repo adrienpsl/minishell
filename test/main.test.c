@@ -25,7 +25,7 @@ void test_all()
 	test__main_cd();
 	test_main_env();
 	test_utils_env();
-//	test__execve();
+	test__execve();
 }
 
 int main(int ac, char **av)

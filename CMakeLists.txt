@@ -16,6 +16,7 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.cd.0.c
         src/ft_ms.cd.1.c
         src/ft_ms.env.c
+        src/ft_ms.env.getters.c
         src/ft_ms.env.set_unset.c
         src/ft_ms.execve.c
         src/ft_ms.get_line.c

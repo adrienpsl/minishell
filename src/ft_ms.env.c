@@ -24,7 +24,8 @@ static int print_usage(char bad_option)
 	return (-1);
 }
 
-static int option_i(char ***argv, char ***o_env)
+
+static int option_i(char ***argv, t_env *e)
 {
 	char **new_env;
 
@@ -36,67 +37,60 @@ static int option_i(char ***argv, char ***o_env)
 		ms__env_add(&new_env, NULL, NULL, **argv);
 		*argv += 1;
 	}
-	*o_env = new_env;
+	update_env_tmp(new_env, e);
 	return (OK);
 }
 
-static int option_u(char ***argv, char **env, char ***o_env)
+// elle prend le env, et en fonction va update le new env
+static int option_u(char ***argv, t_env *e)
 {
-	char **tmp_env;
+	char **new_env;
 
-	if (NULL == (tmp_env = ft_strsplit_copy(env, 0)))
+	if (NULL == (new_env = ft_strsplit_copy(*get_env(e), 0)))
 		return (-1);
 	while (OK == ft_strcmp("-u", **argv))
 	{
 		*argv += 1;
 		if (NULL != **argv)
 		{
-			ms__env_delete(tmp_env, **argv);
+			ms__env_delete(new_env, **argv);
 			*argv += 1;
 		}
 		else
 		{
-			ft_strsplit_free(&tmp_env);
+			ft_strsplit_free(&new_env);
 			print_usage(0);
 			return (-1);
 		}
 	}
-	*o_env = tmp_env;
+	update_env_tmp(new_env, e);
 	return (OK);
 }
-
-static int handle_option(char ***argv, char **env, char ***o_env)
-{
-	if (OK == ft_strcmp("-i", **argv))
-		return option_i(argv, o_env);
-	else if (OK == ft_strcmp("-u", **argv))
-		return option_u(argv, env, o_env);
-	else
-	{
-		print_usage((*argv)[0][1]);
-		return (-1);
-	}
-}
-
 /*
 **	will parse the env stuff and return new env
 */
-char **ms__env(char ***argv, char **env)
+int ms__env(char ***argv, t_env *e)
 {
-	char **new_env;
+	int ret;
 
-	new_env = NULL;
+	ret = OK;
 	if (**argv && ***argv == '-')
 	{
-		if (OK != handle_option(argv, env, &new_env))
-			return (NULL);
+		if (OK == ft_strcmp("-i", **argv))
+			ret = option_i(argv, e);
+		else if (OK == ft_strcmp("-u", **argv))
+			ret = option_u(argv, e);
+		else
+		{
+			print_usage((*argv)[0][1]);
+			return (-1);
+		}
 	}
-	if (NULL == **argv)
+	if (ret && NULL == **argv)
 	{
-		ft_strsplit_print(new_env ? new_env : env, '\n');
+		ft_strsplit_print(*get_env(e), '\n');
 		ft_printf("\n");
-		ft_strsplit_free(&new_env);
-		return (NULL);
+		return (1);
 	}
-	return (new_env);
+	return (OK);
 }

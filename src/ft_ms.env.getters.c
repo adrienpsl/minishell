@@ -10,27 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_STRUCTURES
-#define MINISHELL_STRUCTURES
+#include <minishell.h>
 
-
-typedef int (*t_func)(char **arg, char ***env);
-
-typedef struct s_element_func
+void update_env_tmp(char **new, t_env *e)
 {
-	char *name;
-	t_func func;
-} t_element_func;
+	ft_strsplit_free(&e->tmp_env);
+	e->tmp_env = new;
+}
 
+char ***get_env(t_env *e)
+{
+	return (e->tmp_env ? &e->tmp_env : &e->env);
+}
 
-typedef struct s_env {
-	char **env;
-	char **tmp_env;
-} t_env;
-
-
-#include <ft_array.h>
-#include <ft_s.h>
-#include <termios.h>
-
-#endif
+void free_env(t_env *e)
+{
+	ft_strsplit_free(&e->env);
+	ft_strsplit_free(&e->tmp_env);
+}

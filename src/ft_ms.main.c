@@ -45,7 +45,7 @@ int ms__init(char **env_system)
 
 	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
 		return (-1);
-	while (NULL != (line = ms__get_line(env)))
+	while (NULL != (line = ms__get_line(env, NULL)))
 	{
 		if (NULL == (command = ft_strsplit(line, ";")))
 			return (-1);

@@ -53,7 +53,7 @@ void handle_input(char buffer[4], t_s *line, char **env)
 	}
 }
 
-char *ms__get_line(char **env)
+char *ms__get_line(char **env, t_s *line)
 {
 	char buffer[5] = { 0 };
 
@@ -63,7 +63,7 @@ char *ms__get_line(char **env)
 		if (read(0, buffer, 4) <= 0)
 			break;
 		if (OK != ft_strcmp(buffer, "\n"))
-			handle_input(buffer, g_line, env);
+			handle_input(buffer, line, env);
 	}
 	return (NULL);
 }
