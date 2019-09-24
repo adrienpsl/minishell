@@ -37,7 +37,7 @@
 int ms__unsetenv(char **argv, char ***env);
 int ms__setenv(char **argv, char ***env);
 int ms__cd(char **argv, char ***env);
-int ms__env(char ***argv, t_env *e);
+int ms__env(t_data *d, t_env *e);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
 
 /*

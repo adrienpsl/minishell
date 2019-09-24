@@ -58,51 +58,40 @@ void t_find_and_check_binary(struct test t)
 	ft_strsplit_free(&argv);
 }
 
-void t_loop_on_env(struct test t)
-{
-	g_test = 1;
-	char **env = ft_strsplit(t.env_str, " ");
-
-		int ret = ms__command(t.argv_str, &env);
-//
-		if (test_cmp_buff(t.expect_print)
-			|| test_cmp_int(t.expect_int, ret))
-			log_test_line(1, t.line_nb)
-//
-	ft_strsplit_free(&env);
-}
-
 void t_loop_and_recursive(struct test t)
 {
 	g_test = 1;
 
 	t_env e;
+	t_data d;
 	ft_bzero(&e, sizeof(t_env));
+	ft_bzero(&d, sizeof(t_data));
 	e.env = ft_strsplit(t.env_str, " ");
-	char **argv = ft_strsplit(t.argv_str, " ");
+	d.argv = ft_strsplit(t.argv_str, " ");
 
-	int ret = loop_and_recursive(argv, &e);
+	int ret = loop_and_recursive(&d, &e);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&e.env);
-	ft_strsplit_free(&argv);
+	ft_strsplit_free(&d.argv);
 }
 
 void t_ms__command(struct test t)
 {
 	g_test = 1;
-	char **env = ft_strsplit(t.env_str, " ");
-
-	int ret = ms__command(t.argv_str, &env);
+	t_env e;
+	ft_bzero(&e, sizeof(t_env));
+	e.env = ft_strsplit(t.env_str, " ");
+	int ret = ms__command(t.argv_str, &e);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
 		log_test_line(1, t.line_nb)
 
-	ft_strsplit_free(&env);
+	free_env(&e);
 }
 
 void test__execve()
@@ -178,27 +167,27 @@ void test__execve()
 * */
 	{
 		// no arguments
-		t_loop_on_env((struct test){ .line_nb = L,
+		t_ms__command((struct test){ .line_nb = L,
 			.argv_str = "env",
 			.env_str = "toto=titi",
 
-			.expect_int = 1,
+			.expect_int = OK,
 			.expect_print= "toto=titi\n",
 			.expect_env = "toto=titi"
 		});
 
 		// -i no arguments
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-i tata",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -i tata",
 			.env_str = "toto=titi",
-			.expect_int = 1,
-			.expect_print= "",
+			.expect_int = -1,
+			.expect_print= "minishell: command not found: tata\n",
 			.expect_env = ""
 		});
 
 		// -i good arguments
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-i tata=ou",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -i tata=ou",
 			.env_str = "toto=titi",
 
 			.expect_print= "tata=ou\n",
@@ -206,26 +195,28 @@ void test__execve()
 		});
 
 		// -i good arguments and programme
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-i tata=ou hey",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -i tata=ou hey",
 			.env_str = "toto=titi",
 
-			.expect_print= "",
+			.expect_int = -1,
+			.expect_print= "minishell: command not found: hey\n",
 			.expect_env ="tata=ou"
 		});
 
 		// -u bad
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-u ",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -u",
 			.env_str = "toto=titi",
 
+			.expect_int = -1,
 			.expect_print= "env: option requires an argument -- u\n""usage: env [-i] [name=value ...] [-u name]\n""          [utility [argument ...]]\n",
 			.expect_env = NULL
 		});
 
 		// -u good no arguments
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-u toto",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -u toto",
 			.env_str = "toto=titi a=1 b=2",
 
 			.expect_print= "a=1\nb=2\n",
@@ -233,26 +224,28 @@ void test__execve()
 		});
 
 		// -u good argument
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-u toto aa",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -u toto aa",
 			.env_str = "toto=titi a=1 b=2",
 
-			.expect_print= "",
+			.expect_int = -1,
+			.expect_print= "minishell: command not found: aa\n",
 			.expect_env ="a=1 b=2"
 		});
 
 		// muliple env stuff
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-u toto env -u a a",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -u toto env -u a a",
 			.env_str = "toto=titi a=1 b=2",
 
-			.expect_print= "",
+			.expect_int = -1,
+			.expect_print= "minishell: command not found: a\n",
 			.expect_env ="b=2"
 		});
 
 		// other multiple
-		t_loop_on_env((struct test){ .line_nb = L,
-			.argv_str = "-u toto env -u a env -i aa=bb",
+		t_ms__command((struct test){ .line_nb = L,
+			.argv_str = "env -u toto env -u a env -i aa=bb",
 			.env_str = "toto=titi a=1 b=2",
 
 			.expect_print= "aa=bb\n",

@@ -59,7 +59,7 @@ static int find_and_check_binary(char **argv, char ***env)
 	return (ret);
 }
 
-static int ms__dispatch_good_binary(char **argv, char ***env)
+static int ms__dispatch_good_binary(t_data *d, char ***env)
 {
 	int i;
 	static t_element_func g_func[5] = {
@@ -69,53 +69,59 @@ static int ms__dispatch_good_binary(char **argv, char ***env)
 		{ "echo", NULL },
 	};
 
-	if (!argv || !*argv || !env)
+	if (!d->argv || !env)
 		return (-1);
 	i = 0;
 	while (i < 5)
 	{
-		if (OK == ft_strcmp(g_func[i].name, *argv))
-			return (g_func[i].func(++argv, env));
+		if (OK == ft_strcmp(g_func[i].name, *d->argv))
+			break;
 		i++;
 	}
-	return (find_and_check_binary(argv, env));
+	if (i != 5)
+	{
+		d->argv += 1;
+		d->ret = g_func[i].func(d->argv, env);
+	}
+	else
+		d->ret = find_and_check_binary(d->argv, env);
+	return (d->ret);
 }
 
 /*
 **	that function recursive until the end of the env stuff,
 **	and after return
 */
- int loop_and_recursive(char **argv, t_env *e)
+int loop_and_recursive(t_data *d, t_env *e)
 {
-	int result;
-
-	while (OK == ft_strcmp("env", *argv))
+	// si env stop or no
+		while (OK == ft_strcmp("env", *d->argv))
 	{
-		argv += 1;
-		if (0 != ms__env(&argv, e))
-			return (-1);
+		d->argv += 1;
+		if (OK != ms__env(d, e))
+			return (d->ret);
 	}
-	if (OK == ft_strcmp("exit", *argv))
-		return (MS__EXIT);
-	else
-		result = ms__dispatch_good_binary(argv, get_env(e));
+	if (OK == ft_strcmp("exit", *d->argv)
+		&& NULL == e->tmp_env)
+		d->ret = (MS__EXIT);
+	else if (NULL != *d->argv)
+		ms__dispatch_good_binary(d, get_env(e));
 	ft_strsplit_free(&e->tmp_env);
-	return (result);
+	return (d->ret);
 }
 
-int ms__command(char *line, char ***env)
+int ms__command(char *line, t_env *e)
 {
-	char **argv;
 	char **start;
-//	int ret;
+	t_data d;
 
-(void)env;
+	ft_bzero(&d, sizeof(t_data));
 	if (line && '\0' == *line)
 		return (OK);
-	if (NULL == (argv = ft_strsplit(line, " ")))
+	if (NULL == (d.argv = ft_strsplit(line, " ")))
 		return (-1);
-	start = argv;
-//	ret = loop_and_recursive(argv, env);
+	start = d.argv;
+	loop_and_recursive(&d, e);
 	ft_strsplit_free(&start);
-	return (0);
+	return (d.ret);
 }

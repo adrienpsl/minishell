@@ -35,6 +35,12 @@ struct test
 
 /* ===== test env ================================================================ */
 
+struct t_e
+{
+	t_env e;
+	t_data d;
+};
+
 void t_option_i(struct test t)
 {
 	char **argv = ft_strsplit(t.argv_str, " ");
@@ -79,14 +85,17 @@ void t_option_u(struct test t)
 void t_ms__env(struct test t)
 {
 	g_test = 1;
-	char **argv = ft_strsplit(t.argv_str, " ");
-	char **argv_start = argv;
-
 	t_env e;
+	t_data d;
 	ft_bzero(&e, sizeof(t_env));
+	ft_bzero(&d, sizeof(t_data));
+
+	d.argv = ft_strsplit(t.argv_str, " ");
+	char **argv_start = d.argv;
+
 	e.env = ft_strsplit(t.env_str, " ");
 
-	int ret = ms__env(&argv, &e);
+	int ret = ms__env(&d, &e);
 
 	if (test_cmp_buff(t.expect_print))
 		log_test_line(1, t.line_nb)
@@ -94,7 +103,7 @@ void t_ms__env(struct test t)
 	if (
 		test_cmp_int(t.expected_result_int, ret) ||
 		test_cmp_split_str("env diff", t.expect_env, *get_env(&e)) ||
-		test_cmp_split_str("argv diff", t.expect_argv, argv))
+		test_cmp_split_str("argv diff", t.expect_argv, d.argv))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv_start);
@@ -235,7 +244,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "toto=titi\n",
-			.expected_result_int = 1,
+			.expected_result_int = OK,
 			.expect_env = "toto=titi"
 		});
 
@@ -272,7 +281,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "a=1\n,.poeuch=11239euo\n",
-			.expected_result_int = 1,
+			.expected_result_int = OK,
 			.expect_env ="a=1 ,.poeuch=11239euo"
 		});
 
@@ -283,7 +292,7 @@ void test_main_env()
 
 			.expect_argv = "",
 			.expect_print = "c=3\n",
-			.expected_result_int = 1,
+			.expected_result_int = OK,
 			.expect_env = "c=3"
 		});
 
