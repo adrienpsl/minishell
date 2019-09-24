@@ -184,7 +184,7 @@ void test__execve()
 
 			.expect_int = 1,
 			.expect_print= "toto=titi\n",
-			.expect_env = NULL
+			.expect_env = "toto=titi"
 		});
 
 		// -i no arguments

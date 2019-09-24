@@ -86,11 +86,11 @@ int ms__env(char ***argv, t_env *e)
 			return (-1);
 		}
 	}
-	if (ret && NULL == **argv)
+	if (OK == ret && NULL == **argv)
 	{
 		ft_strsplit_print(*get_env(e), '\n');
 		ft_printf("\n");
 		return (1);
 	}
-	return (OK);
+	return (ret);
 }

@@ -177,7 +177,7 @@ void test_main_env()
 			.expect_print = "env: option requires an argument -- u\n"
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
-			.expect_env = NULL
+			.expect_env = "a1"
 		});
 
 		// first good second bad
@@ -190,7 +190,7 @@ void test_main_env()
 			.expect_print = "env: option requires an argument -- u\n"
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
-			.expect_env = NULL
+			.expect_env = "toto=titi"
 		});
 
 		// test good
@@ -236,7 +236,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "toto=titi\n",
 			.expected_result_int = 1,
-			.expect_env = NULL
+			.expect_env = "toto=titi"
 		});
 
 		// no bad option
@@ -249,7 +249,7 @@ void test_main_env()
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
 			.expected_result_int = -1,
-			.expect_env = NULL
+			.expect_env = "toto=titi"
 		});
 
 		// no bad -u
@@ -262,7 +262,7 @@ void test_main_env()
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
 			.expected_result_int = -1,
-			.expect_env = NULL
+			.expect_env ="toto=titi"
 		});
 
 		// test i
@@ -273,7 +273,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "a=1\n,.poeuch=11239euo\n",
 			.expected_result_int = 1,
-			.expect_env = NULL
+			.expect_env ="a=1 ,.poeuch=11239euo"
 		});
 
 		// test u
@@ -284,7 +284,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "c=3\n",
 			.expected_result_int = 1,
-			.expect_env = NULL
+			.expect_env = "c=3"
 		});
 
 		// test -i arguments
