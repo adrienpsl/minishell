@@ -27,8 +27,7 @@ struct test
 
 int replace_dollar_tilde(
 	const char **env,
-	const char *const line,
-	char **p_new_line);
+	const char **line);
 
 void t_replace_dollar_tilde(struct test t)
 {
@@ -36,7 +35,7 @@ void t_replace_dollar_tilde(struct test t)
 	const char **env = (void *)ft_strsplit(t.env_str, " ");
 
 	char *new_line = ft_strdup(t.argv_str);
-	int ret = replace_dollar_tilde(env, new_line, &new_line);
+	int ret = replace_dollar_tilde(env, (void*)&new_line);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_str(t.expect_char, new_line))
@@ -47,29 +46,29 @@ void t_replace_dollar_tilde(struct test t)
 
 void test_replace_dollar_tilde()
 {
-	//	t_replace_dollar_tilde((struct test){ .line_nb  = L,
-	//		.env_str = "",
-	//		.argv_str = "",
-	//
-	//		.expect_int = OK,
-	//		.expect_char = ""
-	//	});
-	//
-	//	t_replace_dollar_tilde((struct test){ .line_nb  = L,
-	//		.env_str = "",
-	//		.argv_str = "toto",
-	//
-	//		.expect_int = OK,
-	//		.expect_char = "toto"
-	//	});
-	//
-	//	t_replace_dollar_tilde((struct test){ .line_nb  = L,
-	//		.env_str = "",
-	//		.argv_str = "toto$",
-	//
-	//		.expect_int = OK,
-	//		.expect_char = "toto$"
-	//	});
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "",
+		.argv_str = "",
+
+		.expect_int = OK,
+		.expect_char = ""
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "",
+		.argv_str = "toto",
+
+		.expect_int = OK,
+		.expect_char = "toto"
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "",
+		.argv_str = "toto$",
+
+		.expect_int = OK,
+		.expect_char = "toto$"
+	});
 
 	t_replace_dollar_tilde((struct test){ .line_nb  = L,
 		.env_str = "",
@@ -77,5 +76,61 @@ void test_replace_dollar_tilde()
 
 		.expect_int = OK,
 		.expect_char = ""
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi",
+		.argv_str = "$toto",
+
+		.expect_int = OK,
+		.expect_char = "titi"
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi",
+		.argv_str = "$totoo",
+
+		.expect_int = OK,
+		.expect_char = ""
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi tata=titi",
+		.argv_str = "$totoo$tata",
+
+		.expect_int = OK,
+		.expect_char = ""
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi tata=titi",
+		.argv_str = "$totoo $tata",
+
+		.expect_int = OK,
+		.expect_char = " titi"
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi tata=titi",
+		.argv_str = "$totoo $tata",
+
+		.expect_int = OK,
+		.expect_char = " titi"
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi tata=titi",
+		.argv_str = "$totoo $tata =~/",
+
+		.expect_int = OK,
+		.expect_char = " titi =/"
+	});
+
+	t_replace_dollar_tilde((struct test){ .line_nb  = L,
+		.env_str = "toto=titi tata=titi HOME=toto",
+		.argv_str = "$totoo $tata =~/",
+
+		.expect_int = OK,
+		.expect_char = " titi =toto/"
 	});
 }

@@ -31,7 +31,7 @@ static int replace_dollar(const char *current, char **new_line, char **env)
 		{
 			value = ms__env_get_value(env, key);
 			ft_pstrjoin(*new_line, value ? value : "", 1, new_line);
-			ftstr__free(&value);
+			ftstr__free(&key);
 		}
 		return (length + 1);
 	}
@@ -48,11 +48,9 @@ static int replace_tilde(const char *current, char **new_line, char **env)
 	return (0);
 }
 
-// if all good, replace the given str by the fresh new cool one !
 int replace_dollar_tilde(
 	const char **env,
-	const char *const line,
-	char **p_new_line)
+	const char **line)
 {
 	const char *current;
 	char *new_line;
@@ -60,7 +58,7 @@ int replace_dollar_tilde(
 
 	if (NULL == (new_line = ft_memalloc(1)))
 		return (-1);
-	current = line;
+	current = *line;
 	while (*current != '\0')
 	{
 		if ((size = replace_dollar(current, &new_line, (char **)env)))
@@ -73,7 +71,7 @@ int replace_dollar_tilde(
 			current += 1;
 		}
 	}
-	ftstr__free((char**)&line);
-	*p_new_line = new_line;
+	ftstr__free((char **)line);
+	*line = new_line;
 	return (OK);
 }
