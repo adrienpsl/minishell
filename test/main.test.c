@@ -18,6 +18,7 @@ void test__main_cd();
 void test_main_env();
 void test_utils_env();
 void test__execve();
+void test_replace_dollar_tilde();
 
 void test_all()
 {
@@ -26,6 +27,7 @@ void test_all()
 	test_main_env();
 	test_utils_env();
 	test__execve();
+	test_replace_dollar_tilde();
 }
 
 int main(int ac, char **av)

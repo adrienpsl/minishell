@@ -39,6 +39,7 @@ int ms__setenv(char **argv, char ***env);
 int ms__cd(char **argv, char ***env);
 int ms__env(t_data *d, t_env *e);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
+int ms__command(char *line, t_env *e);
 
 /*
 **	Getter / setter ------------------------------------------------------------
@@ -53,8 +54,12 @@ void free_env(t_env *e);
 char *ms__env_get_value(char **env, char *key);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
-char *ms__search_binary(char **env, char *binary_name);
-char *ms__get_line(char **env, t_s *line);
+const char *ms__search_binary(
+	char **env,
+	char *binary_name);
+int *ms__get_line(
+	const char *const *const env,
+	t_s *const line, char **output);
 
 /*
 **	Intern function

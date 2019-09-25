@@ -28,7 +28,7 @@ struct test
 	char *variable;
 
 	char *expect_print;
-	char *expect_env;
+	char *expect_char;
 	char *expect_argv;
 	int expected_result_int;
 };
@@ -51,7 +51,7 @@ void t_option_i(struct test t)
 	int result_int = option_i(&argv, &e);
 
 	if (test_cmp_int(t.expect_int, result_int)
-		|| test_cmp_split_str("env diff ", t.expect_env, *get_env(&e))
+		|| test_cmp_split_str("env diff ", t.expect_char, *get_env(&e))
 		|| test_cmp_split_str("argv diff ", t.expect_argv, argv))
 		log_test_line(1, t.line_nb)
 
@@ -73,7 +73,7 @@ void t_option_u(struct test t)
 
 	if (test_cmp_int(t.expect_int, result_int)
 		|| (t.expect_print && test_cmp_buff(t.expect_print))
-		|| test_cmp_split_str("env diff ", t.expect_env, *get_env(&e))
+		|| test_cmp_split_str("env diff ", t.expect_char, *get_env(&e))
 		|| test_cmp_split_str("argv diff ", t.expect_argv, argv))
 		log_test_line(1, t.line_nb)
 
@@ -102,7 +102,7 @@ void t_ms__env(struct test t)
 
 	if (
 		test_cmp_int(t.expected_result_int, ret) ||
-		test_cmp_split_str("env diff", t.expect_env, *get_env(&e)) ||
+		test_cmp_split_str("env diff", t.expect_char, *get_env(&e)) ||
 		test_cmp_split_str("argv diff", t.expect_argv, d.argv))
 		log_test_line(1, t.line_nb)
 
@@ -122,7 +122,7 @@ void test_main_env()
 			.argv_str = "-i",
 
 			.expect_argv = "",
-			.expect_env = "",
+			.expect_char = "",
 			.expect_int = OK
 		});
 
@@ -131,7 +131,7 @@ void test_main_env()
 			.argv_str = "-i ar_1",
 
 			.expect_argv = "ar_1",
-			.expect_env = "",
+			.expect_char = "",
 			.expect_int = OK
 		});
 
@@ -140,7 +140,7 @@ void test_main_env()
 			.argv_str = "-i ar_1=1",
 
 			.expect_argv = "",
-			.expect_env = "ar_1=1",
+			.expect_char = "ar_1=1",
 			.expect_int = OK
 		});
 
@@ -149,7 +149,7 @@ void test_main_env()
 			.argv_str = "-i ar_1=1 ar_2=2 ar_3=3 ar_4=4",
 
 			.expect_argv = "",
-			.expect_env = "ar_1=1 ar_2=2 ar_3=3 ar_4=4",
+			.expect_char = "ar_1=1 ar_2=2 ar_3=3 ar_4=4",
 			.expect_int = OK
 		});
 
@@ -158,7 +158,7 @@ void test_main_env()
 			.argv_str = "-i ar_1=1 ar_2=2 ar_3=3 ar_1=4",
 
 			.expect_argv = "",
-			.expect_env = "ar_2=2 ar_3=3 ar_1=4",
+			.expect_char = "ar_2=2 ar_3=3 ar_1=4",
 			.expect_int = OK
 		});
 
@@ -167,7 +167,7 @@ void test_main_env()
 			.argv_str = "-i ar_1=1 ar_2=2 ar_3=3 ar_1=4 ls -r",
 
 			.expect_argv = "ls -r",
-			.expect_env = "ar_2=2 ar_3=3 ar_1=4",
+			.expect_char = "ar_2=2 ar_3=3 ar_1=4",
 			.expect_int = OK
 		});
 	}
@@ -186,7 +186,7 @@ void test_main_env()
 			.expect_print = "env: option requires an argument -- u\n"
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
-			.expect_env = "a1"
+			.expect_char = "a1"
 		});
 
 		// first good second bad
@@ -199,7 +199,7 @@ void test_main_env()
 			.expect_print = "env: option requires an argument -- u\n"
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
-			.expect_env = "toto=titi"
+			.expect_char = "toto=titi"
 		});
 
 		// test good
@@ -209,7 +209,7 @@ void test_main_env()
 
 			.expect_int = OK,
 			.expect_argv = "",
-			.expect_env = ""
+			.expect_char = ""
 		});
 
 		// test hard
@@ -219,7 +219,7 @@ void test_main_env()
 
 			.expect_int = OK,
 			.expect_argv = "",
-			.expect_env = "aaa=ooo"
+			.expect_char = "aaa=ooo"
 		});
 
 		// test hard
@@ -229,7 +229,7 @@ void test_main_env()
 
 			.expect_int = OK,
 			.expect_argv = "ls -aoe",
-			.expect_env = "aaa=ooo"
+			.expect_char = "aaa=ooo"
 		});
 	}
 
@@ -245,7 +245,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "toto=titi\n",
 			.expected_result_int = OK,
-			.expect_env = "toto=titi"
+			.expect_char = "toto=titi"
 		});
 
 		// no bad option
@@ -258,7 +258,7 @@ void test_main_env()
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
 			.expected_result_int = -1,
-			.expect_env = "toto=titi"
+			.expect_char = "toto=titi"
 		});
 
 		// no bad -u
@@ -271,7 +271,7 @@ void test_main_env()
 							"usage: env [-i] [name=value ...] [-u name]\n"
 							"          [utility [argument ...]]\n",
 			.expected_result_int = -1,
-			.expect_env ="toto=titi"
+			.expect_char ="toto=titi"
 		});
 
 		// test i
@@ -282,7 +282,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "a=1\n,.poeuch=11239euo\n",
 			.expected_result_int = OK,
-			.expect_env ="a=1 ,.poeuch=11239euo"
+			.expect_char ="a=1 ,.poeuch=11239euo"
 		});
 
 		// test u
@@ -293,7 +293,7 @@ void test_main_env()
 			.expect_argv = "",
 			.expect_print = "c=3\n",
 			.expected_result_int = OK,
-			.expect_env = "c=3"
+			.expect_char = "c=3"
 		});
 
 		// test -i arguments
@@ -304,7 +304,7 @@ void test_main_env()
 			.expect_argv = "ls -r",
 			.expect_print = "",
 			.expected_result_int = OK,
-			.expect_env = "a=1 ,.poeuch=11239euo"
+			.expect_char = "a=1 ,.poeuch=11239euo"
 		});
 
 		// test -u arguments
@@ -315,7 +315,7 @@ void test_main_env()
 			.expect_argv = "ls -r",
 			.expect_print = "",
 			.expected_result_int = OK,
-			.expect_env = "b=2 c=3"
+			.expect_char = "b=2 c=3"
 		});
 	}
 }
@@ -334,7 +334,7 @@ void f_ms__env_add(struct test t)
 
 	// test
 	ft_strsplit_print(env, ' ');
-	if (test_cmp_buff(t.expect_env))
+	if (test_cmp_buff(t.expect_char))
 		log_test(1)
 
 	// clean
@@ -352,7 +352,7 @@ void f_ms__env_set(struct test t)
 
 	if (test_cmp_int(t.expect_int, ret) ||
 		test_cmp_buff(t.expect_print) ||
-		test_cmp_split_str("env diff", t.expect_env, env))
+		test_cmp_split_str("env diff", t.expect_char, env))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv);
@@ -370,7 +370,7 @@ void f_ms__unset_env(struct test t)
 
 	if (test_cmp_int(t.expect_int, ret) ||
 		test_cmp_buff(t.expect_print) ||
-		test_cmp_split_str("env diff", t.expect_env, env))
+		test_cmp_split_str("env diff", t.expect_char, env))
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv);
@@ -387,7 +387,7 @@ void test_utils_env()
 		f_ms__env_add((struct test){
 			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
 
-			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito"
+			.expect_char = "val1=toto =error val2=titi val3=tata val4=tito"
 		});
 
 		// key + value, new variable
@@ -395,7 +395,7 @@ void test_utils_env()
 			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
 			.key = "minh", .value = "tresJolie",
 
-			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+			.expect_char = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
 		});
 
 		// variable, new variable
@@ -403,7 +403,7 @@ void test_utils_env()
 			.env_str = "val1=toto =error val2=titi val3=tata val4=tito",
 			.variable = "minh=tresJolie",
 
-			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+			.expect_char = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
 		});
 
 		// key + value, existing variable
@@ -411,7 +411,7 @@ void test_utils_env()
 			.env_str = "val1=toto minh=toto =error val2=titi val3=tata val4=tito",
 			.key = "minh", .value = "tresJolie",
 
-			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+			.expect_char = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
 		});
 
 		// variable, existing variable
@@ -419,7 +419,7 @@ void test_utils_env()
 			.env_str = "val1=toto minh=toto =error val2=titi val3=tata val4=tito",
 			.variable = "minh=tresJolie",
 
-			.expect_env = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
+			.expect_char = "val1=toto =error val2=titi val3=tata val4=tito minh=tresJolie"
 		});
 	}
 
@@ -433,7 +433,7 @@ void test_utils_env()
 			.argv_str = "",
 
 			.expect_print = MS__NAME"setenv: wrong arguments number\n",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 
 		// to much argument
@@ -442,7 +442,7 @@ void test_utils_env()
 			.argv_str = "toto titi tata",
 
 			.expect_print = MS__NAME"setenv: wrong arguments number\n",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 
 
@@ -452,7 +452,7 @@ void test_utils_env()
 			.argv_str = "tototiti",
 
 			.expect_print = MS__NAME"setenv: if one argv, must contain =\n",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 
 		// one arguments
@@ -461,7 +461,7 @@ void test_utils_env()
 			.argv_str = "toto=titi",
 
 			.expect_print = "",
-			.expect_env = "a=1 b=2 toto=titi"
+			.expect_char = "a=1 b=2 toto=titi"
 		});
 
 		// 2 arguements
@@ -470,7 +470,7 @@ void test_utils_env()
 			.argv_str = "toto titi",
 
 			.expect_print = "",
-			.expect_env = "a=1 b=2 toto=titi"
+			.expect_char = "a=1 b=2 toto=titi"
 		});
 	}
 
@@ -484,7 +484,7 @@ void test_utils_env()
 			.argv_str = "",
 
 			.expect_print = MS__NAME"unsetenv: wrong arguments number\n",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 
 		// to munch arguments
@@ -493,7 +493,7 @@ void test_utils_env()
 			.argv_str = "a a a ",
 
 			.expect_print = MS__NAME"unsetenv: wrong arguments number\n",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 
 		// delete one
@@ -502,7 +502,7 @@ void test_utils_env()
 			.argv_str = "a",
 
 			.expect_print = "",
-			.expect_env = "b=2"
+			.expect_char = "b=2"
 		});
 
 		// delete is not in env
@@ -511,7 +511,7 @@ void test_utils_env()
 			.argv_str = "au",
 
 			.expect_print = "",
-			.expect_env = "a=1 b=2"
+			.expect_char = "a=1 b=2"
 		});
 	}
 }

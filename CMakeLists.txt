@@ -24,6 +24,7 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.signal.c
         src/ft_ms.env.utils.c
         src/ft_ms.utils_2.c
+        src/ft_ms.replace_dollar_tilde.c
 
 
         )
@@ -45,7 +46,10 @@ add_executable(${PROJECT_NAME}_test
         test/ft_ms.cd.test.c
         test/ft_ms.utils.test.c
         test/ft_ms.env.test.c
-        test/ft_ms.execve.test.c)
+        test/ft_ms.execve.test.c
+        test/ft_ms.execve.test.c
+        test/ft_ms.replace_dollar_tilde.test.c
+        )
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME}_lib)
 
 # ------------------------------------------------------------------------------

@@ -12,12 +12,14 @@
 
 #include <minishell.prototypes.h>
 
-char *ms__search_binary(char **env, char *binary_name)
+const char *ms__search_binary(
+	char **env,
+	char *binary_name)
 {
 	char *path;
 	char *found;
 
-	if (NULL != (path = ms__env_get_value(env, "PATH")))
+	if (NULL != (path = ms__env_get_value((char **)env, "PATH")))
 	{
 		found = ftsystm__find_in_path(path, ":", binary_name,
 			ftstr__search_start);

@@ -37,9 +37,9 @@ static int exec_binary(char *path, char **argv, char **env)
 **	- find the binary in path if it's a command
 **	- if find the binary and I have right launch the program
 */
-static int find_and_check_binary(char **argv, char ***env)
+static int find_and_launch_binary(char **argv, char ***env)
 {
-	char *path;
+	const char *path;
 	int ret;
 
 	if (!argv || !*argv || !env)
@@ -50,64 +50,48 @@ static int find_and_check_binary(char **argv, char ***env)
 		ft_printf(MS__NAME"command not found: %s\n", *argv);
 		return (-1);
 	}
-	if (OK == ftsystm__test_file(path, "minishell", *argv))
-		ret = exec_binary(path, argv, *env);
+	if (OK == ftsystm__test_file((char *)path, "minishell", *argv))
+		ret = exec_binary((char *)path, argv, *env);
 	else
 		ret = -1;
 	if (path != *argv)
-		ftstr__free(&path);
+		ftstr__free((char **)&path);
 	return (ret);
 }
 
-static int ms__dispatch_good_binary(t_data *d, char ***env)
+int loop_on_env(t_data *d, t_env *e)
 {
-	int i;
-	static t_element_func g_func[5] = {
-		{ "setenv",   ms__setenv },
-		{ "unsetenv", ms__unsetenv },
-		{ "cd",       ms__cd },
-		{ "echo", NULL },
-	};
-
-	if (!d->argv || !env)
-		return (-1);
-	i = 0;
-	while (i < 5)
-	{
-		if (OK == ft_strcmp(g_func[i].name, *d->argv))
-			break;
-		i++;
-	}
-	if (i != 5)
+	while (OK == ft_strcmp("env", *d->argv))
 	{
 		d->argv += 1;
-		d->ret = g_func[i].func(d->argv, env);
+		if (OK != ms__env(d, e))
+			return (d->ret);
 	}
-	else
-		d->ret = find_and_check_binary(d->argv, env);
-	return (d->ret);
+	return (OK);
 }
 
 /*
 **	that function recursive until the end of the env stuff,
 **	and after return
 */
-int loop_and_recursive(t_data *d, t_env *e)
+int dispatch_between_binary_and_builtin(t_data *d, t_env *e)
 {
-	// si env stop or no
-		while (OK == ft_strcmp("env", *d->argv))
-	{
-		d->argv += 1;
-		if (OK != ms__env(d, e))
-			return (d->ret);
-	}
-	if (OK == ft_strcmp("exit", *d->argv)
-		&& NULL == e->tmp_env)
-		d->ret = (MS__EXIT);
-	else if (NULL != *d->argv)
-		ms__dispatch_good_binary(d, get_env(e));
-	ft_strsplit_free(&e->tmp_env);
-	return (d->ret);
+	if (OK == ft_strcmp("exit", *d->argv))
+		return (MS__EXIT);
+	if (OK != loop_on_env(d, e))
+		return (d->ret);
+	if (NULL == *d->argv)
+		return (OK);
+	else if (OK == ft_strcmp("setenv", *d->argv))
+		return (ms__setenv(d->argv, get_env(e)));
+	else if (OK == ft_strcmp("unsetenv", *d->argv))
+		return (ms__unsetenv(d->argv, get_env(e)));
+	else if (OK == ft_strcmp("unsetenv", *d->argv))
+		return (ms__unsetenv(d->argv, get_env(e)));
+	else if (OK == ft_strcmp("echo", *d->argv))
+		return 2;
+	else
+		return (find_and_launch_binary(d->argv, get_env(e)));
 }
 
 int ms__command(char *line, t_env *e)
@@ -116,12 +100,13 @@ int ms__command(char *line, t_env *e)
 	t_data d;
 
 	ft_bzero(&d, sizeof(t_data));
-	if (line && '\0' == *line)
+	if ('\0' == *line)
 		return (OK);
 	if (NULL == (d.argv = ft_strsplit(line, " ")))
 		return (-1);
 	start = d.argv;
-	loop_and_recursive(&d, e);
+	d.ret = dispatch_between_binary_and_builtin(&d, e);
+	ft_strsplit_free(&e->tmp_env);
 	ft_strsplit_free(&start);
 	return (d.ret);
 }

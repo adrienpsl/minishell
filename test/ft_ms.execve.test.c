@@ -22,7 +22,7 @@ struct test
 	char *path_str;
 
 	char *expect_print;
-	char *expect_env;
+	char *expect_char;
 	int expect_int;
 };
 
@@ -48,7 +48,7 @@ void t_find_and_check_binary(struct test t)
 	char **env = ft_strsplit(t.env_str, " ");
 	char **argv = ft_strsplit(t.argv_str, " ");
 
-	int ret = find_and_check_binary(argv, &env);
+	int ret = find_and_launch_binary(argv, &env);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
@@ -69,7 +69,7 @@ void t_loop_and_recursive(struct test t)
 	e.env = ft_strsplit(t.env_str, " ");
 	d.argv = ft_strsplit(t.argv_str, " ");
 
-	int ret = loop_and_recursive(&d, &e);
+	int ret = dispatch_between_binary_and_builtin(&d, &e);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
@@ -173,7 +173,7 @@ void test__execve()
 
 			.expect_int = OK,
 			.expect_print= "toto=titi\n",
-			.expect_env = "toto=titi"
+			.expect_char = "toto=titi"
 		});
 
 		// -i no arguments
@@ -182,7 +182,7 @@ void test__execve()
 			.env_str = "toto=titi",
 			.expect_int = -1,
 			.expect_print= "minishell: command not found: tata\n",
-			.expect_env = ""
+			.expect_char = ""
 		});
 
 		// -i good arguments
@@ -191,7 +191,7 @@ void test__execve()
 			.env_str = "toto=titi",
 
 			.expect_print= "tata=ou\n",
-			.expect_env = NULL
+			.expect_char = NULL
 		});
 
 		// -i good arguments and programme
@@ -201,7 +201,7 @@ void test__execve()
 
 			.expect_int = -1,
 			.expect_print= "minishell: command not found: hey\n",
-			.expect_env ="tata=ou"
+			.expect_char ="tata=ou"
 		});
 
 		// -u bad
@@ -211,7 +211,7 @@ void test__execve()
 
 			.expect_int = -1,
 			.expect_print= "env: option requires an argument -- u\n""usage: env [-i] [name=value ...] [-u name]\n""          [utility [argument ...]]\n",
-			.expect_env = NULL
+			.expect_char = NULL
 		});
 
 		// -u good no arguments
@@ -220,7 +220,7 @@ void test__execve()
 			.env_str = "toto=titi a=1 b=2",
 
 			.expect_print= "a=1\nb=2\n",
-			.expect_env = NULL
+			.expect_char = NULL
 		});
 
 		// -u good argument
@@ -230,7 +230,7 @@ void test__execve()
 
 			.expect_int = -1,
 			.expect_print= "minishell: command not found: aa\n",
-			.expect_env ="a=1 b=2"
+			.expect_char ="a=1 b=2"
 		});
 
 		// muliple env stuff
@@ -240,7 +240,7 @@ void test__execve()
 
 			.expect_int = -1,
 			.expect_print= "minishell: command not found: a\n",
-			.expect_env ="b=2"
+			.expect_char ="b=2"
 		});
 
 		// other multiple
@@ -249,7 +249,7 @@ void test__execve()
 			.env_str = "toto=titi a=1 b=2",
 
 			.expect_print= "aa=bb\n",
-			.expect_env = NULL
+			.expect_char = NULL
 		});
 	}
 

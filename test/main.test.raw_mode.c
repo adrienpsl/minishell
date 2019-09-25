@@ -28,7 +28,7 @@ int main(int ac, char **av)
 	char **env = ft_strsplit(
 		"PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
 		" ");
-	ms__get_line(env);
+	ms__get_line(env, NULL, NULL);
 
 	printf("\n%s \n", g_line->data);
 

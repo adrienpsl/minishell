@@ -10,60 +10,71 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
+#include <minishell.h>
 #include <ft_mem.h>
-#include <minishell.defines.h>
 
-void delete_char(t_s *line)
+void delete_char(t_s *const line)
 {
 	ft_putstr_fd("\b \b", 1);
 	if (line->length)
 		fts__remove_from(line, line->length - 1);
 }
 
-void clean_char(t_s *line)
+void clean_char(t_s *const line)
 {
 	while (line->length)
 		delete_char(line);
 }
 
-void tab_char(t_s *line, char **env)
+void tab_char(
+	const char *const *const env,
+	t_s *const line)
 {
-	char *found;
+	const char *found;
 
-	if (NULL != (found = ms__search_binary(env, line->data)))
+	if (NULL != (found = ms__search_binary((char **)env, line->data)))
 	{
 		clean_char(line);
-		if (OK == fts__add(line, found))
+		if (OK == fts__add(line, (char *)found))
 			ft_printf(line->data);
-		free(found);
+		ftstr__free((char **)&found);
 	}
 }
 
-void handle_input(char buffer[4], t_s *line, char **env)
+void handle_input(
+	const char *const *const env,
+	char const buffer[4],
+	t_s *const line)
 {
 	if (OK == ft_strcmp(MS__DEL, buffer))
 		delete_char(line);
 	else if (OK == ft_strcmp(MS__TAB, buffer))
-		tab_char(line, env);
+		tab_char(env, line);
 	else if ('\0' == buffer[1])
 	{
 		ft_printf(buffer);
-		fts__add(line, buffer);
+		fts__add(line, (char *)buffer);
 	}
 }
 
-char *ms__get_line(char **env, t_s *line)
+// get the current line with the buffer t_s
+// and put his content to the output
+int *ms__get_line(
+	const char *const *const env,
+	t_s *const line,
+	char **output)
 {
 	char buffer[5] = { 0 };
 
+	fts__clear(line);
 	while (OK != ft_strcmp(buffer, "\n"))
 	{
 		ft_bzero(&buffer, 5);
 		if (read(0, buffer, 4) <= 0)
 			break;
 		if (OK != ft_strcmp(buffer, "\n"))
-			handle_input(buffer, line, env);
+			handle_input(env, buffer, line);
 	}
-	return (NULL);
+	*output = line->data;
+	return (OK);
 }

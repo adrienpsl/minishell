@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include <minishell.prototypes.h>
+#include <minishell.h>
+#include <ft_mem.h>
 
 void ms__activate_raw_mode(struct termios *saved_termios)
 {
@@ -25,32 +27,51 @@ void ms__activate_raw_mode(struct termios *saved_termios)
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
-int ms__command(char *line, char ***env);
-int ms__loop(char **commands, char ***env)
+int ms__loop(char **commands, t_env *e)
 {
 	while (NULL != *commands)
 	{
-		if (2 == ms__command(*commands, env))
+		if (MS__EXIT == ms__command(*commands, e))
 			break;
 		commands += 1;
 	}
 	return (OK);
 }
 
+int clean_and_quit(t_env *e, char **command, char *line, int ret)
+{
+	free_env(e);
+	ft_strsplit_free(&command);
+	ftstr__free(&line);
+	return (ret);
+}
+
+
+char **get_command_split(const char **env)
+{
+	char *line;
+
+	ms__get_line(env, g_line, &line);
+
+	return (NULL);
+}
+
 int ms__init(char **env_system)
 {
-	char **env;
+	t_env e;
 	char *line;
 	char **command;
 
-	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
-		return (-1);
-	while (NULL != (line = ms__get_line(env, NULL)))
-	{
-		if (NULL == (command = ft_strsplit(line, ";")))
-			return (-1);
-		if (2 == ms__loop(command, &env))
-			return (OK);
-	}
-	return (OK);
+	if (NULL == (e.env = ft_strsplit_copy(env_system, 0)))
+		return (EXIT_FAILURE);
+	line = NULL;
+	//	while (NULL != (line = ms__get_line(e.env, NULL, NULL)))
+	//	{
+	if (NULL == (command = ft_strsplit(line, ";")))
+		return (clean_and_quit(&e, command, line, EXIT_FAILURE));
+	if (MS__EXIT == ms__loop(command, &e))
+		return (clean_and_quit(&e, command, line, EXIT_SUCCESS));
+	free(line);
+	//	}
+	return (clean_and_quit(&e, command, line, EXIT_FAILURE));
 }
