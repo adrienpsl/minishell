@@ -14,15 +14,15 @@
 
 const char *ms__search_binary(
 	char **env,
-	char *binary_name)
+	char *binary_name,
+	int (*f)(char *,char *))
 {
 	char *path;
 	char *found;
 
 	if (NULL != (path = ms__env_get_value((char **)env, "PATH")))
 	{
-		found = ftsystm__find_in_path(path, ":", binary_name,
-			ftstr__search_start);
+		found = ftsystm__find_in_path(path, ":", binary_name,f);
 		return (found);
 	}
 	return (NULL);
@@ -30,5 +30,5 @@ const char *ms__search_binary(
 
 void print_promp()
 {
-	ft_printf("$> %s:\n", ftsystm__get_current_path());
+	ft_printf("\n%s:\n$> ", ftsystm__get_current_path());
 }

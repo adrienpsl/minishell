@@ -44,7 +44,8 @@ static int find_and_launch_binary(char **argv, char ***env)
 
 	if (!argv || !*argv || !env)
 		return (-1);
-	path = (**argv == '/') ? *argv : ms__search_binary(*env, *argv);
+	path = (**argv == '/') ? *argv : ms__search_binary(*env, *argv,
+		ftstr__search_start_strict);
 	if (path == NULL)
 	{
 		ft_printf(MS__NAME"command not found: %s\n", *argv);
@@ -82,12 +83,14 @@ int dispatch_between_binary_and_builtin(t_data *d, t_env *e)
 		return (d->ret);
 	if (NULL == *d->argv)
 		return (OK);
+	else if (OK == ft_strcmp("cd", *d->argv))
+		return (ms__cd(++d->argv, get_env(e)));
 	else if (OK == ft_strcmp("setenv", *d->argv))
-		return (ms__setenv(d->argv, get_env(e)));
+		return (ms__setenv(++d->argv, get_env(e)));
 	else if (OK == ft_strcmp("unsetenv", *d->argv))
-		return (ms__unsetenv(d->argv, get_env(e)));
+		return (ms__unsetenv(++d->argv, get_env(e)));
 	else if (OK == ft_strcmp("unsetenv", *d->argv))
-		return (ms__unsetenv(d->argv, get_env(e)));
+		return (ms__unsetenv(++d->argv, get_env(e)));
 	else if (OK == ft_strcmp("echo", *d->argv))
 		return 2;
 	else

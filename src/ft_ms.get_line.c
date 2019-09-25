@@ -30,15 +30,24 @@ void tab_char(
 	const char *const *const env,
 	t_s *const line)
 {
-	const char *found;
+	static char *found = NULL;
+	static char **split = NULL;
+	int count;
 
-	if (NULL != (found = ms__search_binary((char **)env, line->data)))
+	if (NULL != (found = (char *)ms__search_binary((char **)env, line->data,
+		ftstr__search_start))
+		&& NULL != (split = ft_strsplit(found, "/")))
 	{
-		clean_char(line);
-		if (OK == fts__add(line, (char *)found))
-			ft_printf(line->data);
-		ftstr__free((char **)&found);
+
+		if (0 < (count = ft_strsplit_count(split)))
+		{
+			clean_char(line);
+			OK == fts__add(line, split[count - 1])
+			&& ft_printf(line->data);
+		}
 	}
+	ftstr__free((char **)&found);
+	ft_strsplit_free(&split);
 }
 
 void handle_input(
@@ -57,8 +66,6 @@ void handle_input(
 	}
 }
 
-// get the current line with the buffer t_s
-// and put his content to the output
 int *ms__get_line(
 	const char *const *const env,
 	t_s *const line,
@@ -75,6 +82,7 @@ int *ms__get_line(
 		if (OK != ft_strcmp(buffer, "\n"))
 			handle_input(env, buffer, line);
 	}
+		ft_printf("\n");
 	*output = line->data;
 	return (OK);
 }

@@ -13,11 +13,11 @@
 #include <minishell.h>
 #include <ft_mem.h>
 
-static int replace_dollar(const char *current, char **new_line, char **env)
+static int	replace_dollar(const char *current, char **new_line, char **env)
 {
-	char *key;
-	int length;
-	char *value;
+	char	*key;
+	int		length;
+	char	*value;
 
 	if (current[0] == '$'
 		&& current[1] != ' '
@@ -38,7 +38,7 @@ static int replace_dollar(const char *current, char **new_line, char **env)
 	return (0);
 }
 
-static int replace_tilde(const char *current, char **new_line, char **env)
+static int	replace_tilde(const char *current, char **new_line, char **env)
 {
 	if (current[0] == '~')
 	{
@@ -48,17 +48,17 @@ static int replace_tilde(const char *current, char **new_line, char **env)
 	return (0);
 }
 
-int replace_dollar_tilde(
+int			replace_dollar_tilde(
 	const char **env,
 	const char **line)
 {
-	const char *current;
-	char *new_line;
-	int size;
+	char	*current;
+	char	*new_line;
+	int		size;
 
 	if (NULL == (new_line = ft_memalloc(1)))
 		return (-1);
-	current = *line;
+	current = (char *)*line;
 	while (*current != '\0')
 	{
 		if ((size = replace_dollar(current, &new_line, (char **)env)))
@@ -71,7 +71,6 @@ int replace_dollar_tilde(
 			current += 1;
 		}
 	}
-	ftstr__free((char **)line);
 	*line = new_line;
 	return (OK);
 }

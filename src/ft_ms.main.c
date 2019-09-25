@@ -32,20 +32,22 @@ int ms__loop(char **commands, t_env *e)
 	while (NULL != *commands)
 	{
 		if (MS__EXIT == ms__command(*commands, e))
-			break;
+			return MS__EXIT;
 		commands += 1;
 	}
 	return (OK);
 }
 
-int clean_and_quit(t_env *e, char **command, char *line, int ret)
+int clean_and_quit(t_env *e, char **command, char *line, int ret,
+				   struct termios *termios)
 {
 	free_env(e);
 	ft_strsplit_free(&command);
 	ftstr__free(&line);
+	tcsetattr(STDIN_FILENO, TCSANOW, termios);
+(void)termios;
 	return (ret);
 }
-
 
 char **get_command_split(const char **env)
 {
@@ -61,17 +63,24 @@ int ms__init(char **env_system)
 	t_env e;
 	char *line;
 	char **command;
+	struct termios termios;
 
+	ms__activate_raw_mode(&termios);
+	g_line = fts__init(20);
+	e.tmp_env = NULL;
 	if (NULL == (e.env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
 	line = NULL;
-	//	while (NULL != (line = ms__get_line(e.env, NULL, NULL)))
-	//	{
-	if (NULL == (command = ft_strsplit(line, ";")))
-		return (clean_and_quit(&e, command, line, EXIT_FAILURE));
-	if (MS__EXIT == ms__loop(command, &e))
-		return (clean_and_quit(&e, command, line, EXIT_SUCCESS));
-	free(line);
-	//	}
-	return (clean_and_quit(&e, command, line, EXIT_FAILURE));
+	print_promp();
+	while (OK == ms__get_line((void *)e.env, g_line, &line)
+		   && OK == replace_dollar_tilde((void *)e.env, (void *)&line))
+	{
+		if (NULL == (command = ft_strsplit(line, ";")))
+			return (clean_and_quit(&e, command, line, EXIT_FAILURE, &termios));
+		if (MS__EXIT == ms__loop(command, &e))
+			return (clean_and_quit(&e, command, line, EXIT_SUCCESS, &termios));
+		free(line);
+		print_promp();
+	}
+	return (clean_and_quit(&e, command, line, EXIT_FAILURE, &termios));
 }

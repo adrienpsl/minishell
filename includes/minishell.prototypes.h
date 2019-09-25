@@ -56,10 +56,14 @@ void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
 const char *ms__search_binary(
 	char **env,
-	char *binary_name);
+	char *binary_name,
+	int (*f)(char *, char *));
 int *ms__get_line(
 	const char *const *const env,
 	t_s *const line, char **output);
+int replace_dollar_tilde(
+	const char **env,
+	const char **line);
 
 /*
 **	Intern function

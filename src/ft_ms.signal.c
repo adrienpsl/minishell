@@ -22,5 +22,6 @@ void ms_signal_minishell(int sign)
 {
 	(void)sign;
 	clean_char(g_line);
+	ft_printf("\n");
 	print_promp();
 }
