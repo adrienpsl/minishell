@@ -47,6 +47,8 @@ int ms__command(char *line, t_env *e);
 void update_env_tmp(char **new, t_env *e);
 char ***get_env(t_env *e);
 void free_env(t_env *e);
+int ms__init(t_env *e);
+int ms__dispatch(t_data *d, t_env *e);
 
 /*
 **	Utils
@@ -54,7 +56,7 @@ void free_env(t_env *e);
 char *ms__env_get_value(char **env, char *key);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
-const char *ms__search_binary(
+char * ms__search_binary(
 	char **env,
 	char *binary_name,
 	int (*f)(char *, char *));

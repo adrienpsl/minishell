@@ -33,34 +33,25 @@ static int exec_binary(char *path, char **argv, char **env)
 	return (0);
 }
 
-/*
-**	- find the binary in path if it's a command
-**	- if find the binary and I have right launch the program
-*/
-static int find_and_launch_binary(char **argv, char ***env)
+static int find_binary(char **argv, char **env, char **path)
 {
-	const char *path;
 	int ret;
 
-	if (!argv || !*argv || !env)
-		return (-1);
-	path = (**argv == '/') ? *argv : ms__search_binary(*env, *argv,
-		ftstr__search_start_strict);
-	if (path == NULL)
+	*path = (**argv == '/') ?
+			ft_strdup(*argv) :
+			ms__search_binary(env, *argv, ftstr__search_start_strict);
+	if (*path == NULL)
 	{
 		ft_printf(MS__NAME"command not found: %s\n", *argv);
 		return (-1);
 	}
-	if (OK == ftsystm__test_file((char *)path, "minishell", *argv))
-		ret = exec_binary((char *)path, argv, *env);
-	else
-		ret = -1;
-	if (path != *argv)
-		ftstr__free((char **)&path);
+	ret = ftsystm__test_file(*path, "minishell", *argv);
+	if (OK != ret)
+		ftstr__free(path);
 	return (ret);
 }
 
-int loop_on_env(t_data *d, t_env *e)
+static int loop_on_env(t_data *d, t_env *e)
 {
 	while (OK == ft_strcmp("env", *d->argv))
 	{
@@ -71,45 +62,41 @@ int loop_on_env(t_data *d, t_env *e)
 	return (OK);
 }
 
-/*
-**	that function recursive until the end of the env stuff,
-**	and after return
-*/
-int dispatch_between_binary_and_builtin(t_data *d, t_env *e)
+static int handle_builtin(char **argv, char ***env, int *ret)
 {
+	int i;
+	static char *name[5] = { "cd", "setenv", "unsetenv", "echo", NULL };
+	static t_func func[5] = { ms__cd, ms__setenv, ms__unsetenv, NULL, NULL };
+
+	if (-1 < (i = ft_strsplit_search(name, (void *)ft_streq, *argv)))
+	{
+		*ret = func[i](++argv, env);
+		return (1);
+	}
+	return (0);
+}
+
+int ms__dispatch(t_data *d, t_env *e)
+{
+	int ret;
+	char *path;
+
 	if (OK == ft_strcmp("exit", *d->argv))
 		return (MS__EXIT);
 	if (OK != loop_on_env(d, e))
 		return (d->ret);
 	if (NULL == *d->argv)
 		return (OK);
-	else if (OK == ft_strcmp("cd", *d->argv))
-		return (ms__cd(++d->argv, get_env(e)));
-	else if (OK == ft_strcmp("setenv", *d->argv))
-		return (ms__setenv(++d->argv, get_env(e)));
-	else if (OK == ft_strcmp("unsetenv", *d->argv))
-		return (ms__unsetenv(++d->argv, get_env(e)));
-	else if (OK == ft_strcmp("unsetenv", *d->argv))
-		return (ms__unsetenv(++d->argv, get_env(e)));
-	else if (OK == ft_strcmp("echo", *d->argv))
-		return 2;
+	if (handle_builtin(d->argv, get_env(e), &ret))
+		return (ret);
 	else
-		return (find_and_launch_binary(d->argv, get_env(e)));
-}
-
-int ms__command(char *line, t_env *e)
-{
-	char **start;
-	t_data d;
-
-	ft_bzero(&d, sizeof(t_data));
-	if ('\0' == *line)
-		return (OK);
-	if (NULL == (d.argv = ft_strsplit(line, " ")))
+	{
+		if (OK == find_binary(d->argv, *get_env(e), &path))
+		{
+			exec_binary(path, d->argv, *get_env(e));
+			ftstr__free(&path);
+			return (OK);
+		}
 		return (-1);
-	start = d.argv;
-	d.ret = dispatch_between_binary_and_builtin(&d, e);
-	ft_strsplit_free(&e->tmp_env);
-	ft_strsplit_free(&start);
-	return (d.ret);
+	}
 }

@@ -18,15 +18,12 @@ add_library(${PROJECT_NAME}_lib
         src/ft_ms.env.c
         src/ft_ms.env.getters.c
         src/ft_ms.env.set_unset.c
+        src/ft_ms.env.utils.c
         src/ft_ms.execve.c
         src/ft_ms.get_line.c
-        src/ft_ms.main.c
-        src/ft_ms.signal.c
-        src/ft_ms.env.utils.c
-        src/ft_ms.utils_2.c
         src/ft_ms.replace_dollar_tilde.c
-        src/ft_ms.main.c
-        src/ft_ms.env.set_unset.c
+        src/ft_ms.signal.c
+        src/ft_ms.utils_2.c
         )
 
 target_link_libraries(${PROJECT_NAME}_lib libft)

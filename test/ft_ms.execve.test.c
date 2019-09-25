@@ -69,7 +69,7 @@ void t_loop_and_recursive(struct test t)
 	e.env = ft_strsplit(t.env_str, " ");
 	d.argv = ft_strsplit(t.argv_str, " ");
 
-	int ret = dispatch_between_binary_and_builtin(&d, &e);
+	int ret = ms__dispatch(&d, &e);
 
 	if (test_cmp_int(t.expect_int, ret)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))

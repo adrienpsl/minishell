@@ -20,4 +20,9 @@
 # include "minishell.structures.h"
 # include "minishell.defines.h"
 
+/*
+**	lib
+*/
+# include <ft_mem.h>
+
 #endif

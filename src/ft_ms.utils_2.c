@@ -12,7 +12,7 @@
 
 #include <minishell.prototypes.h>
 
-const char *ms__search_binary(
+char *ms__search_binary(
 	char **env,
 	char *binary_name,
 	int (*f)(char *,char *))
