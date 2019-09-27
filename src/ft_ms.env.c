@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <minishell.prototypes.h>
+#include <minishell.h>
 
 static int print_usage(char bad_option)
 {
@@ -40,7 +39,6 @@ static int option_i(char ***argv, t_env *e)
 	return (OK);
 }
 
-// elle prend le env, et en fonction va update le new env
 static int option_u(char ***argv, t_env *e)
 {
 	char **new_env;

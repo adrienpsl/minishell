@@ -23,6 +23,6 @@
 /*
 **	lib
 */
-# include <ft_mem.h>
+# include <libft.h>
 
 #endif

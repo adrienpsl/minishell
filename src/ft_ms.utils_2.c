@@ -28,7 +28,7 @@ char *ms__search_binary(
 	return (NULL);
 }
 
-void print_promp()
+void print_prompt()
 {
 	ft_printf("\n%s:\n$> ", ftsystm__get_current_path());
 }

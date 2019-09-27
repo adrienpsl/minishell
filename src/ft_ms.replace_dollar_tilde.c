@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <ft_mem.h>
 
 static int	replace_dollar(const char *current, char **new_line, char **env)
 {

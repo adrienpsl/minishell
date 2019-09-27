@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.defines.h>
-#include <minishell.prototypes.h>
+#include <minishell.h>
 
 void ms_signal_exec(int sign)
 {
@@ -23,5 +22,5 @@ void ms_signal_minishell(int sign)
 	(void)sign;
 	clean_char(g_line);
 	ft_printf("\n");
-	print_promp();
+	print_prompt();
 }

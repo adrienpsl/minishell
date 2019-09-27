@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <minishell.h>
-#include <ft_mem.h>
 
 void delete_char(t_s *const line)
 {

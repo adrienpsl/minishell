@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include <minishell.h>
 
 /*
 ** @brief			- test if searched == data before the '=' of current

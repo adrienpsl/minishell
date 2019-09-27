@@ -42,21 +42,21 @@ void t_exec_binary(struct test t)
 	ft_strsplit_free(&argv);
 }
 
-void t_find_and_check_binary(struct test t)
-{
-	g_test = 1;
-	char **env = ft_strsplit(t.env_str, " ");
-	char **argv = ft_strsplit(t.argv_str, " ");
-
-	int ret = find_and_launch_binary(argv, &env);
-
-	if (test_cmp_int(t.expect_int, ret)
-		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
-		log_test_line(1, t.line_nb)
-
-	ft_strsplit_free(&env);
-	ft_strsplit_free(&argv);
-}
+//void t_find_and_check_binary(struct test t)
+//{
+//	g_test = 1;
+//	char **env = ft_strsplit(t.env_str, " ");
+//	char **argv = ft_strsplit(t.argv_str, " ");
+//
+//	int ret = find_and_launch_binary(argv, &env);
+//
+//	if (test_cmp_int(t.expect_int, ret)
+//		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
+//		log_test_line(1, t.line_nb)
+//
+//	ft_strsplit_free(&env);
+//	ft_strsplit_free(&argv);
+//}
 
 void t_loop_and_recursive(struct test t)
 {

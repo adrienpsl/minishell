@@ -24,7 +24,7 @@ int main(int ac, char **av)
 	signal(SIGINT, ms_signal_minishell);
 	g_line = fts__init(10);
 //	ms__activate_raw_mode(&g_termios);
-	print_promp();
+	print_prompt();
 	char **env = ft_strsplit(
 		"PATH=/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/.nvm/versions/node/v10.15.3/bin:/Users/adpusel/.yarn/bin:/Users/adpusel/.config/yarn/global/node_modules/.bin:/Users/adpusel/code/mongodb/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools",
 		" ");

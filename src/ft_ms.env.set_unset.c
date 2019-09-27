@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
-#include <minishell.defines.h>
+#include <minishell.h>
 
 int ms__setenv(char **argv, char ***env)
 {

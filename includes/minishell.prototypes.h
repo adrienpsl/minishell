@@ -18,7 +18,6 @@
 */
 # include <ft_array.h>
 # include <ft_s.h>
-# include <libft_define.h>
 # include <ft_printf.h>
 # include <ft_systm.h>
 # include <stdlib.h>
@@ -71,7 +70,7 @@ int replace_dollar_tilde(
 **	Intern function
 */
 int cd__change_directory(char *path, int print);
-void print_promp();
+void print_prompt();
 void clean_char(t_s *line);
 void ms_signal_exec(int sign);
 void ms_signal_minishell(int sign);

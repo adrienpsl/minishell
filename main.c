@@ -60,12 +60,12 @@ int ms__init(t_env *e)
 {
 	char **command;
 
-	print_promp();
+	print_prompt();
 	while (OK == get_command_split(e, &command))
 	{
 		if (-1 != ft_strsplit_search(command, (void *)ms__command, e))
 			break;
-		print_promp();
+		print_prompt();
 		ft_strsplit_free(&command);
 	}
 	ft_strsplit_free(&command);

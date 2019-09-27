@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <minishell.prototypes.h>
-#include <minishell.defines.h>
+#include <minishell.h>
 
 static int exec_binary(char *path, char **argv, char **env)
 {
