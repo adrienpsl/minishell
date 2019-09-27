@@ -66,25 +66,23 @@ void handle_input(
 }
 
 int get_line_test(
-	const char *const *const env,
 	t_s *const line,
 	char **output)
 {
-	char buffer[2] = {0};
+	char buffer[2] = { 0 };
+	int ret = 0;
 
-	(void)env;
 	fts__clear(line);
 	ft_bzero(buffer, 2);
-	int t = 0;
-	ft_printf("\n%d \n", t);
-	while ( (t = read(0, buffer, 1)) > 0)
+	while ((ret = read(0, buffer, 1)) > 0)
 	{
-		printf("\n%d \n", t);
 		if (-1 != ft_strchr_int(buffer, '\n'))
-			break ;
+			break;
 		fts__add(line, buffer);
 		ft_bzero(buffer, 1);
 	}
+	if (ret <= 0)
+		return (-1);
 	*output = line->data;
 	return (OK);
 }
@@ -105,7 +103,7 @@ int ms__get_line(
 		if (OK != ft_strcmp(buffer, "\n"))
 			handle_input(env, buffer, line);
 	}
-		ft_printf("\n");
+	ft_printf("\n");
 	*output = line->data;
 	return (OK);
 }

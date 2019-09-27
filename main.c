@@ -50,7 +50,7 @@ static int get_command_split(t_env *e, char ***output, int test)
 	if (test == 0)
 		res = ms__get_line((void *)e->env, g_line, &line);
 	else
-		res = get_line_test((void *)e->env, g_line, &line);
+		res = get_line_test(g_line, &line);
 	if (res == OK
 		&& OK == replace_dollar_tilde((void *)e->env, (void *)&line))
 	{
@@ -67,6 +67,7 @@ int ms__init(t_env *e, int test)
 	char **command;
 
 	print_prompt();
+	ft_printf("tot");
 	while (OK == get_command_split(e, &command, test))
 	{
 		if (-1 != ft_strsplit_search(command, (void *)ms__command, e))
@@ -86,10 +87,10 @@ int main(int ac, char **av, char **env_system)
 
 	if (NULL == (e.env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
-	if (ft_strcmp("-t", av[1]))
-		test = 1;
+	//	if (ft_strcmp("-t", av[1]))
+	test = 1;
 	test == 0 && ms__activate_raw_mode(&termios);
-	signal(SIGINT, ms_signal_minishell);
+//	signal(SIGINT, ms_signal_minishell);
 	g_line = fts__init(20);
 	ms__init(&e, test);
 	test == 0 && tcsetattr(STDIN_FILENO, TCSANOW, &termios);

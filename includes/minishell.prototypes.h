@@ -74,7 +74,6 @@ void clean_char(t_s *line);
 void ms_signal_exec(int sign);
 void ms_signal_minishell(int sign);
 int get_line_test(
-	const char *const *const env,
 	t_s *const line,
 	char **output);
 

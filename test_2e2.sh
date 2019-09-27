@@ -1,3 +1,4 @@
-./cmake-build-debug/minishell_new -t << EFO
--t ls
+./cmake-build-debug/minishell_new  << EFO
+ls
+exit
 EFO
