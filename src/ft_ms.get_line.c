@@ -65,7 +65,7 @@ void handle_input(
 	}
 }
 
-int *ms__get_line(
+int ms__get_line(
 	const char *const *const env,
 	t_s *const line,
 	char **output)
@@ -76,8 +76,8 @@ int *ms__get_line(
 	while (OK != ft_strcmp(buffer, "\n"))
 	{
 		ft_bzero(&buffer, 5);
-		if (read(0, buffer, 4) <= 0)
-			break;
+		if (read(0, buffer, 4) < 0)
+			return (-1);
 		if (OK != ft_strcmp(buffer, "\n"))
 			handle_input(env, buffer, line);
 	}

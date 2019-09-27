@@ -59,7 +59,7 @@ char * ms__search_binary(
 	char **env,
 	char *binary_name,
 	int (*f)(char *, char *));
-int *ms__get_line(
+int ms__get_line(
 	const char *const *const env,
 	t_s *const line, char **output);
 int replace_dollar_tilde(
