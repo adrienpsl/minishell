@@ -50,7 +50,7 @@ static int get_command_split(t_env *e, char ***output, int test)
 	if (test == 0)
 		res = ms__get_line((void *)e->env, g_line, &line);
 	else
-		res = get_line_test((void *)e->env, g_line, &line)
+		res = get_line_test((void *)e->env, g_line, &line);
 	if (res == OK
 		&& OK == replace_dollar_tilde((void *)e->env, (void *)&line))
 	{

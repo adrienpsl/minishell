@@ -70,13 +70,20 @@ int get_line_test(
 	t_s *const line,
 	char **output)
 {
-	static char buffer[5] = {0};
+	char buffer[2] = {0};
 
 	(void)env;
 	fts__clear(line);
-	while (read(0, buffer, 4) > 0)
+	ft_bzero(buffer, 2);
+	int t = 0;
+	ft_printf("\n%d \n", t);
+	while ( (t = read(0, buffer, 1)) > 0)
 	{
+		printf("\n%d \n", t);
+		if (-1 != ft_strchr_int(buffer, '\n'))
+			break ;
 		fts__add(line, buffer);
+		ft_bzero(buffer, 1);
 	}
 	*output = line->data;
 	return (OK);
