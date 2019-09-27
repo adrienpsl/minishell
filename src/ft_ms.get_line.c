@@ -65,6 +65,23 @@ void handle_input(
 	}
 }
 
+int get_line_test(
+	const char *const *const env,
+	t_s *const line,
+	char **output)
+{
+	static char buffer[5] = {0};
+
+	(void)env;
+	fts__clear(line);
+	while (read(0, buffer, 4) > 0)
+	{
+		fts__add(line, buffer);
+	}
+	*output = line->data;
+	return (OK);
+}
+
 int ms__get_line(
 	const char *const *const env,
 	t_s *const line,

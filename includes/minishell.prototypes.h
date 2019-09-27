@@ -46,7 +46,6 @@ int ms__command(char *line, t_env *e);
 void update_env_tmp(char **new, t_env *e);
 char ***get_env(t_env *e);
 void free_env(t_env *e);
-int ms__init(t_env *e);
 int ms__dispatch(t_data *d, t_env *e);
 
 /*
@@ -74,5 +73,9 @@ void print_prompt();
 void clean_char(t_s *line);
 void ms_signal_exec(int sign);
 void ms_signal_minishell(int sign);
+int get_line_test(
+	const char *const *const env,
+	t_s *const line,
+	char **output);
 
 #endif
