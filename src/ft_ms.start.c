@@ -12,19 +12,6 @@
 
 #include <minishell.h>
 
-int ms__activate_raw_mode(struct termios *saved_termios)
-{
-	struct termios termios;
-
-	tcgetattr(STDIN_FILENO, &termios);
-	tcgetattr(STDIN_FILENO, saved_termios);
-	termios.c_lflag &= ~(ICANON | ECHO);
-	termios.c_cc[VMIN] = 1;
-	termios.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
-	return (OK);
-}
-
 int ms__command(char *line, t_env *e)
 {
 	char **start;
@@ -67,7 +54,6 @@ int ms__init(t_env *e, int test)
 	char **command;
 
 	print_prompt();
-	ft_printf("tot");
 	while (OK == get_command_split(e, &command, test))
 	{
 		if (-1 != ft_strsplit_search(command, (void *)ms__command, e))
@@ -77,25 +63,4 @@ int ms__init(t_env *e, int test)
 	}
 	ft_strsplit_free(&command);
 	return (OK);
-}
-
-int main(int ac, char **av, char **env_system)
-{
-	struct termios termios;
-	t_env e = { 0, 0 };
-	static int test = 0;
-
-	if (NULL == (e.env = ft_strsplit_copy(env_system, 0)))
-		return (EXIT_FAILURE);
-	//	if (ft_strcmp("-t", av[1]))
-	test = 1;
-	test == 0 && ms__activate_raw_mode(&termios);
-//	signal(SIGINT, ms_signal_minishell);
-	g_line = fts__init(20);
-	ms__init(&e, test);
-	test == 0 && tcsetattr(STDIN_FILENO, TCSANOW, &termios);
-	free_env(&e);
-	fts__free(&g_line);
-	return (1);
-	ac = (int)av;
 }

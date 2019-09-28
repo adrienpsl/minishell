@@ -83,6 +83,7 @@ int get_line_test(
 	}
 	if (ret <= 0)
 		return (-1);
+	ft_printf("%s\n", line->data);
 	*output = line->data;
 	return (OK);
 }

@@ -64,6 +64,7 @@ int ms__get_line(
 int replace_dollar_tilde(
 	const char **env,
 	const char **line);
+int ms__init(t_env *e, int test);
 
 /*
 **	Intern function
