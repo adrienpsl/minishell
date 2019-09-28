@@ -31,6 +31,7 @@ test_command "unsetenv$n" "$expected"
 # test -------------------------------------------------------------------------
 @test "should print error if too much arguments" {
 
+expected="${print_prompt}unsetenv a1 a2 a3
 minishell: unsetenv: wrong arguments number$n" 
 
 test_command "unsetenv a1 a2 a3$n" "$expected"
