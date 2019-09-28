@@ -33,7 +33,7 @@ int			one_and_zero_argv(char *argv, char **env)
 	if (NULL == argv || OK == ft_strcmp("-", argv))
 	{
 		key = is_old_path(argv) ? "OLDPATH" : "HOME";
-		path = ms__env_get_value(env, key);
+		path = ms__env_get_value(env, key, find_variable);
 		if (path == NULL)
 		{
 			ft_printf(MS__NAME"line %d: cd: %s not set\n", __LINE__, key);

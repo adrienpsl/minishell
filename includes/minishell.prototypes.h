@@ -51,7 +51,8 @@ int ms__dispatch(t_data *d, t_env *e);
 /*
 **	Utils
 */
-char *ms__env_get_value(char **env, char *key);
+int find_variable(char *current, void *searched);
+char *ms__env_get_value(char **env, char *key,int (*func)(char*, void*));
 void ms__env_add(char ***env, char *key, char *value, char *variable);
 void ms__env_delete(char **env, char *key);
 char * ms__search_binary(

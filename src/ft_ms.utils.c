@@ -20,7 +20,7 @@ char *ms__search_binary(
 	char *path;
 	char *found;
 
-	if (NULL != (path = ms__env_get_value((char **)env, "PATH")))
+	if (NULL != (path = ms__env_get_value((char **)env, "PATH", find_variable)))
 	{
 		found = ftsystm__find_in_path(path, ":", binary_name, f);
 		return (found);

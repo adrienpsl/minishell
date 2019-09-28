@@ -19,7 +19,7 @@
 ** @param searched	what I search
 ** @return 1 if match // 0 otherwise
 */
-static int find_variable(char *current, void *searched)
+int find_variable(char *current, void *searched)
 {
 	int position;
 
@@ -39,14 +39,14 @@ static int find_variable(char *current, void *searched)
 /*
 ** @brief will loop on the env and return the corresponding value of the key
 */
-char *ms__env_get_value(char **env, char *key)
+char *ms__env_get_value(char **env, char *key,int (*func)(char*, void*))
 {
 	static int position;
 	static int index;
 
 	if (env == NULL || key == NULL)
 		return (NULL);
-	index = ft_strsplit_search((char **)env, find_variable, (char *)key);
+	index = ft_strsplit_search((char **)env, func, (char *)key);
 	if (0 <= index)
 	{
 		position = ft_strchr_int((char *)env[index], '=');

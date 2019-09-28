@@ -35,7 +35,7 @@ static int	replace_dollar(const char *current, char **new_line, char **env)
 		key = ft_strndup(current + 1, length);
 		if (key)
 		{
-			value = ms__env_get_value(env, key);
+			value = ms__env_get_value(env, key, find_variable);
 			ft_pstrjoin(*new_line, value ? value : "", 1, new_line);
 			ftstr__free(&key);
 		}
@@ -48,7 +48,7 @@ static int	replace_tilde(const char *current, char **new_line, char **env)
 {
 	if (current[0] == '~')
 	{
-		ft_pstrjoin(*new_line, ms__env_get_value(env, "HOME"), 1, new_line);
+		ft_pstrjoin(*new_line, ms__env_get_value(env, "HOME", find_variable), 1, new_line);
 		return (1);
 	}
 	return (0);
