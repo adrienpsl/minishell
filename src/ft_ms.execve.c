@@ -64,7 +64,7 @@ static int handle_builtin(char **argv, char ***env, int *ret)
 {
 	int i;
 	static char *name[5] = { "cd", "setenv", "unsetenv", "echo", NULL };
-	static t_func func[5] = { ms__cd, ms__setenv, ms__unsetenv, NULL, NULL };
+	static t_func func[5] = { ms__cd, ms__setenv, ms__unsetenv, ms__echo, NULL };
 
 	if (-1 < (i = ft_strsplit_search(name, (void *)ft_streq, *argv)))
 	{

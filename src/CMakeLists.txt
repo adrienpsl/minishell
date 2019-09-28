@@ -10,5 +10,5 @@ target_sources(${PROJECT_NAME}_lib PUBLIC
         ft_ms.replace_dollar_tilde.c
         ft_ms.signal.c
         ft_ms.start.c
-        ft_ms.utils_2.c
+        ft_ms.utils.c
         )
