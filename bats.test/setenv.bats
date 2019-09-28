@@ -53,7 +53,7 @@ ${print_prompt}env"
 run_command "setenv PATH toto:super
 env$n"
 
-assert_line "PATH=toto:super" 
+assert_line "PATH=toto:super"
 refute_line "$lastPath"
 }
 
@@ -80,8 +80,3 @@ minishell: setenv: if one argv, must contain =$n"
 
 test_command "setenv totosuper$n" "$expected"
 }
-
-# test unset env exist
-# test pas exist
-# avec trop argument
-# avec pas arguments
