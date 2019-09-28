@@ -12,6 +12,11 @@
 
 #include <minishell.h>
 
+// c'est plus simple ci ces truc la avance direct sur la chaine ! 
+
+// je fais une fonction qui va le long de ma str et cherche le premier 
+// et prend un fonction en argement qui me return ce que je veux
+// c'est plus dur que ce que je pensais, mais c'est pas grave ! youhou ! 
 static int	replace_dollar(const char *current, char **new_line, char **env)
 {
 	char	*key;
@@ -22,6 +27,8 @@ static int	replace_dollar(const char *current, char **new_line, char **env)
 		&& current[1] != ' '
 		&& current[1] != '\0')
 	{
+		// tant que la chaine est un un carratere possible pour une variable
+		// je cherche tout ce qui n'est pas un [a-zA-z_] je se stop.
 		length = ft_strchr_int((char *)current + 1, ' ');
 		if (length == -1)
 			length = ft_strlen((char *)current + 1);
