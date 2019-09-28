@@ -1,5 +1,5 @@
 #!/usr/bin/env ./libs/bats-core/bin/bats
-load 'libs/utils'
+load './utils'
 
 function setup() {
 mkdir -p ls_test
@@ -8,26 +8,6 @@ touch ls_test/file_{1..4}
 
 function teardown() {
 rm -fr ls_test
-}
-
-
-# data 
-# ------------------------------------------------------------------------------
-n=$'\n'
-print_prompt=$'\n'"/Users/adpusel/code/42/minishell_new:"$'\n'"$> ";
-
-function test_command() {
-data=$1
-data+="exit"
-
-end=$2
-end+="$print_prompt""exit"
-
-run ./cmake-build-debug/minishell_e2e << EFO
-$data
-EFO
-
-assert_output "$end"
 }
 
 
