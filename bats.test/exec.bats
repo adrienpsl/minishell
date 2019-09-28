@@ -95,3 +95,18 @@ $res_ls$n"
 
 test_command  "$command" "$expected"
 }
+
+# ------------------------------------------------------------------------------
+# todo do that at school !
+@test "memory test" {
+res_ls="$(ls -a ./ls_test)"
+
+command="unsetenv PATH
+/bin/ls -a ./ls_test$n"
+
+expected="$print_prompt""unsetenv PATH
+$print_prompt/bin/ls -a ./ls_test
+$res_ls$n"
+
+test_command  "$command" "$expected"
+}
