@@ -1,71 +1,97 @@
 #!/usr/bin/env ./libs/bats-core/bin/bats
 load 'libs/utils'
 
+function setup() {
+mkdir -p ls_test
+touch ls_test/file_{1..4}
+}
+
+function teardown() {
+rm -fr ls_test
+}
+
+
 # data 
 # ------------------------------------------------------------------------------
-print_prompt="
-/Users/adpusel/code/42/minishell_new:
-$> "
+n=$'\n'
+print_prompt=$'\n'"/Users/adpusel/code/42/minishell_new:"$'\n'"$> ";
+
+function test_command() {
+data=$1
+data+="exit"
+
+end=$2
+end+="$print_prompt""exit"
+
+run ./cmake-build-debug/minishell_e2e << EFO
+$data
+EFO
+
+assert_output "$end"
+}
 
 
 # test -------------------------------------------------------------------------
-@test "only exit is write" {
-run ./cmake-build-debug/minishell_e2e << EFO
-exit
-EFO
-
-assert_output "$print_prompt"
+@test "should print prompt and exit" {
+test_command "" ""
 }
 
-## ------------------------------------------------------------------------------
-#@test "one enter and exit" {
-#
-#run ./cmake-build-debug/minishell_new -t  << EFO
-#
-#exit
-#EFO
-#
-#assert_output "$print_prompt$print_prompt"
-#}
-#
-## ------------------------------------------------------------------------------
-#@test "should print ls and exit" {
-#mkdir ls_test
-#touch ls_test/file_{1..4}
-#
-## the running 
-#run ./cmake-build-debug/minishell_new -t  << EFO
-#ls -a ls_test
-#exit
-#EFO
-#
-#ls=$(ls -a ls_test)
-#rm -fr ls_test
-#
-#assert_output  "$print_prompt$ls
-#$print_prompt"
-#}
+# ------------------------------------------------------------------------------
+@test "should print two pronpt and exit" {
+command="$n"
 
-## ------------------------------------------------------------------------------
-#@test "should print ls error" {
-# 
-#run ./cmake-build-debug/minishell_new -t  << EFO
-#ls -a not_exist
-#exit
-#EFO
-#ls_error="$(printf "%s\n" "ls: not_exist: No such file or directory")"
-# 
-#assert_output "$print_prompt$ls_error$print_prompt"
-#}
+test_command "$command" "$print_prompt""$n"
+}
 
-## ------------------------------------------------------------------------------
-#@test "should find ls with absobulte path" {
-# 
-#run ./cmake-build-debug/minishell_new -t  << EFO
-#ls -a 
-#exit
-#EFO
-##ls_error="$()"
-# 
-#assert_output "$print_prompt$ls_error$print_prompt"
-#}
+# ------------------------------------------------------------------------------
+@test "should find with path 'ls -a ./ls_test' and exit" {
+res_ls="$(ls -a ./ls_test)"
+
+test_command  "ls -a ./ls_test$n" \
+"$print_prompt"\
+"ls -a ./ls_test$n"\
+"$res_ls$n"
+}
+
+# ------------------------------------------------------------------------------
+@test "should no find ls, because of removed PATH" {
+command="unsetenv PATH
+ls -a ./ls_test$n"
+
+expected="${print_prompt}unsetenv PATH
+${print_prompt}ls -a ./ls_test
+minishell: command not found: ls$n"
+
+test_command  "$command" "$expected"
+}
+
+# ------------------------------------------------------------------------------
+@test "should print an error" {
+
+test_command  "ls -a not_exist$n" \
+"$print_prompt"\
+"ls -a not_exist$n""ls: not_exist: No such file or directory$n"
+}
+
+# ------------------------------------------------------------------------------
+@test "should find binary with absolute path" {
+res_ls="$(ls -a ./ls_test)"
+
+test_command  "/bin/ls -a ./ls_test$n" \
+"$print_prompt/bin/ls -a ./ls_test
+$res_ls$n"
+}
+
+# ------------------------------------------------------------------------------
+@test "should find binary with absolute path and no PATH" {
+res_ls="$(ls -a ./ls_test)"
+
+command="unsetenv PATH
+/bin/ls -a ./ls_test$n"
+
+expected="$print_prompt""unsetenv PATH
+$print_prompt/bin/ls -a ./ls_test
+$res_ls$n"
+
+test_command  "$command" "$expected"
+}
