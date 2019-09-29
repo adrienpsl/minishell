@@ -54,7 +54,7 @@ int ms__dispatch(t_data *d, t_env *e);
 int find_variable(char *current, void *searched);
 char *ms__env_get_value(char **env, char *key,int (*func)(char*, void*));
 void ms__env_add(char ***env, char *key, char *value, char *variable);
-void replace_dollar(char **line, char **new_line, char **env);
+int ms_replace_dollar(char **line, char **new_line, char **env);
 void ms__env_delete(char **env, char *key);
 char * ms__search_binary(
 	char **env,
@@ -63,9 +63,7 @@ char * ms__search_binary(
 int ms__get_line(
 	const char *const *const env,
 	t_s *const line, char **output);
-int replace_dollar_tilde(
-	const char **env,
-	const char **line);
+int replace_dollar_tilde(const char **env, char *line, char **output);
 int ms__init(t_env *e, int test);
 int ms__echo(char **argv, char ***env);
 

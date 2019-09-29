@@ -39,7 +39,7 @@ static int get_command_split(t_env *e, char ***output, int test)
 	else
 		res = get_line_test(g_line, &line);
 	if (res == OK
-		&& OK == replace_dollar_tilde((void *)e->env, (void *)&line))
+		&& OK == replace_dollar_tilde((void *)e->env, line, &line))
 	{
 		*output = ft_strsplit(line, ";");
 		ftstr__free(&line);

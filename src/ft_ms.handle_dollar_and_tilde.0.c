@@ -12,40 +12,48 @@
 
 #include <minishell.h>
 
-static int replace_tilde(const char *current, char **new_line, char **env)
+/*
+**	if the **line is '~', search and add to new_line the HOME env value
+**	move +1 *line
+*/
+
+static int replace_tilde(char **line, char **new_line, char **env)
 {
-	if (current[0] == '~')
+	if (line[0][0] == '~')
 	{
-		ft_pstrjoin(*new_line, ms__env_get_value(env, "HOME", find_variable), 1,
+		ft_pstrjoin(*new_line,
+			ms__env_get_value(env, "HOME", find_variable),
+			1,
 			new_line);
+		*line += 1;
 		return (1);
 	}
 	return (0);
 }
 
-int replace_dollar_tilde(
-	const char **env,
-	const char **line)
+/*
+**	will build a new line (witch will be put in *output)
+**	compose by the env key corresponding at 'HOME' for ~ 
+**	and the shell variable $[a-zA-z_]+ of the line
+**	if there is no data in env to match the variable,
+**	no error is raise.
+*/
+
+int replace_dollar_tilde(const char **env, char *line, char **output)
 {
-	char *current;
 	char *new_line;
-	int size;
 
 	if (NULL == (new_line = ft_memalloc(1)))
 		return (-1);
-	current = (char *)*line;
-	while (*current != '\0')
+	while (*line != '\0')
 	{
-//		if (replace_dollar(&current, &new_line, (char **)env))
-//			current += size;
-		if ((size = replace_tilde(current, &new_line, (char **)env)))
-			current += size;
-		else
+		if (0 == ms_replace_dollar(&line, &new_line, (char **)env)
+			&& 0 == replace_tilde(&line, &new_line, (char **)env))
 		{
-			ft_pstrjoin_chr(new_line, *current, 1, &new_line);
-			current += 1;
+			ft_pstrjoin_chr(new_line, *line, 1, &new_line);
+			line += 1;
 		}
 	}
-	*line = new_line;
+	*output = new_line;
 	return (OK);
 }

@@ -39,7 +39,7 @@ int find_variable(char *current, void *searched)
 /*
 ** @brief will loop on the env and return the corresponding value of the key
 */
-char *ms__env_get_value(char **env, char *key,int (*func)(char*, void*))
+char *ms__env_get_value(char **env, char *key, int (*func)(char *, void *))
 {
 	static int position;
 	static int index;

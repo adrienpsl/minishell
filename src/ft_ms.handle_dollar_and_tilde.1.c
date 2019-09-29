@@ -17,7 +17,7 @@
 **	shell variable.
 */
 
-int is_shell_variable_lexical(char c)
+static int is_shell_variable_lexical(char c)
 {
 	return (ft_isalnum(c) || c == '_');
 }
@@ -26,7 +26,7 @@ int is_shell_variable_lexical(char c)
 **	see the is_shell_variable_lexical to catch up
 */
 
-int not_shell_variable_lexical(char c)
+static int not_shell_variable_lexical(char c)
 {
 	return (!(is_shell_variable_lexical(c)));
 }
@@ -56,7 +56,7 @@ static int get_end_of_variable(char *str)
 **	with the n char of the line_input composing the shell variable
 */
 
-int get_value_by_shell_variable(char *env_variable, void *line_input)
+static int get_value_by_shell_variable(char *env_variable, void *line_input)
 {
 	int key_size;
 
@@ -70,10 +70,10 @@ int get_value_by_shell_variable(char *env_variable, void *line_input)
 /*
 **	if the **line is the start of a correct shell variable
 **	find its value in env and add it (if founded) to the new_line
-**	and move forward the *line of the lenght of the key. 
+**	and move forward the *line of the length of the key. 
 */
 
-void replace_dollar(char **line, char **new_line, char **env)
+int ms_replace_dollar(char **line, char **new_line, char **env)
 {
 	int length;
 	char *value;
@@ -87,5 +87,7 @@ void replace_dollar(char **line, char **new_line, char **env)
 		length = get_end_of_variable(*line);
 		ft_pstrjoin(*new_line, value ? value : "", 1, new_line);
 		*line += length;
+		return (1);
 	}
+	return (0);
 }
