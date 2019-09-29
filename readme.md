@@ -27,20 +27,11 @@ unset_en
        [X] cd
        * exit
        
-* the quote 
-* replace the $ builtin
-
-
-- signal - and with get_line
-- link all
-
 
 # test 
 test les fuites memoire avec env -u de env -u en recusif
 test env -- env -
 pas tester la fin de exec
-
-
 
 # pseudo code env 
 ** le tmp env, une utils return the good one
