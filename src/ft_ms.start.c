@@ -29,7 +29,10 @@ int ms__command(char *line, t_env *e)
 	return (d.ret == MS__EXIT ? 1 : 0);
 }
 
-static int get_command_split(t_env *e, char ***output, int test)
+/*
+**	line is a part of fts so I do not free it
+*/
+static int get_line_user(t_env *e, char ***output, int test)
 {
 	char *line;
 	int res;
@@ -38,15 +41,31 @@ static int get_command_split(t_env *e, char ***output, int test)
 		res = ms__get_line((void *)e->env, g_line, &line);
 	else
 		res = get_line_test(g_line, &line);
-	if (res == OK
-		&& OK == replace_dollar_tilde((void *)e->env, line, &line))
+	if (res == OK)
 	{
 		*output = ft_strsplit(line, ";");
-		ftstr__free(&line);
 		if (*output)
 			return (OK);
 	}
 	return (-1);
+}
+
+static int loop_on_command(char **split_command, t_env *e)
+{
+	char *new_line;
+
+	while (*split_command != NULL)
+	{
+		if (OK != replace_dollar_tilde((void *)e->env,
+			*split_command,
+			&new_line))
+			return (-1);
+		if (ms__command(new_line, e))
+			return (1);
+		ftstr__free(&new_line);
+		split_command += 1;
+	}
+	return (OK);
 }
 
 int ms__init(t_env *e, int test)
@@ -54,9 +73,9 @@ int ms__init(t_env *e, int test)
 	char **command;
 
 	print_prompt();
-	while (OK == get_command_split(e, &command, test))
+	while (OK == get_line_user(e, &command, test))
 	{
-		if (-1 != ft_strsplit_search(command, (void *)ms__command, e))
+		if (OK != loop_on_command(command, e))
 			break;
 		print_prompt();
 		ft_strsplit_free(&command);
