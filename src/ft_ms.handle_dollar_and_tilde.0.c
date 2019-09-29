@@ -10,30 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.prototypes.h>
-#include "libft.h"
+#include <minishell.h>
 
-void test_ms__utils();
-void test__main_cd();
-void test_main_env();
-void test_utils_env();
-void test__execve();
-void test_replace_dollar_tilde();
-
-void test_all()
+static int replace_tilde(const char *current, char **new_line, char **env)
 {
-//	test_ms__utils();
-//	test__main_cd();
-//	test_main_env();
-//	test_utils_env();
-//	test__execve();
-	test_replace_dollar_tilde();
+	if (current[0] == '~')
+	{
+		ft_pstrjoin(*new_line, ms__env_get_value(env, "HOME", find_variable), 1,
+			new_line);
+		return (1);
+	}
+	return (0);
 }
 
-int main(int ac, char **av)
+int replace_dollar_tilde(
+	const char **env,
+	const char **line)
 {
-	(void)ac;
-	(void)av;
-	test_all();
-	return (EXIT_SUCCESS);
+	char *current;
+	char *new_line;
+	int size;
+
+	if (NULL == (new_line = ft_memalloc(1)))
+		return (-1);
+	current = (char *)*line;
+	while (*current != '\0')
+	{
+//		if (replace_dollar(&current, &new_line, (char **)env))
+//			current += size;
+		if ((size = replace_tilde(current, &new_line, (char **)env)))
+			current += size;
+		else
+		{
+			ft_pstrjoin_chr(new_line, *current, 1, &new_line);
+			current += 1;
+		}
+	}
+	*line = new_line;
+	return (OK);
 }

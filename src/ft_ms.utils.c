@@ -50,3 +50,26 @@ int ms__echo(char **argv, char ***env)
 		ft_printf("\n");
 	return (OK);
 }
+
+int get_line_test(
+	t_s *const line,
+	char **output)
+{
+	char buffer[2] = { 0 };
+	int ret = 0;
+
+	fts__clear(line);
+	ft_bzero(buffer, 2);
+	while ((ret = read(0, buffer, 1)) > 0)
+	{
+		if (-1 != ft_strchr_int(buffer, '\n'))
+			break;
+		fts__add(line, buffer);
+		ft_bzero(buffer, 1);
+	}
+	if (ret <= 0)
+		return (-1);
+	ft_printf("%s\n", line->data);
+	*output = line->data;
+	return (OK);
+}

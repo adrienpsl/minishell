@@ -31,8 +31,10 @@ target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)
 # ------------------------------------------------------------------------------
 #    Unit test Binary
 # ------------------------------------------------------------------------------
-#add_executable(${PROJECT_NAME} main/ft_ms.main.c)
-#target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_lib)target_link_libraries(${PROJECT_NAME}_unit_test ${PROJECT_NAME}_lib)
+add_executable(${PROJECT_NAME}_unit_test unit.test/main.test.c)
+add_subdirectory(unit.test)
+target_link_libraries(${PROJECT_NAME}_unit_test ${PROJECT_NAME}_lib)
+
 
 # ------------------------------------------------------------------------------
 #    End to End binary
