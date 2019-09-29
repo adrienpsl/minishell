@@ -98,7 +98,7 @@ expected="
 $> cd minishell_new ft_ls tto
 cd: to much argument
 
-/Users/adpusel/code/42/ft_ls:
+/Users/adpusel/code/42/minishell_new:
 $> exit"
 
 test_cd "cd minishell_new ft_ls tto" "$expected"

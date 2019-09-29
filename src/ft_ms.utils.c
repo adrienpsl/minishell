@@ -40,11 +40,11 @@ int ms__echo(char **argv, char ***env)
 	(void)env;
 	if (OK == ft_strcmp("-n", *argv))
 	{
-		new_line = 1;
+		new_line = 0;
 		argv += 1;
 	}
 	else
-		new_line = 0;
+		new_line = 1;
 	ft_strsplit_print(argv, ' ');
 	if (new_line)
 		ft_printf("\n");
