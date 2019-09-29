@@ -19,7 +19,6 @@ struct test
 	char *env_str;
 	char *line;
 
-	char *expect_print;
 	char *expect_new_line;
 	int expect_int;
 	char *expect_line;
