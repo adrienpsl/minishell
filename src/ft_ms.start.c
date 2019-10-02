@@ -32,15 +32,15 @@ int ms__command(char *line, t_env *e)
 /*
 **	line is a part of fts so I do not free it
 */
-static int get_line_user(t_env *e, char ***output, int test)
+static int get_line_user(t_env *e, char ***output)
 {
 	char *line;
 	int res;
 
-	if (test == 0)
-		res = ms__get_line((void *)e->env, g_line, &line);
-	else
+	if (g_test == 1)
 		res = get_line_test(g_line, &line);
+	else
+		res = ms__get_line((void *)e->env, g_line, &line);
 	if (res == OK)
 	{
 		*output = ft_strsplit(line, ";");
@@ -68,12 +68,12 @@ static int loop_on_command(char **split_command, t_env *e)
 	return (OK);
 }
 
-int ms__init(t_env *e, int test)
+int ms__init(t_env *e)
 {
 	char **command;
 
 	print_prompt();
-	while (OK == get_line_user(e, &command, test))
+	while (OK == get_line_user(e, &command))
 	{
 		if (OK != loop_on_command(command, e))
 			break;
