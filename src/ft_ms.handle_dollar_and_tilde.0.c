@@ -39,7 +39,7 @@ static int replace_tilde(char **line, char **new_line, char **env)
 **	no error is raise.
 */
 
-int replace_dollar_tilde(const char **env, char *line, char **output)
+int replace_dollar_tilde(char **env, char *line, char **output)
 {
 	char *new_line;
 
@@ -47,8 +47,8 @@ int replace_dollar_tilde(const char **env, char *line, char **output)
 		return (-1);
 	while (*line != '\0')
 	{
-		if (0 == ms_replace_dollar(&line, &new_line, (char **)env)
-			&& 0 == replace_tilde(&line, &new_line, (char **)env))
+		if (0 == ms_replace_dollar(&line, &new_line, env)
+			&& 0 == replace_tilde(&line, &new_line, env))
 		{
 			ft_pstrjoin_chr(new_line, *line, 1, &new_line);
 			line += 1;

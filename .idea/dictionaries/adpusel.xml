@@ -6,6 +6,7 @@
       <w>minishell</w>
       <w>oldpath</w>
       <w>setenv</w>
+      <w>termios</w>
     </words>
   </dictionary>
 </component>

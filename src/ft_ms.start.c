@@ -12,27 +12,27 @@
 
 #include <minishell.h>
 
-int ms__command(char *line, t_env *e)
+int ms__command(char *line, char ***env)
 {
-	char **start;
-	t_data d;
+	char **command_spit;
+	int ret;
+	t_env e = {0, 0};
 
-	ft_bzero(&d, sizeof(t_data));
+	e.env = env;
 	if ('\0' == *line)
 		return (OK);
-	if (NULL == (d.argv = ft_strsplit(line, " ")))
+	if (NULL == (command_spit = ft_strsplit(line, " ")))
 		return (-1);
-	start = d.argv;
-	d.ret = ms__dispatch(&d, e);
-	ft_strsplit_free(&e->tmp_env);
-	ft_strsplit_free(&start);
-	return (d.ret == MS__EXIT ? 1 : 0);
+	ret = ms__dispatch(command_spit, &e);
+	ft_strsplit_free(&e.tmp_env);
+	ft_strsplit_free(&command_spit);
+	return (ret == MS__EXIT ? 1 : 0);
 }
 
 /*
 **	line is a part of fts so I do not free it
 */
-static int get_line_user(t_env *e, char ***output)
+static int get_line_user(char **env, char ***output)
 {
 	char *line;
 	int res;
@@ -40,7 +40,7 @@ static int get_line_user(t_env *e, char ***output)
 	if (g_test == 1)
 		res = get_line_test(g_line, &line);
 	else
-		res = ms__get_line((void *)e->env, g_line, &line);
+		res = ms__get_line(env, g_line, &line);
 	if (res == OK)
 	{
 		*output = ft_strsplit(line, ";");
@@ -50,17 +50,17 @@ static int get_line_user(t_env *e, char ***output)
 	return (-1);
 }
 
-static int loop_on_command(char **split_command, t_env *e)
+static int loop_on_command(char **split_command, char ***env)
 {
 	char *new_line;
 
 	while (*split_command != NULL)
 	{
-		if (OK != replace_dollar_tilde((void *)e->env,
+		if (OK != replace_dollar_tilde(*env,
 			*split_command,
 			&new_line))
 			return (-1);
-		if (ms__command(new_line, e))
+		if (ms__command(new_line, env))
 			return (1);
 		ftstr__free(&new_line);
 		split_command += 1;
@@ -68,15 +68,15 @@ static int loop_on_command(char **split_command, t_env *e)
 	return (OK);
 }
 
-int ms__init(t_env *e)
+int ms__init(char ***env)
 {
 	char **command;
 
 	print_prompt();
-	while (OK == get_line_user(e, &command))
+	while (OK == get_line_user(*env, &command))
 	{
-		if (OK != loop_on_command(command, e))
-			break;
+		if (OK != loop_on_command(command, env))
+			break ;
 		print_prompt();
 		ft_strsplit_free(&command);
 	}

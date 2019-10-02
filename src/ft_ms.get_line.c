@@ -26,7 +26,7 @@ void clean_char(t_s *const line)
 }
 
 void tab_char(
-	const char *const *const env,
+	char **env,
 	t_s *const line)
 {
 	static char *found = NULL;
@@ -50,8 +50,8 @@ void tab_char(
 }
 
 void handle_input(
-	const char *const *const env,
-	char const buffer[4],
+	char **env,
+	const char *buffer,
 	t_s *const line)
 {
 	if (OK == ft_strcmp(MS__DEL, buffer))
@@ -66,7 +66,7 @@ void handle_input(
 }
 
 int ms__get_line(
-	const char *const *const env,
+	char **env,
 	t_s *const line,
 	char **output)
 {

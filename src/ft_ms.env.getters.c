@@ -20,11 +20,11 @@ void update_env_tmp(char **new, t_env *e)
 
 char ***get_env(t_env *e)
 {
-	return (e->tmp_env ? &e->tmp_env : &e->env);
+	return (e->tmp_env ? &e->tmp_env : e->env);
 }
 
 void free_env(t_env *e)
 {
-	ft_strsplit_free(&e->env);
+	ft_strsplit_free(e->env);
 	ft_strsplit_free(&e->tmp_env);
 }

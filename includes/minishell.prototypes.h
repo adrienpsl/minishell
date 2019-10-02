@@ -36,9 +36,9 @@
 int ms__unsetenv(char **argv, char ***env);
 int ms__setenv(char **argv, char ***env);
 int ms__cd(char **argv, char ***env);
-int ms__env(t_data *d, t_env *e);
+int ms__env(char ***argv, t_env *e);
 void ms__env_add(char ***env, char *key, char *value, char *variable);
-int ms__command(char *line, t_env *e);
+int ms__command(char *line, char ***env);
 
 /*
 **	Getter / setter ------------------------------------------------------------
@@ -46,7 +46,7 @@ int ms__command(char *line, t_env *e);
 void update_env_tmp(char **new, t_env *e);
 char ***get_env(t_env *e);
 void free_env(t_env *e);
-int ms__dispatch(t_data *d, t_env *e);
+int ms__dispatch(char **argv, t_env *e);
 
 /*
 **	Utils
@@ -61,10 +61,10 @@ char * ms__search_binary(
 	char *binary_name,
 	int (*f)(char *, char *));
 int ms__get_line(
-	const char *const *const env,
+	char **env,
 	t_s *const line, char **output);
-int replace_dollar_tilde(const char **env, char *line, char **output);
-int ms__init(t_env *e);
+int replace_dollar_tilde(char **env, char *line, char **output);
+int ms__init(char ***env);
 int ms__echo(char **argv, char ***env);
 
 /*

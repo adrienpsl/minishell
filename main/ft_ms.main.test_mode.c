@@ -14,14 +14,14 @@
 
 int main(int ac, char **av, char **env_system)
 {
-	t_env e = { 0, 0 };
-
+	char **env;
+	
 	g_test = 1;
-	if (NULL == (e.env = ft_strsplit_copy(env_system, 0)))
+	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
 	g_line = fts__init(20);
-	ms__init(&e);
-	free_env(&e);
+	ms__init(&env);
+	ft_strsplit_free(&env);
 	fts__free(&g_line);
 	return (EXIT_SUCCESS);
 	ac = (int)av;

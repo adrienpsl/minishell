@@ -67,26 +67,31 @@ static int option_u(char ***argv, t_env *e)
 **	will parse the env stuff and return new env
 **	if error will clean the env tmp
 */
-int ms__env(t_data *d, t_env *e)
+int ms__env(char ***argv, t_env *e)
 {
-	if (*d->argv && **d->argv == '-')
+	int ret;
+
+	ret = 1;
+	if (*argv && **argv && ***argv == '-')
 	{
-		if (OK == ft_strcmp("-i", *d->argv))
-			d->ret = option_i(&d->argv, e);
-		else if (OK == ft_strcmp("-u", *d->argv))
-			d->ret = option_u(&d->argv, e);
+		if (OK == ft_strcmp("-i", **argv))
+			ret = option_i(argv, e);
+		else if (OK == ft_strcmp("-u", **argv))
+			ret = option_u(argv, e);
 		else
 		{
-			print_usage(d->argv[0][1]);
-			d->ret = -1;
+			print_usage(argv[0][0][1]);
+			ret = -1;
 		}
 	}
-	if (OK == d->ret && NULL == *d->argv)
+	if (ft_strcmp("env", **argv))
+		ret = ms__env(argv, e);
+	if (OK == ret && NULL == *argv)
 	{
 		ft_strsplit_print(*get_env(e), '\n');
 		ft_printf("\n");
 	}
-	if (d->ret != OK)
+	if (ret != OK)
 		ft_strsplit_free(&e->tmp_env);
-	return (d->ret);
+	return (ret);
 }

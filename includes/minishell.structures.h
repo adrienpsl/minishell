@@ -23,7 +23,7 @@ typedef struct s_element_func
 
 typedef struct s_env
 {
-	char **env;
+	char ***env;
 	char **tmp_env;
 } t_env;
 
