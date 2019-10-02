@@ -31,17 +31,16 @@ test_command "setenv PATH=toto ;echo \$PATH; unsetenv HOME; ls; cd ~; cd -; sete
 @test "should do a lot of stuff with no pb" {
 expected="
 /Users/adpusel/code/42/minishell_new:
-$> cd -; cd ; cd - ; mkdir toto; touch toto/f1; ls -a toto; setenv minh=jolie; setenv minh tresjolie; echo \$minh; unsetenv minh ; \$minh
+$> cd -; cd ; cd - ; mkdir -p toto; touch toto/f1; ls -a toto; setenv minh=jolie; setenv minh tresjolie; echo \$minh; unsetenv minh ; \$minh
 minishell: line 39: cd: OLDPATH not set
 /Users/adpusel/code/42/minishell_new
 .
 ..
 f1
 tresjolie
-
 "
 
-test_command "cd -; cd ; cd - ; mkdir toto; touch toto/f1; ls -a toto; setenv minh=jolie; setenv minh tresjolie; echo \$minh; unsetenv minh ; \$minh$n" "$expected"
+test_command "cd -; cd ; cd - ; mkdir -p toto; touch toto/f1; ls -a toto; setenv minh=jolie; setenv minh tresjolie; echo \$minh; unsetenv minh ; \$minh$n" "$expected"
 }
 
 

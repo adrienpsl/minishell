@@ -15,8 +15,8 @@
 int main(int ac, char **av, char **env_system)
 {
 	char **env;
-	
-	g_test = 1;
+
+	g_ms_test = 1;
 	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
 	g_line = fts__init(20);

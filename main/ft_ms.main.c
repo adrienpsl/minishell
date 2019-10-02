@@ -31,7 +31,7 @@ int main(int ac, char **av, char **env_system)
 	struct termios termios;
 	char **env;
 
-	g_test = 0;
+	g_ms_test = 0;
 	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
 	activate_raw_mode(&termios);

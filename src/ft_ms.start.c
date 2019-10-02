@@ -37,7 +37,7 @@ static int get_line_user(char **env, char ***output)
 	char *line;
 	int res;
 
-	if (g_test == 1)
+	if (g_ms_test == 1)
 		res = get_line_test(g_line, &line);
 	else
 		res = ms__get_line(env, g_line, &line);

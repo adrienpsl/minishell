@@ -71,7 +71,7 @@ int ms__env(char ***argv, t_env *e)
 {
 	int ret;
 
-	ret = 1;
+	ret = OK;
 	if (*argv && **argv && ***argv == '-')
 	{
 		if (OK == ft_strcmp("-i", **argv))
@@ -84,9 +84,12 @@ int ms__env(char ***argv, t_env *e)
 			ret = -1;
 		}
 	}
-	if (ft_strcmp("env", **argv))
+	if (OK == ft_strcmp("env", **argv))
+	{
+		*argv += 1;
 		ret = ms__env(argv, e);
-	if (OK == ret && NULL == *argv)
+	}
+	if (OK == ret && NULL == **argv && NULL != **get_env(e))
 	{
 		ft_strsplit_print(*get_env(e), '\n');
 		ft_printf("\n");

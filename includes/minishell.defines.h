@@ -24,6 +24,6 @@
 
 struct termios g_termios;
 t_s *g_line;
-int is_test;
+int g_ms_test;
 
 #endif

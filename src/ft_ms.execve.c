@@ -72,6 +72,7 @@ int ms__dispatch(char **argv, t_env *e)
 		return (MS__EXIT);
 	if (OK == ft_strcmp("env", *argv))
 	{
+		argv += 1;
 		if (OK != ms__env(&argv, e))
 			return (-1);
 	}
