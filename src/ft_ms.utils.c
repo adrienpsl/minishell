@@ -59,7 +59,7 @@ int				get_line_test(
 	t_s *const line,
 	char **output)
 {
-	static char		buffer[2] = { 0 };
+	static char		buffer[2];
 	int				ret;
 
 	fts__clear(line);

@@ -94,6 +94,7 @@ int				ms__get_line(
 	static char buffer[5] = { 0 };
 
 	fts__clear(line);
+	ft_bzero(&buffer, 5);
 	while (OK != ft_strcmp(buffer, "\n"))
 	{
 		ft_bzero(&buffer, 5);
