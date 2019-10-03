@@ -19,7 +19,8 @@
 ** @param searched	what I search
 ** @return 1 if match // 0 otherwise
 */
-int find_variable(char *current, void *searched)
+
+int		find_variable(char *current, void *searched)
 {
 	int position;
 
@@ -37,9 +38,11 @@ int find_variable(char *current, void *searched)
 }
 
 /*
-** @brief will loop on the env and return the corresponding value of the key
+**	loop on the env and return the corresponding value of the key,
+**	if match, return a char* in the start of the value
 */
-char *ms__env_get_value(char **env, char *key, int (*func)(char *, void *))
+
+char	*ms__env_get_value(char **env, char *key, int (*func)(char *, void *))
 {
 	static int position;
 	static int index;
@@ -56,25 +59,32 @@ char *ms__env_get_value(char **env, char *key, int (*func)(char *, void *))
 	return (NULL);
 }
 
-void ms__env_delete(char **env, char *key)
+/*
+**	delete in env the given matched key
+*/
+
+void	ms__env_delete(char **env, char *key)
 {
 	int position;
+
 	if (key == NULL)
-		return;
+		return ;
 	if (0 <= (position = ft_strsplit_search(env, find_variable, key)))
 		ft_strsplit_remove(env, position);
 }
 
 /*
-** @brief if variable is NULL, join of key and value will be use
+**	add to the given env a new variable,
+**	if variable is NULL, join of key and value will be use
 */
-void ms__env_add(char ***env, char *key, char *value, char *variable)
+
+void	ms__env_add(char ***env, char *key, char *value, char *variable)
 {
 	ms__env_delete(*env, variable ? variable : key);
 	if (variable == NULL)
 	{
 		if (key == NULL || value == NULL)
-			return;
+			return ;
 		variable = ft_strjoin("=", value, 0);
 		variable = ft_strjoin(key, variable, 2);
 		ft_strsplit_add(env, variable);

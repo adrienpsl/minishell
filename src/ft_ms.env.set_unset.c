@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-int ms__setenv(char **argv, char ***env)
+int		ms__setenv(char **argv, char ***env)
 {
 	int size;
 
@@ -31,7 +31,7 @@ int ms__setenv(char **argv, char ***env)
 	return (0);
 }
 
-int ms__unsetenv(char **argv, char ***env)
+int		ms__unsetenv(char **argv, char ***env)
 {
 	int size;
 
