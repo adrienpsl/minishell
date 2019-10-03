@@ -14,15 +14,15 @@
 # define MINISHELL_H
 
 /*
+**	lib
+*/
+# include <libft.h>
+
+/*
 **	Project includes
 */
 # include "minishell.prototypes.h"
 # include "minishell.structures.h"
-# include "minishell.defines.h"
-
-/*
-**	lib
-*/
-# include <libft.h>
+# include "minishell.define.h"
 
 #endif

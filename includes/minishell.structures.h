@@ -10,31 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_STRUCTURES
-#define MINISHELL_STRUCTURES
+#ifndef MINISHELL_STRUCTURES_H
+# define MINISHELL_STRUCTURES_H
 
-typedef int (*t_func)(char **arg, char ***env);
+/*
+**	the builtin type function, like cd or setenv.
+*/
+typedef int		(*t_func)(char **arg, char ***env);
 
-typedef struct s_element_func
+/*
+**	allow when an env command is trigger, to create an use an tmp env
+*/
+typedef struct	s_env
 {
-	char *name;
-	t_func func;
-} t_element_func;
-
-typedef struct s_env
-{
-	char ***env;
-	char **tmp_env;
-} t_env;
-
-typedef struct s_data
-{
-	char **argv;
-	int ret;
-} t_data;
-
-#include <ft_array.h>
-#include <ft_s.h>
-#include <termios.h>
+	char		***env;
+	char		**tmp_env;
+}				t_env;
 
 #endif

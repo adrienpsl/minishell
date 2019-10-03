@@ -12,7 +12,7 @@
 
 #include <libft.h>
 #include <sys/termios.h>
-#include <minishell.defines.h>
+#include <minishell.define.h>
 #include <ft_s.h>
 #include <minishell.prototypes.h>
 

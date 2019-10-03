@@ -16,15 +16,17 @@ int activate_raw_mode(struct termios *saved_termios)
 {
 	struct termios termios;
 
-	tcgetattr(STDIN_FILENO, &termios);
-	tcgetattr(STDIN_FILENO, saved_termios);
+	if (-1 == tcgetattr(STDIN_FILENO, &termios))
+		return (-1);
+	if (-1 == tcgetattr(STDIN_FILENO, saved_termios))
+		return (-1);
 	termios.c_lflag &= ~(ICANON | ECHO);
 	termios.c_cc[VMIN] = 1;
 	termios.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &termios))
+		return (-1);
 	return (OK);
 }
-
 
 int main(int ac, char **av, char **env_system)
 {
@@ -32,11 +34,13 @@ int main(int ac, char **av, char **env_system)
 	char **env;
 
 	g_ms_test = 0;
+	if (OK != activate_raw_mode(&termios))
+		return (EXIT_FAILURE);
+	if (NULL == (g_line = fts__init(20)))
+		return (EXIT_FAILURE);
 	if (NULL == (env = ft_strsplit_copy(env_system, 0)))
 		return (EXIT_FAILURE);
-	activate_raw_mode(&termios);
 	signal(SIGINT, ms_signal_minishell);
-	g_line = fts__init(20);
 	ms__init(&env);
 	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 	ft_strsplit_free(&env);

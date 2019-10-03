@@ -10,28 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ft_log.h>
-#include <ft_printf.h>
+#ifndef MINISHELL_DEFINE_H
+# define MINISHELL_DEFINE_H
 
-void*	ftlog__null(char *file, int line)
-{
-	if (g_log > QUIET)
-		ft_printf("%s:%d ptr (null)\n", file, line);
-	return (NULL);
-}
+# include <libft.h>
+# include <minishell.structures.h>
+# define MS__NAME "minishell: "
+# define MS__EXIT 4242
+# define MS__DEL "\177"
+# define MS__TAB "\t"
 
-int		ftlog__int(char *file, int line)
-{
-	if (g_log > QUIET)
-		ft_printf("%s:%d ptr (null)\n", file, line);
-	return (-1);
-}
+/*
+**	this will be the buffer of the current user input, in raw mode.
+*/
+t_s *g_line;
+extern t_s *g_line;
 
+/*
+**	allow binary to disable the raw mode.
+*/
+int g_ms_test;
+extern int g_ms_test;
 
-int		ftlog__message(
-	char *file, int line, char *message, int error_code)
-{
-	if (g_log > QUIET)
-		ft_printf("%s:%d %s\n", file, line, message);
-	return (error_code);
-}
+#endif
