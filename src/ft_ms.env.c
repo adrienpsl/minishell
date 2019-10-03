@@ -12,18 +12,27 @@
 
 #include <minishell.h>
 
-static int print_usage(char bad_option)
+/*
+**	 @bad_option : allow to print the bad user option, like --t >> t
+*/
+
+static int		print_usage(char bad_option)
 {
 	if (bad_option)
 		ft_printf("env: illegal option -- %c\n", bad_option);
 	else
 		ft_printf("env: option requires an argument -- u\n");
 	ft_printf("usage: env [-i] [name=value ...] [-u name]\n"
-			  "          [utility [argument ...]]\n");
+			"          [utility [argument ...]]\n");
 	return (-1);
 }
 
-static int option_i(char ***argv, t_env *e)
+/*
+**	will create a fresh env build with all the next arguments that contain [=]+
+**	and put it in e->tmp
+*/
+
+static int		option_i(char ***argv, t_env *e)
 {
 	char **new_env;
 
@@ -39,7 +48,13 @@ static int option_i(char ***argv, t_env *e)
 	return (OK);
 }
 
-static int option_u(char ***argv, t_env *e)
+/*
+**	clone in e->tmp the current env
+**	delete all the matched key with each next argv after a -u
+**	raise an error if the next argv of -u == NULL
+*/
+
+static int		option_u(char ***argv, t_env *e)
 {
 	char **new_env;
 
@@ -63,27 +78,35 @@ static int option_u(char ***argv, t_env *e)
 	update_env_tmp(new_env, e);
 	return (OK);
 }
+
+static int		dispatch_good_option(char ***argv, t_env *e)
+{
+	int ret;
+
+	if (OK == ft_strcmp("-i", **argv))
+		ret = option_i(argv, e);
+	else if (OK == ft_strcmp("-u", **argv))
+		ret = option_u(argv, e);
+	else
+	{
+		print_usage(argv[0][0][1]);
+		ret = -1;
+	}
+	return (ret);
+}
+
 /*
-**	will parse the env stuff and return new env
-**	if error will clean the env tmp
+**	will create if option a new env according to their result
+**	loop on the argv recursively while 'env' is matched
 */
-int ms__env(char ***argv, t_env *e)
+
+int				ms__env(char ***argv, t_env *e)
 {
 	int ret;
 
 	ret = OK;
 	if (*argv && **argv && ***argv == '-')
-	{
-		if (OK == ft_strcmp("-i", **argv))
-			ret = option_i(argv, e);
-		else if (OK == ft_strcmp("-u", **argv))
-			ret = option_u(argv, e);
-		else
-		{
-			print_usage(argv[0][0][1]);
-			ret = -1;
-		}
-	}
+		ret = dispatch_good_option(argv, e);
 	if (OK == ft_strcmp("env", **argv))
 	{
 		*argv += 1;
