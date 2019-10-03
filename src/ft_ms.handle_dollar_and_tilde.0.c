@@ -17,7 +17,7 @@
 **	move +1 *line
 */
 
-static int replace_tilde(char **line, char **new_line, char **env)
+static int		replace_tilde(char **line, char **new_line, char **env)
 {
 	if (line[0][0] == '~')
 	{
@@ -33,13 +33,13 @@ static int replace_tilde(char **line, char **new_line, char **env)
 
 /*
 **	will build a new line (witch will be put in *output)
-**	compose by the env key corresponding at 'HOME' for ~ 
+**	compose by the env key corresponding at 'HOME' for ~
 **	and the shell variable $[a-zA-z_]+ of the line
 **	if there is no data in env to match the variable,
 **	no error is raise.
 */
 
-int replace_dollar_tilde(char **env, char *line, char **output)
+int				replace_dollar_tilde(char **env, char *line, char **output)
 {
 	char *new_line;
 

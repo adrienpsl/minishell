@@ -12,7 +12,12 @@
 
 #include <minishell.h>
 
-static int exec_binary(char *path, char **argv, char **env)
+/*
+**	fork the program, and set at the fork, an new SIGINT handler,
+**	to avoid a multiple print prompt, reset the classic handle after that
+*/
+
+static int		exec_binary(char *path, char **argv, char **env)
 {
 	pid_t pid;
 
@@ -31,7 +36,12 @@ static int exec_binary(char *path, char **argv, char **env)
 	return (0);
 }
 
-static int find_binary(char **argv, char **env, char **path)
+/*
+**	find the path binary if the argv is a command
+**	and return : if the binary is valid
+*/
+
+static int		find_binary(char **argv, char **env, char **path)
 {
 	int ret;
 
@@ -49,11 +59,16 @@ static int find_binary(char **argv, char **env, char **path)
 	return (ret);
 }
 
-static int handle_builtin(char **argv, char ***env, int *ret)
+/*
+**	dispatch among the builtin if the command is one
+*/
+
+static int		handle_builtin(char **argv, char ***env, int *ret)
 {
-	int i;
-	static char *name[5] = { "cd", "setenv", "unsetenv", "echo", NULL };
-	static t_func func[5] = { ms__cd, ms__setenv, ms__unsetenv, ms__echo, NULL };
+	int				i;
+	static char		*name[5] = { "cd", "setenv", "unsetenv", "echo", NULL };
+	static t_func	func[5] = {
+		ms__cd, ms__setenv, ms__unsetenv, ms__echo, NULL };
 
 	if (-1 < (i = ft_strsplit_search(name, (void *)ft_streq, *argv)))
 	{
@@ -63,10 +78,14 @@ static int handle_builtin(char **argv, char ***env, int *ret)
 	return (0);
 }
 
-int ms__dispatch(char **argv, t_env *e)
+/*
+**	dispatch the command to the right binary
+*/
+
+int				ms__dispatch(char **argv, t_env *e)
 {
-	int ret;
-	char *path;
+	int		ret;
+	char	*path;
 
 	if (OK == ft_strcmp("exit", *argv))
 		return (MS__EXIT);

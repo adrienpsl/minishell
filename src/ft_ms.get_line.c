@@ -12,32 +12,44 @@
 
 #include <minishell.h>
 
-void delete_char(t_s *const line)
+/*
+**	delete in the screen and buffer the last char written by the user
+*/
+
+void			delete_last_char(t_s *const line)
 {
 	ft_putstr_fd("\b \b", 1);
 	if (line->length)
 		fts__remove_from(line, line->length - 1);
 }
 
-void clean_char(t_s *const line)
+/*
+**	delete all the char written by the user
+*/
+
+void			clean_char(t_s *const line)
 {
 	while (line->length)
-		delete_char(line);
+		delete_last_char(line);
 }
 
-void tab_char(
+/*
+**	try to find in path if it exist a command that start by the current line
+**	if it, will print and add it to the screen / buffer
+*/
+
+void			tab_char(
 	char **env,
 	t_s *const line)
 {
-	static char *found = NULL;
-	static char **split = NULL;
-	int count;
+	static char		*found = NULL;
+	static char		**split = NULL;
+	int				count;
 
 	if (NULL != (found = (char *)ms__search_binary((char **)env, line->data,
 		ftstr__search_start))
 		&& NULL != (split = ft_strsplit(found, "/")))
 	{
-
 		if (0 < (count = ft_strsplit_count(split)))
 		{
 			clean_char(line);
@@ -49,13 +61,17 @@ void tab_char(
 	ft_strsplit_free(&split);
 }
 
-void handle_input(
+/*
+**	dispatch according to the current chan to the del / tab / add function
+*/
+
+static void		handle_input(
 	char **env,
 	const char *buffer,
 	t_s *const line)
 {
 	if (OK == ft_strcmp(MS__DEL, buffer))
-		delete_char(line);
+		delete_last_char(line);
 	else if (OK == ft_strcmp(MS__TAB, buffer))
 		tab_char(env, line);
 	else if ('\0' == buffer[1])
@@ -65,12 +81,17 @@ void handle_input(
 	}
 }
 
-int ms__get_line(
+/*
+**	buffering the user content until he write \n,
+**	put in output the buffer start
+*/
+
+int				ms__get_line(
 	char **env,
 	t_s *const line,
 	char **output)
 {
-	char buffer[5] = { 0 };
+	static char buffer[5] = { 0 };
 
 	fts__clear(line);
 	while (OK != ft_strcmp(buffer, "\n"))
