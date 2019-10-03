@@ -39,7 +39,6 @@ int		replace_dollar_tilde(char **env, char *line, char **output);
 int		ms__init(char ***env);
 int		ms__echo(char **argv, char ***env);
 int		cd__change_directory(char *path, int print);
-void	free_env(t_env *e);
 char	*ms__env_get_value(char **env, char *key, int (*func)(char*, void*));
 char	***get_env(t_env *e);
 void	ms__env_add(char ***env, char *key, char *value, char *variable);

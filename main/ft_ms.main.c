@@ -12,7 +12,13 @@
 
 #include <minishell.h>
 
-int activate_raw_mode(struct termios *saved_termios)
+/*
+**	will save the current termios config of the shell in saved_termios
+**	change that config in its own termios to set it in canonical mode
+**	return ok if all syscall work.
+*/
+
+int		activate_raw_mode(struct termios *saved_termios)
 {
 	struct termios termios;
 
@@ -28,10 +34,19 @@ int activate_raw_mode(struct termios *saved_termios)
 	return (OK);
 }
 
-int main(int ac, char **av, char **env_system)
+/*
+**	this is the main in real mode (see the .test_mode)
+**	try to activate the raw mode, and save in termios the previous config
+**	init the env (that is an str split) an the g_line, the buffer input user
+**	set at SIGINT a project function
+**	launch the minishell
+**	when exit will be trigger, clean the memory and return SUCCESS
+*/
+
+int		main(int ac, char **av, char **env_system)
 {
-	struct termios termios;
-	char **env;
+	struct termios	termios;
+	char			**env;
 
 	g_ms_test = 0;
 	if (OK != activate_raw_mode(&termios))
