@@ -53,11 +53,14 @@ static int		find_binary(char **argv, char **env, char **path)
 		ft_printf(MS__NAME"command not found: %s\n", *argv);
 		return (-1);
 	}
-	ret = ftsystm__check_file(*path, "minishell", *argv);
+	ret = ftsystm__check_file(*path, "minishell", *argv)
+		|| ftsystm_check_exe(*path, "minishell", *argv);
 	if (OK != ret)
 		ftstr__free(path);
 	return (ret);
 }
+
+// setenv PATH=/tmp/ad ; main.c
 
 /*
 **	dispatch among the builtin if the command is one
