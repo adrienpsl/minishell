@@ -28,7 +28,7 @@ char			*ms__search_binary(
 	return (NULL);
 }
 
-void			print_prompt()
+void			print_prompt(void)
 {
 	ft_printf("\n%s:\n$> ", ftsystm__get_current_path());
 }
@@ -51,20 +51,23 @@ int				ms__echo(char **argv, char ***env)
 	(void)env;
 }
 
-int get_line_test(
+/*
+**	transfer all the user line to g_line
+*/
+
+int				get_line_test(
 	t_s *const line,
 	char **output)
 {
 	static char		buffer[2] = { 0 };
-	int ret;
+	int				ret;
 
-	ret = 0;
 	fts__clear(line);
 	ft_bzero(buffer, 2);
 	while ((ret = read(0, buffer, 1)) > 0)
 	{
 		if (-1 != ft_strchr_int(buffer, '\n'))
-			break;
+			break ;
 		fts__add(line, buffer);
 		ft_bzero(buffer, 1);
 	}
