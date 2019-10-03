@@ -12,21 +12,22 @@
 
 #include <minishell.h>
 
-int static is_old_path(char *argv)
+static int		is_old_path(char *argv)
 {
 	return (argv != NULL);
 }
 
 /*
-** @brief					:try to replace in pwd with the user input, 
-** @param argv				:input given by user 
+**	@brief					:try to replace in pwd with the user input
+**	@param argv				:input given by user
 ** @param current_directory	:env of the minishell
 ** @return					:ok => 0 || ko => -1
 */
-int			one_and_zero_argv(char *argv, char **env)
+
+static int		one_and_zero_argv(char *argv, char **env)
 {
-	char	*path;
-	char	*key;
+	char *path;
+	char *key;
 
 	if (env == NULL)
 		return (-1);
@@ -47,14 +48,15 @@ int			one_and_zero_argv(char *argv, char **env)
 }
 
 /*
-** @brief					:try to replace in pwd with the user input, 
-** @param argv				:input given by user 
+** @brief					:try to replace in pwd with the user input.
+** @param argv				:input given by user
 ** @param current_directory	:env of the minishell
 ** @return					:ok => 0 || ko => -1
 */
-static int	two_argument(char *argv[2], char *current_directory)
+
+static int		two_argument(char *argv[2], char *current_directory)
 {
-	char	*new_path;
+	char *new_path;
 
 	if (argv == NULL || current_directory == NULL)
 		return (-1);
@@ -67,6 +69,7 @@ static int	two_argument(char *argv[2], char *current_directory)
 		return (-1);
 	}
 }
+
 /*
 ** @brief				:dispatch according to the size of argv
 ** @param argv			:input given by user
@@ -74,9 +77,10 @@ static int	two_argument(char *argv[2], char *current_directory)
 ** @param current_path	:env of the minishell
 ** @return				:ok => 0 || ko => -1
 */
-static int	handle_argument(char **argv, char **env, char *current_path)
+
+static int		handle_argument(char **argv, char **env, char *current_path)
 {
-	int		size;
+	int size;
 
 	size = ft_strsplit_count(argv);
 	if (0 == size || 1 == size)
@@ -96,12 +100,13 @@ static int	handle_argument(char **argv, char **env, char *current_path)
 ** @param env	:env of the minishell
 ** @return		:ok => 0 || ko => -1
 */
-int			ms__cd(char **argv, char ***env)
+
+int				ms__cd(char **argv, char ***env)
 {
 	char	*current_path;
 	int		ret;
 
-	if (!argv || !env)
+	if (NULL == argv || NULL == env)
 		return (-1);
 	if (NULL == (current_path = ft_strdup(ftsystm__get_current_path())))
 		return (-1);

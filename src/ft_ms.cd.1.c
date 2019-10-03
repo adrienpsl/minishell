@@ -20,6 +20,7 @@
 **			 according to the zsh CD command
 ** @return	:ok => 0 || ko => -1
 */
+
 static int	test_and_chdir(char *full_path, char *argv)
 {
 	if (!full_path || !argv)
@@ -43,6 +44,7 @@ static int	test_and_chdir(char *full_path, char *argv)
 ** @param print	: if true, will print the new pwd
 ** @return		: ok => 0 || ko => -1
 */
+
 int			cd__change_directory(char *path, int print)
 {
 	int		ret;
