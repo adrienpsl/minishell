@@ -32,7 +32,6 @@ int		ms__setenv(char **argv, char ***env);
 int		ms__cd(char **argv, char ***env);
 int		ms__env(char ***argv, t_env *e);
 int		ms__dispatch(char **argv, t_env *e);
-int		ms__command(char *line, char ***env);
 int		ms_replace_dollar(char **line, char **new_line, char **env);
 int		find_variable(char *current, void *searched);
 int		replace_dollar_tilde(char **env, char *line, char **output);

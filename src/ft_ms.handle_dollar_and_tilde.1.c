@@ -13,11 +13,11 @@
 #include <minishell.h>
 
 /*
-**	check if the char is in [a-zA-Z_] that compose all allowed char in 
+**	check if the char is in [a-zA-Z_] that compose all allowed char in
 **	shell variable.
 */
 
-static int is_shell_variable_lexical(char c)
+static int		is_shell_variable_lexical(char c)
 {
 	return (ft_isalnum(c) || c == '_');
 }
@@ -26,18 +26,18 @@ static int is_shell_variable_lexical(char c)
 **	see the is_shell_variable_lexical to catch up
 */
 
-static int not_shell_variable_lexical(char c)
+static int		not_shell_variable_lexical(char c)
 {
 	return (!(is_shell_variable_lexical(c)));
 }
 
 /*
 **	put in end the end of the shell variable
-**	if the end of that variable is the end of the string 
-**	return the length of the string 
+**	if the end of that variable is the end of the string
+**	return the length of the string.
 */
 
-static int get_end_of_variable(char *str)
+static int		get_end_of_variable(char *str)
 {
 	int end;
 
@@ -53,10 +53,12 @@ static int get_end_of_variable(char *str)
 **	@env_variable:		a str of env split
 **	@line_input:		the full input
 **	compare the key ( env[n] ( key=variable ) ) of env_variable,
-**	with the n char of the line_input composing the shell variable
+**	with the n char of the line_input composing the shell variable.
 */
 
-static int get_value_by_shell_variable(char *env_variable, void *line_input)
+static int		get_value_by_shell_variable(
+	char *env_variable,
+	void *line_input)
 {
 	int key_size;
 
@@ -70,13 +72,13 @@ static int get_value_by_shell_variable(char *env_variable, void *line_input)
 /*
 **	if the **line is the start of a correct shell variable
 **	find its value in env and add it (if founded) to the new_line
-**	and move forward the *line of the length of the key. 
+**	and move forward the *line of the length of the key.
 */
 
-int ms_replace_dollar(char **line, char **new_line, char **env)
+int				ms_replace_dollar(char **line, char **new_line, char **env)
 {
-	int length;
-	char *value;
+	int		length;
+	char	*value;
 
 	if (line && line[0]
 		&& line[0][0] == '$'

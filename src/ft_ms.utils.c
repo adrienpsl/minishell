@@ -12,7 +12,7 @@
 
 #include <minishell.h>
 
-char *ms__search_binary(
+char			*ms__search_binary(
 	char **env,
 	char *binary_name,
 	int (*f)(char *, char *))
@@ -28,16 +28,15 @@ char *ms__search_binary(
 	return (NULL);
 }
 
-void print_prompt()
+void			print_prompt()
 {
 	ft_printf("\n%s:\n$> ", ftsystm__get_current_path());
 }
 
-int ms__echo(char **argv, char ***env)
+int				ms__echo(char **argv, char ***env)
 {
 	int new_line;
 
-	(void)env;
 	if (OK == ft_strcmp("-n", *argv))
 	{
 		new_line = 0;
@@ -49,15 +48,17 @@ int ms__echo(char **argv, char ***env)
 	if (new_line)
 		ft_printf("\n");
 	return (OK);
+	(void)env;
 }
 
 int get_line_test(
 	t_s *const line,
 	char **output)
 {
-	char buffer[2] = { 0 };
-	int ret = 0;
+	static char		buffer[2] = { 0 };
+	int ret;
 
+	ret = 0;
 	fts__clear(line);
 	ft_bzero(buffer, 2);
 	while ((ret = read(0, buffer, 1)) > 0)

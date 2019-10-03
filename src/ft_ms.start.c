@@ -12,11 +12,17 @@
 
 #include <minishell.h>
 
-int ms__command(char *line, char ***env)
+/*
+**	split and prepare all data of a single command, between ;
+**	and free after it, if the builtin exit is trigger, stop the execution of
+**	the binary.
+*/
+
+static int		ms__command(char *line, char ***env)
 {
-	char **command_spit;
-	int ret;
-	t_env e = {0, 0};
+	char			**command_spit;
+	int				ret;
+	static t_env	e = {0, 0};
 
 	e.env = env;
 	if ('\0' == *line)
@@ -30,12 +36,14 @@ int ms__command(char *line, char ***env)
 }
 
 /*
-**	line is a part of fts so I do not free it
+**	chose the right getter for the user current line, in purpose to use or not
+**	the canonical mode. split after that the current line.
 */
-static int get_line_user(char **env, char ***output)
+
+static int		get_line_user(char **env, char ***output)
 {
-	char *line;
-	int res;
+	char	*line;
+	int		res;
 
 	if (g_ms_test == 1)
 		res = get_line_test(g_line, &line);
@@ -50,7 +58,15 @@ static int get_line_user(char **env, char ***output)
 	return (-1);
 }
 
-static int loop_on_command(char **split_command, char ***env)
+/*
+**	perform on each line (of ; split):
+**	- replace the builtin $ and ~
+**	- launch the command
+**	- free the data
+**	if command return something, exit is trigger and the loop is done
+*/
+
+static int		loop_on_command(char **split_command, char ***env)
 {
 	char *new_line;
 
@@ -68,7 +84,12 @@ static int loop_on_command(char **split_command, char ***env)
 	return (OK);
 }
 
-int ms__init(char ***env)
+/*
+**	this is the main loop of the binary, it will stop only if exit is trigger
+**	print prompt, get user input and free
+*/
+
+int				ms__init(char ***env)
 {
 	char **command;
 

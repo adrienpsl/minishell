@@ -12,12 +12,12 @@
 
 #include <minishell.h>
 
-void ms_signal_exec(int sign)
+void	ms_signal_exec(int sign)
 {
 	(void)sign;
 }
 
-void ms_signal_minishell(int sign)
+void	ms_signal_minishell(int sign)
 {
 	(void)sign;
 	clean_char(g_line);
