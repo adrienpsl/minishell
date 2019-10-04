@@ -24,7 +24,13 @@ static int		exec_binary(char *path, char **argv, char **env)
 	pid = fork();
 	signal(SIGINT, ms_signal_exec);
 	if (pid == 0)
-		execve(path, argv, env);
+	{
+		if (-1 == execve(path, argv, env))
+		{
+			ft_printf("error exc");
+			return (-1);
+		}
+	}
 	if (pid > 0)
 		wait(&pid);
 	if (pid < 0)

@@ -10,19 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_mem.h"
-
-void	*ft_memcpy(void *restrict dest, const void *restrict src, size_t n)
+int main(int ac, char **av)
 {
-	unsigned char *tmp1;
-	unsigned char *tmp2;
-
-	tmp1 = (unsigned char *)src;
-	tmp2 = (unsigned char *)dest;
-	while (n > 0)
-	{
-		*tmp2++ = *tmp1++;
-		n--;
-	}
-	return (dest);
+    printf("KO \n");
+    return (1);
 }
