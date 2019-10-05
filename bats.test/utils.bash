@@ -4,7 +4,7 @@ load 'libs/bats-assert/load'
 # data 
 # ------------------------------------------------------------------------------
 n=$'\n'
-print_prompt=$'\n'"/Users/adpusel/code/42/minishell_new:"$'\n'"$> ";
+print_prompt=$'\n'"/Users/adpusel/code/42/minishell:"$'\n'"$> ";
 result=""
 
 
@@ -34,6 +34,10 @@ result="$( ./cmake-build-debug/minishell_e2e << EFO
 $data
 EFO
 )"
+
+valgrind --log-file="toto" ./cmake-build-debug/minishell_e2e << EFO
+$data
+EFO
 
 run echo "$result"
 }

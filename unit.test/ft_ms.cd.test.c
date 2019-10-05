@@ -39,7 +39,7 @@ void func_test_change_directory(struct test_cd t)
 		|| test_cmp_str(t.expect_current_dir, ftsystm__get_current_path())
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
 		log_test_line(1, t.line_nb);
-	chdir("/Users/adpusel/code/42/minishell_new/cmake-build-debug");
+	chdir("/Users/adpusel/code/42/minishell/cmake-build-debug");
 }
 
 void f_one_and_zero_argv(struct test_cd t)
@@ -52,7 +52,7 @@ void f_one_and_zero_argv(struct test_cd t)
 		|| test_cmp_buff(t.expect_print ? t.expect_print : ""))
 		log_test_line(1, t.line_nb);
 
-	chdir("/Users/adpusel/code/42/minishell_new/cmake-build-debug");
+	chdir("/Users/adpusel/code/42/minishell/cmake-build-debug");
 	ft_strsplit_free(&env);
 }
 
@@ -68,7 +68,7 @@ void test_two_argument(struct test_cd t)
 		log_test_line(1, t.line_nb);
 
 	ft_strsplit_free(&argv);
-	chdir("/Users/adpusel/code/42/minishell_new/cmake-build-debug");
+	chdir("/Users/adpusel/code/42/minishell/cmake-build-debug");
 }
 
 void test_ms_cd(struct test_cd t)
@@ -88,13 +88,13 @@ void test_ms_cd(struct test_cd t)
 		log_test_line(1, t.line_nb)
 
 	ft_strsplit_free(&argv);
-	chdir("/Users/adpusel/code/42/minishell_new/cmake-build-debug");
+	chdir("/Users/adpusel/code/42/minishell/cmake-build-debug");
 }
 
 void test__main_cd()
 {
 	g_test = 1;
-	char *start_directory = "/Users/adpusel/code/42/minishell_new/cmake-build-debug";
+	char *start_directory = "/Users/adpusel/code/42/minishell/cmake-build-debug";
 	/*
 	* test change directory
 	* */
@@ -111,7 +111,7 @@ void test__main_cd()
 		func_test_change_directory((struct test_cd){ .line_nb = L,
 			.argv= "../", .print= 0,
 			.expect_int = OK,
-			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
+			.expect_current_dir = "/Users/adpusel/code/42/minishell",
 			.expect_print = "" }
 		);
 
@@ -119,24 +119,24 @@ void test__main_cd()
 		func_test_change_directory((struct test_cd){ .line_nb = L,
 			.argv= "../tata", .print= 0,
 			.expect_int = -1,
-			.expect_current_dir = "/Users/adpusel/code/42/minishell_new/cmake-build-debug",
+			.expect_current_dir = "/Users/adpusel/code/42/minishell/cmake-build-debug",
 			.expect_print = "cd: no such file or directory: ../tata\n" }
 		);
 
 		// test if hard
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.argv= "/Users/adpusel/code/42/minishell_new", .print= 0,
+			.argv= "/Users/adpusel/code/42/minishell", .print= 0,
 			.expect_int = OK,
-			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
+			.expect_current_dir = "/Users/adpusel/code/42/minishell",
 			.expect_print = "" }
 		);
 
 		// if print
 		func_test_change_directory((struct test_cd){ .line_nb = L,
-			.argv= "/Users/adpusel/code/42/minishell_new", .print= 1,
+			.argv= "/Users/adpusel/code/42/minishell", .print= 1,
 			.expect_int = OK,
-			.expect_current_dir = "/Users/adpusel/code/42/minishell_new",
-			.expect_print = "/Users/adpusel/code/42/minishell_new\n" }
+			.expect_current_dir = "/Users/adpusel/code/42/minishell",
+			.expect_print = "/Users/adpusel/code/42/minishell\n" }
 		);
 
 		// if error and print
@@ -207,7 +207,7 @@ void test__main_cd()
 	{
 		// test good change and good path
 		test_two_argument((struct test_cd){ .line_nb = L,
-			.argv= "minishell_new libft",
+			.argv= "minishell libft",
 			.expect_int = OK,
 			.expect_current_dir = "/Users/adpusel/code/42/libft/cmake-build-debug",
 			.expect_print = "/Users/adpusel/code/42/libft/cmake-build-debug\n" }
@@ -215,7 +215,7 @@ void test__main_cd()
 
 		// test good change and bad path
 		test_two_argument((struct test_cd){ .line_nb = L,
-			.argv= "minishell_new bite",
+			.argv= "minishell bite",
 			.expect_int = -1,
 			.expect_current_dir = start_directory,
 			.expect_print = "cd: no such file or directory: /Users/adpusel/code/42/bite/cmake-build-debug\n" }
@@ -245,7 +245,7 @@ void test__main_cd()
 					.expect_int = OK,
 					.expect_current_dir = "/",
 					.expect_print = "/\n",
-					.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell_new/cmake-build-debug"
+					.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug"
 				}
 			);
 
@@ -268,7 +268,7 @@ void test__main_cd()
 				.expect_int = OK,
 				.expect_current_dir = "/",
 				.expect_print = "",
-				.expect_env = "HOME=/ OLDPATH=/Users/adpusel/code/42/minishell_new/cmake-build-debug"
+				.expect_env = "HOME=/ OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug"
 			}
 		);
 
@@ -302,7 +302,7 @@ void test__main_cd()
 				.expect_int = OK,
 				.expect_current_dir = "/",
 				.expect_print = "/\n",
-				.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell_new/cmake-build-debug"
+				.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug"
 			}
 		);
 
@@ -346,12 +346,12 @@ void test__main_cd()
 			// 2 arguments good
 			// test oldpath
 			test_ms_cd((struct test_cd){ .line_nb = L,
-					.argv= "minishell_new libft", .env_str = "OLDPATH=/",
+					.argv= "minishell libft", .env_str = "OLDPATH=/",
 
 					.expect_int = OK,
 					.expect_current_dir = "/Users/adpusel/code/42/libft/cmake-build-debug",
 					.expect_print = "/Users/adpusel/code/42/libft/cmake-build-debug\n",
-					.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell_new/cmake-build-debug"
+					.expect_env = "OLDPATH=/Users/adpusel/code/42/minishell/cmake-build-debug"
 				}
 			);
 		}

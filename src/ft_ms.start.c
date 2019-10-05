@@ -94,7 +94,7 @@ int				ms__init(char ***env)
 	char **command;
 
 	print_prompt();
-//	loop_on_command(ft_strsplit("setenv PATH=/Users/adpusel/code/42/minishell_new/test_prg", ";"), env);
+//	loop_on_command(ft_strsplit("setenv PATH=/Users/adpusel/code/42/minishell/test_prg", ";"), env);
 	while (OK == get_line_user(*env, &command))
 	{
 		if (OK != loop_on_command(command, env))
