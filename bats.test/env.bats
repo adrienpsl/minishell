@@ -13,7 +13,7 @@ result="$(echo "$result" | awk '!/_=/')"
 # do the some with env
 real_env=$(env | awk '!/_=/')
 }
-# todo recheck that
+
 ## test -------------------------------------------------------------------------
 #@test "should print env" {
 #set_both_env "env"
@@ -56,7 +56,7 @@ test_command "env -i toto=tata super=toto$n" "$expected"
 # test -------------------------------------------------------------------------
 @test "should print an error with cd : env -i cd -" {
 expected="${print_prompt}env -i cd -
-minishell: line 39: cd: OLDPATH not set$n"
+minishell: line 40: cd: OLDPATH not set$n"
 test_command "env -i cd -$n" "$expected"
 }
 
@@ -98,7 +98,7 @@ test_command "env -u PATH ls$n" "$expected"
 # test -------------------------------------------------------------------------
 @test "should delete PATH from env and OLDPATH" {
 expected="${print_prompt}env -u PATH -u OLDPATH cd -
-minishell: line 39: cd: OLDPATH not set$n"
+minishell: line 40: cd: OLDPATH not set$n"
 test_command "env -u PATH -u OLDPATH cd -$n" "$expected"
 }
 
@@ -114,7 +114,7 @@ test_command "env -u PATH -u$n" "$expected"
 # test -------------------------------------------------------------------------
 @test "hoo fuck man, that's too hard ! n 0" {
 expected="${print_prompt}env -i toto=titi env -u toto env cd
-minishell: line 39: cd: HOME not set$n"
+minishell: line 40: cd: HOME not set$n"
 test_command "env -i toto=titi env -u toto env cd$n" "$expected"
 }
 

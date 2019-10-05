@@ -77,7 +77,10 @@ static int		loop_on_command(char **split_command, char ***env)
 			&new_line))
 			return (-1);
 		if (ms__command(new_line, env))
+		{
+			ftstr__free(&new_line);
 			return (1);
+		}
 		ftstr__free(&new_line);
 		split_command += 1;
 	}

@@ -20,8 +20,8 @@ expected="
 $> setenv PATH=toto ;echo \$PATH; unsetenv HOME; ls; cd ~; cd -; setenv HOME=/; setenv PATH=/bin; ls null
 toto
 minishell: command not found: ls
-minishell: line 39: cd: HOME not set
-minishell: line 39: cd: OLDPATH not set
+minishell: line 40: cd: HOME not set
+minishell: line 40: cd: OLDPATH not set
 ls: null: No such file or directory
 "
 
@@ -32,7 +32,7 @@ test_command "setenv PATH=toto ;echo \$PATH; unsetenv HOME; ls; cd ~; cd -; sete
 expected="
 /Users/adpusel/code/42/minishell:
 $> cd -; cd ; cd - ; mkdir -p toto; touch toto/f1; ls -a toto; setenv minh=jolie; setenv minh tresjolie; echo \$minh; unsetenv minh ; \$minh
-minishell: line 39: cd: OLDPATH not set
+minishell: line 40: cd: OLDPATH not set
 /Users/adpusel/code/42/minishell
 .
 ..
