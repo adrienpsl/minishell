@@ -24,6 +24,9 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
+HEADER_FILES  = minishell.define.h minishell.h minishell.prototypes.h minishell.structures.h
+HEADERS =  $(addprefix includes/, $(HEADER_FILES))
+
 SRCS = ft_ms.cd.0.c \
        ft_ms.cd.1.c \
        ft_ms.env.c \
@@ -41,7 +44,7 @@ SRCS = ft_ms.cd.0.c \
 
 OBJS = $(addprefix $(OBJSDIR),$(SRCS:.c=.o))
 
-$(OBJSDIR)%.o: $(SRCSDIR)%.c
+$(OBJSDIR)%.o: $(SRCSDIR)%.c $(HEADERS)
 	mkdir -p $(OBJSDIR)
 	$(CC) $(CFLAGS) -I $(INCSDIR) -I $(LIBFTDIR)$(INCSDIR) -o $@ -c $<
 
