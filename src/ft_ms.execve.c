@@ -27,15 +27,15 @@ static int		exec_binary(char *path, char **argv, char **env)
 	{
 		if (-1 == execve(path, argv, env))
 		{
-			ft_printf("error exc");
-			return (-1);
+			ft_printf("the file is not a valid binary\n");
+			return (-2);
 		}
 	}
 	if (pid > 0)
 		wait(&pid);
 	if (pid < 0)
 	{
-		ft_printf(MS__NAME" binary exec fail");
+		ft_printf(MS__NAME" binary exec fail\n");
 		return (-1);
 	}
 	signal(SIGINT, ms_signal_minishell);
@@ -86,13 +86,33 @@ static int		handle_builtin(char **argv, char ***env, int *ret)
 }
 
 /*
+**	find and pass binary to exc, if command fail, I exit the fork
+*/
+
+static int		launch_binary(char **argv, t_env *e)
+{
+	char	*path;
+
+	if (OK == find_binary(argv, *get_env(e), &path))
+	{
+		if (-2 == exec_binary(path, argv, *get_env(e)))
+		{
+			ftstr__free(&path);
+			exit(-2);
+		}
+		ftstr__free(&path);
+		return (OK);
+	}
+	return (-1);
+}
+
+/*
 **	dispatch the command to the right binary
 */
 
 int				ms__dispatch(char **argv, t_env *e)
 {
 	int		ret;
-	char	*path;
 
 	if (OK == ft_strcmp("exit", *argv))
 		return (MS__EXIT);
@@ -107,13 +127,5 @@ int				ms__dispatch(char **argv, t_env *e)
 	if (OK != handle_builtin(argv, get_env(e), &ret))
 		return (ret);
 	else
-	{
-		if (OK == find_binary(argv, *get_env(e), &path))
-		{
-			exec_binary(path, argv, *get_env(e));
-			ftstr__free(&path);
-			return (OK);
-		}
-		return (-1);
-	}
+		return (launch_binary(argv, e));
 }
