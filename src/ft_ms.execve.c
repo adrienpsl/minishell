@@ -66,8 +66,6 @@ static int		find_binary(char **argv, char **env, char **path)
 	return (ret);
 }
 
-// setenv PATH=/tmp/ad ; main.c
-
 /*
 **	dispatch among the builtin if the command is one
 */
